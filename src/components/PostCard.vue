@@ -4,7 +4,7 @@
             <div class="jobCard-top">
                 <div class="jobCard-img"></div>
                 <div class="sub-card-top">
-                    <h5 class="card-title">Create Figma Designs for Web Application</h5>
+                    <h6 class="card-title">Create Figma Designs for Web Application</h6>
                     <small class="job-parameters">Hourly $100 - $400 | Remote Friendly | Est. Time 1 to 3 months</small>
                 </div>
             </div>
@@ -84,8 +84,8 @@ import VerificationBadge from './verificationBadge.vue';
     }
     .jobCard-img{
         border-radius: 5px;
-        height: 50px;
-        width: 50px;
+        min-height: 50px !important;
+        min-width: 50px !important;
         background: url('./Logos_icons/dummy_image.png');
         background-position: center;
         background-size: cover;
