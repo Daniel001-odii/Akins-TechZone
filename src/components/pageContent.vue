@@ -6,6 +6,7 @@ import PostCard from './PostCard.vue';
     <PostCard/>
     <PostCard/>
     <PostCard/>
+    <PostCard/>
 </template>
 
 <script>

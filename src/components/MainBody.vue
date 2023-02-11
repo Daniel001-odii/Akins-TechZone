@@ -55,29 +55,9 @@ import SideNav from './SideNav.vue';
     padding: 10px;
     border-radius: 10px;
 }
-    /* .cust-body-arrangement{
-       
-       
-    }
-    .cust-left-nav{
-        height: 800px;
-        border-radius: 20px;
-        background: #fff;
-    }
-
-    .cust-page-contents{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border: green;
-    }
-
-    .cust-page-main{
-    } */
-
+  
      /*--meida queries-------*/
-     @media only screen and (max-width: 769px) {
+@media only screen and (max-width: 999px) {
  .side-navigation-pane{
     display: none;
  }
