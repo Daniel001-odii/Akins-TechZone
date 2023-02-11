@@ -1,42 +1,66 @@
-<template>
-    <div class="cust-body-arrangement">
-        <!-- <h1>Live and active</h1> -->
-        <div class="cust-left-nav"></div>
-        <div class="cust-page-contents">
-            <div class="cust-search-box">
-                <Search/>
-            </div>
-            <div class="cust-page-main"></div>
-        </div>
-    </div>
-</template>
-
 <script>
+import PageContent from './pageContent.vue';
 import Search from './Search.vue';
+import SideNav from './SideNav.vue';
 
     export default{
-        components: { 
-            Search,
-     }
+        components: {
+    Search,
+    SideNav,
+    PageContent
+}
     }
 
 </script>
 
+<template>
+    <div class="container cust-home">
+        <div class="side-navigation-pane">
+            <SideNav/>
+        </div>
+        <div class="cust-page-contents">
+            <Search/>
+            <div class="sub-page-content">
+                <PageContent/>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+
 <style scoped>
-    .cust-body-arrangement{
+.cust-home{
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        padding: 10px;
-        align-items: flex-start;
-        width: 88%;
-        /* border: 2px solid red; */
-        /* height: 100vh; */
-        margin: 20px auto;
+        justify-content: space-around;
+}
+
+.side-navigation-pane{
+    /* border: 2px dotted green; */
+    /* padding: 0px 5px; */
+    margin-right: 5px                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ;
+    width: 300px;
+    border-radius: 10px 10px 0px 0px !important;
+    overflow: hidden;
+}
+.cust-page-contents{
+    /* border: 2px dotted red; */
+    width: 90%;
+    padding: 0px 5px;
+}
+
+.sub-page-content{
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+    /* .cust-body-arrangement{
+       
+       
     }
     .cust-left-nav{
         height: 800px;
-        width: 350px;
         border-radius: 20px;
         background: #fff;
     }
@@ -50,9 +74,15 @@ import Search from './Search.vue';
     }
 
     .cust-page-main{
-        width: 800px;
-        background: #fff;
-        height: 800px;
-        border-radius: 10px;
-    }
+    } */
+
+     /*--meida queries-------*/
+     @media only screen and (max-width: 769px) {
+ .side-navigation-pane{
+    display: none;
+ }
+ .cust-page-contents{
+    width: 100%;
+ }
+}
 </style>

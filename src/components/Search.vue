@@ -1,8 +1,8 @@
 <template>
-    <form action="">
+    <form action="#" class="d-flex">
         <div class="cust-search-container">
             <input type="search" class="cust-search-in" placeholder="Find by Job Title, Company or any Job Keyword">
-            <button class="cust-search-btn"><i class="bi bi-search"></i> Find</button>
+            <button class="cust-search-btn btn btn-secondary"><i class="bi bi-search"></i> <span class="search-find">Find</span></button>
         </div>
     </form>
 </template>
@@ -15,13 +15,13 @@
 
 <style scoped>
     .cust-search-container{
-        border: 10px;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        width: 800px;
-        padding: 5px;
+        width: 100%;
+        min-width: 100px;
+        padding: 0px 5px;
         /* border: 2px solid red; */
         background: #fff;
         border-radius: 10px;
@@ -31,19 +31,26 @@
 
     .cust-search-in{
         border: none;
-        /* border: 2px solid red; */
         width: 85%;
         height: 50px;
-        padding: 10px;
-        font-size: 16px;
+        padding: 5px;
+        font-size: 0.8em;
+        outline: none;
     }
     .cust-search-btn{
-        height: 50px;
-        width: 100px;
+        padding: 10px;
+        width: 15%;
         background: #419E6A;
         border-radius: 10px;
         color: #fff;
         border: none;
-        font-size: 16px;
+        font-size: 0.8em;
     }
+
+    /*--meida queries-------*/
+    @media only screen and (max-width: 450px) {
+ .search-find{
+    display: none;
+ }
+}
 </style>

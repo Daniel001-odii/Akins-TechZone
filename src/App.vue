@@ -1,5 +1,5 @@
 <script>
-import Navigation from './components/Navigation.vue';
+import NavBar from './components/NavBar.vue';
 // import Content from './components/Content.vue';
 import Mainbody from './components/MainBody.vue';
 
@@ -8,7 +8,7 @@ export default {
         return {};
     },
     components: { 
-      Navigation,
+      NavBar,
       // Content,
       Mainbody,
      }
@@ -17,7 +17,7 @@ export default {
 
 <template>
     <header>
-        <Navigation/>
+        <NavBar/>
     </header>
     <main>
         <Mainbody/>
@@ -28,5 +28,7 @@ export default {
 
 
 <style>
-
+ /* header{
+    width: 100%;
+  } */
 </style>
