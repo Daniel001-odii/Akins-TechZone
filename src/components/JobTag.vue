@@ -1,5 +1,5 @@
 <template>
-    <span class="badge text-bg-success" style="margin-right: 10px;">{{ content }}</span>
+    <span class="badge" style="margin-right: 10px; color: grey; background: #F5F4F4;">{{ content }}</span>
 </template>
 
 <script>

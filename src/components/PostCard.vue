@@ -62,7 +62,7 @@ import VerificationBadge from './verificationBadge.vue';
         margin-bottom: 10px;
         font-size: 0.8em;
         border-radius: none !important;
-        background: #F1F4F4;
+        background: #F9F9F9;
         /* border: none !important; */
     }
     .card-body{
@@ -81,6 +81,7 @@ import VerificationBadge from './verificationBadge.vue';
     .job-parameters{
         margin: 0px;
         padding: 0px 10px;
+        color: grey;
     }
     .jobCard-img{
         border-radius: 5px;
@@ -89,5 +90,8 @@ import VerificationBadge from './verificationBadge.vue';
         background: url('./Logos_icons/dummy_image.png');
         background-position: center;
         background-size: cover;
+    }
+    .payment-verfication, .location{
+        color: grey;
     }
 </style>

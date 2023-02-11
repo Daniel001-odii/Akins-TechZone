@@ -3,7 +3,7 @@
         <div class="container-fluid">
         <a class="navbar-brand" href="#">TechZone</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+                <i class="bi bi-list"></i>
             </button>
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -25,24 +25,6 @@
         </div>
     </nav>
 
-
-<!-- 
-    <nav class="cust-nav">
-            <div class="cust-logo-area"><b>TechZone</b></div>
-            <div class="nav-links">
-                <p>Explore</p>
-                <p>Hire Worker</p>
-                <p style="border: none">About Company</p>
-            </div>
-            <div class="cust-actions">
-                <div class="cust-nav-actions">
-                    <i class="bi bi-briefcase"></i>
-                    <i class="bi bi-bell"></i>
-                    <i class="bi bi-envelope-exclamation"></i>
-                </div>
-                <div class="cust-user-actions"></div>
-            </div>
-    </nav> -->
 </template>
 
 <script>
@@ -56,6 +38,11 @@
     background: #fff !important;
     box-shadow: 0px 1px 6px #00000040;
     margin-bottom: 20px;
+}
+.navbar-toggler{
+    background: none !important;
+    border: none !important;
+    font-size: xx-large;
 }
 .cust-nav{
     height: 70px;
