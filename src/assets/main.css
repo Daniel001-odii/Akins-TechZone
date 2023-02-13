@@ -1,3 +1,15 @@
 header{
     width: 100%;
 }
+
+
+
+/*------ styles for buttons------------*/
+.cust-btn{
+    border-radius: none;
+    padding: 10px 25px;
+    color: #fff;
+    font-size: 0.8em;
+    background: #419E6A;
+    border: none;
+  }

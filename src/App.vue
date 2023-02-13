@@ -22,7 +22,7 @@ export default {
     <main>
         <Mainbody/>
     </main>
-    <footer></footer>
+    <footer><h1>Hello Footer here!</h1></footer>
 </template>
 
 

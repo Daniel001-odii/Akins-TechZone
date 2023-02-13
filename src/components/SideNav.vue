@@ -1,46 +1,60 @@
 <template> 
-<div class="accordion accordion-flush" id="accordionFlushExample">
-    
-  <div class="accordion-item">
-    
-    <h2 class="accordion-header" id="flush-headingOne">
-      <button class="accordion-button collapsed" type="button" disabled>
-       Filter
-      </button>
-    </h2>
-    <div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">Location</div>
+    <div class="container sidenav">
+        <div class="nav-header">
+          <p><b>Filter</b></p>
+          <p><i class="bi bi-x-circle"></i> Clear all</p>
+        </div>
+        <Accordion/>
+        <RadioSelection radioTitle="Experience Level" 
+        option_1="Entry Level"
+        option_2="Internship"
+        option_3="Intermediate"
+        option_4="Experienced"/>
+
+        <RadioSelection radioTitle="Job Type" 
+        option_1="Full time"
+        option_2="Part time"
+        option_3="Contract"
+        option_4="Internship"/>
+
+        <RadioSelection radioTitle="Location" 
+        option_1="On-site"
+        option_2="Remote"
+        option_3="Hybrid"/>
+
+        <button class="cust-btn">Apply filters</button>
+
     </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingTwo">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-        Accordion Item #2
-      </button>
-    </h2>
-    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-        Accordion Item #3
-      </button>
-    </h2>
-    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
-    </div>
-  </div>
-</div>
 </template>
 
 <script>
-    
+import Accordion from './accordion.vue';
+import RadioSelection from './radioSelection.vue';
+
+
+    export default{
+      components:{
+    Accordion,
+    RadioSelection
+}
+    }
 </script>
 
 <style scoped>
-  .accordion{
+ 
+
+  .sidenav{
+    padding: 20px;
+    border-radius: 10px;
+    /* border: 2px solid red; */
+    background: #fff;
+  }
+  .nav-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
     font-size: 0.8em;
   }
+
 </style>
