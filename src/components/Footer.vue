@@ -1,5 +1,5 @@
 <template>
-    <div class="footer">
+    <div class="footer container">
         <p>TechZone</p>
         <div class="footer-links fw-semibold">
             <p>Overview</p>
@@ -35,19 +35,15 @@ import Search from './Search.vue';
         justify-content: center;
         align-items: center;
         width: 100%;
-        /* background: var(--app-blue); */
         height: 250px;
-        padding: 15px;
+        padding: 10px;
     }
     .footer-links{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        min-width: 300px;
-        width: 500px;
         font-size: 1em;
-        /* border: 2px solid red; */
     }
 
     .footer-last{

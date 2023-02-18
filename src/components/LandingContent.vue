@@ -102,6 +102,7 @@ import InfiniteScroll from './ItemScroll.vue';
     }
     .user-area{
         width: 200px;
+        padding: 20px;
         }
 
      /*--meida queries-------*/
@@ -122,6 +123,9 @@ import InfiniteScroll from './ItemScroll.vue';
     }
     .area-left{
         float: right;
+    }
+    .user-area{
+        width: 100%;
     }
 }
 </style>
