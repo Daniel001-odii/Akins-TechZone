@@ -2,9 +2,9 @@
  <div class="scroll-container">
   <div class="brand-wheel">
     <div class="brand-slide">
-      <div class="logo-div">
+      <!-- <div class="logo-div">
         <img alt="#" src="./Logos_icons/Company Logo-1.svg">
-      </div>
+      </div> -->
       <div class="logo-div">
         <img alt="#" src="./Logos_icons/Company Logo-2.svg">
       </div>
@@ -22,9 +22,9 @@
       </div>
     </div>
     <div class="brand-slide delay">
-        <div class="logo-div">
+        <!-- <div class="logo-div">
         <img alt="#" src="./Logos_icons/Company Logo-1.svg">
-      </div>
+      </div> -->
       <div class="logo-div">
         <img alt="#" src="./Logos_icons/Company Logo-2.svg">
       </div>
