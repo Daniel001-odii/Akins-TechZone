@@ -8,11 +8,18 @@
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="#">Explore</a>
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link" href="#">Explore</a>
             <a class="nav-link" href="#">Hire Worker</a>
             <a class="nav-link" href="#">About Company</a>
         </div>
+
         <div class="cust-actions">
+            <p class="auth-link">Login</p>
+            <p class="auth-link signUp-btn">Sign Up</p>
+        </div>
+        <!--Previous navbar feature, now deprecated-->
+        <!-- <div class="cust-actions">
                 <div class="cust-nav-actions">
                     <i class="bi bi-briefcase"></i>
                     <i class="bi bi-bell"></i>
@@ -20,7 +27,7 @@
                 </div>
                 <div class="cust-user-actions"></div>
                 
-        </div>
+        </div> -->
         </div>
         </div>
     </nav>
@@ -31,6 +38,28 @@
 </script>
 
 <style>
+.active{
+    color: var(--app-blue) !important;
+    font-weight: bolder !important;
+}
+.auth-link{
+    margin: 0;
+    padding: 10px 25px;
+    font-size: 0.8em;
+    /* border: 1px solid red; */
+}
+.signUp-btn{
+    background: var(--app-blue);
+    color: #fff;
+    border-radius: 20px;
+}
+nav{
+    /* height: 100px; */
+    width: 90%;
+    margin: 0 auto;
+    padding: 15px !important;
+    border-radius: 0px 0px 20px 20px;
+}
 .navbar-nav{
     margin: 0 auto;
 }
@@ -43,18 +72,6 @@
     background: none !important;
     border: none !important;
     font-size: xx-large;
-}
-.cust-nav{
-    height: 70px;
-    /* background: red; this can be used to debug issues with the nav links */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    width: 100%;
-    box-shadow: 0px 1px 6px #00000040;
-    background: #fff;
 }
 
 .nav-links{
@@ -102,4 +119,15 @@
     background-position:center;
     background-size: cover;
 }
+
+ /*--meida queries-------*/
+ @media only screen and (max-width: 999px) {
+    nav{
+    width: 100%;
+    margin: 0 auto;
+    padding: 15px !important;
+    /* border-radius: 0px 0px 20px 20px; */
+    }
+    }
+    
 </style>

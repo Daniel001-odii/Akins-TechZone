@@ -13,3 +13,16 @@ header{
     background: #419E6A;
     border: none;
   }
+
+
+  :root {
+    --app-blue: #0365FF;
+    --app-grey: #8C8989;
+    --offWhite: #F1F4F4;
+
+  }
+  
+
+  .blue{
+    color: var(--app-blue);
+}
