@@ -1,7 +1,7 @@
 <template>
-    <div class="footer container">
+    <div class="footer container-fluid">
         <p>TechZone</p>
-        <div class="footer-links fw-semibold">
+        <div class="footer-links fw-light">
             <p>Overview</p>
             <p>Features</p>
             <p>Pricing</p>
@@ -35,15 +35,19 @@ import Search from './Search.vue';
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 250px;
-        padding: 10px;
+        /* height: 250px; */
+        padding: 30px;
     }
     .footer-links{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+
         justify-content: space-between;
         align-items: center;
-        font-size: 1em;
+        font-size: 0.9em;
+        /* min-width: 10px;
+        width: 500px;
+        max-width: 500px; */
     }
 
     .footer-last{
@@ -90,13 +94,14 @@ import Search from './Search.vue';
          /*--meida queries-------*/
  @media only screen and (max-width: 999px) {
     .footer{
-        justify-content: flex-start;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
     }
     .footer-links{
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
+        /* width: 50px; */
+        align-items: center;
+        font-size: 1em;
     }
     .footer-last{
         flex-direction: column;
