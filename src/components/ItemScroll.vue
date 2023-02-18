@@ -17,6 +17,9 @@
       <div class="logo-div">
         <img alt="#" src="./Logos_icons/Company Logo-5.svg">
       </div>
+      <div class="logo-div">
+        <img alt="#" src="./Logos_icons/Company Logo.svg">
+      </div>
     </div>
     <div class="brand-slide delay">
         <div class="logo-div">
@@ -33,6 +36,9 @@
       </div>
       <div class="logo-div">
         <img alt="#" src="./Logos_icons/Company Logo-5.svg">
+      </div>
+      <div class="logo-div">
+        <img alt="#" src="./Logos_icons/Company Logo.svg">
       </div>
     </div>
   </div>
