@@ -2,43 +2,43 @@
  <div class="scroll-container">
   <div class="brand-wheel">
     <div class="brand-slide">
-      <!-- <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-1.svg">
-      </div> -->
       <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-2.svg">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-1.svg">
       </div>
       <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-3.svg">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-2.svg">
       </div>
       <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-4.svg">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-3.svg">
       </div>
       <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-5.svg">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-4.svg">
       </div>
       <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo.svg">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-5.svg">
+      </div>
+      <div class="logo-div">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo.svg">
       </div>
     </div>
     <div class="brand-slide delay">
-        <!-- <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-1.svg">
-      </div> -->
-      <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-2.svg">
+        <div class="logo-div">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-1.svg">
       </div>
       <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-3.svg">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-2.svg">
       </div>
       <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-4.svg">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-3.svg">
       </div>
       <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo-5.svg">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-4.svg">
       </div>
       <div class="logo-div">
-        <img alt="#" src="./Logos_icons/Company Logo.svg">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo-5.svg">
+      </div>
+      <div class="logo-div">
+        <img alt="Company Logo" src="./Logos_icons/CompanyLogo.svg">
       </div>
     </div>
   </div>
