@@ -1,6 +1,6 @@
 <template>
     <div class="footer container-fluid">
-        <p>TechZone</p>
+        <p class="techZone-logo">TechZone</p>
         <div class="footer-links fw-light">
             <p>Overview</p>
             <p>Features</p>
@@ -36,18 +36,23 @@ import Search from './Search.vue';
         align-items: center;
         width: 100%;
         /* height: 250px; */
-        padding: 30px;
+        padding: 10px;
     }
     .footer-links{
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
 
         justify-content: space-between;
         align-items: center;
         font-size: 0.9em;
+        /* width: 400px; */
         /* min-width: 10px;
         width: 500px;
         max-width: 500px; */
+    }
+
+    .footer-links > p{
+        padding: 0px 20px 0px 20px;
     }
 
     .footer-last{
@@ -91,6 +96,10 @@ import Search from './Search.vue';
         border: none;
     }
 
+    .techZone-logo{
+        padding-top: 50px;
+    }
+
          /*--meida queries-------*/
  @media only screen and (max-width: 999px) {
     .footer{
@@ -99,7 +108,7 @@ import Search from './Search.vue';
     }
     .footer-links{
         flex-direction: column;
-        /* width: 50px; */
+        width: 20px;
         align-items: center;
         font-size: 1em;
     }

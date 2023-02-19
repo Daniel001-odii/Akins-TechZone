@@ -33,18 +33,20 @@ import InfiniteScroll from './ItemScroll.vue';
             <div class="user-area">
                 <b>I'm a Freelancer</b><br/>
                 Gain access to a pool of Job opportunities in your desired niche.<br/>
-                <button class="btn small btn-secondary">Get Started</button>
+                <button class="cust-btn cust-btn-black">Get Started</button>
+                <img src="./imgs/dottedArrow.svg" class="left-arrow">
             </div>
-            <img class="area-img img-fluid" src="./imgs/MaleHero.svg">
+            <img class="area-img img-fluid" style="z-index: 1;" src="./imgs/MaleHero.svg">
         </div>
 
         <div class="Area left">
             <div class="user-area area-left" style="text-align: right;">
                 <b>I want to Hire</b><br/>
                 Gain access to an endless list of talents for your next project..<br/>
-                <button class="btn small btn-secondary">Get Started</button>
+                <button class="cust-btn cust-btn-black">Get Started</button>
+                <img src="./imgs/dottedArrow.svg" class="right-arrow">
             </div>
-            <img class="area-img img-fluid" src="./imgs/femaleHero.svg">
+            <img class="area-img img-fluid" style="z-index: 1;" src="./imgs/femaleHero.svg">
         </div>
     </div>
 </div>
@@ -55,6 +57,10 @@ import InfiniteScroll from './ItemScroll.vue';
 
 
 <style scoped>
+
+.btn{
+    border-radius: none !important;
+}
    .hero-section{
     display: flex;
     flex-direction: row;
@@ -105,6 +111,16 @@ import InfiniteScroll from './ItemScroll.vue';
         padding: 20px;
         }
 
+    .left-arrow{
+        transform: scaleX(-1);
+        /* z-index: -1; */
+    }
+
+    .right-arrow{
+        position: relative;
+        right: 120px;
+    }
+
      /*--meida queries-------*/
  @media only screen and (max-width: 999px) {
     .hero-subtitle{
@@ -126,6 +142,10 @@ import InfiniteScroll from './ItemScroll.vue';
     }
     .user-area{
         width: 100%;
+    }
+
+    .right-arrow, .left-arrow{
+        display: none;
     }
 }
 </style>

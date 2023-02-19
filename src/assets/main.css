@@ -26,3 +26,12 @@ header{
   .blue{
     color: var(--app-blue);
 }
+
+.cust-btn-black{
+  background: var(--app-grey);
+}
+
+.cust-btn:hover{
+  background: var(--app-blue);
+  transition-duration: 1s;
+}
