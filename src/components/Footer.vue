@@ -2,12 +2,12 @@
     <div class="footer container-fluid">
         <p class="techZone-logo">TechZone</p>
         <div class="footer-links fw-light">
-            <p>Overview</p>
-            <p>Features</p>
-            <p>Pricing</p>
-            <p>Careers</p>
-            <p>Help</p>
-            <p>Privacy</p>
+            <a class="nav-link active" aria-current="page" href="#/">Overview</a>
+            <a class="nav-link active" href="#/">Features</a>
+            <a class="nav-link active" href="#/">Pricing</a>
+            <a class="nav-link active" href="#/">Careers</a>
+            <a class="nav-link active" href="#/">Help</a>
+            <a class="nav-link active" href="#/">Privacy</a>
         </div>
         <div class="footer-last">
             <!-- <Search/> -->
@@ -51,7 +51,7 @@ import Search from './Search.vue';
         max-width: 500px; */
     }
 
-    .footer-links > p{
+    .footer-links > a{
         padding: 0px 20px 0px 20px;
     }
 

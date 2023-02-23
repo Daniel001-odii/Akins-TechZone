@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import Accordion from './accordion.vue';
-import RadioSelection from './radioSelection.vue';
+import Accordion from './micro_components/accordion.vue';
+import RadioSelection from './micro_components/radioSelection.vue';
 
 
     export default{

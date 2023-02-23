@@ -1,5 +1,5 @@
 <script>
-import PageContent from './pageContent.vue';
+import PageContent from './JobsList.vue';
 import Search from './Search.vue';
 import SideNav from './SideNav.vue';
 

@@ -50,7 +50,6 @@ import InfiniteScroll from './ItemScroll.vue';
         </div>
     </div>
 </div>
-
 <InfiniteScroll/>
 </template>
 

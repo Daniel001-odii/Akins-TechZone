@@ -1,9 +1,9 @@
 <script>
 import NavBar from './components/NavBar.vue';
-// import Content from './components/Content.vue';
-import Mainbody from './components/MainBody.vue';
-import LandingContent from './components/LandingContent.vue';
+import Mainbody from './components/JobsPage.vue';
+import LandingContent from './components/HomePageContent.vue';
 import FooterNext from './components/Footer.vue';
+
 
 export default {
     setup() {
@@ -20,21 +20,24 @@ export default {
 <template>
     <header>
         <NavBar/>
+        
     </header>
     <main>
         <!-- <div class="ellipse"></div> -->
-        <LandingContent/>
+        <!-- <LandingContent/> -->
         <!-- <div class="ellipse2"></div> -->
     </main>
     <footer>
         <FooterNext/>
     </footer>
+    
 </template>
 
 
 
 <style>
-    .ellipse{
+
+.ellipse{
     position: absolute;
     width: 154px;
     height: 154px;

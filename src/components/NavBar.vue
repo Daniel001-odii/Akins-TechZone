@@ -8,8 +8,8 @@
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-            <a class="nav-link" href="#">Explore</a>
+            <a class="nav-link active" aria-current="page" href="#/">Home</a>
+            <a class="nav-link" href="#/Jobs">Explore</a>
             <a class="nav-link" href="#">Hire Worker</a>
             <a class="nav-link" href="#">About Company</a>
         </div>
@@ -18,23 +18,45 @@
             <p class="auth-link">Login</p>
             <p class="auth-link signUp-btn">Sign Up</p>
         </div>
-        <!--Previous navbar feature, now deprecated-->
-        <!-- <div class="cust-actions">
-                <div class="cust-nav-actions">
-                    <i class="bi bi-briefcase"></i>
-                    <i class="bi bi-bell"></i>
-                    <i class="bi bi-envelope-exclamation"></i>
-                </div>
-                <div class="cust-user-actions"></div>
-                
-        </div> -->
         </div>
         </div>
     </nav>
 
+    <component :is="currentView"/>
 </template>
 
 <script>
+// //import other page urls
+import JobPage from './JobsPage.vue'
+import HomePage from './HomePageContent.vue'
+
+const routes = {
+    '/': HomePage,
+    '/Jobs': JobPage
+}
+
+
+export default {
+    data(){
+        return {
+            currentPath: window.location.hash
+        }
+    },
+    computed:{
+        currentView(){
+            return routes[this.currentPath.slice(1) || '/']
+        }
+    },
+    mounted(){
+        window.addEventListener('hashchange', () =>{
+            this.currentPath = window.location.hash
+        })
+    },
+    setup() {
+        return {};
+    }
+}
+
 </script>
 
 <style>
@@ -126,7 +148,6 @@ nav{
     width: 100%;
     margin: 0 auto;
     padding: 15px !important;
-    /* border-radius: 0px 0px 20px 20px; */
     }
     }
     

@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import JobTag from './JobTag.vue';
-import LocationBadge from './locationBadge.vue';
-import VerificationBadge from './verificationBadge.vue';
+import JobTag from './micro_components/JobTag.vue';
+import LocationBadge from './micro_components/locationBadge.vue';
+import VerificationBadge from './micro_components/verificationBadge.vue';
 
     export default {
         props:{

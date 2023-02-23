@@ -1,6 +1,4 @@
 
-import PostCard from './PostCard.vue';
-
 <template>
     <PostCard/>
     <PostCard/>

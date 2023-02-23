@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import LocationBadge from './locationBadge.vue';
+import LocationBadge from '../micro_components/locationBadge.vue';
 
     export default {
     components: { LocationBadge }
