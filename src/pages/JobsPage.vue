@@ -1,7 +1,8 @@
 <script>
-import PageContent from './JobsList.vue';
-import Search from './Search.vue';
-import SideNav from './SideNav.vue';
+// import sample from '../'
+import PageContent from '../components/JobsList.vue';
+import Search from '../components/Search.vue';
+import SideNav from '../components/SideNav.vue';
 
     export default{
         components: {

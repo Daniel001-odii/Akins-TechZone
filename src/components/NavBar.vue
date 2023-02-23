@@ -27,8 +27,8 @@
 
 <script>
 // //import other page urls
-import JobPage from './JobsPage.vue'
-import HomePage from './HomePageContent.vue'
+import JobPage from '../pages/JobsPage.vue'
+import HomePage from '../pages/HomePage.vue'
 
 const routes = {
     '/': HomePage,

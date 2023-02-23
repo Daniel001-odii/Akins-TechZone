@@ -1,7 +1,7 @@
 <script>
 import NavBar from './components/NavBar.vue';
-import Mainbody from './components/JobsPage.vue';
-import LandingContent from './components/HomePageContent.vue';
+// import Mainbody from './pages/JobsPage.vue';
+import LandingContent from './pages/HomePage.vue';
 import FooterNext from './components/Footer.vue';
 
 

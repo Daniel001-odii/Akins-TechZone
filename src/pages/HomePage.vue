@@ -1,5 +1,5 @@
 <script>
-import InfiniteScroll from './ItemScroll.vue';
+import InfiniteScroll from '../components/ItemScroll.vue';
 
     export default {
         components: {
@@ -34,9 +34,9 @@ import InfiniteScroll from './ItemScroll.vue';
                 <b>I'm a Freelancer</b><br/>
                 Gain access to a pool of Job opportunities in your desired niche.<br/>
                 <button class="cust-btn cust-btn-black">Get Started</button>
-                <img src="./imgs/dottedArrow.svg" class="left-arrow">
+                <img src="../assets/imgs/dottedArrow.svg" class="left-arrow">
             </div>
-            <img class="area-img img-fluid" style="z-index: 1;" src="./imgs/MaleHero.svg">
+            <img class="area-img img-fluid" style="z-index: 1;" src="../assets/imgs/MaleHero.svg">
         </div>
 
         <div class="Area left">
@@ -44,9 +44,9 @@ import InfiniteScroll from './ItemScroll.vue';
                 <b>I want to Hire</b><br/>
                 Gain access to an endless list of talents for your next project..<br/>
                 <button class="cust-btn cust-btn-black">Get Started</button>
-                <img src="./imgs/dottedArrow.svg" class="right-arrow">
+                <img src="../assets/imgs/dottedArrow.svg" class="right-arrow">
             </div>
-            <img class="area-img img-fluid" style="z-index: 1;" src="./imgs/femaleHero.svg">
+            <img class="area-img img-fluid" style="z-index: 1;" src="../assets/imgs/femaleHero.svg">
         </div>
     </div>
 </div>
