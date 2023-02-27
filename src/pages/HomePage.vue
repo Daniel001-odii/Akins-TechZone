@@ -138,9 +138,9 @@ import InfiniteScroll from '../components/ItemScroll.vue';
         background: #3C4045;
     }
 
-    div{
+    /* div{
         border: 1px dotted red;
-    }
+    } */
 
    /*--meida queries-------*/
    @media only screen and (max-width: 1000px) {
