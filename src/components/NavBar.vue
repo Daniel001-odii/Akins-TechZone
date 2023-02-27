@@ -1,22 +1,23 @@
 <template>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-        <a class="navbar-brand" href="#">TechZone</a>
+        <a class="navbar-brand" href="#">
+            <img class="nav-img" src="../components/Logos_icons/techzone.png">
+        </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="bi bi-list"></i>
             </button>
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="#/">Home</a>
-            <a class="nav-link" href="#/Jobs">Explore</a>
-            <a class="nav-link" href="#">Hire Worker</a>
+            <a class="nav-link active" aria-current="page" href="#/" >Home</a>
+            <a class="nav-link middle" href="#/Jobs">Work</a>
             <a class="nav-link" href="#">About Company</a>
         </div>
 
         <div class="cust-actions">
-            <p class="auth-link">Login</p>
-            <p class="auth-link signUp-btn">Sign Up</p>
+            <button class="cust-btn login-btn">Login</button>
+            <button class="cust-btn signUp-btn">Sign Up</button>
         </div>
         </div>
         </div>
@@ -60,27 +61,41 @@ export default {
 </script>
 
 <style>
+.navbar-brand{
+    margin-left: 50px;
+}
+
 .active{
     color: var(--app-blue) !important;
     font-weight: bolder !important;
 }
-.auth-link{
-    margin: 0;
-    padding: 10px 25px;
-    font-size: 0.8em;
-    /* border: 1px solid red; */
-}
+
 .signUp-btn{
     background: var(--app-blue);
     color: #fff;
     border-radius: 20px;
 }
+.signUp-btn:hover{
+    background: #0953ca;
+}
+.login-btn{
+    border-radius: 20px;
+    background: none;
+    color: var(--app-grey);
+    border: 1px solid #fff;
+    margin-right: 10px;
+}
+.login-btn:hover{
+    background: #efefef83;
+    /* border: 1px solid var(--app-grey); */
+}
+
 nav{
     /* height: 100px; */
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
-    padding: 15px !important;
-    border-radius: 0px 0px 20px 20px;
+    padding: 10px !important;
+    /* border-radius: 0px 0px 20px 20px; */
 }
 .navbar-nav{
     margin: 0 auto;
@@ -96,31 +111,24 @@ nav{
     font-size: xx-large;
 }
 
-.nav-links{
-    display: flex;
-    flex-direction: row;
-    /* width: 25%; */
-    /* border: 2px solid green; */ /*this can be used to debug issues with the nav links */
-    justify-content: space-around;
-    align-items: flex-end;
-}
 
-.nav-links > p{
-    border-right: 1px solid #000;
-    padding: 0px 15px;
-    text-align: center;
+.nav-link{
+    padding: 0px 10px !important;
+    /* border: 2px solid red; */
 }
-.nav-links > p:hover{
-    cursor: pointer;
-    color: green;
+.middle{
+    border-left: 1px solid var(--app-grey); 
+    border-right: 1px solid var(--app-grey);
 }
 
 .cust-actions{
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    float: right;
+    justify-content: space-between;
+    /* border: 2px dotted red; */
+    /* width: 10px; */
+    /* float: right; */
 }
 
 .cust-nav-actions{
@@ -148,6 +156,12 @@ nav{
     width: 100%;
     margin: 0 auto;
     padding: 15px !important;
+    }
+    .navbar-brand{
+        margin: 0px !important;
+    }
+    .middle{
+        border: none !important;
     }
     }
     

@@ -7,7 +7,7 @@ header{
 /*------ styles for buttons------------*/
 .cust-btn{
     border-radius: none;
-    padding: 10px 25px;
+    padding: 8px 25px;
     color: #fff;
     font-size: 0.8em;
     background: #419E6A;
@@ -19,6 +19,8 @@ header{
     --app-blue: #0365FF;
     --app-grey: #8C8989;
     --offWhite: #F1F4F4;
+    --app-dark-grey: #3C4045;;
+
 
   }
   
@@ -33,5 +35,8 @@ header{
 
 .cust-btn:hover{
   background: var(--app-blue);
-  transition-duration: 1s;
+}
+
+.nav-img{
+  width: 120px;
 }

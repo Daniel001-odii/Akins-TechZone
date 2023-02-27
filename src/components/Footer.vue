@@ -1,13 +1,15 @@
 <template>
     <div class="footer container-fluid">
-        <p class="techZone-logo">TechZone</p>
+        <div class="techZone-logo">
+            <img class="nav-img" src="./Logos_icons/techzone.png" style="width: 150px;">
+        </div>
         <div class="footer-links fw-light">
             <a class="nav-link active" aria-current="page" href="#/">Overview</a>
-            <a class="nav-link active" href="#/">Features</a>
-            <a class="nav-link active" href="#/">Pricing</a>
-            <a class="nav-link active" href="#/">Careers</a>
-            <a class="nav-link active" href="#/">Help</a>
-            <a class="nav-link active" href="#/">Privacy</a>
+            <a class="nav-link" href="#/">Features</a>
+            <a class="nav-link" href="#/">Pricing</a>
+            <a class="nav-link" href="#/">Careers</a>
+            <a class="nav-link" href="#/">Help</a>
+            <a class="nav-link" href="#/">Privacy</a>
         </div>
         <div class="footer-last">
             <!-- <Search/> -->
@@ -97,7 +99,7 @@ import Search from './Search.vue';
     }
 
     .techZone-logo{
-        padding-top: 50px;
+        padding-top: 30px;
     }
 
          /*--meida queries-------*/

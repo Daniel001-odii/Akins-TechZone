@@ -10,11 +10,11 @@ import InfiniteScroll from '../components/ItemScroll.vue';
 
 
 <template>
-    <div class="container">
+    <!-- <div class="container"> -->
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->
-        <center>
-            <p style="color:var(--app-grey); font-size: 0.8em;">Best job platform in the world</p>
+        <div style="margin: 0 auto; text-align: center">
+            <!-- <p style="color:var(--app-grey); font-size: 0.8em;">Best job platform in the world</p> -->
 
             <div class="hero-title">
                 Hire The <span class="blue">Right</span> Employees<br/>Find Your <span class="squareBox"><span class="blue">Dream</span> Job.</span>
@@ -24,7 +24,7 @@ import InfiniteScroll from '../components/ItemScroll.vue';
                 companies in an easy way. Job finders can find their desired 
                 skills anywhere in the world.
             </div>
-        </center>
+        </div>
         <!-- <img class="brick" src="./imgs/rightBrick.svg"> -->
     </div>
     
@@ -33,8 +33,8 @@ import InfiniteScroll from '../components/ItemScroll.vue';
             <div class="user-area">
                 <b>I'm a Freelancer</b><br/>
                 Gain access to a pool of Job opportunities in your desired niche.<br/>
-                <button class="cust-btn cust-btn-black">Get Started</button>
-                <img src="../assets/imgs/dottedArrow.svg" class="left-arrow">
+                <button class="cust-btn" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button>
+                <img src="../assets/imgs/dottedArrow.svg" class="arrow left-arrow">
             </div>
             <img class="area-img img-fluid" style="z-index: 1;" src="../assets/imgs/MaleHero.svg">
         </div>
@@ -43,13 +43,13 @@ import InfiniteScroll from '../components/ItemScroll.vue';
             <div class="user-area area-left" style="text-align: right;">
                 <b>I want to Hire</b><br/>
                 Gain access to an endless list of talents for your next project..<br/>
-                <button class="cust-btn cust-btn-black">Get Started</button>
-                <img src="../assets/imgs/dottedArrow.svg" class="right-arrow">
+                <button class="cust-btn" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button>
+                <img src="../assets/imgs/dottedArrow.svg" class="arrow right-arrow">
             </div>
             <img class="area-img img-fluid" style="z-index: 1;" src="../assets/imgs/femaleHero.svg">
         </div>
     </div>
-</div>
+<!-- </div> -->
 <InfiniteScroll/>
 </template>
 
@@ -75,13 +75,14 @@ import InfiniteScroll from '../components/ItemScroll.vue';
         width: 250px;
     }
     .hero-subtitle{
+        margin: 0 auto;
         width: 60%;
         padding: 20px 30px;
         color: var(--app-grey);
     }
 
     .squareBox{
-        background: url("./imgs/squareBorder.svg");
+        background: url("../assets/imgs/squareBorder.svg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -91,23 +92,35 @@ import InfiniteScroll from '../components/ItemScroll.vue';
     .second-section{
         display: flex;
         flex-direction: row;
-        margin-top: 50px ;
+        margin-top: 20px ;
+        justify-content: space-between;
+        /* border: 1px dotted red; */
+        width: 75%;
+        margin: 0 auto;
     }
     .Area{
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: flex-start;
+        /* width: 200px; */
+        /* border: 1px solid green; */
     }
     .left{
         flex-direction: row-reverse;
     }
     .area-img{
         margin-top: 50px;
+        height: 400px;
+        width: 300px;
+    }
+    .arrow{
+        height: 300px;
+        width: 200px;
     }
     .user-area{
         width: 200px;
-        padding: 20px;
+        /* padding: 20px; */
         }
 
     .left-arrow{
@@ -117,11 +130,35 @@ import InfiniteScroll from '../components/ItemScroll.vue';
 
     .right-arrow{
         position: relative;
-        right: 120px;
+        right: 0px;
+        /* top- */
     }
 
+    .cust-btn{
+        background: #3C4045;
+    }
+
+    div{
+        border: 1px dotted red;
+    }
+
+   /*--meida queries-------*/
+   @media only screen and (max-width: 1000px) {
+    .area-img{
+        height: 300px;
+        width: 200px
+    }
+    .user-area{
+        font-size: 0.8em !important;
+    }
+    .arrow{
+        width: 186px;
+        height: 216px;
+    }
+   }
+
      /*--meida queries-------*/
- @media only screen and (max-width: 999px) {
+ @media only screen and (max-width: 800px) {
     .hero-subtitle{
         width: 100%;
     }
