@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
+        <div class="container">
         <a class="navbar-brand" href="#">
             <img class="nav-img" src="../components/Logos_icons/techzone.png">
         </a>

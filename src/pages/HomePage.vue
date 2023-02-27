@@ -96,6 +96,7 @@ import InfiniteScroll from '../components/ItemScroll.vue';
         justify-content: space-between;
         /* border: 1px dotted red; */
         width: 75%;
+        max-width: 1020px;
         margin: 0 auto;
     }
     .Area{

@@ -1,6 +1,6 @@
 
 <template>
-<div class="container-fluid">
+<div class="container">
     <ul class="nav nav-tabs tableHeads" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="avail-tab" data-bs-toggle="tab" data-bs-target="#available-tab-pane" type="button" role="tab" aria-controls="available-tab-pane" aria-selected="true"><span class="cust-badge">20</span>Available</button>
@@ -63,7 +63,7 @@ import TableContents from '../components/TableContents.vue';
     }
     .tableContents{
         width: 100%;
-        height: 500px;
+        /* height: 500px; */
         background: #fff;
         overflow: scroll;
     }
