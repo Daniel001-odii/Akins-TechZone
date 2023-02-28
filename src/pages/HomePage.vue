@@ -61,8 +61,8 @@ export default {
 
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <RouterLink to="/"> <i class="bi bi-home"></i> Home</RouterLink>
-                        <RouterLink to="/jobs"> <i class="bi bi-case"></i> Work</RouterLink>
+                        <RouterLink class="nav-link" to="/"> <i class="bi bi-house"></i> Home</RouterLink> |
+                        <RouterLink class="nav-link" to="/jobs"> <i class="bi bi-briefcase"></i> Work</RouterLink>
                     </div>
 
                     <div class="cust-actions">

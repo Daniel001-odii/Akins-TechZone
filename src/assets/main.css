@@ -44,7 +44,9 @@ i{
   width: 120px;
 }
 
-
+.nav-link{
+  font-size: 0.9em !important;
+}
 
 
 /*------------------- syles for Auth pages ------------------*/
