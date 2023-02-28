@@ -38,8 +38,8 @@ export default {
      -->
      <!-- <HomePage/> -->   
      
-     <SignUp/>
-     <!-- <Login/> -->
+     <!-- <SignUp/> -->
+     <Login/>
 
 </template>
 

@@ -10,14 +10,19 @@
                 <h2 style="font-weight: bolder;">Welcome Back!</h2>
                 <p>Please enter your login details</p>
 
-                <div class="form-section">
-                    <label for="name">First Name</label>
-                    <input class="form-input" name="name" placeholder="First Name" type="name">
+                <div class="form-section" style="flex-direction: row;">
+                    <div class="name-section">
+                        <label for="name">First Name</label>
+                        <input class="form-input" name="name" placeholder="First Name" type="name">
+                    </div>
+                    <div class="name-section">
+                        <label for="Last Name">Last Name</label>
+                        <input class="form-input" placeholder="Last Name" type="name">
+                    </div>
                 </div>
             
                 <div class="form-section">
-                    <label for="Last Name">Last Name</label>
-                    <input class="form-input" placeholder="Last Name" type="name">
+                    
                 </div>
 
                 <div class="form-section">
@@ -44,7 +49,7 @@
             </div>
     </div>
         <div class="rightSide">
-            <div class="ima"><img style="width: 400px;" src="../components/Logos_icons/techZoneVertical.png"></div>
+            <div class="ima"><img style="width: 250px;" src="../components/Logos_icons/techZoneVertical.png"></div>
         </div>  
     </div>
 </template>

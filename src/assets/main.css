@@ -72,9 +72,15 @@ p{
 }
 
 .form-section{
-  padding: 5px;
-  margin: 5px 0px;
+  padding: 3px;
   font-size: 0.8em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.name-section{
+  width: 48%;
 }
 
 .form-issues{

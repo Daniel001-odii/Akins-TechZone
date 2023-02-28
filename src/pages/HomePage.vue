@@ -1,44 +1,45 @@
 <script>
 import Footer from '../components/Footer.vue';
 import InfiniteScroll from '../components/ItemScroll.vue';
-import NavBar from '../components/NavBar.vue';
+// import NavBar from '../components/NavBar.vue';
 
-import JobPage from './JobsPage.vue'
-import HomePage from './HomePage.vue'
-import loginPage from './login.vue'
+// import JobPage from './JobsPage.vue'
+// import HomePage from './HomePage.vue'
+// import loginPage from './login.vue'
 
 
-const routes = {
-    // '/': HomePage,
-    '/Jobs': JobPage,
-    '/Login': loginPage,
-}
+// const routes = {
+//     // '/': HomePage,
+//     '/Jobs': JobPage,
+//     '/Login': loginPage,
+// }
 
 export default {
         components: {
     InfiniteScroll,
     Footer,
     // NavBar
-},
-data(){
-        return {
-            currentPath: window.location.hash
-        }
-    },
-    computed:{
-        currentView(){
-            return routes[this.currentPath.slice(1) || '/']
-        }
-    },
-    mounted(){
-        window.addEventListener('hashchange', () =>{
-            this.currentPath = window.location.hash
-        })
-    },
-    setup() {
-        return {};
+// },
+// data(){
+//         return {
+//             currentPath: window.location.hash
+//         }
+//     },
+//     computed:{
+//         currentView(){
+//             return routes[this.currentPath.slice(1) || '/']
+//         }
+//     },
+//     mounted(){
+//         window.addEventListener('hashchange', () =>{
+//             this.currentPath = window.location.hash
+//         })
+//     },
+//     setup() {
+//         return {};
+//     }
     }
-    }
+}
 
 
 
@@ -60,8 +61,8 @@ data(){
 
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" aria-current="page" href="#/" > <i class="bi bi-home"></i> Home</a>
-                        <a class="nav-link middle" href="#/Jobs"> <i class="bi bi-case"></i> Work</a>
+                        <RouterLink to="/home"> <i class="bi bi-home"></i> Home</RouterLink>
+                        <RouterLink to="/new-page"> <i class="bi bi-case"></i> Work</RouterLink>
                     </div>
 
                     <div class="cust-actions">
@@ -77,7 +78,7 @@ data(){
 
    
     
-
+<h1>HOME PAGE</h1>
     <!-- <div class="container"> -->
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->

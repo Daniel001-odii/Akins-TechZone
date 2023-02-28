@@ -36,7 +36,7 @@ import loginPage from '../pages/login.vue'
 
 
 const routes = {
-    '/': HomePage,
+    // '/': HomePage,
     '/Jobs': JobPage,
     '/Login': loginPage,
 }

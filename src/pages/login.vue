@@ -32,7 +32,7 @@
             </div>
     </div>
         <div class="rightSide">
-            <div class="ima"><img style="width: 400px;" src="../components/Logos_icons/techZoneVertical.png"></div>
+            <div class="ima"><img style="width: 250px;" src="../components/Logos_icons/techZoneVertical.png"></div>
         </div>  
     </div>
 </template>
