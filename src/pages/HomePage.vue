@@ -1,15 +1,83 @@
 <script>
+import Footer from '../components/Footer.vue';
 import InfiniteScroll from '../components/ItemScroll.vue';
+import NavBar from '../components/NavBar.vue';
 
-    export default {
+import JobPage from './JobsPage.vue'
+import HomePage from './HomePage.vue'
+import loginPage from './login.vue'
+
+
+const routes = {
+    // '/': HomePage,
+    '/Jobs': JobPage,
+    '/Login': loginPage,
+}
+
+export default {
         components: {
-            InfiniteScroll,
+    InfiniteScroll,
+    Footer,
+    // NavBar
+},
+data(){
+        return {
+            currentPath: window.location.hash
         }
+    },
+    computed:{
+        currentView(){
+            return routes[this.currentPath.slice(1) || '/']
+        }
+    },
+    mounted(){
+        window.addEventListener('hashchange', () =>{
+            this.currentPath = window.location.hash
+        })
+    },
+    setup() {
+        return {};
     }
+    }
+
+
+
+
+
 </script>
 
 
 <template>
+    <!-- <header> -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img class="nav-img" src="../components/Logos_icons/techzone.png">
+                </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
+
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link" aria-current="page" href="#/" > <i class="bi bi-home"></i> Home</a>
+                        <a class="nav-link middle" href="#/Jobs"> <i class="bi bi-case"></i> Work</a>
+                    </div>
+
+                    <div class="cust-actions">
+                        <a href="#/Login"><button class="cust-btn login-btn">Login</button></a>
+                        <a href="#/SignUp"><button class="cust-btn signUp-btn">Sign Up</button></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+    <!-- </header>
+    <main> -->
+
+   
+    
+
     <!-- <div class="container"> -->
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->
@@ -51,6 +119,15 @@ import InfiniteScroll from '../components/ItemScroll.vue';
     </div>
 <!-- </div> -->
 <InfiniteScroll/>
+<!-- </main>
+
+<footer> -->
+    <Footer/>
+
+    <component :is="currentView"/>
+<!-- </footer> -->
+
+
 </template>
 
 
@@ -97,6 +174,7 @@ import InfiniteScroll from '../components/ItemScroll.vue';
         /* border: 1px dotted red; */
         width: 75%;
         max-width: 1020px;
+        /* min-width: 1000px; */
         margin: 0 auto;
     }
     .Area{
@@ -145,10 +223,10 @@ import InfiniteScroll from '../components/ItemScroll.vue';
 
    /*--meida queries-------*/
    @media only screen and (max-width: 1000px) {
-    .area-img{
+    /* .area-img{
         height: 300px;
         width: 200px
-    }
+    } */
     .user-area{
         font-size: 0.8em !important;
     }

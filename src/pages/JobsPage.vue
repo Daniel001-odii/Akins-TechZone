@@ -39,6 +39,10 @@
   </div>
 </div>
 </div>
+
+
+<!-----------shows with general navbar-->
+
 </template>
 
 <script>

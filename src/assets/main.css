@@ -2,6 +2,9 @@ header{
     width: 100%;
 }
 
+i{
+  padding: 5px;
+}
 
 
 /*------ styles for buttons------------*/
@@ -40,3 +43,106 @@ header{
 .nav-img{
   width: 120px;
 }
+
+
+
+
+/*------------------- syles for Auth pages ------------------*/
+p{
+  margin: 0;
+}
+
+/* *{
+  border: 1px solid red;
+} */
+
+.form-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.rightSide{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.form-section{
+  padding: 5px;
+  margin: 5px 0px;
+  font-size: 0.8em;
+}
+
+.form-issues{
+  padding: 5px;
+  margin: 15px 0px;
+  display: flex;
+  flex-direction: row;
+  font-size: 0.8em;
+  justify-content: space-between;
+}
+.left-content{
+  width: 280px;
+}
+
+/* .left-content > *{
+  border: 1px solid red;
+} */
+  .leftSide{
+      width: 45%;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #fff;
+  }
+
+  .form-btn{
+      outline: none;
+      border: none;
+      padding: 10px 10px;
+      color: #fff;
+      background: #4F83D5;
+      ;
+      font-size: 0.9em;
+      border-radius: 5px;
+      width: 100%;
+  }
+  .form-btn:hover{
+    background: var(--app-blue);
+  }
+
+
+  .form-input{
+      width: 100%;
+      padding: 5px 10px;
+      outline: none;
+      border: 1px solid var(--app-grey);
+      border-radius: 5px;
+  }
+
+  .form-end{
+      font-size: 0.8em;
+      margin: 0 auto;
+      /* border: 1px dotted red; */
+      text-align: center;
+      padding: 10px;
+  }
+
+
+  @media only screen and (max-width: 850px) {
+      .rightSide{
+          display: none;
+      }
+
+      .leftSide{
+          width: 100%;
+      }
+
+  }

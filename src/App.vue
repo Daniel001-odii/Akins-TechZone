@@ -3,6 +3,9 @@ import NavBar from './components/NavBar.vue';
 // import Mainbody from './pages/JobsPage.vue';
 import LandingContent from './pages/HomePage.vue';
 import FooterNext from './components/Footer.vue';
+import HomePage from './pages/HomePage.vue';
+import Login from './pages/login.vue';
+import SignUp from './pages/SignUp.vue';
 
 
 export default {
@@ -13,24 +16,31 @@ export default {
     NavBar,
     LandingContent,
     FooterNext,
+    HomePage,
+    Login,
+    SignUp,
 }
 }
 </script>
 
 <template>
-    <header>
+
+    <!-- <header>
         <NavBar/>
-        
+
     </header>
     <main>
-        <!-- <div class="ellipse"></div> -->
-        <!-- <LandingContent/> -->
-        <!-- <div class="ellipse2"></div> -->
+            
     </main>
     <footer>
         <FooterNext/>
     </footer>
-    
+     -->
+     <!-- <HomePage/> -->   
+     
+     <SignUp/>
+     <Login/>
+
 </template>
 
 

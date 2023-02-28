@@ -10,30 +10,35 @@
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-link active" aria-current="page" href="#/" >Home</a>
-            <a class="nav-link middle" href="#/Jobs">Work</a>
-            <a class="nav-link" href="#">About Company</a>
+            <a class="nav-link" aria-current="page" href="#/" > <i class="bi bi-home"></i> Home</a>
+            <a class="nav-link middle" href="#/Jobs"> <i class="bi bi-case"></i> Work</a>
         </div>
 
         <div class="cust-actions">
-            <button class="cust-btn login-btn">Login</button>
-            <button class="cust-btn signUp-btn">Sign Up</button>
+            <a href="#/Login"><button class="cust-btn login-btn">Login</button></a>
+            <a href="#/SignUp"><button class="cust-btn signUp-btn">Sign Up</button></a>
         </div>
         </div>
         </div>
     </nav>
+    
 
-    <component :is="currentView"/>
+    <!-- <component :is="currentView"/> -->
 </template>
+
+
 
 <script>
 // //import other page urls
 import JobPage from '../pages/JobsPage.vue'
 import HomePage from '../pages/HomePage.vue'
+import loginPage from '../pages/login.vue'
+
 
 const routes = {
     '/': HomePage,
-    '/Jobs': JobPage
+    '/Jobs': JobPage,
+    '/Login': loginPage,
 }
 
 
@@ -117,8 +122,7 @@ nav{
     /* border: 2px solid red; */
 }
 .middle{
-    border-left: 1px solid var(--app-grey); 
-    border-right: 1px solid var(--app-grey);
+    border-left: 1px solid var(--app-grey);
 }
 
 .cust-actions{

@@ -1,5 +1,5 @@
 <template>
-    <div class="footer container-fluid">
+    <div class="footer container">
         <div class="techZone-logo">
             <img class="nav-img" src="./Logos_icons/techzone.png" style="width: 150px;">
         </div>
