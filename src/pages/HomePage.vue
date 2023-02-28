@@ -61,13 +61,13 @@ export default {
 
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <RouterLink to="/home"> <i class="bi bi-home"></i> Home</RouterLink>
-                        <RouterLink to="/new-page"> <i class="bi bi-case"></i> Work</RouterLink>
+                        <RouterLink to="/"> <i class="bi bi-home"></i> Home</RouterLink>
+                        <RouterLink to="/jobs"> <i class="bi bi-case"></i> Work</RouterLink>
                     </div>
 
                     <div class="cust-actions">
-                        <a href="#/Login"><button class="cust-btn login-btn">Login</button></a>
-                        <a href="#/SignUp"><button class="cust-btn signUp-btn">Sign Up</button></a>
+                        <RouterLink to="/login"><button class="cust-btn login-btn">Login</button></RouterLink>
+                            <RouterLink to="/signUp"><button class="cust-btn signUp-btn">Sign Up</button></RouterLink>
                     </div>
                 </div>
             </div>
@@ -77,8 +77,7 @@ export default {
     <main> -->
 
    
-    
-<h1>HOME PAGE</h1>
+
     <!-- <div class="container"> -->
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->

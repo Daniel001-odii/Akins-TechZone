@@ -39,7 +39,7 @@ export default {
      <!-- <HomePage/> -->   
      
      <!-- <SignUp/> -->
-     <Login/>
+     <router-view/>
 
 </template>
 
