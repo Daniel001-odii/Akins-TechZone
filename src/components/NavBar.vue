@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar fixed-top navbar-expand-lg">
-            <div class="container">
+            <div class="container-fluid">
                 <a class="navbar-brand" href="#">
                     <img class="nav-img" src="../components/Logos_icons/techzone.png">
                 </a>
@@ -8,10 +8,11 @@
                         <i class="bi bi-list"></i>
                     </button>
 
+                    <slot>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <RouterLink class="nav-link nav-block" to="/"> <i class="bi bi-house"></i> Home</RouterLink> |
-                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-briefcase"></i> Work</RouterLink>
+                        <RouterLink class="nav-link nav-block" style="" to="/"> <i class="bi bi-house"></i> Home</RouterLink> |
+                        <RouterLink class="nav-link nav-block" style="" to="/jobs"> <i class="bi bi-briefcase"></i> Work</RouterLink>
                     </div>
 
                     <div class="cust-actions">
@@ -19,6 +20,7 @@
                             <RouterLink to="/signUp"><button class="cust-btn signUp-btn">Sign Up</button></RouterLink>
                     </div>
                 </div>
+                    </slot>
             </div>
     </nav>
 </template>
@@ -49,6 +51,12 @@ export default {
 .navbar-brand{
     margin-left: 50px;
 }
+
+.nav-block:hover{
+    border-bottom: 3px solid var(--app-blue) !important;
+    padding-bottom: 5px !important; 
+}
+
 
 .active{
     color: var(--app-blue) !important;

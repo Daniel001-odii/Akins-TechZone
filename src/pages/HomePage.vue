@@ -44,7 +44,10 @@ export default {
             <p style="color:var(--app-grey); font-size: 0.8em; margin-top: 80px;">Best job platform in the world</p>
 
             <div class="hero-title">
-                Hire The <span class="blue">Right</span> Employees<br/>Find Your <span class="squareBox"><span class="blue">Dream</span> Job.</span>
+                Hire The <span class="blue">Right</span> Employees.<br/>Find Your <span class="break"><br/></span>
+                <span class="squareBox">
+                    <span class="blue">Dream</span> Job.
+                </span>
             </div>
             <div class="hero-subtitle">
                 Job search platform worldwide. We connect freelancers and
@@ -77,6 +80,7 @@ export default {
         </div>
     </div>
 <!-- </div> -->
+    <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; background: var(--app-grey); color: #fff; margin-top: 30px;  font-weight: lighter;">TechZone is trusted by many leading brands and startups</div>
 <InfiniteScroll/>
 </main>
 
@@ -178,9 +182,10 @@ export default {
         background: #3C4045;
     }
 
-    /* div{
-        border: 1px dotted red;
-    } */
+    .break{
+        display: none;
+        height: 1px !important;
+    }
 
    /*--meida queries-------*/
    @media only screen and (max-width: 1000px) {
@@ -222,6 +227,13 @@ export default {
 
     .right-arrow, .left-arrow{
         display: none;
+    }
+}
+
+
+@media only screen and (max-width: 580px){
+    .break{
+        display: flex;
     }
 }
 </style>

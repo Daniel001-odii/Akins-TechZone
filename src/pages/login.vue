@@ -2,7 +2,7 @@
     <div class="form-container">
         <div class="leftSide">
             <div class="topLeftImage">
-                <img class="brand-img" src="../components/Logos_icons/techzone.png">
+                <RouterLink to="/"><img class="brand-img" src="../components/Logos_icons/techzone.png"></RouterLink>
             </div>
 
             <div class="subDiv">

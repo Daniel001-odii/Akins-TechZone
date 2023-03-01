@@ -1,7 +1,28 @@
 
 <template>
      <!-- <header> -->
-       <NavBar/>
+        <NavBar>
+            <div class="navbar-nav">
+                        <RouterLink class="nav-link nav-block" to="/"> <i class="bi bi-house"></i> Home</RouterLink>
+                        <form role="search" style="display: flex; align-items: center; padding: 0px 20px;">
+                            <div class="form-input" style="">
+                                <input style="border: none; outline: none; height: 30px;" type="search" placeholder="Find work" aria-label="Search">
+                                <button type="submit" style="border: none; outline: none; background: none; border-left: 1px solid #000;"><i class="bi bi-search"></i></button>
+                            </div>
+                        </form>
+                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-graph-up"></i> Insight</RouterLink>
+                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-wallet2"></i> Payment</RouterLink>
+                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-wallet-fill"></i> Saved Jobs</RouterLink>
+
+                        <div class="user-actions">
+                            <RouterLink class="" to="/jobs"> <i class="bi bi-bell"></i></RouterLink>
+                            <RouterLink class="" to="/jobs"> <i class="bi bi-info-circle"></i></RouterLink>
+                            <RouterLink class="" to="/jobs"> <i class="bi bi-flag"></i> </RouterLink>
+                            <div class="user">AZ</div>
+                        </div>
+            </div>
+        </NavBar>
+       
 
 
 <div class="container" style="margin-top: 80px;">
@@ -84,7 +105,10 @@ import TableContents from '../components/TableContents.vue';
 </script>
 
 <style scoped>
-    .tableHeads{
+.nav-block{
+  margin-top: 10px !important;
+}
+.tableHeads{
         display: flex;
         flex-direction: row;
         /* border: 2px solid red; */
@@ -112,16 +136,51 @@ import TableContents from '../components/TableContents.vue';
         margin-right: 5px;
     }
 
-    .nav-link{
+
+
+    .user{
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        background: grey;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+    }
+    .user-actions{
+        width: 120px;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        /* border: 1px solid red; */
         align-items: center;
-        padding: 8px !important;
+        margin-left: 120px;
     }
-
     @media only screen and (max-width: 500px) {
-        
+        .nav-block{
+            padding: 10px !important;
+        }
+        .user-actions{
+            padding: 10px 0px;
+        }
+        .nav-block:hover{
+            border-radius: 10px;
+            background: #cecece;
+            border: none !important;
+        }
+
+        form{
+            padding: 0px !important;
+        }
+        .user-actions{
+        /* width: 120px;
+        display: flex;
+        flex-direction: row; */
+        /* border: 1px solid red; */
+        align-items: center;
+        margin: 0px;
+        /* margin-left: 120px; */
+    }
     }
 
 </style>
