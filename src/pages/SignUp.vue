@@ -41,10 +41,10 @@
                 </div>
 
                 <div class="form-section">
-                    <button class="form-btn">Sign Up <i class="bi bi-upload"></i></button>
+                    <RouterLink to="/"><button class="form-btn">Sign Up <i class="bi bi-upload"></i></button></RouterLink>
                 </div>
 
-                <p class="form-end"> Already have an account? <a href="#Signup">Sign in</a></p>
+                <p class="form-end"> Already have an account?  <RouterLink to="/login">Sign in</RouterLink></p>
                 </div>
             </div>
     </div>

@@ -1,31 +1,10 @@
 
 <template>
      <!-- <header> -->
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <img class="nav-img" src="../components/Logos_icons/techzone.png">
-                </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="bi bi-list"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <RouterLink to="/"> <i class="bi bi-home"></i> Home</RouterLink>
-                        <RouterLink to="/jobs"> <i class="bi bi-case"></i> Work</RouterLink>
-                    </div>
-
-                    <div class="cust-actions">
-                        <RouterLink to="/login"><button class="cust-btn login-btn">Login</button></RouterLink>
-                            <RouterLink to="/signUp"><button class="cust-btn signUp-btn">Sign Up</button></RouterLink>
-                    </div>
-                </div>
-            </div>
-        </nav>
+       <NavBar/>
 
 
-<div class="container">
+<div class="container" style="margin-top: 80px;">
     <ul class="nav nav-tabs tableHeads" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="avail-tab" data-bs-toggle="tab" data-bs-target="#available-tab-pane" type="button" role="tab" aria-controls="available-tab-pane" aria-selected="true"><span class="cust-badge">20</span>Available</button>
@@ -63,6 +42,24 @@
     <TableContents/>
   </div>
 </div>
+<div class="tab-content tableContents" id="myTabContent">
+  <div class="tab-pane fade show active" id="available-tab-pane" role="tabpanel" aria-labelledby="avail-tab" tabindex="0">
+   <!--table goes here...-->
+    <TableContents/>
+  </div>
+  <div class="tab-pane fade" id="requested-tab-pane" role="tabpanel" aria-labelledby="request-tab" tabindex="0">
+    <TableContents/>
+  </div>
+  <div class="tab-pane fade" id="assigned-tab-pane" role="tabpanel" aria-labelledby="assigned-tab" tabindex="0">
+    <TableContents/>
+  </div>
+  <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0">
+    <TableContents/>
+  </div>
+  <div class="tab-pane fade" id="declined-tab-pane" role="tabpanel" aria-labelledby="declined-tab" tabindex="0">
+    <TableContents/>
+  </div>
+</div>
 </div>
 
 
@@ -72,12 +69,14 @@
 
 <script>
 import Footer from '../components/Footer.vue';
+import NavBar from '../components/NavBar.vue';
 import TableContents from '../components/TableContents.vue';
 
     export default {
     components: {
     TableContents,
     Footer,
+    NavBar
 }
 }
 

@@ -1,6 +1,7 @@
 <script>
 import Footer from '../components/Footer.vue';
 import InfiniteScroll from '../components/ItemScroll.vue';
+import NavBar from '../components/NavBar.vue';
 // import NavBar from '../components/NavBar.vue';
 
 // import JobPage from './JobsPage.vue'
@@ -18,27 +19,8 @@ export default {
         components: {
     InfiniteScroll,
     Footer,
-    // NavBar
-// },
-// data(){
-//         return {
-//             currentPath: window.location.hash
-//         }
-//     },
-//     computed:{
-//         currentView(){
-//             return routes[this.currentPath.slice(1) || '/']
-//         }
-//     },
-//     mounted(){
-//         window.addEventListener('hashchange', () =>{
-//             this.currentPath = window.location.hash
-//         })
-//     },
-//     setup() {
-//         return {};
-//     }
-    }
+    NavBar
+}
 }
 
 
@@ -49,40 +31,17 @@ export default {
 
 
 <template>
-    <!-- <header> -->
-        <nav class="navbar navbar-expand-lg">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <img class="nav-img" src="../components/Logos_icons/techzone.png">
-                </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="bi bi-list"></i>
-                    </button>
-
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <RouterLink class="nav-link" to="/"> <i class="bi bi-house"></i> Home</RouterLink> |
-                        <RouterLink class="nav-link" to="/jobs"> <i class="bi bi-briefcase"></i> Work</RouterLink>
-                    </div>
-
-                    <div class="cust-actions">
-                        <RouterLink to="/login"><button class="cust-btn login-btn">Login</button></RouterLink>
-                            <RouterLink to="/signUp"><button class="cust-btn signUp-btn">Sign Up</button></RouterLink>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        
-    <!-- </header>
-    <main> -->
-
-   
-
+    <header>
+        <NavBar/>
+    </header>
+    
+    
+<main>
     <!-- <div class="container"> -->
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->
         <div style="margin: 0 auto; text-align: center">
-            <!-- <p style="color:var(--app-grey); font-size: 0.8em;">Best job platform in the world</p> -->
+            <p style="color:var(--app-grey); font-size: 0.8em; margin-top: 80px;">Best job platform in the world</p>
 
             <div class="hero-title">
                 Hire The <span class="blue">Right</span> Employees<br/>Find Your <span class="squareBox"><span class="blue">Dream</span> Job.</span>
@@ -119,13 +78,11 @@ export default {
     </div>
 <!-- </div> -->
 <InfiniteScroll/>
-<!-- </main>
+</main>
 
-<footer> -->
+<footer>
     <Footer/>
-
-    <component :is="currentView"/>
-<!-- </footer> -->
+</footer>
 
 
 </template>
@@ -137,6 +94,10 @@ export default {
 .btn{
     border-radius: none !important;
 }
+
+/* .nav-link{
+    border: 1px solid red;
+} */
    .hero-section{
     display: flex;
     flex-direction: row;

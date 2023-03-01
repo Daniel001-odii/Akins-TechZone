@@ -7,6 +7,17 @@ i{
 }
 
 
+/*---------------------navBar---------------------*/
+.navbar{
+  /* border: 0.5px solid #8C8989; */
+  /* box-shadow: none !important; */
+  /* position: fixed !important; */
+  /* margin-bottom: 100px !important; */
+}
+/* .hero-section{
+  margin-top: 50px;
+} */
+
 /*------ styles for buttons------------*/
 .cust-btn{
     border-radius: none;

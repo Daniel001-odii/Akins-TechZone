@@ -1,66 +1,46 @@
 <template>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-        <a class="navbar-brand" href="#">
-            <img class="nav-img" src="../components/Logos_icons/techzone.png">
-        </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="bi bi-list"></i>
-            </button>
+    <nav class="navbar fixed-top navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img class="nav-img" src="../components/Logos_icons/techzone.png">
+                </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="bi bi-list"></i>
+                    </button>
 
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-            <a class="nav-link" aria-current="page" href="#/" > <i class="bi bi-home"></i> Home</a>
-            <a class="nav-link middle" href="#/Jobs"> <i class="bi bi-case"></i> Work</a>
-        </div>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <RouterLink class="nav-link nav-block" to="/"> <i class="bi bi-house"></i> Home</RouterLink> |
+                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-briefcase"></i> Work</RouterLink>
+                    </div>
 
-        <div class="cust-actions">
-            <a href="#/Login"><button class="cust-btn login-btn">Login</button></a>
-            <a href="#/SignUp"><button class="cust-btn signUp-btn">Sign Up</button></a>
-        </div>
-        </div>
-        </div>
+                    <div class="cust-actions">
+                        <RouterLink to="/login"><button class="cust-btn login-btn">Login</button></RouterLink>
+                            <RouterLink to="/signUp"><button class="cust-btn signUp-btn">Sign Up</button></RouterLink>
+                    </div>
+                </div>
+            </div>
     </nav>
-    
-
-    <!-- <component :is="currentView"/> -->
 </template>
 
 
 
 <script>
 // //import other page urls
-import JobPage from '../pages/JobsPage.vue'
-import HomePage from '../pages/HomePage.vue'
-import loginPage from '../pages/login.vue'
+// import JobPage from '../pages/JobsPage.vue'
+// import HomePage from '../pages/HomePage.vue'
+// import loginPage from '../pages/login.vue'
 
 
-const routes = {
-    // '/': HomePage,
-    '/Jobs': JobPage,
-    '/Login': loginPage,
-}
+// const routes = {
+//     // '/': HomePage,
+//     '/Jobs': JobPage,
+//     '/Login': loginPage,
+// }
 
 
 export default {
-    data(){
-        return {
-            currentPath: window.location.hash
-        }
-    },
-    computed:{
-        currentView(){
-            return routes[this.currentPath.slice(1) || '/']
-        }
-    },
-    mounted(){
-        window.addEventListener('hashchange', () =>{
-            this.currentPath = window.location.hash
-        })
-    },
-    setup() {
-        return {};
-    }
+
 }
 
 </script>
@@ -121,39 +101,6 @@ nav{
     padding: 0px 10px !important;
     /* border: 2px solid red; */
 }
-.middle{
-    border-left: 1px solid var(--app-grey);
-}
-
-.cust-actions{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    /* border: 2px dotted red; */
-    /* width: 10px; */
-    /* float: right; */
-}
-
-.cust-nav-actions{
-    width: 70px;
-    /* border: 2px solid red; */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-right: 20px;
-}
-
-.cust-user-actions{
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: url('./Logos_icons/dummy_user.png');
-    background-position:center;
-    background-size: cover;
-}
-
  /*--meida queries-------*/
  @media only screen and (max-width: 999px) {
     nav{

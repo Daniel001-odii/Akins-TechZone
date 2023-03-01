@@ -26,8 +26,8 @@
                     <p>Forgot password?</p>
                 </div>
 
-                <button class="form-btn">Sign in <i class="bi bi-download"></i></button>
-                <p class="form-end">Don't have account yet? <a href="#Signup">Sign up</a></p>
+                <RouterLink to="/"><button class="form-btn">Sign in <i class="bi bi-download"></i></button></RouterLink>
+                <p class="form-end">Don't have account yet? <RouterLink to="/signUp">Sign up</RouterLink></p>
                 </div>
             </div>
     </div>
