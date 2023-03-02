@@ -11,8 +11,8 @@
                     <slot>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <RouterLink class="nav-link tz-nav-block" style="" to="/"> <i class="bi bi-house"></i> Home</RouterLink> <span class="seperator">|</span>
-                        <RouterLink class="nav-link tz-nav-block" style="" to="/jobs"> <i class="bi bi-briefcase"></i> Work</RouterLink>
+                        <RouterLink class=" tz-nav-block" style="" to="/"> <i class="bi bi-house"></i> Home</RouterLink>
+                        <RouterLink class=" tz-nav-block" style="" to="/jobs"><i class="bi bi-briefcase"></i>Work</RouterLink>
                     </div>
 
                     <div class="cust-actions">
@@ -119,15 +119,6 @@ nav{
     .middle{
         border: none !important;
     }
-    .tz-nav-block{
-            padding: 10px !important;
-            /* border-bottom: 1px dotted grey; */
-        }
-        .tz-nav-block:hover{
-            border-radius: 10px;
-            background: #cecece;
-            border: none !important;
-        }
         .cust-actions{
             padding-top: 20px;
         }

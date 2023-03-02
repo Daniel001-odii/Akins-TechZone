@@ -7,7 +7,6 @@ import router from './router'
 import bootstrap from 'bootstrap/dist/css/bootstrap.css'
 import popper from 'bootstrap/dist/js/bootstrap.bundle'
 
-
 createApp(App).use(router).mount('#app')
 
 // import HomePage from './Home.vue'

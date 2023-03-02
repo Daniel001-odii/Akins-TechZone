@@ -4,7 +4,7 @@
             <RouterLink to="/"><img class="nav-img" src="./Logos_icons/techzone.png" style="width: 150px;"></RouterLink>
         </div>
         <div class="footer-links fw-light">
-            <a class="nav-link active" aria-current="page" href="#/">Overview</a>
+            <a class="nav-link" href="#/">Overview</a>
             <a class="nav-link" href="#/">Features</a>
             <a class="nav-link" href="#/">Pricing</a>
             <a class="nav-link" href="#/">Careers</a>

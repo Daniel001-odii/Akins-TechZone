@@ -80,7 +80,7 @@ export default {
         </div>
     </div>
 <!-- </div> -->
-    <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; background: var(--app-grey); color: #fff; margin-top: 30px;  font-weight: lighter;">TechZone is trusted by many leading brands and startups</div>
+    <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; color: var(--app-grey); margin-top: 30px;  font-weight: normal;">TechZone is trusted by many leading brands and startups</div>
 <InfiniteScroll/>
 </main>
 
@@ -203,7 +203,7 @@ export default {
    }
 
      /*--meida queries-------*/
- @media only screen and (max-width: 800px) {
+ @media only screen and (max-width: 1300px) {
     .hero-subtitle{
         width: 100%;
     }
