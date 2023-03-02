@@ -44,17 +44,5 @@
 </script>
 
 <style>
-    .topLeftImage{
-        width: 100%;
-    }
-    .subDiv{
-        height: 100%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .brand-img{
-        width: 150px;
-    }
+   
 </style>
