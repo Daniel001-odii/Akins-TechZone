@@ -2,17 +2,17 @@
 <template>
      <!-- <header> -->
         <NavBar>
-            <div class="navbar-nav">
-                        <RouterLink class="nav-link nav-block" to="/"> <i class="bi bi-house"></i> Home</RouterLink>
+            <div class="navbar-nav collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <RouterLink class="nav-link nav-block" to="/"> <i class="bi bi-house"></i> <span>Home</span></RouterLink>
                         <form role="search" style="display: flex; align-items: center; padding: 0px 20px;">
-                            <div class="form-input" style="">
+                            <div class="" style="display: flex; flex-direction: row; border: 1px solid grey; border-radius: 5px;">
                                 <input style="border: none; outline: none; height: 30px;" type="search" placeholder="Find work" aria-label="Search">
                                 <button type="submit" style="border: none; outline: none; background: none; border-left: 1px solid #000;"><i class="bi bi-search"></i></button>
                             </div>
                         </form>
-                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-graph-up"></i> Insight</RouterLink>
-                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-wallet2"></i> Payment</RouterLink>
-                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-wallet-fill"></i> Saved Jobs</RouterLink>
+                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-graph-up"></i> <span>Insight</span></RouterLink>
+                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-wallet2"></i> <span>Payment</span></RouterLink>
+                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-wallet-fill"></i> <span>Saved Jobs</span></RouterLink>
 
                         <div class="user-actions">
                             <RouterLink class="" to="/jobs"> <i class="bi bi-bell"></i></RouterLink>
@@ -25,7 +25,7 @@
        
 
 
-<div class="container" style="margin-top: 80px;">
+<div class="container" style="margin-top: 100px;">
     <ul class="nav nav-tabs tableHeads" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="avail-tab" data-bs-toggle="tab" data-bs-target="#available-tab-pane" type="button" role="tab" aria-controls="available-tab-pane" aria-selected="true"><span class="cust-badge">20</span>Available</button>
@@ -106,7 +106,10 @@ import TableContents from '../components/TableContents.vue';
 
 <style scoped>
 .nav-block{
-  margin-top: 10px !important;
+  /* margin-top: 10px !important; */
+  font-size: 0.8em !important;
+  display: flex;
+  /* flex-direction: row; */
 }
 .tableHeads{
         display: flex;
@@ -155,7 +158,35 @@ import TableContents from '../components/TableContents.vue';
         /* border: 1px solid red; */
         align-items: center;
         margin-left: 120px;
+    }   
+
+.navbar-nav{
+    flex-grow: 0;
+}
+
+    @media only screen and (max-width: 1150px) {
+        .nav-block > span{
+            display: none;
+        }
     }
+    @media only screen and (max-width: 991px) {
+        .nav-block > span{
+            display: flex;
+        }
+        .navbar-nav{
+            align-items: flex-start;
+        }
+        form{
+            padding: 10px !important;
+        }
+        .user-actions{
+            margin: 0px;
+            padding: 10px 0px;
+        }
+    }
+
+
+
     @media only screen and (max-width: 500px) {
         .nav-block{
             padding: 10px !important;

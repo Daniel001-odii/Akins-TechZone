@@ -1,9 +1,9 @@
 <template>
     <nav class="navbar fixed-top navbar-expand-lg">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <RouterLink to="/"  class="navbar-brand">
                     <img class="nav-img" src="../components/Logos_icons/techzone.png">
-                </a>
+                </RouterLink>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="bi bi-list"></i>
                     </button>
@@ -11,7 +11,7 @@
                     <slot>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <RouterLink class="nav-link nav-block" style="" to="/"> <i class="bi bi-house"></i> Home</RouterLink> |
+                        <RouterLink class="nav-link nav-block" style="" to="/"> <i class="bi bi-house"></i> Home</RouterLink> <span class="seperator">|</span>
                         <RouterLink class="nav-link nav-block" style="" to="/jobs"> <i class="bi bi-briefcase"></i> Work</RouterLink>
                     </div>
 
@@ -51,12 +51,6 @@ export default {
 .navbar-brand{
     margin-left: 50px;
 }
-
-.nav-block:hover{
-    border-bottom: 3px solid var(--app-blue) !important;
-    padding-bottom: 5px !important; 
-}
-
 
 .active{
     color: var(--app-blue) !important;
@@ -111,6 +105,9 @@ nav{
 }
  /*--meida queries-------*/
  @media only screen and (max-width: 999px) {
+    .seperator{
+        display: none;
+    }
     nav{
     width: 100%;
     margin: 0 auto;
@@ -122,6 +119,18 @@ nav{
     .middle{
         border: none !important;
     }
+    .nav-block{
+            padding: 10px !important;
+            border-bottom: 1px dotted grey;
+        }
+        .nav-block:hover{
+            border-radius: 10px;
+            background: #cecece;
+            border: none !important;
+        }
+        .cust-actions{
+            padding-top: 20px;
+        }
     }
     
 </style>
