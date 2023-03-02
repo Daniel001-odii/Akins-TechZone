@@ -3,16 +3,16 @@
      <!-- <header> -->
         <NavBar>
             <div class="navbar-nav collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <RouterLink class="nav-link nav-block" to="/"> <i class="bi bi-house"></i> <span>Home</span></RouterLink>
+                        <RouterLink class="nav-link tz-nav-block" to="/"> <i class="bi bi-house"></i> <span>Home</span></RouterLink>
                         <form role="search" style="display: flex; align-items: center; padding: 0px 20px;">
                             <div class="" style="display: flex; flex-direction: row; border: 1px solid grey; border-radius: 5px;">
                                 <input style="border: none; outline: none; height: 30px;" type="search" placeholder="Find work" aria-label="Search">
                                 <button type="submit" style="border: none; outline: none; background: none; border-left: 1px solid #000;"><i class="bi bi-search"></i></button>
                             </div>
                         </form>
-                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-graph-up"></i> <span>Insight</span></RouterLink>
-                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-wallet2"></i> <span>Payment</span></RouterLink>
-                        <RouterLink class="nav-link nav-block" to="/jobs"> <i class="bi bi-wallet-fill"></i> <span>Saved Jobs</span></RouterLink>
+                        <RouterLink class="nav-link tz-nav-block" to="/jobs"> <i class="bi bi-graph-up"></i> <span>Insight</span></RouterLink>
+                        <RouterLink class="nav-link tz-nav-block" to="/jobs"> <i class="bi bi-wallet2"></i> <span>Payment</span></RouterLink>
+                        <RouterLink class="nav-link tz-nav-block" to="/jobs"> <i class="bi bi-wallet-fill"></i> <span>Saved Jobs</span></RouterLink>
 
                         <div class="user-actions">
                             <RouterLink class="" to="/jobs"> <i class="bi bi-bell"></i></RouterLink>
@@ -105,12 +105,11 @@ import TableContents from '../components/TableContents.vue';
 </script>
 
 <style scoped>
-.nav-block{
-  /* margin-top: 10px !important; */
+.tz-nav-block{
   font-size: 0.8em !important;
   display: flex;
-  /* flex-direction: row; */
 }
+
 .tableHeads{
         display: flex;
         flex-direction: row;
@@ -165,13 +164,17 @@ import TableContents from '../components/TableContents.vue';
 }
 
     @media only screen and (max-width: 1150px) {
-        .nav-block > span{
+        .tz-nav-block > span{
             display: none;
         }
     }
-    @media only screen and (max-width: 991px) {
-        .nav-block > span{
+    @media only screen and (max-width: 999px) {
+        .tz-nav-block > span{
             display: flex;
+        }
+        .tz-nav-block{
+            width: 100%;
+            justify-content: flex-start;
         }
         .navbar-nav{
             align-items: flex-start;
@@ -188,29 +191,19 @@ import TableContents from '../components/TableContents.vue';
 
 
     @media only screen and (max-width: 500px) {
-        .nav-block{
+        .tz-nav-block{
             padding: 10px !important;
         }
         .user-actions{
             padding: 10px 0px;
-        }
-        .nav-block:hover{
-            border-radius: 10px;
-            background: #cecece;
-            border: none !important;
         }
 
         form{
             padding: 0px !important;
         }
         .user-actions{
-        /* width: 120px;
-        display: flex;
-        flex-direction: row; */
-        /* border: 1px solid red; */
         align-items: center;
         margin: 0px;
-        /* margin-left: 120px; */
     }
     }
 

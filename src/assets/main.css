@@ -22,7 +22,8 @@ i{
     --app-blue: #0365FF;
     --app-grey: #8C8989;
     --offWhite: #F1F4F4;
-    --app-dark-grey: #3C4045;;
+    --app-dark-grey: #3C4045;
+    --app-hover: #efefef83;
 
 
   }
@@ -52,15 +53,18 @@ i{
   align-items: center;
   padding: 10px;
 }
-.nav-block{
+.tz-nav-block{
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  border: 2px solid #fff;
+  /* border: 2px solid transparent !important; */
 }
-.nav-block:hover{
-  border-bottom: 2px solid var(--app-blue);
+.tz-nav-block:hover{
+  /* border-bottom: 2px solid var(--app-blue) !important; */
+  border-radius: 10px;
+  background: var(--app-hover) !important;
+  /* border: none !important; */
 }
 
 
