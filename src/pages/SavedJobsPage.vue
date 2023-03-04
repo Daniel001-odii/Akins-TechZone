@@ -10,7 +10,7 @@
 
 <div class="container" style="margin-top: 100px;">
      <center>
-        <p>Dont worry we are still working on your the Jobs you've Saved..</p>
+        <p>Dont worry we are still working on the Jobs you've Saved..</p>
      </center>
      
     <p class="card-text placeholder-glow">

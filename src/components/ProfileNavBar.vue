@@ -15,18 +15,41 @@
                             <RouterLink class="" to="/jobs"> <i class="bi bi-bell"></i></RouterLink>
                             <RouterLink class="" to="/jobs"> <i class="bi bi-info-circle"></i></RouterLink>
                             <RouterLink class="" to="/jobs"> <i class="bi bi-flag"></i> </RouterLink>
-                            <div class="user">AZ</div>
+                             <div class="dropdown">
+                                <a class="user" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    AZ
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li> <RouterLink class="dropdown-item" to="/Profile"><i class="bi bi-person-circle"></i> Profile</RouterLink></li>
+                                    <li><RouterLink class="dropdown-item" to="/l"><i class="bi bi-gear-fill"></i> Settings</RouterLink></li>
+                                    <li><RouterLink class="dropdown-item" to="/login"><i class="bi bi-box-arrow-right"></i> Log out</RouterLink></li>
+                                    
+                                </ul>
+                            </div>
+                            </div>
+
+                        
+      
                         </div>
-            </div>
+
 </template>
-
 <script>
-import NavBar from './NavBar.vue';
-
-    export default {
-    components: { NavBar }
+//importing bootstrap 5 Modules
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js";
+import { Popover } from 'bootstrap/dist/js/bootstrap.esm.min.js'
+import { RouterLink } from "vue-router";
+export default {
+    mounted() {
+        //inti Popover
+        Array.from(document.querySelectorAll("button[data-bs-toggle=\"popover\"]"))
+            .forEach(popoverNode => new Popover(popoverNode));
+    },
+    components: { RouterLink }
 }
 </script>
+
+
 <style scoped>
 
 .user{
