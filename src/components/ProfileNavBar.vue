@@ -23,7 +23,6 @@
                                     <li> <RouterLink class="dropdown-item" to="/Profile"><i class="bi bi-person-circle"></i> Profile</RouterLink></li>
                                     <li><RouterLink class="dropdown-item" to="/l"><i class="bi bi-gear-fill"></i> Settings</RouterLink></li>
                                     <li><RouterLink class="dropdown-item" to="/login"><i class="bi bi-box-arrow-right"></i> Log out</RouterLink></li>
-                                    
                                 </ul>
                             </div>
                             </div>
@@ -51,6 +50,26 @@ export default {
 
 
 <style scoped>
+
+.dropdown-menu{
+    border: none !important;
+    box-shadow: 0px 0px 5px #c7c7c7 !important;
+}
+
+.dropdown-menu:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -7px;
+    left: 18px;
+    border-color: #fff;
+    border-left: 8px solid #fff;
+    border-bottom: 8px solid #fff;
+    border-right: 8px solid transparent;
+    border-top: 8px solid transparent;
+    transform: translateX(-50%) rotate(135deg);
+    /* box-shadow: -2px 2px 3px rgb(57 73 76 / 10%); */
+}
 
 .user{
         height: 40px;
