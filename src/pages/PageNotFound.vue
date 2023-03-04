@@ -1,27 +1,11 @@
 <script>
-import { RouterLink } from 'vue-router';
 import Footer from '../components/Footer.vue';
-import InfiniteScroll from '../components/ItemScroll.vue';
 import NavBar from '../components/NavBar.vue';
-// import NavBar from '../components/NavBar.vue';
-
-// import JobPage from './JobsPage.vue'
-// import HomePage from './HomePage.vue'
-// import loginPage from './login.vue'
-
-
-// const routes = {
-//     // '/': HomePage,
-//     '/Jobs': JobPage,
-//     '/Login': loginPage,
-// }
 
 export default {
         components: {
-    InfiniteScroll,
     Footer,
     NavBar,
-    RouterLink
 }
 }
 
@@ -42,52 +26,17 @@ export default {
     <!-- <div class="container"> -->
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->
-        <div style="margin: 0 auto; text-align: center">
-            <p style="color:var(--app-grey); font-size: 0.8em; margin-top: 80px;">Best job platform in the world</p>
-
-            <div class="hero-title">
-                Hire The <span class="blue">Right</span> Employees.<br/>Find Your <span class="break"><br/></span>
-                <span class="squareBox">
-                    <span class="blue">Dream</span> Job.
-                </span>
-            </div>
-            <div class="hero-subtitle">
-                Job search platform worldwide. We connect freelancers and
-                companies in an easy way. Job finders can find their desired 
-                skills anywhere in the world.
-            </div>
-        </div>
-        <!-- <img class="brick" src="./imgs/rightBrick.svg"> -->
+        <div style="margin-top: 220px; color: grey" class="hero-title"> 404! <br/>Something was here before, i swear
     </div>
+    </div>
+    <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; color: var(--app-grey); margin-top: 30px;  font-weight: normal;">See if you are using the correct URL though</div>
+   
     
-    <div class="second-section">
-        <div class="Area">
-            <div class="user-area">
-                <b>I'm a Freelancer</b><br/>
-                Gain access to a pool of Job opportunities in your desired niche.<br/>
-                <RouterLink to="/login"> <button class="cust-btn getStarted" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button></RouterLink>
-                <img src="../assets/imgs/dottedArrow.svg" class="arrow left-arrow">
-            </div>
-            <img class="area-img img-fluid" style="z-index: 1;" src="../assets/imgs/MaleHero.svg">
-        </div>
-
-        <div class="Area left">
-            <div class="user-area area-left" style="text-align: right;">
-                <b>I want to Hire</b><br/>
-                Gain access to an endless list of talents for your next project..<br/>
-                <RouterLink to="/login"> <button class="cust-btn getStarted" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button></RouterLink>
-                <img src="../assets/imgs/dottedArrow.svg" class="arrow right-arrow">
-            </div>
-            <img class="area-img img-fluid" style="z-index: 1;" src="../assets/imgs/femaleHero.svg">
-        </div>
-    </div>
-<!-- </div> -->
-    <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; color: var(--app-grey); margin-top: 30px;  font-weight: normal;">TechZone is trusted by many leading brands and startups</div>
 <InfiniteScroll/>
 </main>
 
 <footer>
-    <Footer/>
+    <!-- <Footer/> -->
 </footer>
 
 

@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar fixed-top navbar-expand-lg">
-            <div class="container-fluid">
+            <div class="container">
                 <RouterLink to="/"  class="navbar-brand">
                     <img class="nav-img" src="../components/Logos_icons/techzone.png">
                 </RouterLink>
@@ -49,7 +49,7 @@ export default {
 
 <style>
 .navbar-brand{
-    margin-left: 50px;
+    /* margin-left: 50px; */
 }
 
 .active{
