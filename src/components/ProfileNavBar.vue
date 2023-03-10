@@ -1,6 +1,6 @@
 <template>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <RouterLink class="tz-nav-block" to="/jobs"> <i class="bi bi-briefcase"></i> <span>work</span></RouterLink>
+                        <RouterLink class="tz-nav-block" to="/"> <i class="bi bi-house"></i> <span>Home</span></RouterLink>
                         <form role="search" style="display: flex; align-items: center; padding: 0px 20px;">
                             <div class="" style="display: flex; flex-direction: row; border: 1px solid grey; border-radius: 5px;">
                                 <input style="border: none; outline: none; height: 30px;" type="search" placeholder="Find work" aria-label="Search">

@@ -8,6 +8,9 @@ import Insight from '../pages/InsightPage.vue'
 import Payment from '../pages/PaymentPage.vue'
 import SavedJobs from '../pages/SavedJobsPage.vue'
 
+import customize from '../pages/customizeProfile.vue'
+import JobDetail from '../pages/JobDetail.vue'
+
 const routes = [
     {path: '/', component: HomePage},
     {path: '/jobs', component: NewPage},
@@ -18,6 +21,8 @@ const routes = [
     {path: "/:catchAll(.*)", redirect: "/404"},
     {path: "/savedJobs", component: SavedJobs},
     {path: "/payments", component: Payment},
+    {path: "/customize-profile", component: customize},
+    {path: "/job-detail", component: JobDetail},
 ]
 
 

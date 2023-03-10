@@ -12,27 +12,30 @@
     </tr>
   </thead>
   <tbody>
+  
     <tr>
       <th scope="row">1</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
       <td>Sometimes in April</td>
       <td>Microsoft</td>
     </tr>
+  
     <tr>
       <th scope="row">2</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
       <td>Sometimes in April</td>
       <td>Microsoft</td>
     </tr>
+  
     <tr>
       <th scope="row">3</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -41,7 +44,7 @@
     </tr>
     <tr>
       <th scope="row">4</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -50,7 +53,7 @@
     </tr>
     <tr>
       <th scope="row">5</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -59,7 +62,7 @@
     </tr>
     <tr>
       <th scope="row">6</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -68,7 +71,7 @@
     </tr>
     <tr>
       <th scope="row">7</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -77,7 +80,7 @@
     </tr>
     <tr>
       <th scope="row">8</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -86,7 +89,7 @@
     </tr>
     <tr>
       <th scope="row">9</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -95,7 +98,7 @@
     </tr>
     <tr>
       <th scope="row">10</th>
-      <td>Senior SoftwareDeveloper</td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -192,19 +195,25 @@
       <td>Sometimes in April</td>
       <td>Microsoft</td>
     </tr>
+  
   </tbody>
 </table>
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
+
     export default {
-        
-    }
+    components: { RouterLink }
+}
 </script>
 
 <style scoped>
         table{
         font-size: 0.8em !important;
         font-weight: normal !important;
+    }
+    RouterLink{
+      color: blue !important;
     }
 </style>

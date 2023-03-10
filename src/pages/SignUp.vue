@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="form-section">
-                    <RouterLink to="/"><button class="form-btn">Sign Up <i class="bi bi-upload"></i></button></RouterLink>
+                    <RouterLink to="/customize-profile"><button class="form-btn">Sign Up <i class="bi bi-upload"></i></button></RouterLink>
                 </div>
 
                 <p class="form-end"> Already have an account?  <RouterLink to="/login">Sign in</RouterLink></p>
