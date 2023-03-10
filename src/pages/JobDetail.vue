@@ -4,14 +4,21 @@
         </NavBar>
         <div class="container">
             <div class="head-section">
-                <RouterLink to="/jobs" style="color:red"><i class="bi bi-arrow-left-circle-fill"></i></RouterLink>
-                <div class="second">
-                    <p>DESIGN</p>
-                    <h1>Senior Software Designer</h1>
-                    <p>Microsoft - Full time</p>
+                <div style="display: flex; flex-direction: row; align-items: center;">
+                    <RouterLink to="/jobs" style="color:red"><i class="bi bi-arrow-left-circle-fill"></i></RouterLink>
+                    <div class="second">
+                        <p>DESIGN</p>
+                        <h1>Senior Software Designer</h1>
+                        <p>Microsoft - Full time</p>
+                    </div>
                 </div>
-                
+
+                <div class="third"> 
+                    <button class="cust-btn apply-btn">Apply Here <i class="bi bi-arrow-up-right-square" style="color: #fff; font-size: 1em;"></i></button>
+                    <i class="bi bi-heart" style="font-size: 1.3em;"></i>
+                </div>
             </div>
+            <p class="h4" style="position: relative; top: -30px; border-bottom: 2px solid blue; width: 155px; left: 38px;">JOB DETAILS</p>
 
             <div class="body-section">
                 <div class="main-content">
@@ -96,6 +103,8 @@
 
 
                 </div>
+
+                <button class="cust-btn rescue-btn" style="position: sticky;">Apply now <i class="bi bi-arrow-up-right-square" style="color: #fff; font-size: 1em;"></i></button>
             </div>
         </div>
 
@@ -141,16 +150,25 @@ h5{
    .head-section{
     border-bottom: 0.5px solid #8C8989;
     /* border-top: 0.5px solid #8C8989; */
-    padding: 10px;
+    /* padding: 10px; */
+    padding-bottom: 50px !important;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    height: 150px;
-    /* border: 2px solid red; */
+    justify-content: space-between;
+    align-items: flex-start;
+    /* height: 150px; */
    }
 
-   
+.third{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.third > i{
+    padding-left: 10px;
+}
 
    .body-section{
     display: flex;
@@ -166,6 +184,7 @@ h5{
     background-size: cover;
     background-position: center;
     margin-bottom: 20px;
+    border-radius: 5px;
    }
    .main-content{
     max-width: 950px;
@@ -173,8 +192,8 @@ h5{
     border-radius: 10px;
     background: #fff;
     margin-top: 20px;
-    overflow-y: scroll;
-    height: 750px;
+    /* overflow-y: scroll; */
+    /* height: 750px; */
    }
    .left-side{
     padding: 20px;
@@ -187,7 +206,7 @@ h5{
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    /* max-height: 650px; */
+    max-height: 650px;
    }
 
    .second-left{
@@ -207,6 +226,10 @@ h5{
    .left-sub{
     /* border: 1px solid var(--app-grey); */
     padding: 10px 0px;
+   }
+
+   .rescue-btn{
+    margin-top: 10px; display: none;
    }
 
    @media only screen and (max-width: 1200px) {
@@ -234,5 +257,20 @@ h5{
     .second-left{
         flex-direction: column;
     }
+   }
+
+   @media only screen and (max-width: 800px) {
+        .apply-btn{
+            display: none;
+        }
+        .rescue-btn{
+            display: block;
+            position: -webkit-sticky;
+            position: sticky;
+            /* top: 50px; */
+            bottom: 10px;
+            box-shadow: 1px 5px 6px #b9b9b9;
+            /* border: 1px solid red; */
+        }
    }
 </style>

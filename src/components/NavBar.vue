@@ -17,7 +17,14 @@
 
                     <div class="cust-actions">
                         <RouterLink to="/login"><button class="cust-btn login-btn">Login</button></RouterLink>
-                            <RouterLink to="/signUp"><button class="cust-btn signUp-btn">Sign Up</button></RouterLink>
+                        <div class="dropdown">
+                            <button href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="cust-btn signUp-btn">Sign Up</button>
+                                <ul class="dropdown-menu">
+                                    <li> <RouterLink class="dropdown-item" to="/signUp-employer">As Employer</RouterLink></li>
+                                    <li><RouterLink class="dropdown-item" to="/signUp">As Talent</RouterLink></li>
+                                </ul>
+                        </div>
+                            
                     </div>
                 </div>
                     </slot>
@@ -102,6 +109,11 @@ nav{
 .nav-link{
     padding: 0px 10px !important;
     /* border: 2px solid red; */
+}
+
+.cust-actions{
+    display: flex;
+    flex-direction: row;
 }
  /*--meida queries-------*/
  @media only screen and (max-width: 999px) {

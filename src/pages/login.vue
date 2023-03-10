@@ -22,12 +22,32 @@
 
 
                 <div class="form-issues">
-                    <p><input type="checkbox">Remember details</p>
+                    <div class="check-container">
+                        <div class="checkbox-wrapper-46">
+                            <input class="inp-cbx" id="rememberDetails" type="checkbox"/>
+                            <label class="cbx" for="rememberDetails">
+                            <span>
+                                <svg width="12px" height="10px" viewbox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg>
+                            </span>
+                            <span>Remember Details</span>
+                            </label>
+                        </div>
+                    </div>
                     <p>Forgot password?</p>
                 </div>
 
                 <RouterLink to="/"><button class="form-btn">Sign in <i class="bi bi-download"></i></button></RouterLink>
-                <p class="form-end">Don't have account yet? <RouterLink to="/signUp">Sign up</RouterLink></p>
+                <div style="font-size: 0.8em; display: flex; flex-direction: row; padding: 20px; justify-content: center;">
+                <p class="form-en">Don't have account yet?</p>
+                <div class="dropdown" style="padding-left: 10px;">
+                            <p href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: blue">Sign Up</p>
+                                <ul class="dropdown-menu">
+                                    <li> <RouterLink class="dropdown-item" to="/signUp-employer">As Employer</RouterLink></li>
+                                    <li><RouterLink class="dropdown-item" to="/signUp">As Talent</RouterLink></li>
+                                </ul>
+                </div>
+                </div>
+
                 </div>
             </div>
     </div>

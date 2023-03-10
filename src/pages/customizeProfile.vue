@@ -4,69 +4,46 @@
             <TzLogo/>
         </div>
         
-
-        <h1>Customize your Experience</h1>
-        <p>Please select 1 skill to help us Customize you workspace.</p>
+        <h1 class="tz-title">Customize your Experience</h1>
+        <p class="tz-subtitle">Please select 1 skill to help us Customize you workspace.</p>
+        
         <div class="selections">
-            <!-- <div class="check-container">
-                <input type="checkbox" id="checkbox-1">
-                <label for="checkbox-1">Web Development</label>
-            </div> -->
-            <label for="checkbox-1" class="check-container">
-                <input type="checkbox" id="checkbox-1">
-                    Web Development
-            </label>
 
-            <label for="checkbox-2" class="check-container">
-                <input type="checkbox" id="checkbox-2">
-                    Cloud Engineering
-            </label>
+            <CheckBox label="Web Developer" dynamicId="1"/>
+            <CheckBox label="Fullstack Developer" dynamicId="2"/>
+            <CheckBox label="Devops Engineering" dynamicId="3"/>
+            <CheckBox label="Cloud Engineering" dynamicId="4"/>
 
-            <label for="checkbox-3" class="check-container">
-                <input type="checkbox" id="checkbox-3">
-                    Product Designer
-            </label>
+            <CheckBox label="Systems Engineering" dynamicId="5"/>
+            <CheckBox label="Frontend Developer" dynamicId="6"/>
+            <CheckBox label="Backend Developer" dynamicId="7"/>
+            <CheckBox label="Cloud Engineering" dynamicId="8"/>
 
-            <label for="checkbox-4" class="check-container">
-                <input type="checkbox" id="checkbox-4">
-                    FullStack Developer
-            </label>
+        </div>
 
-            <label for="checkbox-5" class="check-container">
-                <input type="checkbox" id="checkbox-5">
-                    Web Development
-            </label>
-
-            <label for="checkbox-6" class="check-container">
-                <input type="checkbox" id="checkbox-6">
-                    Devops Engineering
-            </label>
-
-            <label for="checkbox-7" class="check-container">
-                <input type="checkbox" id="checkbox-7">
-                    Systems Engineering
-            </label>
-
-            <label for="checkbox-8" class="check-container">
-                <input type="checkbox" id="checkbox-8">
-                 Others
-            </label>
 
             <div class="form-section">
-                <RouterLink to="/jobs"><button class="form-btn">Continue <i class="bi bi-upload"></i></button></RouterLink>
+                <RouterLink to="/jobs"><button class="form-btn">Sign Up <i class="bi bi-upload"></i></button></RouterLink>
             </div>
         </div>
         
-    </div>
+   
 </template>
 <script>
+import { vModelCheckbox } from 'vue';
 import TzLogo from '../components/tz-logo.vue';
+import CheckBox from '../components/CheckBox.vue'
+
 export default {
-    components: { TzLogo },
+    components: { TzLogo, CheckBox },
 }
 
 </script>
 <style scoped>
+
+    .title{
+        font-weight: bolder;
+    }
     .container{
         display: flex;
         justify-content: center;
@@ -81,13 +58,13 @@ export default {
     }
     
     .check-container{
-        border-radius: 5px;
+        border-radius: 20px;
         padding: 20px;
         /* border: 1px solid var(--app-grey); */
         margin-top: 20px;
         font-size: 1em;
         border: 0.5px solid #8b878780;
-        width: 220px;
+        width: 250px;
         /* height: 70px; */
         display: flex;
         align-items: center;
@@ -106,7 +83,7 @@ export default {
         justify-content: space-around;
         align-items: center;
         padding: 10px;
-        max-width: 1000px;
+        max-width: 600px;
     }
     input[type="checkbox"]{
         padding-right: 10px !important;
@@ -123,4 +100,7 @@ export default {
         width: 100% !important;
         font-size: 1.3em
     }
-</style>
+
+
+  </style>
+  

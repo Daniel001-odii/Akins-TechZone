@@ -65,7 +65,7 @@ export default {
             <div class="user-area">
                 <b>I'm a Freelancer</b><br/>
                 Gain access to a pool of Job opportunities in your desired niche.<br/>
-                <RouterLink to="/login"> <button class="cust-btn getStarted" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button></RouterLink>
+                <RouterLink to="/signUp"> <button class="cust-btn getStarted" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button></RouterLink>
                 <img src="../assets/imgs/dottedArrow.svg" class="arrow left-arrow">
             </div>
             <img class="area-img img-fluid" style="z-index: 1;" src="../assets/imgs/MaleHero.svg">
@@ -75,7 +75,7 @@ export default {
             <div class="user-area area-left" style="text-align: right;">
                 <b>I want to Hire</b><br/>
                 Gain access to an endless list of talents for your next project..<br/>
-                <RouterLink to="/login"> <button class="cust-btn getStarted" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button></RouterLink>
+                <RouterLink to="/signUp-employer"> <button class="cust-btn getStarted" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button></RouterLink>
                 <img src="../assets/imgs/dottedArrow.svg" class="arrow right-arrow">
             </div>
             <img class="area-img img-fluid" style="z-index: 1;" src="../assets/imgs/femaleHero.svg">

@@ -1,6 +1,6 @@
 <template>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <RouterLink class="tz-nav-block" to="/"> <i class="bi bi-house"></i> <span>Home</span></RouterLink>
+                        <RouterLink class="tz-nav-block" to="/jobs"> <i class="bi bi-briefcase"></i> <span>work</span></RouterLink>
                         <form role="search" style="display: flex; align-items: center; padding: 0px 20px;">
                             <div class="" style="display: flex; flex-direction: row; border: 1px solid grey; border-radius: 5px;">
                                 <input style="border: none; outline: none; height: 30px;" type="search" placeholder="Find work" aria-label="Search">
@@ -25,11 +25,11 @@
                                     <li><RouterLink class="dropdown-item" to="/login"><i class="bi bi-box-arrow-right"></i> Log out</RouterLink></li>
                                 </ul>
                             </div>
-                            </div>
+                        </div>
 
                         
       
-                        </div>
+            </div>
 
 </template>
 <script>
@@ -93,6 +93,9 @@ export default {
     flex-basis: 100%;
     flex-grow: 0 !important;
     align-items: center;
+    /* border: 1px solid red; */
+    width: 80%;
+    justify-content: space-between;
 }
 .navbar-nav{
     flex-grow: 0;

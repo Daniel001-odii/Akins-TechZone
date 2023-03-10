@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="form-section">
-                    <RouterLink to="/customize-profile"><button class="form-btn">Continue <i class="bi bi-upload"></i></button></RouterLink>
+                    <RouterLink to="/customize-profile-client"><button class="form-btn">Continue <i class="bi bi-upload"></i></button></RouterLink>
                 </div>
 
                 <p class="form-end"> Already have an account?  <RouterLink to="/login">Sign in</RouterLink></p>
@@ -61,5 +61,7 @@
 </script>
 
 <style scoped>
-
+    .form-container{
+        flex-direction: row-reverse;
+    }
 </style>

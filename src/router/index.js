@@ -9,7 +9,10 @@ import Payment from '../pages/PaymentPage.vue'
 import SavedJobs from '../pages/SavedJobsPage.vue'
 
 import customize from '../pages/customizeProfile.vue'
+import customize_client from '../pages/clientCustomize.vue'
+
 import JobDetail from '../pages/JobDetail.vue'
+import EmployerSignup from '../pages/SignUp_2.vue'
 
 const routes = [
     {path: '/', component: HomePage},
@@ -22,7 +25,9 @@ const routes = [
     {path: "/savedJobs", component: SavedJobs},
     {path: "/payments", component: Payment},
     {path: "/customize-profile", component: customize},
+    {path: "/customize-profile-client", component: customize_client},
     {path: "/job-detail", component: JobDetail},
+    {path: "/signUp-employer", component: EmployerSignup},
 ]
 
 
