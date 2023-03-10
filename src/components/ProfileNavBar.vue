@@ -16,9 +16,9 @@
                             <RouterLink class="" to="/jobs"> <i class="bi bi-info-circle"></i></RouterLink>
                             <RouterLink class="" to="/jobs"> <i class="bi bi-flag"></i> </RouterLink>
                              <div class="dropdown">
-                                <a class="user" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <p class="user" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #fff;padding: 0px; margin: 0px;">
                                     AZ
-                                </a>
+                                </p>
                                 <ul class="dropdown-menu">
                                     <li> <RouterLink class="dropdown-item" to="/Profile"><i class="bi bi-person-circle"></i> Profile</RouterLink></li>
                                     <li><RouterLink class="dropdown-item" to="/l"><i class="bi bi-gear-fill"></i> Settings</RouterLink></li>

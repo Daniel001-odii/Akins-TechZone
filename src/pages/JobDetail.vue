@@ -61,38 +61,38 @@
                         <h3>Other Details</h3> 
                         <br/>
                         Job Creation Date <br/>
-                        <h5>6th March, 2023</h5>
+                        <h6>6th March, 2023</h6>
                     </div>
 
                     <div class="second-left">
                         <div class="left-sub">
                         <p>Recruitment Period</p>
-                        <h5>6th March, 2023 - 20th March 2023</h5>
+                        <h6>6th March, 2023 - 20th March 2023</h6>
                         </div>
 
                         <div class="left-sub">
                         <p>Recruiter</p>
-                        <h5><i class="bi bi-person-circle"></i>John Doe</h5>
+                        <h6><i class="bi bi-person-circle"></i>John Doe</h6>
                         </div>
 
                         <div class="left-sub">
                         <p>Job Type</p>
-                        <h5>Full Time</h5>
+                        <h6>Full Time</h6>
                         </div>
 
                         <div class="left-sub">
                         <p>Experience</p>
-                        <h5>3+ Years</h5>
+                        <h6>3+ Years</h6>
                         </div>
 
                         <div class="left-sub">
                         <p>Location</p>
-                        <h5><i class="bi bi-geo-alt-fill"></i>Remote</h5>
+                        <h6><i class="bi bi-geo-alt-fill"></i>Remote</h6>
                         </div>
                     </div>
 
                     <p>Last updated</p>
-                    <h5><i class="bi bi-clock"></i>30 minutes ago</h5>
+                    <h6><i class="bi bi-clock"></i>30 minutes ago</h6>
 
 
                 </div>
@@ -126,7 +126,7 @@ p{
     padding: 0px;
     margin: 0px;
 }
-h5 > i{
+h6 > i{
     font-size: 1em;
 }
 
@@ -195,13 +195,18 @@ h5{
     flex-direction: column;
     width: 60%;
     justify-content: space-between;
-    border-top: 2px solid var(--app-blue);
-    border-bottom: 2px solid var(--app-blue);
+    border-top: 1px dotted var(--app-blue);
+    border-bottom: 1px dotted var(--app-blue);
     flex-wrap: wrap;
     margin: 10px 0px;
     padding: 10px 0px;
-    height: 400px;
+    /* height: 400px; */
     width: 100%;
+   }
+
+   .left-sub{
+    /* border: 1px solid var(--app-grey); */
+    padding: 10px 0px;
    }
 
    @media only screen and (max-width: 1200px) {
@@ -222,6 +227,12 @@ h5{
     .second-left{
         flex-direction: row;
         height: auto !important;
+    }
+   }
+
+   @media only screen and (max-width: 1000px) {
+    .second-left{
+        flex-direction: column;
     }
    }
 </style>
