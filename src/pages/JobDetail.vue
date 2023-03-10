@@ -150,7 +150,7 @@ h5{
    .head-section{
     border-bottom: 0.5px solid #8C8989;
     /* border-top: 0.5px solid #8C8989; */
-    /* padding: 10px; */
+    padding: 10px;
     padding-bottom: 50px !important;
     display: flex;
     flex-direction: row;
