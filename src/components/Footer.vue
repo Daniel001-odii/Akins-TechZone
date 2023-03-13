@@ -1,5 +1,5 @@
 <template>
-    <div class="footer container">
+    <div class="footer container-fluid">
         <div class="techZone-logo">
             <RouterLink to="/"><img class="nav-img" src="./Logos_icons/techzone.png" style="width: 150px;"></RouterLink>
         </div>

@@ -1,58 +1,47 @@
 <template>
-    <nav class="navbar fixed-top navbar-expand-lg">
-            <div class="container">
+    <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
                 <RouterLink to="/"  class="navbar-brand">
                     <img class="nav-img" src="../components/Logos_icons/techzone.png">
                 </RouterLink>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="bi bi-list"></i>
+                    </button> -->
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <slot>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <RouterLink class=" tz-nav-block" style="" to="/"> <i class="bi bi-house"></i> Home</RouterLink>
-                        <RouterLink class=" tz-nav-block" style="" to="/jobs"><i class="bi bi-briefcase"></i>Work</RouterLink>
-                    </div>
+                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                            <div class="navbar-nav">
+                                <RouterLink class=" tz-nav-block" style="" to="/"> <i class="bi bi-house"></i> Home</RouterLink>
+                                <RouterLink class=" tz-nav-block" style="" to="/jobs"><i class="bi bi-briefcase"></i>Work</RouterLink>
+                            </div>
 
-                    <div class="cust-actions">
-                        <RouterLink to="/login"><button class="cust-btn login-btn">Login</button></RouterLink>
-                        <div class="dropdown">
-                            <button href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="cust-btn signUp-btn">Sign Up</button>
-                                <ul class="dropdown-menu">
-                                    <li> <RouterLink class="dropdown-item" to="/signUp-employer">As Employer</RouterLink></li>
-                                    <li><RouterLink class="dropdown-item" to="/signUp">As Talent</RouterLink></li>
-                                </ul>
+                            <div class="cust-actions">
+                                <RouterLink to="/login"><button class="cust-btn login-btn">Login</button></RouterLink>
+                                <div class="dropdown">
+                                    <button href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" class="cust-btn signUp-btn">Sign Up</button>
+                                        <ul class="dropdown-menu">
+                                            <li> <RouterLink class="dropdown-item" to="/signUp-employer">As Employer</RouterLink></li>
+                                            <li><RouterLink class="dropdown-item" to="/signUp">As Talent</RouterLink></li>
+                                        </ul>
+                                </div>
+                                    
+                            </div>
                         </div>
-                            
-                    </div>
-                </div>
                     </slot>
             </div>
     </nav>
+    
 </template>
 
-
-
 <script>
-// //import other page urls
-// import JobPage from '../pages/JobsPage.vue'
-// import HomePage from '../pages/HomePage.vue'
-// import loginPage from '../pages/login.vue'
-
-
-// const routes = {
-//     // '/': HomePage,
-//     '/Jobs': JobPage,
-//     '/Login': loginPage,
-// }
-
-
-export default {
-
-}
+import 'bootstrap/dist/js/bootstrap.js';
 
 </script>
+
 
 <style>
 .navbar-brand{

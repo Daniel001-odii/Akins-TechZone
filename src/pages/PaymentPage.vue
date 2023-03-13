@@ -7,9 +7,9 @@
 
 
 <div class="container" style="margin-top: 100px;">
-     <center>
-        <p>Dont worry we are still working on your payments..</p>
-     </center>
+     
+        <h4>Dont worry we are still working on your payments..</h4>
+     
      <p class="card-text placeholder-glow" style="max-width: 400px">
                     <span class="placeholder col-7"></span>
                     <span class="placeholder col-4"></span>

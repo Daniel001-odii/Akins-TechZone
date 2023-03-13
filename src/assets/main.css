@@ -10,9 +10,9 @@ a{
   text-decoration: none !important;
   color: var(--app-dark-grey) !important;
 }
-a:hover{
+/* a:hover{
   color: var(--app-blue) !important;
-}
+} */
 
 
 /*------ styles for buttons------------*/
@@ -32,6 +32,13 @@ a:hover{
     --offWhite: #F1F4F4;
     --app-dark-grey: #3C4045;
     --app-hover: #efefef83;
+
+    
+    --main-color: #d4d4d4;
+    --loader-color: #4CAF50;
+    --back-color: #d4d4d4;
+    --time: 2s;
+    --size: 3px;
 
 
   }
@@ -110,7 +117,7 @@ p{
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 50%;
   height: 100vh;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(78, 131, 213, 0.3) 100%);
 }
@@ -143,7 +150,7 @@ p{
   border: 1px solid red;
 } */
   .leftSide{
-      width: 45%;
+      width: 50%;
       padding: 15px;
       display: flex;
       flex-direction: column;

@@ -6,10 +6,10 @@
 
 
 
-<div class="container" style="margin-top: 100px;">
-     <center>
-        <p>Dont worry we are still working on your insights..</p>
-     </center>
+    <div class="container" style="margin-top: 100px;">
+     
+        <h4>Dont worry we are still working on your insights..</h4>
+     
      <p class="card-text placeholder-glow" style="width: 200px">
                 <span class="placeholder col-7"></span>
                 <span class="placeholder col-4"></span>

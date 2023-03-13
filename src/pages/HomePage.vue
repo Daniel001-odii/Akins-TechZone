@@ -3,30 +3,70 @@ import { RouterLink } from 'vue-router';
 import Footer from '../components/Footer.vue';
 import InfiniteScroll from '../components/ItemScroll.vue';
 import NavBar from '../components/NavBar.vue';
-// import NavBar from '../components/NavBar.vue';
 
-// import JobPage from './JobsPage.vue'
-// import HomePage from './HomePage.vue'
-// import loginPage from './login.vue'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import ProfileNavBar from '../components/ProfileNavBar.vue';
 
 
-// const routes = {
-//     // '/': HomePage,
-//     '/Jobs': JobPage,
-//     '/Login': loginPage,
-// }
+const Api_url = "http://127.0.0.1:8000/api";
+
 
 export default {
-        components: {
+    components: {
     InfiniteScroll,
     Footer,
     NavBar,
-    RouterLink
-}
-}
+    RouterLink,
+    ProfileNavBar,
+},  
+  setup() {
+    const authenticated = ref(false);
+    const router = useRouter();
 
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(`${Api_url}/get-user`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (response.ok) {
+          authenticated.value = true;
+          console.log(response.data);
+        };
+        console.log(response)
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
+    const handleLogout = async () => {
+      try {
+        const response = await fetch('/api/logout', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        if (response.ok) {
+          localStorage.removeItem('token');
+          authenticated.value = false;
+          router.push('/');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
+    checkAuth();
+
+    return {
+      authenticated,
+      handleLogout,
+    };
+  },
+};
 
 
 </script>
@@ -34,9 +74,17 @@ export default {
 
 <template>
     <header>
-        <NavBar/>
+        <NavBar>
+                <ProfileNavBar v-if="authenticated"/>
+            
+        </NavBar>
+        
     </header>
-    
+    <!-- <ul>
+        <li v-if="authenticated">You are logged in</li>
+        <li v-else><RouterLink to="/login">Login</RouterLink></li>
+        <li v-if="authenticated"><button @click="handleLogout">Logout</button></li>
+      </ul> -->
     
 <main>
     <!-- <div class="container"> -->

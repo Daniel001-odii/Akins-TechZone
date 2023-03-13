@@ -1,0 +1,10 @@
+To run this project locally both frontend and backend (API)
+
+use 
+npm run dev - for frontend 
+
+for backend use:
+
+php artisan migrate - in the backend api dir
+start Apache
+start MySql in xamp server

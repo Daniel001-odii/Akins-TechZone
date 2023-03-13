@@ -9,9 +9,9 @@
 
 
 <div class="container" style="margin-top: 100px;">
-     <center>
-        <p>Dont worry we are still working on the Jobs you've Saved..</p>
-     </center>
+
+        <h4>Dont worry we are still working on the Jobs you've Saved..</h4>
+     
      
     <p class="card-text placeholder-glow">
                     <span class="placeholder col-7"></span>
