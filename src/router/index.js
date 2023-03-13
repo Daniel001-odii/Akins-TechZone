@@ -13,6 +13,7 @@ import customize_client from '../pages/clientCustomize.vue'
 
 import JobDetail from '../pages/JobDetail.vue'
 import EmployerSignup from '../pages/SignUp_2.vue'
+import ResetPassword from '../pages/PassReset.vue'
 
 const routes = [
     {path: '/', component: HomePage},
@@ -28,6 +29,7 @@ const routes = [
     {path: "/customize-profile-client", component: customize_client},
     {path: "/job-detail", component: JobDetail},
     {path: "/signUp-employer", component: EmployerSignup},
+    {path: "/reset-password", component: ResetPassword},
 ]
 
 

@@ -11,11 +11,11 @@
 
                 
                 <div class="left-content">
-                <h2 style="font-weight: bolder;">Welcome Back!</h2>
-                <p>Please enter your login details</p>
+                <h2 style="font-weight: bolder;">Reset Your Password</h2>
+                <p>Please enter your Email Address.</p> <small>If your email address appears, we'll slide into your inbox like a ninja and drop a password reset link like it's hot, so you can regain access to your account.</small>
 
                 <!--form starts here ------------------------------->
-                <form @submit.prevent="login">
+                <form  style="margin-top: 10px"  @submit.prevent="login">
                     <span v-for="error in msg" :key="error"  >
                         <ul class="error-msg fade-out"  style="z-index:999999;">
                             <li class="" v-if="show">{{ error }}</li>
@@ -25,29 +25,9 @@
                     <label for="email">Email Address</label>
                     <input class="form-input" name="email" placeholder="email address" v-model="email" type="email" required>
                 </div>
-            
-                <div class="form-section">
-                    <label for="password">Password</label>
-                    <input class="form-input" placeholder="password" v-model="password" type="password" required>
-                </div>
 
 
-                <div class="form-issues">
-                    <div class="check-container">
-                        <div class="checkbox-wrapper-46">
-                            <input class="inp-cbx" id="rememberDetails" type="checkbox"/>
-                            <label class="cbx" for="rememberDetails">
-                            <span>
-                                <svg width="12px" height="10px" viewbox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg>
-                            </span>
-                            <span>Remember Details</span>
-                            </label>
-                        </div>
-                    </div>
-                    <RouterLink to="/reset-password"><p>Forgot password?</p></RouterLink>
-                </div>
-
-                <button class="form-btn" type="submit">Sign in <i class="bi bi-download"></i></button>
+                <button style="margin-top: 10px" class="form-btn" type="submit">Send Reset Link</button>
                 </form>
                 <!-------form ends here----------------->
 
@@ -61,8 +41,7 @@
                                 </ul>
                 </div>
                 </div>
-
-                </div>
+            </div>
             
             </div>
     </div>
