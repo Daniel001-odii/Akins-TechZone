@@ -6,7 +6,7 @@
     </NavBar>
 
 
-<div class="container" style="margin-top: 100px;">
+<div class="container" style="margin-top: 50px;">
      
         <h4>Dont worry we are still working on your payments..</h4>
      

@@ -91,7 +91,7 @@ export default {
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->
         <div style="margin: 0 auto; text-align: center">
-            <p style="color:var(--app-grey); font-size: 0.8em; margin-top: 80px;">Best job platform in the world</p>
+            <p style="color:var(--app-grey); font-size: 0.8em; margin-top: 30px;">Best job platform in the world</p>
 
             <div class="hero-title">
                 Hire The <span class="blue">Right</span> Employees.<br/>Find Your <span class="break"><br/></span>

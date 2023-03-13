@@ -5,7 +5,7 @@
 </NavBar>
 
 
-<div class="container-fluid" style="margin-top: 100px;">
+<div class="container-fluid" style="margin-top: 30px;">
     <ul class="nav nav-tabs tableHeads" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="tz-nav-block nav-link active" style="color: #000 !important" id="avail-tab" data-bs-toggle="tab" data-bs-target="#available-tab-pane" type="button" role="tab" aria-controls="available-tab-pane" aria-selected="true"><span class="tz-badge">20</span>Available</button>
