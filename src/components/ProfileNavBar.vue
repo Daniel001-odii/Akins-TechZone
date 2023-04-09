@@ -12,7 +12,17 @@
                         <RouterLink class=" tz-nav-block" to="/savedJobs"> <i class="bi bi-heart"></i> <span>Saved Jobs</span></RouterLink>
 
                         <div class="user-actions">
-                            <RouterLink class="" to="/jobs"> <i class="bi bi-bell"></i></RouterLink>
+                            <!-- <RouterLink class="" to="/jobs"> <i class="bi bi-bell"></i></RouterLink> -->
+                            <div class="dropdown">
+                                <i class="bi bi-bell" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                <ul class="dropdown-menu" style="width: 200px; left: -160px !important;">
+                                    <li style="padding: 5px 10px; display: flex; flex-direction: row;">
+                                        <i class="bi bi-rocket-takeoff-fill" style="margin-right: 5px;"></i> 
+                                        <p><b>Welcome to TechZone,</b> you can start applying for jobs!</p>
+                                    </li>
+                                </ul>
+                            </div>
+
                             <RouterLink class="" to="/jobs"> <i class="bi bi-info-circle"></i></RouterLink>
                             <RouterLink class="" to="/jobs"> <i class="bi bi-flag"></i> </RouterLink>
                              <div class="dropdown">
@@ -59,19 +69,28 @@ export default {
 
 
 <style scoped>
-
-.dropdown-menu{
-    /* border: none !important; */
-    box-shadow: 0px 0px 5px #c7c7c7 !important;
-    /* right: 50px !important; */
+a{
+    font-weight: 500;
 }
-
+p{
+    margin: 0;
+    padding: 0;
+}
+.dropdown-menu{
+    border: none !important;
+    box-shadow: 0px 0px 5px #c7c7c7 !important;
+    /* right: 100px !important; */
+    left: -120px !important;
+    top: 30px !important;
+    font-size: 0.8em !important;
+}
+/* 
 .dropdown-menu:before {
     content: "";
     display: block;
     position: absolute;
-    top: -7px;
-    left: 18px;
+    top: -5px;
+    left: 140px;
     border-color: #fff;
     border-left: 8px solid #fff;
     border-bottom: 8px solid #fff;
@@ -79,11 +98,11 @@ export default {
     border-top: 8px solid transparent;
     transform: translateX(-50%) rotate(135deg);
     box-shadow: -2px 2px 3px rgb(57 73 76 / 10%);
-}
+} */
 
 .user{
-        height: 40px;
-        width: 40px;
+        height: 30px;
+        width: 30px;
         border-radius: 50%;
         background: grey;
         display: flex;
@@ -92,20 +111,25 @@ export default {
         color: #fff;
     }
     .user-actions{
-        width: 120px;
+        width: 150px;
         display: flex;
         flex-direction: row;
-        align-items: center;
-        margin-left: 80px;
-        margin-right: 100px;
+        align-items: flex-end;
+        justify-content: space-around;
+        margin-left: 150px;
+        border: 1px solid red;
+        /* margin-right: 100px; */
     }  
 
     .navbar-collapse {
+        /* display: flex; */
     /* flex-basis: 100%; */
+    /* margin: 0 auto; */
     flex-grow: 0 !important;
-    /* border: 1px solid red; */
+    border: 1px solid red;
     align-items: center;
-    width: 70%;
+    width: 80%;
+    /* max-width: 1000px !important; */
     justify-content: space-between;
 }
 .navbar-nav{
@@ -113,6 +137,10 @@ export default {
 }
 
     @media only screen and (max-width: 1150px) {
+        /* .navbar-collapse {
+            flex-direction: column;
+            justify-content: flex-start;
+        } */
         .tz-nav-block > span{
             display: none;
         }

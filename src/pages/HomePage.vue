@@ -7,6 +7,8 @@ import NavBar from '../components/NavBar.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import ProfileNavBar from '../components/ProfileNavBar.vue';
+import ItemScroll from '../components/ItemScroll.vue';
+import NavBarHome from '../components/NavBarHome.vue';
 
 
 const Api_url = "http://127.0.0.1:8000/api";
@@ -19,6 +21,8 @@ export default {
     NavBar,
     RouterLink,
     ProfileNavBar,
+    ItemScroll,
+    NavBarHome
 },  
   setup() {
     const authenticated = ref(false);
@@ -74,18 +78,9 @@ export default {
 
 <template>
     <header>
-        <NavBar>
-                <ProfileNavBar v-if="authenticated"/>
-            
-        </NavBar>
-        
+    <NavBarHome/>
+
     </header>
-    <!-- <ul>
-        <li v-if="authenticated">You are logged in</li>
-        <li v-else><RouterLink to="/login">Login</RouterLink></li>
-        <li v-if="authenticated"><button @click="handleLogout">Logout</button></li>
-      </ul> -->
-    
 <main>
     <!-- <div class="container"> -->
     <div class="hero-section">
@@ -100,9 +95,9 @@ export default {
                 </span>
             </div>
             <div class="hero-subtitle">
-                Job search platform worldwide. We connect freelancers and
-                companies in an easy way. Job finders can find their desired 
-                skills anywhere in the world.
+                TechZone is a job search platform in Nigeria. 
+                We establish trusted networking between freelancers and businesses all across the nation. 
+                Qualified job seekers find the best in-demand jobs of their desired skills anywhere nationwide.
             </div>
         </div>
         <!-- <img class="brick" src="./imgs/rightBrick.svg"> -->

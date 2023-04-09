@@ -6,7 +6,7 @@ import SignUp from '../pages/SignUp.vue'
 import PageNotFound from '../pages/PageNotFound.vue'
 import Insight from '../pages/InsightPage.vue'
 import Payment from '../pages/PaymentPage.vue'
-import SavedJobs from '../pages/SavedJobsPage.vue'
+import SavedJobs from '../pages/savedJobs.vue'
 
 import customize from '../pages/customizeProfile.vue'
 import customize_client from '../pages/clientCustomize.vue'

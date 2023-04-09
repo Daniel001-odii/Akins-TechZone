@@ -21,14 +21,13 @@ a{
     padding: 8px 25px;
     color: #fff;
     font-size: 0.8em;
-    background: #419E6A;
     border: none;
   }
 
 
   :root {
-    --app-blue: #0365FF;
-    --app-grey: #8C8989;
+    --app-blue: #4E79BC;
+    --app-grey: #8C8989;  
     --offWhite: #F1F4F4;
     --app-dark-grey: #3C4045;
     --app-hover: #efefef83;

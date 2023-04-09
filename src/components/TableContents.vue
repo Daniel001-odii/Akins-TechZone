@@ -13,10 +13,9 @@
     </tr>
   </thead>
   <tbody>
-  
     <tr>
       <th scope="row">1</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper <i data-v-2d1117dc="" class="bi bi-arrow-up-right"></i></RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -235,7 +234,10 @@ import { RouterLink } from 'vue-router';
         font-size: 0.8em !important;
         font-weight: normal !important;
     }
-    RouterLink{
+    a{
       color: blue !important;
+    }
+    tr:hover{
+      background: var(--app-hover);
     }
 </style>
