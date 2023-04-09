@@ -9,7 +9,7 @@
             <a class="nav-link" href="#/">Pricing</a>
             <a class="nav-link" href="#/">Careers</a>
             <a class="nav-link" href="#/">Help</a>
-            <a class="nav-link" href="#/">Privacy</a>
+            <RouterLink to="/jobs">Privacy</RouterLink>
         </div>
         <div class="footer-last">
             <!-- <Search/> -->
@@ -23,10 +23,11 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
 import Search from './Search.vue';
 
     export default {
-    components: { Search }
+    components: { Search, RouterLink }
 }
 </script>
 
