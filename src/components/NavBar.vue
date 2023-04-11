@@ -49,7 +49,9 @@
 
     <div class="menu-from-nav" :class="{ 'navActive': showMenu }">
        <div class="menu-header">
-        <h2>Menu</h2>
+        <RouterLink to="/"  class="navbar-brand">
+            <img class="nav-img" src="../components/Logos_icons/techzone.png">
+        </RouterLink>
             <span class="closeBtn" @click="showMenu=false">&times;</span>
        </div>
 
