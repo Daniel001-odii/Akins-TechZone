@@ -16,17 +16,16 @@
            <button class="filter-menu">Company</button>
         </div>
         <div class="page-tabs">
-            <div class="job-category job-category-active">Available Jobs</div>
-            <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested (0)</div></RouterLink>
-            <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned (5)</div></RouterLink>
-            <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed (15)</div></RouterLink>
-            <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined (4)</div></RouterLink>
+            <RouterLink to="/jobs"><div class="job-category">Available Jobs</div></RouterLink>
+            <RouterLink to="requested-jobs"><div class="job-category">Requested (0)</div></RouterLink>
+            <div class="job-category job-category-active">Assigned (5)</div>
+            <RouterLink to="completed-jobs"><div class="job-category">Completed (15)</div></RouterLink>
+            <RouterLink to="declined-jobs"><div class="job-category">Declined (4)</div></RouterLink>
         </div>
   </div>
   <div class="Page-contents">
     <div class="job-listings">
         <div class="job-cards-area">
-            <PostCard/>
             <PostCard/>
             <PostCard/>
             <PostCard/>
@@ -81,15 +80,14 @@
                     </ul>
                         </div>
                 </div>
-</div>
-
   </div>
+  </div>
+
     <div class="footer">
         <Footer/>
     </div>
+    
 </div>
-
-
 </template>
 
 <script>
@@ -99,217 +97,15 @@ import PostCard from '../components/JobCard.vue';
 import NavBar from '../components/NavBar.vue';
 import ProfileNavBar from '../components/ProfileNavBar.vue';
 import { reactive } from 'vue';
-
-import LeftNav from '../components/LeftNav.vue'
+import LeftNav from '../components/LeftNav.vue';
 
 
     export default {
-        components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav}
+        components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav }
     }
 </script>       
 
 
 <style>
-    .page-grid-container {
-    display: grid;
-    grid-template-areas:
-        'Navigation Navigation      Navigation      Navigation      Navigation      Navigation'
-        'Left-Nav   Page-header     Page-header     Page-header     Page-header     Page-header'
-        'Left-Nav   Page-contents   Page-contents   Page-contents   Page-contents   Page-contents'
-        'footer     footer          footer          footer          footer          footer';
-    gap: 0;
-    background: #fff;
-    padding: 0;
-    grid-template-columns: 180px 1fr;
-    grid-template-rows: 60px auto auto;
-   /* height: 100vh; */
-    }
-    
-    .Navigation { grid-area: Navigation; }
-    .Left-Nav {
-        background: #fff; 
-        grid-area: Left-Nav;
-        display: flex;
-        flex-direction: column;
-        z-index: 999;
-    }
-    /* .Left-Nav:hover{
-        width: 200px;
-    } */
-    .Left-Nav:hover > .page-grid-container{
-        grid-template-rows: 200px auto auto;
-    }
-
-    .Left-Nav > div{
-        height: 80px;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-left: 5px solid #fff;
-    }
-    .spacer{
-        border-bottom: 1px solid #C8C6C6; 
-        border-right: 1px solid #C8C6C6; 
-        height: 61px !important;
-        width: 100% !important;
-    }
-
-
-    /* .jobs:hover, .saved-jobs:hover, .insights:hover, .wallet:hover{
-        background: #F7F9FF;
-        border-left: 5px solid #4E79BC;
-    }
-    .active-nav{background: #F7F9FF; border-left: 5px solid #4E79BC !important;} */
-
-
-
-    .Page-title { grid-area: Page-title; }
-    .Page-header { 
-        grid-area: Page-header;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        font-size: 0.8em !important;
-        /* border: 1px solid red; */
-    }
-    .page-title{
-        padding: 15px;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        width: 100%;
-        height: 60px;
-        font-size: 20px;
-    }
-    .page-filters{
-        max-height: 45px;
-        display: inline-flex;
-        gap: 10px;
-        overflow-x: scroll;
-        width: 100%;
-        border-top: 0.5px solid #C8C6C6;
-        border-bottom: 0.5px solid #C8C6C6;
-        border-left: 0.5px solid #C8C6C6;
-    }
-    /* hide al scroll bars in page................*/
-    *::-webkit-scrollbar{
-        display: none;
-    }
-    .page-tabs {
-        display: flex;
-        align-items: flex-end;
-        /* justify-content: flex-start; */
-        gap: 20px;
-        padding-left: 20px;
-        padding-right: 20px;
-        height: 40px;
-        width: 100%;
-        border-bottom: 0.5px solid #C8C6C6;
-        border-left: 0.5px solid #C8C6C6;
-        overflow-x: scroll;
-        /* flex-wrap: nowrap */
-    }
-    .job-category{
-        text-align: center;
-        flex-wrap: inherit;
-        /* border: 1px solid green; */
-        /* width: 120px !important; */
-        /* padding: 2px; */
-    }
-    .job-category-active{
-        border-bottom: 3px solid var(--app-blue);
-        color: var(--app-blue); 
-    }
-    .Page-contents { 
-        grid-area: Page-contents; 
-        overflow: scroll;
-        height: auto;
-    
-    }
-
-    .filter-menu{
-        border: 5px;
-        border: 1px solid #C8C6C6;
-        padding: 5px;
-        border-radius: 5px;
-        background: #fff;
-        margin: 6px 0px;
-        min-width: 100px;
-        height: 30px;
-    }
-    .filter-search{
-        border-radius: 5px;
-        background: var(--app-hover);
-        color: #000;
-        border: none;
-        height: 30px;
-        margin: 6px 0px;
-        outline: none;
-        padding-left: 10px;
-    }
-
-    .footer{
-        grid-area: footer;
-    }
-
-    .job-listings{
-        display: flex;
-        flex-direction: row;
-        padding: 10px;
-    }
-    .job-cards-area{
-        width: 45%;
-        height: 100vh;
-        overflow-y: scroll;
-    }
-    .job-detail-area{
-        margin-left: 10px;
-        width: 65%;
-    }
-    .job-detail{
-        display: flex;
-        padding: 10px;
-        font-size: 0.8em;
-        width: 99%;
-        height: 100vh;
-        margin-top: 5px;
-        overflow-y: scroll;
-    }
-
-
-  @media screen and (max-width: 500px) {
-    .page-grid-container {
-        display: grid;
-        grid-template-areas:
-            'Navigation      Navigation      Navigation      Navigation      Navigation'
-            'Page-header     Page-header     Page-header     Page-header     Page-header'
-            'Page-contents   Page-contents   Page-contents   Page-contents   Page-contents'
-            'footer          footer          footer          footer          footer';
-        }
-.Left-Nav{
-    display: none;
-}
-    .page-tabs {
-        font-size: 0.9em;
-        /* border: 1px solid red; */
-        overflow: scroll;
-    }
-  }
-
-         /*--meida queries-------*/
-@media only screen and (max-width: 999px) {
-    .job-detail-area{
-        display: none;
-    }
-    .job-cards-area{
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 720px) {
-.page-grid-container {
-    grid-template-columns: 80px 1fr;
-}
-}
+   
 </style>

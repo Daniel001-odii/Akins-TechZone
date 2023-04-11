@@ -1,18 +1,22 @@
 
 <template>
    
-
    <NavBar>
-        <ProfileNavBar/>
-   </NavBar>
-   
+            <ProfileNavBar/>
+    </NavBar>
 
 
 <div class="container" style="margin-top: 50px;">
-
-        <h4>Dont worry we are still working on the Jobs you've Saved..</h4>
      
+        <h4>Dont worry we are still working on your payments..</h4>
      
+     <p class="card-text placeholder-glow" style="max-width: 400px">
+                    <span class="placeholder col-7"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-4"></span>
+                <span class="placeholder col-6"></span>
+                <span class="placeholder col-8"></span>
+    </p>
     <p class="card-text placeholder-glow">
                     <span class="placeholder col-7"></span>
                     <span class="placeholder col-4"></span>
@@ -20,21 +24,15 @@
                     <span class="placeholder col-6"></span>
                     <span class="placeholder col-8"></span>
         </p>
-        <p class="card-text placeholder-glow" style="max-width: 400px">
-                    <span class="placeholder col-7"></span>
-                    <span class="placeholder col-4"></span>
-                    <span class="placeholder col-4"></span>
-                <span class="placeholder col-6"></span>
-                <span class="placeholder col-8"></span>
-    </p>
-    <p class="card-text placeholder-glow">
+    
+    <p class="card-text placeholder-glow" style="width: 200px">
                 <span class="placeholder col-7"></span>
                 <span class="placeholder col-4"></span>
                 <span class="placeholder col-4"></span>
                 <span class="placeholder col-6"></span>
                 <span class="placeholder col-8"></span>
     </p>
-    <p class="card-text placeholder-glow" style="width: 200px">
+    <p class="card-text placeholder-glow">
                 <span class="placeholder col-7"></span>
                 <span class="placeholder col-4"></span>
                 <span class="placeholder col-4"></span>
@@ -54,7 +52,7 @@
 import Footer from '../components/Footer.vue';
 import NavBar from '../components/NavBar.vue';
 import ProfileNavBar from '../components/ProfileNavBar.vue';
-import TableContents from '../components/TableContents.vue';
+import TableContents from './TableContents.vue';
 
     export default {
     components: {

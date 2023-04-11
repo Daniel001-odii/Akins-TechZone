@@ -91,9 +91,9 @@ a{
   border-radius: 10px 10px 0px 0px;
 }
 
-.active{
+/* .active{
   border-bottom: 1px solid var(--app-blue);
-}
+} */
 
 
 /*------------------- syles for Auth pages ------------------*/
