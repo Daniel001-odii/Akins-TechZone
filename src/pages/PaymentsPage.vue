@@ -1,7 +1,9 @@
 
 <template>
     <div class="page-grid-container">
-      <NavBar class="Navigation"/>
+      <div class="Navigation">
+        <NavBar/>
+      </div>
       <div class="Left-Nav">
             <LeftNav/>
       </div>

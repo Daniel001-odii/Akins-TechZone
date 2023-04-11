@@ -16,12 +16,12 @@
             <div class="nav-contents">
                 <div class="Tz-nav-links">
                     <span><RouterLink to="/jobs">Find Job </RouterLink></span>
-                    <span><RouterLink to="">Hire Talent</RouterLink></span>
+                    <span><RouterLink to="/customize-profile-client">Hire Talent</RouterLink></span>
                 </div>
 
                 <div class="nav-auth-buttons">
-                    <button class="cust-btn signIn">Sign in</button>
-                    <button class="cust-btn signUp">Sign Up</button>
+                    <RouterLink to="/login"><button class="cust-btn signIn">Sign in</button></RouterLink>
+                    <RouterLink to="/signUp"><button class="cust-btn signUp">Sign Up</button></RouterLink>
                 </div>
             </div>
     </nav>
@@ -69,7 +69,7 @@ export default {
 .nav-toggler{
     display: none;
 }
-.Tz-navbar{
+/* .Tz-navbar{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -80,7 +80,7 @@ export default {
     padding: 10px;
     background: #fff;
     border-bottom: 0.5px solid #C8C6C6;
-}
+} */
 
 .Tz-brand-area{
     display: flex;

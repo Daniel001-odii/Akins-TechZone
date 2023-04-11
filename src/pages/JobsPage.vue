@@ -1,7 +1,9 @@
 
 <template>
 <div class="page-grid-container">
-  <NavBar class="Navigation"/>
+    <div class="Navigation">
+        <NavBar/>
+    </div>
   <div class="Left-Nav">
        <LeftNav/>
   </div>
@@ -16,7 +18,7 @@
            <button class="filter-menu">Company</button>
         </div>
         <div class="page-tabs">
-            <div class="job-category job-category-active">Available Jobs</div>
+            <RouterLink to=""><div class="job-category job-category-active">Available Jobs</div></RouterLink>
             <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested (0)</div></RouterLink>
             <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned (5)</div></RouterLink>
             <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed (15)</div></RouterLink>
@@ -203,23 +205,21 @@ import LeftNav from '../components/LeftNav.vue'
         gap: 20px;
         padding-left: 20px;
         padding-right: 20px;
-        height: 40px;
+        height: 30px;
         width: 100%;
         border-bottom: 0.5px solid #C8C6C6;
         border-left: 0.5px solid #C8C6C6;
         overflow-x: scroll;
+        /* background: red; */
         /* flex-wrap: nowrap */
     }
     .job-category{
+        width: 100px !important;
         text-align: center;
-        flex-wrap: inherit;
-        /* border: 1px solid green; */
-        /* width: 120px !important; */
-        /* padding: 2px; */
     }
     .job-category-active{
         border-bottom: 3px solid var(--app-blue);
-        color: var(--app-blue); 
+        color: var(--app-blue);
     }
     .Page-contents { 
         grid-area: Page-contents; 

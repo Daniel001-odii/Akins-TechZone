@@ -1,7 +1,9 @@
 
 <template>
 <div class="page-grid-container">
-  <NavBar class="Navigation"/>
+    <div class="Navigation">
+        <NavBar/>
+    </div>
   <div class="Left-Nav">
         <LeftNav/>
   </div>
@@ -17,7 +19,7 @@
         </div>
         <div class="page-tabs">
             <RouterLink to="/jobs"><div class="job-category">Available Jobs</div></RouterLink>
-            <div class="job-category-active job-category">Requested (0)</div>
+            <RouterLink to=""><div class="job-category-active job-category">Requested (0)</div></RouterLink>
             <RouterLink to="assigned-jobs"><div class="job-category">Assigned (5)</div></RouterLink>
             <RouterLink to="completed-jobs"><div class="job-category">Completed (15)</div></RouterLink>
             <RouterLink to="declined-jobs"><div class="job-category">Declined (4)</div></RouterLink>
