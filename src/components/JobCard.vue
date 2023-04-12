@@ -2,9 +2,7 @@
 <!-- <div class="card-content"> -->
     <div class="card job-card" style="" @click="showFullDetail=!showFullDetail">
         <div class="plane">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
-                <path d="M0.485051 8.71692C-0.160649 8.50169 -0.166834 8.1541 0.497421 7.93268L24.1075 0.0630534C24.7619 -0.154654 25.1367 0.21149 24.9536 0.852243L18.2072 24.4611C18.0216 25.1155 17.6444 25.1377 17.3673 24.5168L12.9216 14.5121L20.3434 4.61635L10.4476 12.0382L0.485051 8.71692V8.71692Z" fill="#4E79BC"/>
-            </svg>
+            <i class="bi bi-heart" style="font-size: 22px;"></i>
         </div>
        <p class="job-title">Senior Software  Developer</p>
        <small>Microsoft Inc.</small>
@@ -29,15 +27,14 @@
        <div class="mini-job-description">
         Hi, we are looking for someone to help us create and design several landing pages for different book series.
         The first project is about creating a landing page for a islamic book. 
-        If the project has been completed satisfactorily there will be more landing page projects.
-        We are looking forward to your news Attached you can find a pdf file with the A+ content of the book which should be used as example.
-        The same elements should be used for the landingpage, but NO COPY AND PASTE. The task is not about copy the pdf and insert it into the website, but create the website simular to the pdf using the same elements.
-        We can provide all the elements you need to create the content.
+        
        </div>
        <div class="time-posted">Posted 1 hour ago</div>
     </div>
 
-<div class="job-detail-container" :class="{'showFullDetail':showFullDetail}">
+
+    <transition name="fade">
+<div class="job-detail-container" :class="{'showFullDetail':showFullDetail}"  v-if="showFullDetail">
     <div class="dismissable-area" @click="showFullDetail=!showFullDetail"></div>
     <div class="job-detail-area">
                     <div class="job-detail" style="">
@@ -48,9 +45,7 @@
                                         </svg>
                                     </div>
                                 <div class="plane">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
-                                        <path d="M0.485051 8.71692C-0.160649 8.50169 -0.166834 8.1541 0.497421 7.93268L24.1075 0.0630534C24.7619 -0.154654 25.1367 0.21149 24.9536 0.852243L18.2072 24.4611C18.0216 25.1155 17.6444 25.1377 17.3673 24.5168L12.9216 14.5121L20.3434 4.61635L10.4476 12.0382L0.485051 8.71692V8.71692Z" fill="#4E79BC"/>
-                                    </svg>
+                                    <i class="bi bi-heart" style="font-size: 22px;"></i>
                                 </div>
                             <p class="job-title">Senior Software  Developer</p>
                             <small>Microsoft Inc.</small>
@@ -100,7 +95,8 @@
                 </div>
                 </div>
     </div>
-</div> 
+</div>
+</transition>
 
 </template>
 
@@ -123,6 +119,15 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
 </script>
 
 <style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 
 .card-content{
     display: flex;
@@ -255,9 +260,18 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
 
 .dismissable-area{
     height: 100%;
-    /* width: 50%; */
+    width: 50%;
 }
 
+
+@media only screen and (max-width: 1150px) {
+    .job-detail-area{
+    width: 80% !important;
+    }
+    .dismissable-area{
+    width: 20% !important;
+}
+}
 
              /*--meida queries-------*/
 @media only screen and (max-width: 600px) {
@@ -277,9 +291,5 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     }
 }
 
-@media only screen and (max-width: 1150px) {
-    .job-detail-area{
-    width: 75%;
-    }
-}
+
 </style>

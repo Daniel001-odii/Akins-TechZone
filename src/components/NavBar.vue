@@ -40,7 +40,8 @@
         <!-- </div> -->
     </nav>
 
-    <div class="menu-from-nav" :class="{ 'navActive': showMenu }">
+    <transition name="fade">
+    <div class="menu-from-nav" :class="{ 'navActive': showMenu }" v-if="showMenu">
        <div class="menu-header">
         <!-- <RouterLink to="/"  class="navbar-brand">
             <img class="nav-img" src="../components/Logos_icons/techzone.png">
@@ -117,7 +118,7 @@
        
 
     </div>
-     
+</transition>
     
 
     
@@ -146,6 +147,18 @@ export default {
 
 
 <style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+
+
 .nav-links{
     display: flex;
     z-index: 9999999999;
@@ -167,7 +180,7 @@ export default {
     position: fixed;
     top: 0;
     background-color: #fff;
-    height: 100vh;
+    height: 0px;
     width: 100%;
     z-index: 99999;
     display: none;
@@ -209,6 +222,7 @@ export default {
 }
 .menu-from-nav.navActive{
     display: flex;
+    height: 100vh;
 }
 .Tz-nav-actions-menu{
     display: flex;

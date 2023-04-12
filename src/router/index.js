@@ -41,6 +41,7 @@ const routes = [
     {path: "/job-detail", component: JobDetail},
     {path: "/signUp-employer", component: EmployerSignup},
     {path: "/reset-password", component: ResetPassword},
+    
     //job categories.......
     {path: "/jobs/requested-jobs", component: requestedJobs},
     {path: "/jobs/assigned-jobs", component: assignedJobs},

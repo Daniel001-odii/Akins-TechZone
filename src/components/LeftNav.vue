@@ -11,9 +11,7 @@
         
         <RouterLink to="/savedJobs"  :class="{ 'active-nav': isSaveJobs }">
         <div class="saved-jobs">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 22" fill="none">
-            <path d="M0.767317 8.00682C0.257317 7.80182 0.263317 7.49682 0.801317 7.31782L19.8873 0.95582C20.4163 0.77982 20.7193 1.07582 20.5713 1.59382L15.1173 20.6798C14.9673 21.2088 14.6423 21.2328 14.4003 20.7498L9.84432 11.6368L0.767317 8.00682ZM5.65732 7.80682L11.2933 10.0618L14.3333 16.1438L17.8793 3.73382L5.65632 7.80682H5.65732Z" fill="#45494F"/>
-            </svg>
+            <i class="bi bi-heart" style="font-size: 22px; padding: 0px;"></i>
             <span class="navtext">Saved Jobs</span>
         </div>
         </RouterLink>
@@ -45,10 +43,10 @@ import { RouterLink } from 'vue-router';
     export default {
     components: { RouterLink },
     computed: {
-        isPayments(){ if(this.$route.path === "/payments"){ return true;}},
-        isSaveJobs(){if(this.$route.path === "/savedJobs"){return true;}},
-        isJobs(){if(this.$route.path === "/jobs"){return true;}},
-        isInsights(){if(this.$route.path === "/insights"){return true;}},
+        isPayments() { return this.$route.path.startsWith("/payments"); },
+  isSaveJobs() { return this.$route.path.startsWith("/savedJobs"); },
+  isJobs() { return this.$route.path.startsWith("/jobs"); },
+  isInsights() { return this.$route.path.startsWith("/insights"); },
   },
 
 
