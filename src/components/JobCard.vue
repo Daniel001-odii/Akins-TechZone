@@ -136,13 +136,14 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     top: 15px;
 }
 .job-card{
-    margin-top: 5px;
+    margin-top: 10px !important;
     display: flex;
     padding: 20px;
     font-size: 0.8em;
     position: relative;
     cursor: pointer;
     width: 98%;
+    margin: 0 auto;
 }
 .job-card:hover{
     border: 1px solid var(--app-blue);
