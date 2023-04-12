@@ -41,8 +41,8 @@
     <div class="dismissable-area" @click="showFullDetail=!showFullDetail"></div>
     <div class="job-detail-area">
                     <div class="job-detail" style="">
-                        <div class="job-detail-head" @click="showFullDetail=!showFullDetail">
-                                    <div class="backBtn">
+                        <div class="job-detail-head">
+                                    <div class="backBtn" @click="showFullDetail=!showFullDetail">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 47" fill="none">
                                         <path d="M11.484 20.334L27.576 4.24197L23.334 -3.05176e-05L0 23.334L23.334 46.668L27.576 42.426L11.484 26.334H48V20.334H11.484Z" fill="#4E79BC"/>
                                         </svg>
@@ -180,7 +180,7 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     padding: 20px;
     border-bottom: 0.5px solid #C8C6C6;
     margin-top: 50px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 .backBtn{
     border-radius: 50px;
@@ -255,12 +255,12 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
 
 .dismissable-area{
     height: 100%;
-    width: 50%;
+    /* width: 50%; */
 }
 
 
              /*--meida queries-------*/
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 600px) {
     .job-detail-area{
         width: 100% !important;
     }
@@ -270,4 +270,16 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     }
 }
 
+
+@media only screen and (max-width: 365px) {
+    .applyNow{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1150px) {
+    .job-detail-area{
+    width: 75%;
+    }
+}
 </style>
