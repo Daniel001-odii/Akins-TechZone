@@ -13,13 +13,6 @@
                     <img class="nav-img" src="../components/Logos_icons/techzone.png">
                 </RouterLink>
         </div>
-        
-
-        <!-- <div class="nav-links" :class="{ 'active': showMenu }"> -->
-
-            <!-- <span class="closeBtn" @click="showMenu=false">&times;</span> -->
-
-            <!-- <LeftNav/> -->
 
             <div class="tz-search">
                 <Search/>
@@ -49,9 +42,11 @@
 
     <div class="menu-from-nav" :class="{ 'navActive': showMenu }">
        <div class="menu-header">
-        <RouterLink to="/"  class="navbar-brand">
+        <!-- <RouterLink to="/"  class="navbar-brand">
             <img class="nav-img" src="../components/Logos_icons/techzone.png">
-        </RouterLink>
+        </RouterLink> -->
+        <!--now you have to decide which item is preffered to appear at the top of the menu-->
+        <Search/>
             <span class="closeBtn" @click="showMenu=false">&times;</span>
        </div>
 
@@ -159,8 +154,9 @@ export default {
 .closeBtn{
     color: var(--app-blue);
     font-size: 40px;
-    /* position: absolute; */
-    /* right: 20px; */
+    position: absolute; 
+    right: 20px;
+    top:2px;
     cursor: pointer;
 }
 .navActive{
@@ -187,7 +183,8 @@ export default {
     display: flex;
     padding: 30px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    margin-top: 30px;
 }
 .menu-header > h2{
     margin: 0;
@@ -207,8 +204,8 @@ export default {
     gap: 30px;
 }
 .menu-item:hover{
-    background: var(--app-blue);
-    color: #fff !important;
+    background: var(--app-hover);
+    /* color: #fff !important; */
 }
 .menu-from-nav.navActive{
     display: flex;

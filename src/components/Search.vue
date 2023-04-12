@@ -50,6 +50,7 @@
         outline: none;
         background: var(--app-hover);
     }
+   
     .cust-search-btn{
         padding: 10px;
         width: 100px;
@@ -60,7 +61,9 @@
         justify-content: center;
         align-items: center;
         background: #fff;
-
+    }
+    .cust-search-btn:hover{
+        background: var(--app-hover);
     }
 
     /*--meida queries-------*/
