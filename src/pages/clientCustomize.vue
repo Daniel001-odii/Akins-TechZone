@@ -23,7 +23,7 @@
 
 
             <div class="form-section">
-                <RouterLink to="/jobs"><button class="form-btn">Sign Up <i class="bi bi-upload"></i></button></RouterLink>
+                <RouterLink to="/client"><button class="form-btn">Sign Up <i class="bi bi-upload"></i></button></RouterLink>
             </div>
         </div>
         

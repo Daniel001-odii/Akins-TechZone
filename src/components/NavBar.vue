@@ -40,7 +40,7 @@
         <!-- </div> -->
     </nav>
 
-    <transition name="fade">
+<transition name="fade">
     <div class="menu-from-nav" :class="{ 'navActive': showMenu }" v-if="showMenu">
        <div class="menu-header">
         <!-- <RouterLink to="/"  class="navbar-brand">

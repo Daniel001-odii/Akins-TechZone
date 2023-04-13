@@ -10,7 +10,7 @@
       <div class="Page-header">
             <div class="page-title">Insights</div>
             <div class="page-filters"></div>
-            <div class="insights-content"><p>Coming soon...<br/> we are working had to see that you get the best services.</p></div>
+            <div class="insights-content"><p>Coming soon...<br/> we are working hard to see that you get the best services.</p></div>
       </div>
       <div class="Page-contents">
             <!----this is an insight page and needs no job lisitng content-->

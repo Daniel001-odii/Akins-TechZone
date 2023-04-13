@@ -67,7 +67,7 @@
                                         </svg>
                                         Full-Time</div>
 
-                                        <div class="job-duration applyNow">Apply Now</div>
+                                        <RouterLink to="/signUp"><button class="job-duration applyNow cust-btn">Apply Now</button></RouterLink>
                             </div>
 
                     </div>
@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
 import JobTag from './micro_components/JobTag.vue';
 import LocationBadge from './micro_components/locationBadge.vue';
 import VerificationBadge from './micro_components/verificationBadge.vue';
@@ -109,7 +110,7 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
         props:{
             "content": String,
         },
-        components:{JobTag,VerificationBadge,LocationBadge},
+        components:{ JobTag, VerificationBadge, LocationBadge, RouterLink },
         data(){
             return{
                 showFullDetail:false

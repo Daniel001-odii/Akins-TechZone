@@ -3,9 +3,13 @@
 
     <div class="form-container">
         <div class="leftSide">
-            <div class="topLeftImage">
-                <RouterLink to="/"><img class="brand-img" src="../components/Logos_icons/techzone.png"></RouterLink>
-            </div>
+                <RouterLink to="/">
+                    <div class="backBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 47" fill="none">
+                            <path d="M11.484 20.334L27.576 4.24197L23.334 -3.05176e-05L0 23.334L23.334 46.668L27.576 42.426L11.484 26.334H48V20.334H11.484Z" fill="#4E79BC"/>
+                        </svg>
+                    </div>
+                </RouterLink>
 
             <div class="subDiv">
 

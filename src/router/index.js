@@ -21,10 +21,14 @@ import customize_client from '../pages/clientCustomize.vue'
 
 
 //Authentication pages.........
-import EmployerSignup from '../pages/SignUp_2.vue'
+// import EmployerSignup from '../pages/SignUp_2.vue'
 import ResetPassword from '../pages/PassReset.vue'
 import Login from '../pages/login.vue'
 import SignUp from '../pages/SignUp.vue'
+
+//clients based pages
+import client_dashboard from '../pages/client-dashboard.vue'
+import post_job from '../pages/post-job.vue'
 
 const routes = [
     {path: '/', component: HomePage},
@@ -39,14 +43,18 @@ const routes = [
     {path: "/customize-profile", component: customize},
     {path: "/customize-profile-client", component: customize_client},
     {path: "/job-detail", component: JobDetail},
-    {path: "/signUp-employer", component: EmployerSignup},
+    // {path: "/signUp-employer", component: EmployerSignup},
     {path: "/reset-password", component: ResetPassword},
-    
+
     //job categories.......
     {path: "/jobs/requested-jobs", component: requestedJobs},
     {path: "/jobs/assigned-jobs", component: assignedJobs},
     {path: "/jobs/completed-jobs", component: completedJobs},
     {path: "/jobs/declined-jobs", component: declinedJobs},
+
+    //client based views
+    {path: "/client", component: client_dashboard},
+    {path: "/client/post-a-job", component: post_job}
 ]
 
 
