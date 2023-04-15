@@ -149,7 +149,7 @@
         .Page-contents { 
             grid-area: Page-contents; 
             overflow: scroll;
-            height: auto;
+            height: 70vh;
         
         }
     

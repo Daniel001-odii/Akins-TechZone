@@ -22,11 +22,13 @@ a{
     color: #fff;
     font-size: 0.8em;
     border: none;
+    background: var(--app-blue);
   }
 
 
   :root {
     --app-blue: #4E79BC;
+    --app-blue-hover: #3166ba;
     --app-grey: #8C8989;  
     --offWhite: #F1F4F4;
     --app-dark-grey: #3C4045;
@@ -52,7 +54,7 @@ a{
 }
 
 .cust-btn:hover{
-  background: var(--app-blue);
+  background: var(--app-blue-hover);
 }
 
 .nav-img{

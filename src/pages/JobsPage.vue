@@ -10,6 +10,12 @@
         <template #job-cards>
             <PostCard/>
             <PostCard/>
+            <PostCard/>
+            <PostCard/>
+            <PostCard/>
+            <PostCard/>
+            <PostCard/>
+            <PostCard/>
         </template>
     </PageTemplate>
   </template>
