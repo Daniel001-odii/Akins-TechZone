@@ -232,7 +232,6 @@ import Search from '../components/Search.vue';
 .page-sub{
   display: flex;
   flex-direction: column;
-  /* align-items: space-between; */
   justify-content: space-between;
   width: 70%;
   height: 60vh;
@@ -322,7 +321,7 @@ import Search from '../components/Search.vue';
 
     .page-container{
         background: #ffffff;
-        height: 100vh;
+        height: 90vh;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -388,8 +387,10 @@ import Search from '../components/Search.vue';
 
 
     @media only screen and (max-width: 600px) {
-        .form-container{
-          width: 300px !important;
+        .page-sub{
+          width: 100%;
+          padding: 15px;
+          
         }
         .form-content{
             flex-direction: column;
