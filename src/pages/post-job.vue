@@ -285,7 +285,7 @@ import Search from '../components/Search.vue';
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-  margin-left: 300px;
+  margin-left: -100%;
 }
 
 .radio-selection{
