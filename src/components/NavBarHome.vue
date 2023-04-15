@@ -17,7 +17,7 @@
                 <div class="Tz-nav-links">
                     <slot>
                     <span><RouterLink to="/jobs">Find Job </RouterLink></span>
-                    <span><RouterLink to="/customize-profile-client">Hire Talent</RouterLink></span>
+                    <span><RouterLink to="/client">Hire Talent</RouterLink></span>
                     </slot>
                 </div>
 

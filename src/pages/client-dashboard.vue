@@ -1,6 +1,6 @@
 <template>
 <NavBarHome>
-    <span><RouterLink to="/jobs">Post A Job</RouterLink></span>
+    <span><RouterLink to="/client/post-a-job">Post A Job</RouterLink></span>
     <span><RouterLink to="/customize-profile-client">Hire Talent</RouterLink></span>
 </NavBarHome>
 <div class="page-content">

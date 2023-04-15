@@ -173,7 +173,7 @@
                 <div class="section-content">
                     <textarea class="job-description" placeholder="Enter your job description here..."></textarea>
                 </div>
-                <input type="submit" value="submit" class="cust-btn"/>
+                <input type="submit" value="submit" class="cust-btn" style="width: 100%; background: green"/>
             </div>
       </div>
     </Transition>
@@ -268,7 +268,7 @@ import Search from '../components/Search.vue';
   margin-bottom: 20px;
 }
 .progress{
-  width: 100%;
+  width: 50%;
   margin: 0 auto;
 }
 .progress-bar{
