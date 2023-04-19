@@ -42,7 +42,7 @@
         </div>
         </RouterLink>
 
-        <RouterLink to="/customize-profile-client" class="menu-item">
+        <RouterLink to="/client" class="menu-item">
         <div>
             <span class="menu-item-label">Hire Talent</span>
         </div>
