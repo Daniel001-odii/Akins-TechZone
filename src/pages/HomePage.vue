@@ -10,6 +10,7 @@ import ProfileNavBar from '../components/ProfileNavBar.vue';
 import ItemScroll from '../components/ItemScroll.vue';
 import NavBarHome from '../components/NavBarHome.vue';
 
+import axios from 'axios'
 
 const Api_url = "http://127.0.0.1:8000/api";
 
@@ -28,9 +29,12 @@ export default {
     const authenticated = ref(false);
     const router = useRouter();
 
+    // main.js
+
+
     const checkAuth = async () => {
       try {
-        const response = await fetch(`${Api_url}/get-user`, {
+        const response = await fetch(`${Api_url}/get-user/`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },

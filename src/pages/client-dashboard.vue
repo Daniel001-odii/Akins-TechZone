@@ -20,7 +20,7 @@ import NavBarHome from '../components/NavBarHome.vue';
 
 <style scoped>
 .page-content{
-    height: 100vh;
+    height: 90vh;
     width: 100%;
     display: flex;
     justify-content: flex-start;

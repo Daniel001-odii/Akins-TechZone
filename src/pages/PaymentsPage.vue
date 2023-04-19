@@ -32,9 +32,17 @@
   import { reactive } from 'vue';
   import LeftNav from '../components/LeftNav.vue';
   
+  const Api_url = "http://127.0.0.1:8000/api";
   
       export default {
-          components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav }
+          components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav },
+         
+methods: {
+    async getUser() {
+      const response = await axios.get(`/Api_url/user/${this.username}`);
+      this.user = response.data;
+    },
+  },
       }
   </script>       
   
