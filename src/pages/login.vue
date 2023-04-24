@@ -18,6 +18,8 @@
                 <h2 style="font-weight: bolder;">Welcome Back!</h2>
                 <p>Please enter your login details</p>
 
+
+                <div v-if="errorMessage">{{ errorMessage }}</div>
                 <!--form starts here ------------------------------->
                 <form @submit.prevent="login">
                     <span v-for="error in msg" :key="error"  >
@@ -51,18 +53,18 @@
                     <RouterLink to="/reset-password"><p>Forgot password?</p></RouterLink>
                 </div>
 
-                <button class="form-btn" type="submit">Sign in <i class="bi bi-download"></i></button>
+                <button class="form-btn" type="submit">Sign in <i class="bi bi-arrow-righ"></i></button>
                 </form>
                 <!-------form ends here----------------->
 
                 <div style="font-size: 0.8em; display: flex; flex-direction: row; padding: 20px; justify-content: center;">
                 <p class="form-en">Don't have account yet?</p>
-                <div class="dropdown" style="padding-left: 10px;">
-                            <p href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: blue">Sign Up</p>
-                                <ul class="dropdown-menu">
-                                    <li> <RouterLink class="dropdown-item" to="/signUp-employer">As Employer</RouterLink></li>
-                                    <li><RouterLink class="dropdown-item" to="/signUp">As Talent</RouterLink></li>
-                                </ul>
+                <div style="padding-left: 10px;" class="signup-on-form">
+                            <p style="color: blue; cursor: pointer;" @click="signup_options=!signup_options">Sign Up</p>
+                            <div class="signup-options" v-if="signup_options">
+                                <RouterLink to="/talent-signUp"><div class="options">As Employer</div></RouterLink>
+                                <RouterLink to="/client-signUp"><div class="options">As Talent</div></RouterLink>
+                            </div>
                 </div>
                 </div>
 
@@ -100,6 +102,8 @@ const Api_url = "http://127.0.0.1:8000/api/login";
                 password: '',
                 errors: [],
                 msg: [],
+                errorMessage:"",
+                signup_options: false,
             }
         },
         mounted(){
@@ -124,6 +128,7 @@ const Api_url = "http://127.0.0.1:8000/api/login";
                     let message = error.response.data.error;
                     //push error from api into error array....
                     this.msg.push(message);
+                    this.errorMessage = error.response.data.message;
 
                     //errors are also logged into console for developments only....
                     console.log("Error:: ", message);
@@ -141,18 +146,14 @@ const Api_url = "http://127.0.0.1:8000/api/login";
     }
 </script>
 
-<style>
-   /* .fade-out{
-    opacity: 1;
-    animation: fadeout 6s;
-   }
+<style scoped>
+ .signup-on-form{
+    position: relative;
+ }
+ .signup-options{
+    width: 100px;
+    top: 30px !important;
+    right: -50px;
 
-   @keyframes fadeout{
-    0%{
-        opacity: 1;
-    }
-    100%{
-        opacity: 0;
-    }
-   } */
+ }
 </style>

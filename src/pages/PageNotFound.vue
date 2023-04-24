@@ -28,13 +28,13 @@ export default {
     <!-- <div class="container"> -->
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->
-        <div style="margin-top: 220px; color: grey" class="hero-title"> 404! <br/>Something was here before, i swear . . .
+        <div style="margin-top: 50px; color: grey" class="hero-title"> 404! <br/>Something was here before, i swear . . .
             <br/>
             <img style="filter: grayscale(100%);" height="200" src="https://www.pngmart.com/files/12/Minions-PNG-Transparent-Image.png">
     </div>
     </div>
-    <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; color: var(--app-grey); margin-top: 30px;  font-weight: normal;">See if you are using the correct URL though or 
-        <RouterLink to="/"><button class="cust-btn">Go back home</button></RouterLink></div>
+    <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; color: var(--app-grey); margin-top: 30px;  font-weight: normal;">See if you are using the correct URL or 
+        <RouterLink to="/">Go back home</RouterLink></div>
    
     
 <InfiniteScroll/>
@@ -55,9 +55,6 @@ export default {
     border-radius: none !important;
 }
 
-/* .nav-link{
-    border: 1px solid red;
-} */
    .hero-section{
     display: flex;
     flex-direction: row;

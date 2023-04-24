@@ -6,7 +6,7 @@ import PageNotFound from '../pages/PageNotFound.vue'
 import Insight from '../pages/InsightPage.vue'
 import Payment from '../pages/PaymentsPage.vue'
 import SavedJobs from '../pages/SavedJobs.vue'
-
+import Notifications from '../pages/notifications.vue'
 //pages based on job category......
 import requestedJobs from '../pages/RequestedJobs.vue'
 import assignedJobs from '../pages/AssignedJobs.vue'
@@ -25,6 +25,8 @@ import customize_client from '../pages/clientCustomize.vue'
 import ResetPassword from '../pages/PassReset.vue'
 import Login from '../pages/login.vue'
 import SignUp from '../pages/SignUp.vue'
+import SignUpClient from '../pages/SignUpClient.vue'
+
 
 //clients based pages
 import client_dashboard from '../pages/client-dashboard.vue'
@@ -34,7 +36,8 @@ const routes = [
     {path: '/', component: HomePage},
     {path: '/jobs', component: NewPage},
     {path: '/login', component: Login},
-    {path: '/signUp', component: SignUp},
+    {path: '/talent-signUp', component: SignUp},
+    {path: '/client-signUp', component: SignUpClient},
     {path: '/insights', component: Insight},
     {path: "/404", name: "PageNotFound", component: PageNotFound},
     {path: "/:catchAll(.*)", redirect: "/404"},
@@ -43,6 +46,7 @@ const routes = [
     {path: "/customize-profile", component: customize},
     {path: "/customize-profile-client", component: customize_client},
     {path: "/job-detail", component: JobDetail},
+    {path: "/notifications", component: Notifications},
     // {path: "/signUp-employer", component: EmployerSignup},
     {path: "/reset-password", component: ResetPassword},
 

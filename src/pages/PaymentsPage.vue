@@ -36,6 +36,12 @@
   
       export default {
           components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav },
+
+          data() {
+    return {
+      user: {},
+    };
+  },
          
 methods: {
     async getUser() {

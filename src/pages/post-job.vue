@@ -354,9 +354,11 @@ import Search from '../components/Search.vue';
     }
 
     .job-description{
+        resize: none;
         height: 100px;
         font-size: 0.6em;
         width: 100%;
+        
     }
 
 

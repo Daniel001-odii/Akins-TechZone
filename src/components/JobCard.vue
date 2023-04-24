@@ -119,7 +119,7 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     }
 </script>
 
-<style>
+<style scoped>
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
@@ -188,14 +188,7 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     margin-top: 50px;
     /* border: 1px solid red; */
 }
-.backBtn{
-    border-radius: 50px;
-    position: absolute;
-    padding: 10px;
-    top: 5px;
-    left: 10px;
-    cursor: pointer;
-}
+
 .applyNow{
     position: absolute;
     top: 65px;
@@ -203,9 +196,7 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     width: 100px;
     text-align: center;
 }
-.backBtn:hover{
-    background: var(--app-hover);
-}
+
 .job-detail-content{
     padding: 20px;
 }

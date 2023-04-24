@@ -23,12 +23,17 @@
 
                 <div class="nav-auth-buttons">
                     <RouterLink to="/login"><button class="cust-btn signIn">Sign in</button></RouterLink>
-                    <RouterLink to="/signUp"><button class="cust-btn signUp">Sign Up</button></RouterLink>
+                    <button @click="signup_options = !signup_options" class="cust-btn signUp">Sign Up</button>
+                </div>
+                <div class="signup-options" v-if="signup_options">
+                    <RouterLink to="/talent-signUp"><div class="options">As Employer</div></RouterLink>
+                    <RouterLink to="/client-signUp"><div class="options">As Talent</div></RouterLink>
                 </div>
             </div>
     </nav>
 
-    <div class="menu-from-nav" :class="{ 'navActive': showMenu }">
+<transition name="fade">
+    <div class="menu-from-nav" :class="{ 'navActive': showMenu }" v-if="showMenu">
        <div class="menu-header">
         <RouterLink to="/"  class="navbar-brand">
             <img class="nav-img" src="../components/Logos_icons/techzone.png">
@@ -48,11 +53,20 @@
         </div>
         </RouterLink>
 
-        <RouterLink to="/signUp" class="menu-item">
-        <div>
-            <span class="menu-item-label">Sign Up</span>
-        </div>
-        </RouterLink>
+        <!-- <RouterLink to="/signUp" class="menu-item"> -->
+        <div class="menu-item">
+            <div class="menu-item-label" @click="signup_options =!signup_options"><span>Sign Up</span> 
+                <span>
+                <i v-if="!signup_options" class="bi bi-caret-down-fill"></i>
+                <i v-if="signup_options" class="bi bi-caret-up-fill"></i>
+                </span></div>
+            </div>
+                <div class="sub-signUp menu-item" v-if="signup_options">
+                    <RouterLink to="/talent-signUp" class="options"><div>As Employer</div></RouterLink>
+                    <RouterLink to="/client-signUp" class="options"><div>As Talent</div></RouterLink>
+                </div>
+        <!-- </RouterLink> -->
+                
 
         <RouterLink to="/login" class="menu-item">
         <div>
@@ -61,7 +75,7 @@
         </RouterLink>
 
     </div>
-    
+</transition>
 </template>
 
 <script>
@@ -78,7 +92,8 @@ export default {
 },
 data(){
         return{
-            showMenu:false
+            showMenu:false,
+            signup_options:false,
         };
     },
   };
@@ -90,19 +105,6 @@ data(){
 .nav-toggler{
     display: none;
 }
-/* .Tz-navbar{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    height: 60px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 10px;
-    background: #fff;
-    border-bottom: 0.5px solid #C8C6C6;
-} */
-
 .Tz-brand-area{
     display: flex;
     flex-direction: row;
@@ -147,7 +149,58 @@ data(){
     background: var(--app-hover) !important;
 }
 
+.signup-options{
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    background: #fff;
+    box-shadow: 0px 12px 12px #e2e2e2;
+}
+.options{
+    padding: 5px 10px;
+    width: 100%;
+}
+.options:hover{
+     background: var(--app-blue);
+     color: #fff;
+}
+.options > div:hover{
+    color: #fff;
+}
+.menu-item-label{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
 
+.sub-signUp{
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 50px;
+    height: 80px;
+    justify-content: center;
+    width: 100%;
+}
+.sub-signUp > div{
+    width: 100%;
+}
+.sub-signUp:hover{
+    background: none;
+}
+
+/*-----------animation for menu---------------*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: margin 0.3s;
+  margin-top: 0;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  /* opacity: 0; */
+  margin-top: -100vh;
+}
 
  /*--meida queries-------*/
  @media only screen and (max-width: 600px) {
