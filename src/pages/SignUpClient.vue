@@ -14,7 +14,7 @@
             <div class="subDiv">
                 
                 <div class="left-content">
-                <h2 style="font-weight: bolder;">Create an account</h2>
+                <h2 style="font-weight: bolder;">Create a client account</h2>
                 <p>Please enter your details to register</p>
 
                 <form @submit.prevent="signup">
