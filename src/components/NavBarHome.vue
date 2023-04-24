@@ -32,7 +32,7 @@
             </div>
     </nav>
 
-<transition name="fade">
+<transition name="slide">
     <div class="menu-from-nav" :class="{ 'navActive': showMenu }" v-if="showMenu">
        <div class="menu-header">
         <RouterLink to="/"  class="navbar-brand">
@@ -190,14 +190,14 @@ data(){
 }
 
 /*-----------animation for menu---------------*/
-.fade-enter-active,
-.fade-leave-active {
+.slide-enter-active,
+.slide-leave-active {
   transition: margin 0.3s;
   margin-top: 0;
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.slide-enter-from,
+.slide-leave-to {
   /* opacity: 0; */
   margin-top: -100vh;
 }

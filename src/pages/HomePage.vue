@@ -227,9 +227,9 @@ export default {
         /* top- */
     }
 
-    .getStarted{
+    /* .getStarted{
         background: #3C4045;
-    }
+    } */
 
     .break{
         display: none;

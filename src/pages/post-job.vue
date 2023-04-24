@@ -173,7 +173,7 @@
                 <div class="section-content">
                     <textarea class="job-description" placeholder="Enter your job description here..."></textarea>
                 </div>
-                <input type="submit" value="submit" class="cust-btn" style="width: 100%; background: green"/>
+                <input type="submit" value="Review Job" class="cust-btn" style="width: 100%; background: green"/>
             </div>
       </div>
     </Transition>
@@ -182,8 +182,20 @@
 
 <div>
     <div class="slider-form-buttons">
-      <button @click="prev" :disabled="currentIndex === 0" v-if="currentIndex != 0" class="cust-btn"><i class="bi bi-arrow-left"></i> Previous </button>
-      <button @click="next" :disabled="currentIndex === 4" v-if="currentIndex != 4" class="cust-btn">Next <i class="bi bi-arrow-right"></i></button>
+      <!-- <button  class="cust-btn"> -->
+                  <div class="form-progress-btn" @click="prev" :disabled="currentIndex === 0" v-if="currentIndex != 0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 47" fill="none">
+                            <path d="M11.484 20.334L27.576 4.24197L23.334 -3.05176e-05L0 23.334L23.334 46.668L27.576 42.426L11.484 26.334H48V20.334H11.484Z" fill="#4E79BC"/>
+                        </svg>
+                  </div>
+
+                  <div class="form-progress-btn"  @click="next" :disabled="currentIndex === 4" v-if="currentIndex != 4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 47" fill="none">
+                    <path d="M36.516 20.334L20.424 4.242L24.666 0L48 23.334L24.666 46.668L20.424 42.426L36.516 26.334H0V20.334H36.516Z" fill="#4E79BC"/>
+                    </svg>
+                  </div>
+      <!-- </button> -->
+      <!-- <button class="cust-btn">Next <i class="bi bi-arrow-right"></i></button> -->
     </div>
 
     <div class="progress">
@@ -258,11 +270,23 @@ import Search from '../components/Search.vue';
   align-items: flex-start;
 }
 
+
+.form-progress-btn{
+  padding: 8px;
+  border-radius: 50px;
+  height: 40px;
+  width: 40px;
+}
+.form-progress-btn:hover{
+  background: var(--app-hover);
+}
+
 .slider-form-buttons{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
+  width: 100px;
   margin: 0 auto;
   margin-bottom: 20px;
 }
