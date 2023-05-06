@@ -14,11 +14,11 @@
             <div class="subDiv">
                 
                 <div class="left-content">
-                <h2 style="font-weight: bolder;">Create a freelancer account</h2>
+                <h2 style="font-weight: bolder;">Create a client account</h2>
                 <p>Please enter your details to register</p>
 
                 <form @submit.prevent="signup">
-                    <span v-for="error in msg" :key="error">
+                    <!-- <span v-for="error in msg" :key="error">
                         <ul class="error-msg" style="list-style-type:none">
                             <li v-if="error.firstname" >{{ error.firstname[0] }}</li>
                             <li v-if="error.lastname">{{ error.lastname[0] }}</li>
@@ -26,7 +26,7 @@
                             <li v-if="error.password">{{ error.password[0] }}</li>
                             <li v-if="error.password_confirmation">{{ error.password_confirmation[0] }}</li>
                         </ul>
-                    </span>
+                    </span> -->
 
                 <div class="form-section" style="flex-direction: row;">
                     <div class="name-section">
@@ -93,63 +93,81 @@ import { RouterLink } from 'vue-router';
 //make sure loader is set to invisible .....
 const loading = ref(false);
 
+
+
 // const Api_url = "http://127.0.0.1:8000/api/register";
 const Api_url = "https://techzone.herokuapp.com/register";
 
 
+/*
     export default {
         components: { Loader, RouterLink },
         setup(){
             return {loading};
         },
-        data(){
-            return{
-                
-                user:{
-                firstname: '',
-                lastname: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-                },
-                errors: [],
-                msg: [],
-                
-            }
-        },
-        methods:{
-            async signup(){
-                ////////spawns loader at the top of screen.....
-                loading.value = true;
-
-
-                axios.post(Api_url, this.user)
-                .then(response =>{
-                    //handle successful signup
-                    this.$router.push('/login');
-                    console.log(response.data);
-                })
-                .catch(error =>{
-                    //handle errors from request
-                    let message = error.response.data.errors;
-                    //push error from api into error array....
-                    this.msg.push(error.response.data.errors);
-
-                    //errors are also logged into console for developments only....
-                    console.log("Error:: ", message);
-                    for(const key in message){
-                        console.log("the errors cleaned are: ", `${key}: ${message[key]}`);
-                        this.errors.push(`${message[key]}`);
-                    };
-
-                    //stop loader....
-                    loading.value = false;
-                    
-                })
-                    
-                }
-            },
+        data() {
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+    };
+  },
+  methods: {
+    async signup() {
+      try {
+        const response = await axios.post(`${Api_url}/register`, {
+          first_name: this.firstName,
+          last_name: this.lastName,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.passwordConfirmation,
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
         }
+*/
+        
+
+
+        export default {
+            components: { Loader, RouterLink },
+        setup(){
+            return {loading};
+        },
+  data() {
+    return {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      passwordConfirmation: '',
+    };
+  },
+  methods: {
+    async signup() {
+      try {
+        const response = await axios.post('/api/register', {
+          first_name: this.firstName,
+          last_name: this.lastName,
+          email: this.email,
+          password: this.password,
+          password_confirmation: this.passwordConfirmation,
+        });
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
+
+
     
 </script>
 
