@@ -12,7 +12,7 @@ import NavBarHome from '../components/NavBarHome.vue';
 
 import axios from 'axios'
 
-const Api_url = "http://127.0.0.1:8000/api";
+const Api_url = "https://techzone.herokuapp.com";
 
 
 export default {
@@ -25,54 +25,24 @@ export default {
     ItemScroll,
     NavBarHome
 },  
-  setup() {
-    const authenticated = ref(false);
-    const router = useRouter();
-
-    // main.js
-
-
-    const checkAuth = async () => {
-      try {
-        const response = await fetch(`${Api_url}/get-user/`, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        if (response.ok) {
-          authenticated.value = true;
-          console.log(response.data);
-        };
-        console.log(response)
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const handleLogout = async () => {
-      try {
-        const response = await fetch('/api/logout', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        if (response.ok) {
-          localStorage.removeItem('token');
-          authenticated.value = false;
-          router.push('/');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    checkAuth();
-
+  data() {
     return {
-      authenticated,
-      handleLogout,
+      isAuthenticated: false,
     };
+  },
+  created() {
+    this.checkAuthStatus();
+  },
+  methods: {
+    checkAuthStatus() {
+      axios.get(`${Api_url}/api/get-user`)
+        .then(response => {
+          this.isAuthenticated = true;
+        })
+        .catch(error => {
+          this.isAuthenticated = false;
+        });
+    },
   },
 };
 
@@ -82,8 +52,8 @@ export default {
 
 <template>
     <header>
-    <NavBarHome/>
-
+    <NavBarHome v-if="!isAuthenticated"/>
+    <NavBar v-if="isAuthenticated"/>
     </header>
 <main>
     <!-- <div class="container"> -->

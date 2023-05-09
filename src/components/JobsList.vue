@@ -165,9 +165,9 @@ setup() {
         flex-direction: row;
         /* border: 1px solid red; */
     }
-    .job-cards-area{
+    /* .job-cards-area{
         width: 45%;
-    }
+    } */
     .job-detail-area{
         margin-left: 10px;
         width: 65%;

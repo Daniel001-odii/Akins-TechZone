@@ -1,0 +1,64 @@
+[
+{"id":1,"job_tag":"Software Engineer",
+"skill_set":"HTML, CSS, JS"
+,"work_period":"Medium",
+"budget_des":"Hourly rate",
+"budget":"100",
+"job_des":"We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. The successful candidate will have a proven track record in designing and developing software solutions, as well as a strong understanding of programming principles and best practices. The role will involve working collaboratively with other developers, project managers, and stakeholders to design and implement high-quality software solutions.",
+"created_at":"2023-05-05T12:32:06.000000Z",
+"updated_at":"2023-05-05T12:32:06.000000Z"},
+
+{"id":2,"job_tag":"Testing Engineer",
+"skill_set":"HTML, CSS, JS"
+,"work_period":"small",
+"budget_des":"Hourly rate",
+"budget":"5600-100,000",
+"job_des":"Looking for someone to build a single page app for me",
+"created_at":"2023-05-05T12:32:06.000000Z",
+"updated_at":"2023-05-05T12:32:06.000000Z"},
+
+{"id":3,"job_tag":"Color Engineer",
+"skill_set":"HTML, CSS, JS"
+,"work_period":"large",
+"budget_des":"Hourly rate",
+"budget":"1200",
+"job_des":"We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. The successful candidate will have a proven track record in designing and developing software solutions, as well as a strong understanding of programming principles and best practices. The role will involve working collaboratively with other developers, project managers, and stakeholders to design and implement high-quality software solutions.",
+"created_at":"2023-05-05T12:32:06.000000Z",
+"updated_at":"2023-05-05T12:32:06.000000Z"},
+
+{"id":4,"job_tag":"Food Engineer",
+"skill_set":"HTML, CSS, JS"
+,"work_period":"large",
+"budget_des":"Hourly rate",
+"budget":"2500",
+"job_des":"Looking for someone to build a single page app for me",
+"created_at":"2023-05-05T12:32:06.000000Z",
+"updated_at":"2023-05-05T12:32:06.000000Z"},
+
+{"id":5,"job_tag":"Health Engineer",
+"skill_set":"HTML, CSS, JS"
+,"work_period":"small",
+"budget_des":"Hourly rate",
+"budget":"1399 - 4000",
+"job_des":"Looking for someone to build a single page app for me",
+"created_at":"2023-05-05T12:32:06.000000Z",
+"updated_at":"2023-05-05T12:32:06.000000Z"},
+
+{"id":6,"job_tag":"Food Engineer",
+"skill_set":"HTML, CSS, JS"
+,"work_period":"Medium",
+"budget_des":"Hourly rate",
+"budget":"1200",
+"job_des":"Looking for someone to build a single page app for me",
+"created_at":"2023-05-05T12:32:06.000000Z",
+"updated_at":"2023-05-05T12:32:06.000000Z"},
+
+{"id":7,"job_tag":"Health Engineer",
+"skill_set":"HTML, CSS, JS"
+,"work_period":"small",
+"budget_des":"Hourly rate",
+"budget":"4500",
+"job_des":"Looking for someone to build a single page app for me",
+"created_at":"2023-05-05T12:32:06.000000Z",
+"updated_at":"2023-05-05T12:32:06.000000Z"}
+]

@@ -48,10 +48,14 @@
                             <path d="M4.80859 25.4375C4.80859 26.6956 3.77922 27.725 2.52109 27.725C1.26297 27.725 0.233594 26.6956 0.233594 25.4375C0.233594 24.1794 1.26297 23.15 2.52109 23.15C3.77922 23.15 4.80859 24.1794 4.80859 25.4375ZM4.80859 2.56247C4.80859 3.8206 3.77922 4.84997 2.52109 4.84997C1.26297 4.84997 0.233594 3.8206 0.233594 2.56247C0.233594 1.30435 1.26297 0.274974 2.52109 0.274974C3.77922 0.274974 4.80859 1.30435 4.80859 2.56247ZM4.80859 14C4.80859 15.2581 3.77922 16.2875 2.52109 16.2875C1.26297 16.2875 0.233594 15.2581 0.233594 14C0.233594 12.7418 1.26297 11.7125 2.52109 11.7125C3.77922 11.7125 4.80859 12.7418 4.80859 14Z" fill="#45494F"/>
                         </svg>
 
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 51 50" fill="none">
-                            <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
-                            <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
-                        </svg>
+                        <!--Logged in user credential display-->
+                        <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; margin-right: 10px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 51 50" fill="none">
+                                <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
+                                <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
+                            </svg>
+                            <span  style="font-size: 12px;">User name here <br/>useremail@gmail.com</span>
+                        </div>
                     </div>
         <!-- </div> -->
     </nav>
@@ -271,25 +275,12 @@ export default {
     display: flex;
     height: 100vh;
 }
-.Tz-nav-actions-menu{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    /* border: 2px solid red; */
-    height: 100px;
-    padding-left: 30px;
-    justify-content: flex-start;
-}
-
-
-
-
 
 
 .Tz-navbar{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     height: 60px;
     width: 100%;
@@ -297,12 +288,13 @@ export default {
     padding: 10px;
     background: #fff;
     border-bottom: 0.5px solid #C8C6C6;
-    /* position: fixed; */
     z-index: 99999;
 }
 
 .Tz-nav-actions{
-    width: 120px;
+    /* width: 150px; */
+    /* border: 2px solid red; */
+    gap: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -1,6 +1,6 @@
 
 <template>
-    <div class="page-grid-container">
+      <div class="page-grid-container">
         <div class="Navigation">
             <NavBar/>
         </div>
@@ -12,34 +12,74 @@
             <div class="page-filters">
                <PageFilter/>
             </div>
-            
-                <div class="page-tabs">
-                    <slot name="page-tabs">
-                        <RouterLink to=""><div class="job-category job-category-active">Available Jobs</div></RouterLink>
-                        <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested (0)</div></RouterLink>
-                        <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned (5)</div></RouterLink>
-                        <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed (15)</div></RouterLink>
-                        <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined (4)</div></RouterLink>
-                    </slot>
-                </div>
+            <div class="page-tabs">
+                <slot name="page-tabs">
+                    <RouterLink to=""><div class="job-category job-category-active">Available Jobs</div></RouterLink>
+                    <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested (0)</div></RouterLink>
+                    <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned (5)</div></RouterLink>
+                    <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed (15)</div></RouterLink>
+                    <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined (4)</div></RouterLink>
+                </slot>
+            </div>
             
       </div>
       <div class="Page-contents">
-       
-        <!-- <div class="job-listings"> -->
+        <!--this container houses two extra individually scrollable containers: The Job cards(by the left) and the Job full detail (by the right)-->
+        <div class="page-content-sub">
             <div class="job-cards-area">
-                <slot name="job-cards">
-                <p>You havent imported any Job cards yet...</p>
-                </slot>
+                <slot name="job-cards"><p>You havent imported any Job cards yet...</p></slot>
             </div>
-    
-            
-    
-      </div>
-        <div class="footer">
-            <Footer/>
+
+
+            <!-------the full job description goes below here... and is made scrollable, except the header part which remains static------>
+            <div class="job-details-area card">
+                <slot name="job-details">
+                        <div class="job-detail">
+                            <div class="job-detail-header">
+                                <div class="jdh-left">
+                                    <span><b><slot name="job-title">Senior Software Developer (Java)</slot></b></span>
+                                    <small>microsot Imc. <i>Stars</i></small>
+                                    <span class="jdh-detail">Remote | Posted 1 hour ago</span>
+                                    <span class="jdh-detail">N400,000 - N450,000 monthly | Full-Time</span>
+                                </div>
+                                <div class="jdh-right">
+                                    <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
+                                    <i class="bi bi-heart"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="job-detail-content">
+                                <div class="full-job-description">
+                                    <span class="jdh-title">Job Title</span>
+                                    We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. The successful candidate will have a proven track record in designing and developing software solutions, as well as a strong understanding of programming principles and best practices. The role will involve working collaboratively with other developers, project managers, 
+                                    and stakeholders to design and implement high-quality software solutions.
+                                </div>
+
+                                <span class="jdh-title">Qualification & Skills</span>
+                                <ul>
+                                    <li>Lead the development of software solutions, ensuring that they are efficient, scalable, and maintainable.</li>
+                                    <li>Collaborate with project managers and other developers to ensure that software solutions are delivered on time and within budget.</li>
+                                    <li>Develop high-quality, reliable, and maintainable code using best practices and coding standards.</li>
+                                    <li>Conduct code reviews and provide feedback to other developers to ensure that code quality is consistent.</li>
+                                    <li>Work collaboratively with other developers to troubleshoot and resolve software defects.</li>
+                                    <li>Participate in the design and development of software architecture and infrastructure.</li>
+                                    <li>Stay up-to-date with the latest technologies and trends in software development.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </slot>
+                </div>
+            </div>
         </div>
+            <!-- <div class="job-cards-area">
+                <slot name="job-cards"><p>You havent imported any Job cards yet...</p></slot>
+            </div> -->
+    
     </div>
+    
+    <!-- <div class="footer">
+        <Footer/>
+    </div> -->
     
     
     </template>
@@ -75,7 +115,7 @@
         padding: 0;
         grid-template-columns: 180px 1fr;
         grid-template-rows: 60px auto auto;
-       /* height: 100vh; */
+        height: 100vh;
         }
         
         .Navigation { grid-area: Navigation; }
@@ -148,9 +188,9 @@
         }
         .Page-contents { 
             grid-area: Page-contents; 
-            overflow: scroll;
+            /* overflow: scroll; */
             height: 70vh;
-        
+            /* border: 2px solid red; */
         }
     
         .filter-menu{
@@ -166,6 +206,7 @@
     
         .footer{
             grid-area: footer;
+            background: #fff;
         }
     
         .job-listings{
@@ -173,6 +214,66 @@
             flex-direction: row;
             padding: 10px;
         }
+
+        .page-content-sub{
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* .job-cards-area{
+            height: 68vh;
+            width: 50%;
+            overflow: scroll;
+        } */
+        /* .job-details-area{
+            margin-top: 10px;
+            margin-right: 10px;
+            height: 68vh;
+            width: 50%;
+            font-size: 0.8em;
+            border: 1px solid grey;
+        } */
+
+        .job-detail-header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            border-bottom: 1px solid #C8C6C6;
+        }
+        .jdh-left{
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            /* border: 2px solid green; */
+        }
+        .jdh-right{
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+            /* border: 2px solid red; */
+            align-items: flex-start;
+        }
+        .jdh-title{
+            font-size: 15px;
+            display: block;
+            font-weight: bold;
+            padding-top: 10px;
+        }
+        .jdh-detail{
+            padding: 5px 0px;
+        }
+        .job-detail-content{
+            padding: 10px;
+            overflow-y: scroll;
+            height: 52vh; 
+            /* border: 2px solid red; */
+        }
+        /*
+        class="job-details-area">
+                        <div class="job-detail">
+                            <div class="job-detail-header">
+                                <div class="jdh-left"*/
+        
     
       @media screen and (max-width: 500px) {
         .page-grid-container {

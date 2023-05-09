@@ -1,6 +1,7 @@
 <template>
     <form action="#" class="d-flex">
         <div class="cust-search-container">
+            <!-- <input type="search" class="cust-search-in" placeholder="Search for Job Title, Company or any Job Keyword" v-model="searchTerm"> -->
             <input type="search" class="cust-search-in" placeholder="Search for Job Title, Company or any Job Keyword">
             <button class="cust-search-btn" type="submit">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 26" fill="none">

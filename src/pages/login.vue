@@ -88,7 +88,19 @@ import {ref} from 'vue';
 const loading = ref(false);
 
 
-const Api_url = "https://techzone.herokuapp.com/";
+const Api_url = "https://techzone.herokuapp.com";
+
+
+
+// export default {
+//   data() {
+//     return {
+//       email: '',
+//       password: ''
+//     }
+//   },
+  
+// }
 
     export default {
         components:{Loader},
@@ -111,38 +123,27 @@ const Api_url = "https://techzone.herokuapp.com/";
                 this.show = false
             }, 30000);
         },
-        methods:{
-            login(){
-                ////////spawns loader at the top of screen.....
-                loading.value = true;
+        methods: {
+    async login() {
+  try {
+    const response = await axios.post(`${Api_url}/api/login`, {
+      email: this.email,
+      password: this.password
+    });
+    localStorage.setItem('token', response.data.access_token);
+
+    // Redirect the user to the home page
+    this.$router.push('/jobs');
+  } catch (error) {
+    // console.log(error);  
+    this.errorMessage = error.response.data.message
+    console.error("main error: " + error.request.response);
+  }
+}
 
 
-                axios.post(Api_url, {email: this.email,password: this.password})
-                .then(response =>{
-                    //handle succef=sful login...
-                    localStorage.setItem('token', response.data.token);
-                    this.$router.push('/jobs');
-                })
-                .catch(error =>{
-                    //handle errors from request
-                    let message = error.response.data.error;
-                    //push error from api into error array....
-                    this.msg.push(message);
-                    this.errorMessage = error.response.data.message;
 
-                    //errors are also logged into console for developments only....
-                    console.log("Error:: ", message);
-                    // for(const key in message){
-                    //     console.log("the errors cleaned are: ", `${key}: ${message[key]}`);
-                    //     this.errors.push(`${message[key]}`);
-                    // };
-
-                    
-                    //stop loader....
-                    loading.value = false;
-                }
-                    )}
-        }
+  }
     }
 </script>
 
