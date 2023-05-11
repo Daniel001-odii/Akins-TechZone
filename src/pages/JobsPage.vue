@@ -35,58 +35,43 @@
           </div>
           
     </div>
+
+
     <div class="Page-contents">
       <!--this container houses two extra individually scrollable containers: The Job cards(by the left) and the Job full detail (by the right)-->
 
-      <!-- :style="{ border: selectedJob === index ? '2px solid blue' : '2px solid black' }"
-      @click="showFullJob(index)" -->
-
-     
-
-
-<div class="page-content-sub">
-    <div class="job-cards-area">
-            
-    <div v-for="item in filteredItems" :key="item.id">
-        <JobCard  @click="showFullJob(item.id)" :style="{ background: selectedJob === item.id ? '#F7F9FF' : '' }">
-            <template #job-title>{{ item.job_tag }}</template>
-            <template #job-post-company></template>
-            <template #job-amount>(₦){{ item.budget }}</template>
-            <template #job-duration> {{ item.work_period }}</template>
-            <template #job-description>{{ item.job_des.substring(0,120) }}...</template>
-            <template #job-post-time></template>
-        </JobCard>
-      
-    </div>
-            <!-- <div v-for="(job_list, index) in Available_jobs" :key="index">
-                <div v-for="(job, index) in job_list" :key="index">
-                    <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }">
+<!-- <div> -->
+<Transition name="fade">
+    <div class="page-content-sub" v-if="filteredJobs.length > 0">
+            <div class="job-cards-area">
+                <div v-for="(job, index) in filteredJobs" :key="index">
+                    <JobCard  @click="showFullJob(job.id)" :style="{ background: selectedJob === job.id ? '#F7F9FF' : '' }" >
                         <template #job-title>{{ job.job_tag }}</template>
                         <template #job-post-company></template>
                         <template #job-amount>(₦){{ job.budget }}</template>
                         <template #job-duration> {{ job.work_period }}</template>
                         <template #job-description>{{ job.job_des.substring(0,120) }}...</template>
-                        <template #job-post-time></template>
+                        <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                     </JobCard>
+                    
                 </div>
-            </div> -->
+                
+            </div>
+            <!--  -->
+            <!-----------job  details from search results--------------------------------------------------->
 
-
-
-</div>
-
-
-          <!-------the full job description goes below here... and is made scrollable, except the header part which remains static------>
-          <!-- <div class="job-details-area card" v-for="(job_list, index) in Available_jobs" :key="index"> -->
-        <div class="job-details-area card"  v-for="item in filteredDetail" :key="item.id">
+            <!-- <div class="job-details-area card" v-for="item in filteredJobDetail" :key="item.id"> -->
+            <div class="job-details-area card">
               <slot name="job-details">
                       <div class="job-detail">
                           <div class="job-detail-header">
                               <div class="jdh-left">
-                                  <span><b>{{ item.job_tag }}</b></span>
+                                  <span><b>{{ jobs[selectedJob].job_tag }}</b></span>
                                   <small>microsot Imc. <i>Stars</i></small>
                                   <span class="jdh-detail">Posted 1 hour ago</span>
-                                  <!-- <span class="jdh-detail">N{{ job_list[selectedJob].budget }} | {{ job_list[selectedJob].work_period }}</span> -->
+                                  <span class="jdh-detail">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 18" fill="none"><path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#45494F"/></svg>
+                                    (₦){{ jobs[selectedJob].budget }} | {{ jobs[selectedJob].work_period }}</span>
                               </div>
                               <div class="jdh-right">
                                   <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
@@ -97,29 +82,34 @@
                           <div class="job-detail-content">
                               <div class="full-job-description">
                                   <span class="jdh-title">Job Description</span>
-                                  <!-- {{ job_list[selectedJob].job_des }} -->
+                                  {{ jobs[selectedJob].job_des }}
                               </div>
-
-                              <span class="jdh-title">Qualification & Skills</span>
-                              <ul>
-                                  <li>Lead the development of software solutions, ensuring that they are efficient, scalable, and maintainable.</li>
-                                  <li>Collaborate with project managers and other developers to ensure that software solutions are delivered on time and within budget.</li>
-                                  <li>Develop high-quality, reliable, and maintainable code using best practices and coding standards.</li>
-                                  <li>Conduct code reviews and provide feedback to other developers to ensure that code quality is consistent.</li>
-                                  <li>Work collaboratively with other developers to troubleshoot and resolve software defects.</li>
-                                  <li>Participate in the design and development of software architecture and infrastructure.</li>
-                                  <li>Stay up-to-date with the latest technologies and trends in software development.</li>
-                              </ul>
+                              <span class="jdh-title">Skills Required</span>
+                              <div class="skill_set" v-for="(skills,index) in jobs[selectedJob].skill_set" :key="index">
+                                {{ skills }}
+                              </div>
                           </div>
                       </div>
                   </slot>
-              </div>
-          </div>
-      </div>
-          <!-- <div class="job-cards-area">
-              <slot name="job-cards"><p>You havent imported any Job cards yet...</p></slot>
-          </div> -->
-  
+                  
+            </div>
+
+            
+        </div>
+        
+        <div v-else-if="filteredJobs.length === 0" 
+        style="display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 30px;">
+                <p>No job matches your query...</p>
+        </div>
+</Transition>
+    
+
+
+          <!-- </div> -->
+</div>
   </div>
   
   <div class="footer">
@@ -136,44 +126,58 @@
   import NavBar from '../components/NavBar.vue';
   import ProfileNavBar from '../components/ProfileNavBar.vue';
   import { reactive } from 'vue';
-  
   import LeftNav from '../components/LeftNav.vue'
   import PageFilter from '../components/PageFilter.vue';
   import jobsData from '@/pages/JobLists.json'; // import the JSON file
-
-
   
       export default {
           components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter },
             data() {
                 return {
                 selectedJob: 0, // index of currently selected job
-                Available_jobs:[],
 
                 /*------ the area below ensures the search filter works, pls dont touch-----*/
                 searchTerm: '',
-                items:jobsData,
+                jobs:jobsData,
+                filtered_Job_Detail:[],
+                hoursDifference: null,
                 }
             },
             methods: {
-                showFullJob(index) {
-                this.selectedJob = index;
+                showFullJob(index) {this.selectedJob = index; },
+                getHoursTillDate(dateString) {
+                const date = new Date(dateString)
+                const now = new Date()
+                const diff = now.getTime() - date.getTime()
+                const diffInHours = Math.floor(diff / (1000 * 60 * 60))
+                //calculate respectively......
+                if (diffInHours < 24) {
+                    return `${diffInHours} hours`
+                } else if (diffInHours < 720) {
+                    const diffInDays = Math.floor(diffInHours / 24)
+                    return `${diffInDays} days`
+                } else {
+                    const diffInMonths = Math.floor(diffInHours / 720)
+                    return `${diffInMonths} months`
+                }
                 }
             },
-            mounted(){
-                this.Available_jobs.push(jobsData);
-                console.log(this.Available_jobs);
-            },
+            
             computed: {
-                filteredItems() {
-                    return this.items.filter(item => {
-                        return item.job_tag.toLowerCase().includes(this.searchTerm.toLowerCase()) || item.job_des.toLowerCase().includes(this.searchTerm.toLowerCase());
+                filteredJobs() {
+                    if (!this.searchTerm) {
+                        return this.jobs;
+                    }
+                    return this.jobs.filter(job => {
+                        return job.job_tag.toLowerCase().includes(this.searchTerm.toLowerCase()) || job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase())
                     });
-                    },
-                filteredDetail(){
-                    return this.items[this.selectedJob]
-                }
-  }
+            },
+            },
+
+            mounted(){
+                // console.log("filtered job detail: " + JSON.stringify(this.filteredItems));
+                // console.log("the selected job is: " + this.JobSelected);
+            },
 }
 
   </script>       
@@ -348,7 +352,16 @@
           height: 52vh; 
           /* border: 2px solid red; */
       }
-    
+    .skill_set{
+        background: var(--app-hover);
+        padding: 5px 15px;
+        border-radius: 5px;
+        color: #000000;
+        margin-right: 3px;
+        margin-top: 20px;
+        display: inline;
+        text-transform: capitalize !important;
+    }
 
     .filter-search{
         border-radius: 5px;
@@ -370,6 +383,18 @@
         outline: none;
         padding: 5px;
     }
+
+    *-----------animation for menu---------------*/
+    .fade-enter-active,
+    .fade-leave-active {
+    transition: opacity 1s;
+    opacity: 1;
+    }
+
+    .fade-enter-from,
+    .fade-leave-to {
+    opacity: 0;
+    }
   
     @media screen and (max-width: 500px) {
       .page-grid-container {
@@ -382,6 +407,9 @@
           }
   .Left-Nav{
       display: none;
+  }
+  .job-details-area{
+    display: none;
   }
       .page-tabs {
           font-size: 0.9em;
@@ -396,88 +424,3 @@
   }
   }
   </style>
-
-
-<!-- <template>
-    <PageTemplate>
-        <template #page-tabs>
-            <RouterLink to=""><div class="job-category job-category-active">Available Jobs</div></RouterLink>
-            <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested (0)</div></RouterLink>
-            <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned (5)</div></RouterLink>
-            <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed (15)</div></RouterLink>
-            <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined (4)</div></RouterLink>
-        </template>
-        <template #job-cards v-for="(job_list, index) in Available_jobs" :key="index">
-            <div v-for="(job, index) in job_list" :key="index">
-                <JobCard  @click="showFullJob(index)">
-                    <template #job-title>{{ job.job_tag }}</template>
-                    <template #job-post-company></template>
-                    <template #job-location></template>
-                    <template #job-amount></template>
-                    <template #job-time></template>
-                    <template #job-description></template>
-                    <template #job-post-time></template>
-                </JobCard>
-            </div> -->
-
-    <!-- <div class="job-listing__full">
-      <h2>{{ jobs[selectedJob].title }}</h2>
-      <p>{{ jobs[selectedJob].fullDescription }}</p>
-    </div>
-  </div> -->
-        <!-- </template> -->
-        <!-- <template #job-details>
-            <div class="job-detail-content">
-                    <div class="mini-job-description">
-                        We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. 
-                        The successful candidate will have a proven track... 
-                    </div>
-                    <p class="job-title">Job Title</p>
-                        <div class="full-job-description">
-                            We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. The successful candidate will have a proven track record in designing and developing software solutions, as well as a strong understanding of programming principles and best practices. The role will involve working collaboratively with other developers, project managers, 
-                            and stakeholders to design and implement high-quality software solutions.
-                        </div>
-                        <p class="job-title">Qualification & Skills</p>
-                        <ul>
-                                <li>Lead the development of software solutions, ensuring that they are efficient, scalable, and maintainable.</li>
-                                <li>Collaborate with project managers and other developers to ensure that software solutions are delivered on time and within budget.</li>
-                                <li>Develop high-quality, reliable, and maintainable code using best practices and coding standards.</li>
-                                <li>Conduct code reviews and provide feedback to other developers to ensure that code quality is consistent.</li>
-                                <li>Work collaboratively with other developers to troubleshoot and resolve software defects.</li>
-                                <li>Participate in the design and development of software architecture and infrastructure.</li>
-                                <li>Stay up-to-date with the latest technologies and trends in software development.</li>
-                            </ul>
-                </div>
-        </template> -->
-    <!-- </PageTemplate>
-  </template>
-  
-  <script>
-  import PageTemplate from './PageTemplate.vue'
-  import jobsData from '@/pages/JobLists.json'; // import the JSON file
-
-  import JobCard from '../components/JobCard.vue';
-
-  
-  
-      export default {
-            components:{PageTemplate, JobCard,},
-            data() {
-                return {
-                jobs: jobsData, // assign the imported JSON data to the jobs data property
-                selectedJob: 0, // index of currently selected job
-                Available_jobs:[],
-                }
-            },
-            methods: {
-                showFullJob(index) {
-                this.selectedJob = index;
-                }
-            },
-            mounted(){
-                this.Available_jobs.push(jobsData);
-                console.log(this.Available_jobs);
-            }
-}
-
-  </script> -->

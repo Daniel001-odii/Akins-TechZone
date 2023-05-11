@@ -3,82 +3,16 @@
    <div class="page-container">
     
   <div class="page-sub">
-    <form>
+    <form @submit.prevent="submitForm">
       <div class="form-container">
-      <Transition name="fade">
-      <div v-if="currentIndex === 0" class="form-content">
-        <div class="section">
-                <div class="section-title">Job Title</div>
-                <div class="section-content">
-                    Give Your Job a very descriptive Name
-                </div>
-            
-                <div class="section-last">
-                    Giving a descriptive name helps attract the right talent and save you time.
-                </div>
-            </div>
-
-            <div class="section-divider"></div>
-
-            <div class="section">
+      
                 <div class="section-title">Write a name for your job posting</div>
                 <div class="section-content">
                     <textarea class="job-description" placeholder="Enter your job description here..."></textarea>
                 </div>
-            
-                <div class="section-last">
-                    Examples: Product Designer, Web Designer, Flutter Developer
-                </div>
-            </div>
-      </div>
-    </Transition>
 
-    <Transition name="fade">
-      <div v-if="currentIndex === 1" class="form-content">
-            <div class="section">
-                <div class="section-title">Skills</div>
-                <div class="section-content">
-                    Give a list of skills required for your job.
-                </div>
-            
-                <div class="section-last">
-                  Skills, qualifications, necessary tools required should be listed here,  For more reach and better result, input 3 or more skills..
-                </div>
-            </div>
 
-            <div class="section-divider"></div>
-
-            <div class="section">
-                <div class="section-title">Search Skill here or Manually add your own</div>
-                <div class="section-content">
-                    
-                </div>
-                <div class="filter-search">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 25 26" fill="none">
-                          <path d="M11.1311 0.727295C17.1339 0.727295 22.0058 5.59917 22.0058 11.602C22.0058 17.6049 17.1339 22.4767 11.1311 22.4767C5.12822 22.4767 0.256348 17.6049 0.256348 11.602C0.256348 5.59917 5.12822 0.727295 11.1311 0.727295ZM11.1311 20.0601C15.8036 20.0601 19.5892 16.2745 19.5892 11.602C19.5892 6.9283 15.8036 3.1439 11.1311 3.1439C6.45736 3.1439 2.67295 6.9283 2.67295 11.602C2.67295 16.2745 6.45736 20.0601 11.1311 20.0601ZM21.3835 20.1459L24.8018 23.563L23.0921 25.2727L19.675 21.8545L21.3835 20.1459V20.1459Z" fill="#45494F"/>
-                      </svg>
-                      <input type="search" class="ft-search" placeholder="Search a types of jobs">
-                </div>
-                <div class="section-last">
-                    Examples: Product Designer, Web Designer, Flutter Developer
-                </div>
-            </div>
-      </div>
-    </Transition>
-
-    <Transition name="fade">
-      <div v-if="currentIndex === 2" class="form-content">
-            <div class="section">
-                <div class="section-title">Duration/Skill Level</div>
-                <div class="section-content">
-                  Estimate the period the work will last for.
-                </div>
-            </div>
-
-            <div class="section-divider"></div>
-
-            <div class="section">
-              <div class="sub-section">
+        
                     <label class="radio-selection">
                         <input type="radio" name="project-type">
                         <div class="radio-items">
@@ -104,28 +38,8 @@
                           <p>Project has a life span of greater than 6 months</p>
                         </div>
                     </label>
-              </div>
-            </div>
-      </div>
-    </Transition>
-
-    <Transition name="fade">
-      <div v-if="currentIndex === 3" class="form-content">
-            <div class="section">
-                <div class="section-title">Budget</div>
-                <div class="section-content">
-                    What is your budget for the Job?
-                </div>
-            
-                <!-- <div class="section-last">
-                    Giving a descriptive name helps attract the right talent and save you time.
-                </div> -->
-            </div>
-
-            <div class="section-divider"></div>
-
-            <div class="section">
-                <div class="sub-section">
+             
+    
                   <label class="radio-selection">
                         <input type="radio" name="project-budget">
                         <div class="radio-items">
@@ -149,35 +63,14 @@
                           <!-- <p>Hourly rate</p> -->
                         </div>
                     </label>
-                </div>
-                <div class="section-last">
-                  After Project is completed  and satisfied, payment will be released to Freelancer.
-                </div>
-            </div>
-      </div>
-    </Transition>
-
-    <Transition name="fade">
-      <div v-if="currentIndex === 4" class="form-content">
-            <div class="section">
-                <div class="section-title">Job Description</div>
-                <div class="section-content">
-                  Final Step, Write a clear description of the job, including deliverables, skills, experience and other necessary details.
-                </div>
-            </div>
-
-            <div class="section-divider"></div>
-
-            <div class="section">
-                <div class="section-title">Describe your job.</div>
+                
+   
                 <div class="section-content">
                     <textarea class="job-description" placeholder="Enter your job description here..."></textarea>
                 </div>
-                <input type="submit" value="Review Job" class="cust-btn" style="width: 100%; background: green"/>
+                <!-- <input type="submit" value="Review Job" class="cust-btn" style="width: 100%; background: green"/> -->
+                <button type="submit" class="cust-btn">Review Job</button>
             </div>
-      </div>
-    </Transition>
-  </div>
     </form>
 
 <div>
@@ -219,7 +112,7 @@
 import NavBarHome from '../components/NavBarHome.vue';
 import CheckBox from '../components/CheckBox.vue'
 import Search from '../components/Search.vue';
-  
+// https://techzone.herokuapp.com/jobs
   export default {
     components: { NavBarHome, CheckBox, Search },
     data() {
@@ -228,11 +121,15 @@ import Search from '../components/Search.vue';
     }
   },
   methods: {
-    prev() {
-      this.currentIndex--;
-    },
-    next() {
-      this.currentIndex++;
+    async submitForm() {
+      const url = "https://techzone.herokuapp.com/jobs";
+      const formData = new FormData(event.target);
+      const response = await fetch(url, {
+        method: "POST",
+        body: formData
+      });
+
+      // handle response from server here
     }
   }
 
@@ -250,7 +147,7 @@ import Search from '../components/Search.vue';
 }
 .form-container{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   overflow-x: scroll;
   justify-content: space-between;
@@ -301,15 +198,15 @@ import Search from '../components/Search.vue';
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.6s;
+  transition: all 0.8s;
   margin-left: 0px;
   opacity: 0.8;
 }
-.fade-enter-from,
+ .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
   margin-left: -100%;
-}
+} 
 
 .radio-selection{
   border: 1px solid #d5d5d5;
