@@ -1,17 +1,17 @@
 [
     {
-      "id": 1,
+      "id": 0,
       "job_tag": "Software Developer",
       "skill_set": ["Java", "Python", "C++"],
       "work_period": "3 months",
       "budget_des": "Hourly",
       "budget": "$50 - $75 per hour",
-      "job_des": "We are looking for a software developer who can work on multiple projects and write clean, maintainable, and efficient code.",
+      "job_des": "We are looking for a software developer who can work on multiple projects and write clean,  maintainable, and efficient code.",
       "created_at":"2023-05-02T18:43:29.000000Z",
       "updated_at":"2023-05-05T12:32:06.000000Z"
     },
     {
-      "id": 2,
+      "id": 1,
       "job_tag": "UX Designer",
       "skill_set": ["Adobe XD", "Figma", "Sketch"],
       "work_period": "6 months",
@@ -22,7 +22,7 @@
       "updated_at":"2023-05-05T12:32:06.000000Z"
     },
     {
-        "id": 0,
+        "id": 2,
         "job_tag": "Software Developer",
         "skill_set": ["Java", "Python", "C++"],
         "work_period": "3 months",
@@ -112,6 +112,15 @@
     "budget_des":"Hourly rate",
     "budget":"1200",
     "job_des":"We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. The successful candidate will have a proven track record in designing and developing software solutions, as well as a strong understanding of programming principles and best practices. The role will involve working collaboratively with other developers, project managers, and stakeholders to design and implement high-quality software solutions.",
+    "created_at":"2023-05-05T12:32:06.000000Z",
+    "updated_at":"2023-05-05T12:32:06.000000Z"},
+
+{"id":11,"job_tag":"UX Designer",
+    "skill_set": ["Figma", "Adobe XD", "Adobe photoshop"],
+    "work_period":"large",
+    "budget_des":"Hourly rate",
+    "budget":"1200",
+    "job_des":"We are seeking a highly skilled and experienced Senior UX Designer to join our dynamic team. The successful candidate will be responsible for leading and overseeing the design of user experience for our digital products and services. The role will involve working collaboratively with other designers, developers, project managers, and stakeholders to design and implement high-quality and innovative user-centered designs that meet business needs and exceed customer expectations. Responsibilities: Lead the UX design efforts for our digital products and services, including websites, mobile apps, and other digital platforms Develop and maintain user personas, user flows, wireframes, prototypes, and other design artifacts that communicate design concepts and solutions Conduct user research and usability testing to validate design concepts and gather user feedback Collaborate with other designers, developers, and stakeholders to ensure the delivery of high-quality and consistent user experiences across all digital touchpoints Stay up-to-date with the latest UX design trends, techniques, and technologies, and apply them to improve our design processes and outcomes Provide guidance and mentorship to junior designers and other team members, and help build a strong UX design culture within the organization",
     "created_at":"2023-05-05T12:32:06.000000Z",
     "updated_at":"2023-05-05T12:32:06.000000Z"}
 ]
