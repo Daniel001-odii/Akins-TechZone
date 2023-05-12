@@ -280,7 +280,7 @@ export default {
 .Tz-navbar{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     height: 60px;
     width: 100%;

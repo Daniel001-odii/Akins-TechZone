@@ -78,7 +78,7 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     top: 15px;
     border-radius: 50px;
     padding: 5px;
-    z-index: 99999999;
+    z-index: 999;
     height: 30px;
     width: 30px;
     display: flex;
@@ -99,7 +99,7 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     cursor: pointer;
     width: 98%;
     margin: 0 auto;
-    max-height: 200px;
+    /* max-height: 200px; */
 }
 .job-card:hover{
     border: 1px solid var(--app-blue);

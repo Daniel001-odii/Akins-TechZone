@@ -33,10 +33,6 @@
         border: 1px solid #c8c6c6;
         overflow: hidden;
         width: 500px;
-        /* height: 40px;
-        flex-basis: 600px;
-        min-width: 300px; */
-
     }
 
     .search-find{
@@ -67,16 +63,37 @@
         background: var(--app-hover);
     }
 
-    /*--meida queries-------*/
-    @media only screen and (max-width: 450px) {
- .search-find{
-    display: none;
- }
-}
 
-@media only screen and (max-width: 850px) {
+
+
+    /*--meida queries-------*/
+
+
+    @media only screen and (max-width: 960px) {
+        .cust-search-container{
+        width: 400px;
+    }
+    }
+
+    @media only screen and (max-width: 850px) {
     .cust-search-container{
         width: 100%;
     }
 }
+
+@media only screen and (max-width: 700px) {
+    .cust-search-in{
+        width: 100px !important;
+    }
+}
+
+    @media only screen and (max-width: 450px) {
+        .search-find{
+            display: none;
+        }
+}
+
+
+
+
 </style>

@@ -48,10 +48,6 @@ import Search from './Search.vue';
         justify-content: space-between;
         align-items: center;
         font-size: 0.9em;
-        /* width: 400px; */
-        /* min-width: 10px;
-        width: 500px;
-        max-width: 500px; */
     }
 
     .footer-links > a{

@@ -27,10 +27,11 @@
 
         <RouterLink to="/payments" :class="{ 'active-nav': isPayments }">
         <div class="wallet" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 25 26" fill="none">
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 25 26" fill="none">
             <path d="M20 6.05556H23.75C24.0815 6.05556 24.3995 6.20188 24.6339 6.46235C24.8683 6.72282 25 7.07609 25 7.44444V24.1111C25 24.4795 24.8683 24.8327 24.6339 25.0932C24.3995 25.3537 24.0815 25.5 23.75 25.5H1.25C0.918479 25.5 0.600537 25.3537 0.366116 25.0932C0.131696 24.8327 0 24.4795 0 24.1111V1.88889C0 1.52053 0.131696 1.16726 0.366116 0.906796C0.600537 0.646329 0.918479 0.5 1.25 0.5H20V6.05556ZM2.5 8.83333V22.7222H22.5V8.83333H2.5ZM2.5 3.27778V6.05556H17.5V3.27778H2.5ZM16.25 14.3889H20V17.1667H16.25V14.3889Z" fill="#45494F"/>
-            </svg>
-            <span class="navtext">Payments</span>
+            </svg> -->
+            <i class="bi bi-envelope" style="font-size: larger;"></i>
+            <span class="navtext">Messages</span>
         </div>
         </RouterLink>
 
@@ -54,7 +55,7 @@ import { RouterLink } from 'vue-router';
 
 </script>
 
-<style>
+<style scoped>
   .Left-Nav {
         background: #fff; 
         grid-area: Left-Nav;
@@ -87,7 +88,7 @@ import { RouterLink } from 'vue-router';
         color: #4E79BC !important;
         }
 
-        @media screen and (max-width: 720px) {
+        @media screen and (max-width: 1000px) {
             .navtext{display: none;}
             .jobs, .saved-jobs, .insights, .wallet{
                 justify-content: center !important;
