@@ -18,15 +18,13 @@
                 <h2 style="font-weight: bolder;">Welcome Back!</h2>
                 <p>Please enter your login details</p>
 
-
-                <div v-if="errorMessage">{{ errorMessage }}</div>
                 <!--form starts here ------------------------------->
+                <!-------- show login errors here-------->
+                <!-- the alert class has been inherted from native bootstrap classses -->
+                <div v-for="error in errors" :key="error">
+                  <p class="alert alert-danger" v-for="lines in error" :key="lines" role="alert">{{ lines }}</p>
+                </div>
                 <form @submit.prevent="login">
-                    <span v-for="error in msg" :key="error"  >
-                        <ul class="error-msg fade-out"  style="z-index:999999;">
-                            <li class="" v-if="show">{{ error }}</li>
-                        </ul>
-                    </span>
                 <div class="form-section">
                     <label for="email">Email Address</label>
                     <input class="form-input" name="email" placeholder="email address" v-model="email" type="email" required>
@@ -53,7 +51,11 @@
                     <RouterLink to="/reset-password"><p>Forgot password?</p></RouterLink>
                 </div>
 
-                <button class="form-btn" type="submit">Sign in <i class="bi bi-arrow-righ"></i></button>
+                    <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }">
+                        <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span v-if="isLoading === true">Loading...</span>
+                        <span v-else>Login</span>
+                    </button>
                 </form>
                 <!-------form ends here----------------->
 
@@ -88,19 +90,7 @@ import {ref} from 'vue';
 const loading = ref(false);
 
 
-const Api_url = "https://techzone.herokuapp.com";
-
-
-
-// export default {
-//   data() {
-//     return {
-//       email: '',
-//       password: ''
-//     }
-//   },
-  
-// }
+const Api_url = "http://127.0.0.1:8000";
 
     export default {
         components:{Loader},
@@ -109,36 +99,36 @@ const Api_url = "https://techzone.herokuapp.com";
         },
         data(){
             return{
-                show: true,
+                // show: true,
                 email: '',
                 password: '',
-                errors: [],
-                msg: [],
-                errorMessage:"",
                 signup_options: false,
+                errors: {},
+                isLoading: false,
             }
         },
-        mounted(){
-            setTimeout(() => {
-                this.show = false
-            }, 30000);
-        },
+        // mounted(){
+        //     setTimeout(() => {
+        //         this.show = false
+        //     }, 30000);
+        // },
         methods: {
     async login() {
-  try {
-    const response = await axios.post(`${Api_url}/api/login`, {
-      email: this.email,
-      password: this.password
-    });
-    localStorage.setItem('token', response.data.access_token);
+        this.isLoading = true;
+        try {
+            const response = await axios.post(`${Api_url}/api/login`, {
+            email: this.email,
+            password: this.password
+            });
+            localStorage.setItem('token', response.data.access_token);
 
-    // Redirect the user to the home page
-    this.$router.push('/jobs');
-  } catch (error) {
-    // console.log(error);  
-    this.errorMessage = error.response.data.message
-    console.error("main error: " + error.request.response);
-  }
+            // Redirect the user to the home page
+            this.$router.push('/jobs');
+        } 
+        catch (error) {
+            if (error.response && error.response.data && error.response.data.errors) {this.errors = error.response.data.errors}
+            console.error("main error: " + error.request.response);
+        }
 }
 
 

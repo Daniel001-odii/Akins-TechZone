@@ -28,6 +28,7 @@ a{
     --offWhite: #F1F4F4;
     --app-dark-grey: #3C4045;
     --app-hover: #efefef83;
+    --app-btn-disabled: #64a0ff;
 
     
     --main-color: #d4d4d4;
@@ -56,8 +57,13 @@ a{
 .backBtn:hover{
   background: var(--app-hover);
 }
+.disabled-button{
+  background: var(--app-btn-disabled) !important;
+}
 
-
+.spinner-border-sm{
+  margin-right: 10px;
+}
 
 /*----------------custom navigation styles----------------*/
 .nav-img{
@@ -513,7 +519,7 @@ p{
 /*-----------animation for menu---------------*/
 .fade-enter-active,
 .fade-leave-active {
-transition: opacity 1s;
+transition: opacity 0.3s;
 opacity: 1;
 }
 

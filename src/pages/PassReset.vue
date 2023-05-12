@@ -117,17 +117,5 @@ const Api_url = "http://127.0.0.1:8000/api/login";
 </script>
 
 <style>
-   /* .fade-out{
-    opacity: 1;
-    animation: fadeout 6s;
-   }
 
-   @keyframes fadeout{
-    0%{
-        opacity: 1;
-    }
-    100%{
-        opacity: 0;
-    }
-   } */
 </style>
