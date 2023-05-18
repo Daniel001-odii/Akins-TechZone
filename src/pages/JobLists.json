@@ -1,40 +1,40 @@
 [
-    {
-      "id": 0,
-      "job_tag": "Software Developer",
-      "skill_set": ["Java", "Python", "C++"],
-      "work_period": "3 months",
-      "budget_des": "Hourly",
-      "budget": "5000 - 7500 per hour",
-      "job_des": "We are looking for a software developer who can work on multiple projects and write clean,  maintainable, and efficient code.",
-      "created_at":"2023-05-02T18:43:29.000000Z",
-      "updated_at":"2023-05-05T12:32:06.000000Z"
-    },
-    {
-      "id": 1,
-      "job_tag": "UX Designer",
-      "skill_set": ["Adobe XD", "Figma", "Sketch"],
-      "work_period": "6 months",
-      "budget_des": "Fixed",
-      "budget": "10,000 - 15,000",
-      "job_des": "We are seeking a UX designer who can create visually appealing and user-friendly designs for web and mobile applications.",
-      "created_at":"2023-04-17T09:52:59.000000Z",
-      "updated_at":"2023-05-05T12:32:06.000000Z"
-    },
-    {
-        "id": 2,
-        "job_tag": "Software Developer",
-        "skill_set": ["Java", "Python", "C++"],
-        "work_period": "3 months",
-        "budget_des": "Hourly",
-        "budget": "500 - 750 per hour",
-        "job_des": "We are looking for a software developer who can work on multiple projects and write clean, maintainable, and efficient code.",
-        "created_at":"2023-06-28T22:07:03.000000Z",
-        "updated_at":"2023-05-05T12:32:06.000000Z"
-      },
+  {
+    "id": 0,
+    "job_tag": "Data Analyst_0",
+    "skill_set": ["SQL", "Python", "Excel"],
+    "work_period": "4 months",
+    "budget_des": "Monthly",
+    "budget": "400,000 - 600,000 per month",
+    "job_des": "We are looking for a data analyst who can perform complex data analysis and generate reports for our clients.",
+    "created_at":"2023-05-05T12:32:06.000000Z",
+    "updated_at":"2023-05-05T12:32:06.000000Z"
+  },
+  {
+    "id": 1,
+    "job_tag": "Data Analyst1",
+    "skill_set": ["SQL", "Python", "Excel"],
+    "work_period": "4 months",
+    "budget_des": "Monthly",
+    "budget": "400,000 - 600,000 per month",
+    "job_des": "We are looking for a data analyst who can perform complex data analysis and generate reports for our clients.",
+    "created_at":"2023-05-05T12:32:06.000000Z",
+    "updated_at":"2023-05-05T12:32:06.000000Z"
+  },
+  {
+    "id": 2,
+    "job_tag": "Data Analyst2",
+    "skill_set": ["SQL", "Python", "Excel"],
+    "work_period": "4 months",
+    "budget_des": "Monthly",
+    "budget": "400,000 - 600,000 per month",
+    "job_des": "We are looking for a data analyst who can perform complex data analysis and generate reports for our clients.",
+    "created_at":"2023-05-05T12:32:06.000000Z",
+    "updated_at":"2023-05-05T12:32:06.000000Z"
+  },
     {
       "id": 3,
-      "job_tag": "Data Analyst",
+      "job_tag": "Data Analyst3",
       "skill_set": ["SQL", "Python", "Excel"],
       "work_period": "4 months",
       "budget_des": "Monthly",
@@ -122,5 +122,72 @@
     "budget":"12,000",
     "job_des":"We are seeking a highly skilled and experienced Senior UX Designer to join our dynamic team. The successful candidate will be responsible for leading and overseeing the design of user experience for our digital products and services. The role will involve working collaboratively with other designers, developers, project managers, and stakeholders to design and implement high-quality and innovative user-centered designs that meet business needs and exceed customer expectations. Responsibilities: Lead the UX design efforts for our digital products and services, including websites, mobile apps, and other digital platforms Develop and maintain user personas, user flows, wireframes, prototypes, and other design artifacts that communicate design concepts and solutions Conduct user research and usability testing to validate design concepts and gather user feedback Collaborate with other designers, developers, and stakeholders to ensure the delivery of high-quality and consistent user experiences across all digital touchpoints Stay up-to-date with the latest UX design trends, techniques, and technologies, and apply them to improve our design processes and outcomes Provide guidance and mentorship to junior designers and other team members, and help build a strong UX design culture within the organization",
     "created_at":"2023-05-05T12:32:06.000000Z",
-    "updated_at":"2023-05-05T12:32:06.000000Z"}
+    "updated_at":"2023-05-05T12:32:06.000000Z"},
+      {
+          "id": 12,
+          "job_tag": "Mechanical Engineer",
+          "skill_set": "CAD, CAM",
+          "work_period": "Small, Intermediate",
+          "budget_des": "fixed price",
+          "budget": "7000",
+          "job_des": "a random job post",
+          "created_at": "2023-05-15T16:37:49.000000Z",
+          "updated_at": "2023-05-15T16:37:49.000000Z"
+      },
+      {
+          "id": 13,
+          "job_tag": "Software Developer",
+          "skill_set": "java, python",
+          "work_period": "Small, Intermediate",
+          "budget_des": "fixed price",
+          "budget": "80000",
+          "job_des": "we are seeking a skilled",
+          "created_at": "2023-05-15T16:42:25.000000Z",
+          "updated_at": "2023-05-15T16:42:25.000000Z"
+      },
+      {
+        "id": 14,
+        "job_tag": "Software Developer",
+        "skill_set": "java, python",
+        "work_period": "Small, Intermediate",
+        "budget_des": "fixed price",
+        "budget": "80000",
+        "job_des": "we are seeking a skilled",
+        "created_at": "2023-05-15T16:42:25.000000Z",
+        "updated_at": "2023-05-15T16:42:25.000000Z"
+    },
+    {
+      "id": 15,
+      "job_tag": "Software Developer",
+      "skill_set": "java, python",
+      "work_period": "Small, Intermediate",
+      "budget_des": "fixed price",
+      "budget": "80000",
+      "job_des": "we are seeking a skilled",
+      "created_at": "2023-05-15T16:42:25.000000Z",
+      "updated_at": "2023-05-15T16:42:25.000000Z"
+  },
+  {
+    "id": 16,
+    "job_tag": "Software Developer",
+    "skill_set": "java, python",
+    "work_period": "Small, Intermediate",
+    "budget_des": "fixed price",
+    "budget": "80000",
+    "job_des": "we are seeking a skilled",
+    "created_at": "2023-05-15T16:42:25.000000Z",
+    "updated_at": "2023-05-15T16:42:25.000000Z"
+},
+{
+  "id": 17,
+  "job_tag": "Software Developer_17",
+  "skill_set": "java, python",
+  "work_period": "Small, Intermediate",
+  "budget_des": "fixed price",
+  "budget": "80000",
+  "job_des": "we are seeking a skilled",
+  "created_at": "2023-05-15T16:42:25.000000Z",
+  "updated_at": "2023-05-15T16:42:25.000000Z"
+}
 ]
+

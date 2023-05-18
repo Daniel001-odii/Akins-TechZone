@@ -108,7 +108,7 @@
               console.log(response.data);
               this.isLoading = true;
                         //handle successful signup
-                        this.$router.push('/login');
+                        this.$router.push('/employer/login');
                         console.log(response.data);
             } catch (error) {
               this.isLoading = false;

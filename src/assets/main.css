@@ -8,8 +8,8 @@ i{
 
 a{
   text-decoration: none !important;
-  /* color: var(--app-dark-grey) !important; */
-  color: var(--app-blue) !important;
+  color: var(--app-dark-grey) !important;
+  /* color: var(--app-blue) !important; */
 }
 
 /*------ styles for buttons------------*/
@@ -386,9 +386,10 @@ p{
       justify-content: flex-start;
       width: 100%;
       overflow-x: scroll;
+      height: 30px;
   }
   .job-category{
-      width: 100px !important;
+      width: 130px !important;
       text-align: center;
   }
   .job-category-active{
@@ -478,16 +479,31 @@ p{
       font-weight: bold;
   }
   .jdh-detail{
-      padding: 5px 0px;
+      padding: 8px;
+      background: var(--app-hover);
+      border-radius: 5px;
+      margin: 5px;
+      display: flex;
+      gap: 5px; 
   }
   .job-detail-content{
       padding: 10px;
-      overflow: scroll;
+      overflow-x: scroll;
       height: 100% !important;
+      width: 500px;
   }
-.skill_set{
+  .skill_set{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 350px;
+    /* border: 2px solid red; */
+  }
+
+
+.skills{
     background: var(--app-hover);
-    padding: 5px 15px;
+    padding: 5px 8px;
     border-radius: 5px;
     color: #000000;
     display: inline;

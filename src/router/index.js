@@ -24,6 +24,7 @@ import customize_client from '../pages/clientCustomize.vue'
 // import EmployerSignup from '../pages/SignUp_2.vue'
 import ResetPassword from '../pages/PassReset.vue'
 import Login from '../pages/login.vue'
+import ClientLogin from '../pages/ClientLogin.vue'
 import SignUp from '../pages/SignUp.vue'
 import SignUpClient from '../pages/SignUpClient.vue'
 
@@ -31,11 +32,13 @@ import SignUpClient from '../pages/SignUpClient.vue'
 //clients based pages
 import client_dashboard from '../pages/client-dashboard.vue'
 import post_job from '../pages/post-job.vue'
+import JobSuccess from '../pages/JobSuccess.vue'
 
 const routes = [
     {path: '/', component: HomePage},
     {path: '/jobs', component: NewPage},
     {path: '/login', component: Login},
+    {path: '/employer/login', component: ClientLogin},
     {path: '/talent-signUp', component: SignUp},
     {path: '/client-signUp', component: SignUpClient},
     {path: '/insights', component: Insight},
@@ -58,7 +61,8 @@ const routes = [
 
     //client based views
     {path: "/client", component: client_dashboard},
-    {path: "/client/post-a-job", component: post_job}
+    {path: "/client/post-a-job", component: post_job},
+    {path: "/client/successful", component: JobSuccess}
 ]
 
 

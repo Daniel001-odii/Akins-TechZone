@@ -12,7 +12,7 @@ import NavBarHome from '../components/NavBarHome.vue';
 
 import axios from 'axios'
 
-const Api_url = "https://techzone.herokuapp.com";
+const Api_url = "http://127.0.0.1:8000";
 
 
 export default {
@@ -27,22 +27,18 @@ export default {
 },  
   data() {
     return {
-      isAuthenticated: false,
+      userIsLoggedIn: false,
     };
   },
-  created() {
-    this.checkAuthStatus();
-  },
   methods: {
-    checkAuthStatus() {
-      axios.get(`${Api_url}/api/get-user`)
-        .then(response => {
-          this.isAuthenticated = true;
-        })
-        .catch(error => {
-          this.isAuthenticated = false;
-        });
+    checkLoginStatus() {
+      const token = localStorage.getItem('token');
+      this.userIsLoggedIn = !!token; // Set isLoggedIn to true if a token exists, otherwise false
+      console.log("user is logged in? " + this. userIsLoggedIn);
     },
+  },
+  mounted() {
+    this.checkLoginStatus();
   },
 };
 
@@ -52,8 +48,8 @@ export default {
 
 <template>
     <header>
-    <NavBarHome v-if="!isAuthenticated"/>
-    <NavBar v-if="isAuthenticated"/>
+    <NavBarHome v-if="!userIsLoggedIn"/>
+    <NavBar v-if="userIsLoggedIn"/>
     </header>
 <main>
     <!-- <div class="container"> -->
@@ -222,7 +218,7 @@ export default {
    }
 
      /*--meida queries-------*/
- @media only screen and (max-width: 1300px) {
+ @media only screen and (max-width: 900px) {
     .hero-subtitle{
         width: 100%;
     }

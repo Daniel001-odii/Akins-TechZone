@@ -54,7 +54,7 @@
                                 <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
                                 <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
                             </svg>
-                            <span  style="font-size: 12px;">User name here <br/>useremail@gmail.com</span>
+                            <span  style="font-size: 12px;">User name here <br/><button @click="logout" class="logout">Logout</button> <br/></span>
                         </div>
                     </div>
         <!-- </div> -->
@@ -152,6 +152,12 @@ import { inject } from 'vue';
 import { reactive } from 'vue';
 import LeftNav from './LeftNav.vue';
 import { RouterLink } from 'vue-router';
+import axios from 'axios';
+
+const api_url = "http://127.0.0.1:8000/api/logout";
+
+const token = localStorage.getItem('token');
+
 
 export default {
     components:{ Search, LeftNav, RouterLink },
@@ -161,13 +167,36 @@ export default {
             showNotifications: false,
         };
     },
-
+    methods: {
+        logout() {
+        axios.get(`${api_url}`, null, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+            })
+            .then(() => {
+            // Clear the token from localStorage or Vuex
+            localStorage.removeItem('token');
+            console.log("you logged out now!");
+            // Redirect or perform any other action
+            // e.g., this.$router.push('/login');
+            })
+            .catch(error => {
+            console.error(error);
+            // Handle error, e.g., show error message to the user
+            });
+        },
+  }
   };
 
 </script>
 
 
 <style>
+.logout{
+    color: red;
+    cursor: pointer;
+}
 .notification-modal{
     display: block;
     position: absolute;

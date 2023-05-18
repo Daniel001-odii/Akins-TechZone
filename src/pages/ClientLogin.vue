@@ -113,39 +113,24 @@ const Api_url = "http://127.0.0.1:8000";
         //     }, 30000);
         // },
         methods: {
-            
-        // async login() {
-        //         this.isLoading = true;
-        //         axios.post(`${Api_url}/api/login`, {email: this.email,password: this.password})
-        //         .then(response => {
-        //         const token = response.data.token;
-        //         localStorage.setItem('token', token);
-        //         console/log(token)
-        //         this.$router.push('/jobs');
-        //         })
-        //         .catch(error => {
-        //         console.error(error);
-        //         this.isLoading = false;
-        //         });
-        // },
-
-
     async login() {
         this.isLoading = true;
         try {
-            const response = await axios.post(`${Api_url}/api/login`, {
+            const response = await axios.post(`${Api_url}/api/employer/login`, {
             email: this.email,
             password: this.password
             });
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            console.log(token)
-            this.$router.push('/jobs');
+            localStorage.setItem('token', response.data.access_token);
+            
+            //display token in console...
+            console.log(response.data.access_token)
+
+            // Redirect the user to the home page
+            this.$router.push('/client');
         } 
         catch (error) {
             if (error.response && error.response.data && error.response.data.errors) {this.errors = error.response.data.errors}
             console.error("main error: " + error.request.response);
-            this.isLoading = false;
         }
 }
 

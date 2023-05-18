@@ -14,6 +14,7 @@
             </div>
 
             <div class="nav-contents">
+                
                 <div class="Tz-nav-links">
                     <slot>
                     <span><RouterLink to="/jobs">Find Job </RouterLink></span>
@@ -26,8 +27,8 @@
                     <button @click="signup_options = !signup_options" class="cust-btn signUp">Sign Up</button>
                 </div>
                 <div class="signup-options" v-if="signup_options">
-                    <RouterLink to="/talent-signUp"><div class="options">As Employer</div></RouterLink>
-                    <RouterLink to="/client-signUp"><div class="options">As Talent</div></RouterLink>
+                    <RouterLink to="/client-signUp"><div class="options">As Employer</div></RouterLink>
+                    <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                 </div>
             </div>
     </nav>
@@ -53,6 +54,7 @@
         </div>
         </RouterLink>
 
+        
         <!-- <RouterLink to="/signUp" class="menu-item"> -->
         <div class="menu-item">
             <div class="menu-item-label" @click="signup_options =!signup_options"><span>Sign Up</span> 
@@ -67,7 +69,7 @@
                 </div>
         <!-- </RouterLink> -->
                 
-
+        
         <RouterLink to="/login" class="menu-item">
         <div>
             <span class="menu-item-label">Sign In</span>
@@ -85,6 +87,8 @@ import { inject } from 'vue';
 import { reactive } from 'vue';
 import { RouterLink } from 'vue-router';
 
+const api_url = "http://127.0.0.1:8000/api/";
+
 export default {
     components:{
     Search,
@@ -94,8 +98,21 @@ data(){
         return{
             showMenu:false,
             signup_options:false,
+            userIsLoggedIn: false,
         };
     },
+    mounted() {
+    this.checkLoginStatus();
+  },
+    methods: {
+    checkLoginStatus() {
+      // Perform your logic to check the user login status
+      // For example, you could check if there's a valid authentication token in local storage or a Vuex store
+      const token = localStorage.getItem('token');
+      this.userIsLoggedIn = !!token; // Set isLoggedIn to true if a token exists, otherwise false
+      console.log("user is logged in? " + this. userIsLoggedIn);
+    },
+  },
   };
 
 </script>
