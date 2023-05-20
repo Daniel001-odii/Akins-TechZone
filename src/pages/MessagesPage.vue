@@ -8,7 +8,7 @@
           <LeftNav/>
     </div>
     <div class="Page-header">
-          <div class="page-title">Payments</div>
+          <div class="page-title">Messages</div>
           <div class="page-filters"></div>
           <div class="insights-content"><p>Coming soon...<br/> we are working hard to see that your money is super safe with us</p></div>
     </div>

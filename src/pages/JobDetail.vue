@@ -1,276 +1,290 @@
 <template>
-        <NavBar>
-            <ProfileNavBar/>
-        </NavBar>
-        <div class="container">
-            <div class="head-section">
-                <div style="display: flex; flex-direction: row; align-items: center;">
-                    <RouterLink to="/jobs" style="color:red"><i class="bi bi-arrow-left-circle-fill"></i></RouterLink>
-                    <div class="second">
-                        <p>DESIGN</p>
-                        <h1>Senior Software Designer</h1>
-                        <p>Microsoft - Full time</p>
-                    </div>
-                </div>
-
-                <div class="third"> 
-                    <button class="cust-btn apply-btn">Apply Here <i class="bi bi-arrow-up-right-square" style="color: #fff; font-size: 1em;"></i></button>
-                    <i class="bi bi-heart" style="font-size: 1.3em;"></i>
-                </div>
-            </div>
-            <p class="h4" style="position: relative; top: -30px; border-bottom: 2px solid blue; width: 155px; left: 38px;">JOB DETAILS</p>
-
-            <div class="body-section">
-                <div class="main-content">
-                    <div class="tz-companyImage"></div>
-                    <h5>Job Title</h5>
-                    <p style="background: #F1F4F4; padding: 10px;">Senior Software Designer</p>
-                    <br/>
-                    <h5>Job Description</h5>
-                    <P>We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. 
-                        The successful candidate will have a proven track record in designing and developing software solutions,
-                         as well as a strong understanding of programming principles and best practices. 
-                         The role will involve working collaboratively with other developers, 
-                        project managers, and stakeholders to design and implement high-quality software solutions.</P>
-                    
-                    <br/>
-                    <h5>Responsibilities</h5>
-                    <ul>
-                        <li>Lead the development of software solutions, ensuring that they are efficient, scalable, and maintainable.</li>
-                        <li>Collaborate with project managers and other developers to ensure that software solutions are delivered on time and within budget.</li>
-                        <li>Develop high-quality, reliable, and maintainable code using best practices and coding standards.</li>
-                        <li>Conduct code reviews and provide feedback to other developers to ensure that code quality is consistent.</li>
-                        <li>Work collaboratively with other developers to troubleshoot and resolve software defects.</li>
-                        <li>Participate in the design and development of software architecture and infrastructure.</li>
-                        <li>Stay up-to-date with the latest technologies and trends in software development.</li>
-                    </ul>
-
-                    <br/>
-                    <h5>Qualification & Skills</h5>
-                    <ul>
-                        <li>Lead the development of software solutions, ensuring that they are efficient, scalable, and maintainable.</li>
-                        <li>Collaborate with project managers and other developers to ensure that software solutions are delivered on time and within budget.</li>
-                        <li>Develop high-quality, reliable, and maintainable code using best practices and coding standards.</li>
-                        <li>Conduct code reviews and provide feedback to other developers to ensure that code quality is consistent.</li>
-                        <li>Work collaboratively with other developers to troubleshoot and resolve software defects.</li>
-                        <li>Participate in the design and development of software architecture and infrastructure.</li>
-                        <li>Stay up-to-date with the latest technologies and trends in software development.</li>
-                    </ul>
-
-                    <br/>
-                    <P>We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. 
-                        The successful candidate will have a proven track record in designing and developing software solutions,
-                         as well as a strong understanding of programming principles and best practices. 
-                    </P>
-                </div>
-                <div class="left-side">
-                    <div class="first-left">
-                        <h3>Other Details</h3> 
-                        <br/>
-                        Job Creation Date <br/>
-                        <h6>6th March, 2023</h6>
-                    </div>
-
-                    <div class="second-left">
-                        <div class="left-sub">
-                        <p>Recruitment Period</p>
-                        <h6>6th March, 2023 - 20th March 2023</h6>
-                        </div>
-
-                        <div class="left-sub">
-                        <p>Recruiter</p>
-                        <h6><i class="bi bi-person-circle"></i>John Doe</h6>
-                        </div>
-
-                        <div class="left-sub">
-                        <p>Job Type</p>
-                        <h6>Full Time</h6>
-                        </div>
-
-                        <div class="left-sub">
-                        <p>Experience</p>
-                        <h6>3+ Years</h6>
-                        </div>
-
-                        <div class="left-sub">
-                        <p>Location</p>
-                        <h6><i class="bi bi-geo-alt-fill"></i>Remote</h6>
-                        </div>
-                    </div>
-
-                    <p>Last updated</p>
-                    <h6><i class="bi bi-clock"></i>30 minutes ago</h6>
-
-
-                </div>
-
-                <button class="cust-btn rescue-btn" style="position: sticky;">Apply now <i class="bi bi-arrow-up-right-square" style="color: #fff; font-size: 1em;"></i></button>
-            </div>
+    <div class="page-grid-container">
+        <div class="Navigation">
+            <NavBar/>
         </div>
+        <div class="Left-Nav">
+            <LeftNav/>
+        </div>
+        <div class="Page-header">
+            <div class="page-title"><slot name="page-title">Application</slot></div>
+        </div>
+        <div class="Page-contents">
+                <div class="tz-job-content-area">
+                    <div class="tz-company-header-img"></div>
+                    <div class="job-detail-header">
+                        <div class="jdh-left">
+                            <span><b>Sample</b></span>
+                            <small>microsot Imc. <i>Stars</i></small>
+                                <!---------------clock icon-------------->
+                            <span class="jdh-detail">
+                                <!---------------location icon-------------->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 15 20" fill="none">
+                                    <path d="M7.5 19.0532L2.19667 13.7499C1.14779 12.701 0.433489 11.3646 0.144107 9.90979C-0.145275 8.45494 0.0032557 6.94695 0.570915 5.57651C1.13858 4.20607 2.09987 3.03473 3.33323 2.21063C4.5666 1.38652 6.01664 0.946655 7.5 0.946655C8.98336 0.946655 10.4334 1.38652 11.6668 2.21063C12.9001 3.03473 13.8614 4.20607 14.4291 5.57651C14.9967 6.94695 15.1453 8.45494 14.8559 9.90979C14.5665 11.3646 13.8522 12.701 12.8033 13.7499L7.5 19.0532ZM11.625 12.5716C12.4407 11.7558 12.9963 10.7164 13.2213 9.58482C13.4463 8.45328 13.3308 7.28042 12.8892 6.21455C12.4477 5.14868 11.7 4.23768 10.7408 3.59673C9.78149 2.95578 8.6537 2.61368 7.5 2.61368C6.3463 2.61368 5.21851 2.95578 4.25924 3.59673C3.29996 4.23768 2.55229 5.14868 2.11076 6.21455C1.66923 7.28042 1.55368 8.45328 1.77871 9.58482C2.00374 10.7164 2.55926 11.7558 3.375 12.5716L7.5 16.6966L11.625 12.5716ZM7.5 10.1133C7.05797 10.1133 6.63405 9.93766 6.32149 9.6251C6.00893 9.31254 5.83333 8.88861 5.83333 8.44659C5.83333 8.00456 6.00893 7.58064 6.32149 7.26808C6.63405 6.95552 7.05797 6.77992 7.5 6.77992C7.94203 6.77992 8.36595 6.95552 8.67851 7.26808C8.99107 7.58064 9.16667 8.00456 9.16667 8.44659C9.16667 8.88861 8.99107 9.31254 8.67851 9.6251C8.36595 9.93766 7.94203 10.1133 7.5 10.1133Z" fill="#4E79BC"/>
+                                </svg>
+                                Lekki Phase 1, Lagos State
+                            <!-- </span> -->
+                            <!-- <span> -->
+                                <!---------------clock icon-------------->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 22" fill="none">
+                                    <path d="M18.75 12.25C18.75 17.08 14.83 21 10 21C5.17 21 1.25 17.08 1.25 12.25C1.25 7.42 5.17 3.5 10 3.5C14.83 3.5 18.75 7.42 18.75 12.25Z" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M10 7V12" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>Posted sample ago
+                            </span>
+                            <span class="jdh-detail">
+                                <!------------wallet icon-------------->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
+                                    <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
+                                </svg>(₦)00000
+                            </span>
+                        </div>
+                        <div class="jdh-right">
+                            <span style="padding: 5px 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
+                                    <path d="M0.485051 8.71692C-0.160649 8.50169 -0.166834 8.1541 0.497421 7.93268L24.1075 0.0630534C24.7619 -0.154654 25.1367 0.21149 24.9536 0.852243L18.2072 24.4611C18.0216 25.1155 17.6444 25.1378 17.3673 24.5168L12.9216 14.5121L20.3434 4.61635L10.4476 12.0382L0.485051 8.71692Z" fill="#4E79BC"/>
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="tz-job-content-description">
+                            <p class="tz-form-title">Job Title</p>
+                            <p>
+                                We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. The successful candidate will have a proven track record in designing and developing software solutions, as well as a strong understanding of programming principles and best practices. The role will involve working collaboratively with other developers, project managers, and stakeholders to design and implement high-quality software solutions.
+                            </p>
+                            Bachelor's degree in Computer Science, Software Engineering or related field.
+                            5+ years of experience in software development.
+                            Strong experience in developing software using at least one of the following programming languages: Java, Python, C#, JavaScript.
+                            Solid understanding of software development principles and best practices.
+                            Experience with software development methodologies such as Agile, Scrum, and Kanban.
+                            Strong knowledge of software design patterns and principles.
+                            Excellent communication skills and ability to work collaboratively in a team environment.
+                            Experience with cloud computing platforms such as AWS or Azure is a plus.
+                            Experience with containerization and orchestration technologies such as Docker and Kubernetes is a plus.
+                            Strong analytical and problem-solving skills.
+                    </div>
+                </div>
+                <div class="tz-form-area">
+                    <form>
+                        <div class="tz-form-content">
+                            <span class="tz-form-title">Cover Letter</span>
+                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." v-model="converLetter" required></textarea>
+                        </div>
+                        <div class="tz-form-content">
+                            <span class="tz-form-title">Attachment</span>
+                            <div class="drop-zone" @drop="handleDrop" @dragover.prevent>
+                                <img src="../components/Logos_icons/content.png" class="cloud">
+                                <span v-if="!selectedFile">Drag and drop files or <i  @click="handleButtonClick" style="color:blue; cursor: pointer;">upload</i> project files here.</span>
+                                <span v-else>{{ selectedFile.name }}</span>
+                            </div>
+                                <input type="file" ref="fileInput" @change="handleFileInputChange" style="display: none">
+                                <span @click="handleButtonClick" style="color:blue; cursor: pointer;margin: 0;" class="cust-bt">Upload files</span>
+                        </div>
+                        <div class="tz-form-content">
+                            <span class="tz-form-title">Counter offer</span>
+                            <div class="form-sub">
+                                <p>Requesting Fee</p>
+                                <div class="amount-input">
+                                    <div class="currency">NGN</div>
+                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="counterOffer">
+                                </div>
+                                
+                                <small>input the amount you want to get paid for this job</small>
+                            </div>
+                            <!-- <div class="form-sub">
+                                <p>Reason</p>
+                                <input type="textarea">
+                                <small>give a detailed reason for countering the offer</small>
+                            </div> -->
+                        </div>
+                        <div class="tz-form-content">
+                            <button class="tz-form-submit-btn cust-btn" type="submit">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+        </div>
+        <div class="footer"><Footer/></div>
+      
+    </div>
+      </template>
+      
+      <script>
+      import { RouterLink } from 'vue-router';
+      import Footer from '../components/Footer.vue';
+      import JobCard from '../components/JobCard.vue';
+      import NavBar from '../components/NavBar.vue';
+      import ProfileNavBar from '../components/ProfileNavBar.vue';
+      import { reactive } from 'vue';
+      import LeftNav from '../components/LeftNav.vue'
+      import PageFilter from '../components/PageFilter.vue';
+      import axios from 'axios';
+    //   import { response } from 'express';
+    import draggable from 'vuedraggable';
+      import jobsData from '@/pages/JobLists.json'; // import the JSON file
+      import { ref } from 'vue';
 
-        <Footer/>
 
-</template>
+      const api_url = "http://127.0.0.1:8000/api/jobs";
+    
+      
+          export default {
+              components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter, draggable },
+              name: 'App',
+                setup() {
+                    const selectedFile = ref(null);
 
-<script>
-import NavBar from '../components/NavBar.vue';
-import ProfileNavBar from '../components/ProfileNavBar.vue';
-import Footer from '../components/Footer.vue';
+                    const handleDrop = (event) => {
+                    event.preventDefault();
+                    const file = event.dataTransfer.files[0];
+                    selectedFile.value = file;
+                    };
 
+                    const handleFileInputChange = () => {
+                    const file = event.target.files[0];
+                    selectedFile.value = file;
+                    console.log(selectedFile.value)
+                    };
 
-export default {
-    components: {NavBar, ProfileNavBar, Footer },
-}
+                    const handleButtonClick = () => {
+                    const fileInput = document.querySelector('input[type="file"]');
+                    fileInput.click();
+                    };
 
-</script>
-
-
-<style scoped>
-i{
-    font-size: 2em;
-    color: var(--app-blue);
-}
-
-p{
-    padding: 0px;
-    margin: 0px;
-}
-h6 > i{
-    font-size: 1em;
-}
-
-h5{
-    /* padding-bottom: 10px;
-    border-bottom: 1px dotted var(--app-grey); */
-}
-   .container{
-    margin-top: 80px;
-   }
-
-   .head-section{
-    border-bottom: 0.5px solid #8C8989;
-    /* border-top: 0.5px solid #8C8989; */
-    padding: 10px;
-    padding-bottom: 50px !important;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    /* height: 150px; */
-   }
-
-.third{
+                    return {
+                    selectedFile,
+                    handleDrop,
+                    handleFileInputChange,
+                    handleButtonClick
+                    };
+                }
+    }
+    
+      </script>       
+      
+      
+      <style scoped>
+small{font-size: 12px;}
+.Page-contents{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    align-items: flex-start;
+    width: 100%;
+    /* border: 2px solid red; */
+    padding: 5px;
+    
 }
-.third > i{
-    padding-left: 10px;
-}
-
-   .body-section{
-    display: flex;
-    flex-direction: row;
-    /* border: 1px solid red; */
-    justify-content: space-between;
-   }
-
-   .tz-companyImage{
+.tz-company-header-img{
     height: 200px;
     width: 100%;
-    background: url("https://images.pexels.com/photos/269077/pexels-photo-269077.jpeg?cs=srgb&dl=pexels-pixabay-269077.jpg&fm=jpg");
+    background: url("../assets/imgs/companyImg.png");
     background-size: cover;
     background-position: center;
     margin-bottom: 20px;
     border-radius: 5px;
-   }
-   .main-content{
-    max-width: 950px;
-    padding: 20px;
-    border-radius: 10px;
-    background: #fff;
+}
+.tz-job-content-description{
     margin-top: 20px;
-    /* overflow-y: scroll; */
-    /* height: 750px; */
-   }
-   .left-side{
+}
+.tz-job-content-area, .tz-form-area{
+    /* border: 2px solid green; */
+    width: 50%;
     padding: 20px;
-    border-radius: 10px;
-    background: #fff;
-    margin-top: 20px;
-    max-width: 350px;
-    min-width: 300px;
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    max-height: 650px;
-   }
+    overflow-y: scroll;
+    height: 100%;
+}
 
-   .second-left{
+.tz-form-content{
     display: flex;
     flex-direction: column;
-    width: 60%;
-    justify-content: space-between;
-    border-top: 1px dotted var(--app-blue);
-    border-bottom: 1px dotted var(--app-blue);
-    flex-wrap: wrap;
-    margin: 10px 0px;
-    padding: 10px 0px;
-    /* height: 400px; */
+    padding: 10px;
+}
+.tz-form-title{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 5px;
+    margin: 0;
+}
+.tz-form-textarea{
+    border-radius: 5px;
+    height: 150px;
+    padding: 10px;
+    border: 1px solid var(--app-blue);
+}
+.form-sub{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    /* border: 2px solid red; */
+}
+.amount-input{
+    width: 90%;
+    border: 1px solid var(--app-blue);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.counterOffer{
+    border: none;
     width: 100%;
-   }
+    margin-left: 15px;
+    font-size: 18px;
+    /* outline: none; */
+}
+.cust-btn{
+    width: 150px;
+    /* margin: 0 auto; */
+}
+.tz-form-submit-btn{
+    border-radius: 5px;
+    color: #fff;
+    padding: 10px;
+    background: var(--app-blue);
+    border: none;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
 
-   .left-sub{
-    /* border: 1px solid var(--app-grey); */
-    padding: 10px 0px;
-   }
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 150px;
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.cloud{
+    height: 68px;
+    width: 160px;
+}
+butto {
+  padding: 10px 20px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
 
-   .rescue-btn{
-    margin-top: 10px; display: none;
-   }
-
-   @media only screen and (max-width: 1200px) {
-    .body-section{
+@media screen and (max-width: 1200px) {
+    .Page-contents{
         flex-direction: column;
+        overflow-y: scroll;
     }
-    .main-content{
-        max-width: 100% !important;
-        width: 100% !important;
-    }
-    .left-side{
+    .tz-job-content-area, .tz-form-area{
         width: 100%;
-        min-width: 100%;
-        margin-left: 0px;
-        /* flex-direction: center; */
-        align-items: flex-start;
+        overflow: visible;
+        height: auto;
+        border: 2px solid red;
     }
-    .second-left{
-        flex-direction: row;
-        height: auto !important;
-    }
-   }
-
-   @media only screen and (max-width: 1000px) {
-    .second-left{
-        flex-direction: column;
-    }
-   }
-
-   @media only screen and (max-width: 800px) {
-        .apply-btn{
-            display: none;
-        }
-        .rescue-btn{
-            display: block;
-            position: -webkit-sticky;
-            position: sticky;
-            /* top: 50px; */
-            bottom: 10px;
-            box-shadow: 1px 5px 6px #b9b9b9;
-            /* border: 1px solid red; */
-        }
-   }
-</style>
+}
+      </style>

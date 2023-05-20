@@ -8,7 +8,7 @@
                             </div>
                         </form>
                         <RouterLink class=" tz-nav-block" to="/insight"> <i class="bi bi-graph-up"></i> <span>Insight</span></RouterLink>
-                        <RouterLink class=" tz-nav-block" to="/payments"> <i class="bi bi-wallet2"></i> <span>Payment</span></RouterLink>
+                        <RouterLink class=" tz-nav-block" to="/messages"> <i class="bi bi-wallet2"></i> <span>Payment</span></RouterLink>
                         <RouterLink class=" tz-nav-block" to="/savedJobs"> <i class="bi bi-heart"></i> <span>Saved Jobs</span></RouterLink>
 
                         <div class="user-actions">

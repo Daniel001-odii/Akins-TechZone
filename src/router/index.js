@@ -4,7 +4,7 @@ import NewPage from '../pages/JobsPage.vue'
 
 import PageNotFound from '../pages/PageNotFound.vue'
 import Insight from '../pages/InsightPage.vue'
-import Payment from '../pages/PaymentsPage.vue'
+import Messages from '../pages/MessagesPage.vue'
 import SavedJobs from '../pages/SavedJobs.vue'
 import Notifications from '../pages/notifications.vue'
 //pages based on job category......
@@ -32,7 +32,10 @@ import SignUpClient from '../pages/SignUpClient.vue'
 //clients based pages
 import client_dashboard from '../pages/client-dashboard.vue'
 import post_job from '../pages/post-job.vue'
-import JobSuccess from '../pages/JobSuccess.vue'
+import JobSuccess from '../pages/JobSuccess.vue' ///page is deprecated and has been replaced with a moda instead..
+
+// import 
+
 
 const routes = [
     {path: '/', component: HomePage},
@@ -45,7 +48,7 @@ const routes = [
     {path: "/404", name: "PageNotFound", component: PageNotFound},
     {path: "/:catchAll(.*)", redirect: "/404"},
     {path: "/savedJobs", component: SavedJobs},
-    {path: "/payments", component: Payment},
+    {path: "/messages", component: Messages},
     {path: "/customize-profile", component: customize},
     {path: "/customize-profile-client", component: customize_client},
     {path: "/job-detail", component: JobDetail},
@@ -61,7 +64,7 @@ const routes = [
 
     //client based views
     {path: "/client", component: client_dashboard},
-    {path: "/client/post-a-job", component: post_job},
+    {path: "/client/post-job", component: post_job},
     {path: "/client/successful", component: JobSuccess}
 ]
 

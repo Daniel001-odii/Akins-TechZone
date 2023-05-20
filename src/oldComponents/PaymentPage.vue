@@ -8,7 +8,7 @@
 
 <div class="container" style="margin-top: 50px;">
      
-        <h4>Dont worry we are still working on your payments..</h4>
+        <h4>Dont worry we are still working on your messages..</h4>
      
      <p class="card-text placeholder-glow" style="max-width: 400px">
                     <span class="placeholder col-7"></span>

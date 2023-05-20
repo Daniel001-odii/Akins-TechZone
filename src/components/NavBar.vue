@@ -6,17 +6,17 @@
                     <path d="M1.94727 10.0001H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
                     <path d="M1.94727 18.2455H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
                 </svg>
-                <!-- <button class="menu-toggle">
-                    toggleNav
-                </button> -->
-                <RouterLink to="/"  class="navbar-brand">
-                    <img class="nav-img" src="../components/Logos_icons/techzone.png">
-                </RouterLink>
+                <span v-if="!userIsLoggedIn">
+                    <RouterLink to="/jobs"  class="navbar-brand"><img class="nav-img" src="../components/Logos_icons/techzone.png"></RouterLink>
+                </span>
+                <span v-if="userIsLoggedIn">
+                    <RouterLink to="/"  class="navbar-brand"><img class="nav-img" src="../components/Logos_icons/techzone.png"></RouterLink>
+                </span>
         </div>
 
-            <div class="tz-search">
+            <!-- <div class="tz-search">
                 <Search/>
-            </div>
+            </div> -->
 
                     <div class="Tz-nav-actions">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 40 40" fill="none" class="notifications" @click="showNotifications=!showNotifications">
@@ -98,7 +98,7 @@
         </div>
         </RouterLink>
         
-        <RouterLink to="/payments" class="menu-item">
+        <RouterLink to="/messages" class="menu-item">
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 25 26" fill="none">
             <path d="M20 6.05556H23.75C24.0815 6.05556 24.3995 6.20188 24.6339 6.46235C24.8683 6.72282 25 7.07609 25 7.44444V24.1111C25 24.4795 24.8683 24.8327 24.6339 25.0932C24.3995 25.3537 24.0815 25.5 23.75 25.5H1.25C0.918479 25.5 0.600537 25.3537 0.366116 25.0932C0.131696 24.8327 0 24.4795 0 24.1111V1.88889C0 1.52053 0.131696 1.16726 0.366116 0.906796C0.600537 0.646329 0.918479 0.5 1.25 0.5H20V6.05556ZM2.5 8.83333V22.7222H22.5V8.83333H2.5ZM2.5 3.27778V6.05556H17.5V3.27778H2.5ZM16.25 14.3889H20V17.1667H16.25V14.3889Z" fill="#45494F"/>
@@ -173,8 +173,7 @@ export default {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
-            })
-            .then(() => {
+            }).then(() => {
             // Clear the token from localStorage or Vuex
             localStorage.removeItem('token');
             console.log("you logged out now!");
@@ -185,6 +184,21 @@ export default {
             console.error(error);
             // Handle error, e.g., show error message to the user
             });
+        },
+        data() {
+            return {
+            userIsLoggedIn: false,
+            };
+        },
+        methods: {
+            checkLoginStatus() {
+            const token = localStorage.getItem('token');
+            this.userIsLoggedIn = !!token; // Set isLoggedIn to true if a token exists, otherwise false
+            console.log("user is logged in? " + this. userIsLoggedIn);
+            },
+        },
+        mounted() {
+            this.checkLoginStatus();
         },
   }
   };

@@ -29,6 +29,7 @@ a{
     --app-dark-grey: #3C4045;
     --app-hover: #efefef83;
     --app-btn-disabled: #64a0ff;
+    --app-blue-light: #4E79BC1A;
 
     
     --main-color: #d4d4d4;
@@ -399,7 +400,7 @@ p{
   .Page-contents { 
       grid-area: Page-contents; 
       /* overflow: scroll; */
-      height: 70vh;
+      height: 100vh;
       /* border: 2px solid red; */
   }
 
@@ -479,12 +480,14 @@ p{
       font-weight: bold;
   }
   .jdh-detail{
-      padding: 8px;
-      background: var(--app-hover);
+      /* padding: 8px; */
+      /* background: var(--app-hover); */
       border-radius: 5px;
       margin: 5px;
       display: flex;
-      gap: 5px; 
+      gap: 10px;
+      max-width: 500px;
+      flex-wrap: wrap; 
   }
   .job-detail-content{
       padding: 10px;
@@ -502,10 +505,10 @@ p{
 
 
 .skills{
-    background: var(--app-hover);
+    background: var(--app-blue-light);
     padding: 5px 8px;
     border-radius: 5px;
-    color: #000000;
+    color: var(--app-blue);
     display: inline;
     text-transform: capitalize !important;
 }
