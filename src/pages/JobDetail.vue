@@ -73,7 +73,7 @@
                         <div class="tz-form-content">
                             <span class="tz-form-title">Attachment</span>
                             <div class="drop-zone" @drop="handleDrop" @dragover.prevent>
-                                <img src="../components/Logos_icons/content.png" class="cloud">
+                                <!-- <img src="../components/Logos_icons/content.png" class="cloud"> -->
                                 <span v-if="!selectedFile">Drag and drop files or <i  @click="handleButtonClick" style="color:blue; cursor: pointer;">upload</i> project files here.</span>
                                 <span v-else>{{ selectedFile.name }}</span>
                             </div>
