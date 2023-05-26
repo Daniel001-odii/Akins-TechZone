@@ -25,21 +25,6 @@ export default {
     ItemScroll,
     NavBarHome
 },  
-  data() {
-    return {
-      userIsLoggedIn: false,
-    };
-  },
-  methods: {
-    checkLoginStatus() {
-      const token = localStorage.getItem('token');
-      this.userIsLoggedIn = !!token; // Set isLoggedIn to true if a token exists, otherwise false
-      console.log("user is logged in? " + this. userIsLoggedIn);
-    },
-  },
-  mounted() {
-    this.checkLoginStatus();
-  },
 };
 
 
@@ -48,8 +33,7 @@ export default {
 
 <template>
     <header>
-    <NavBarHome v-if="!userIsLoggedIn"/>
-    <NavBar v-if="userIsLoggedIn"/>
+    <NavBar/>
     </header>
 <main>
     <!-- <div class="container"> -->

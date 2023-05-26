@@ -33,6 +33,7 @@ import SignUpClient from '../pages/SignUpClient.vue'
 import client_dashboard from '../pages/client-dashboard.vue'
 import post_job from '../pages/post-job.vue'
 import JobSuccess from '../pages/JobSuccess.vue' ///page is deprecated and has been replaced with a moda instead..
+import client_jobs from '../pages/Client_Jobs.vue'
 
 // import 
 
@@ -63,8 +64,9 @@ const routes = [
     {path: "/jobs/declined-jobs", component: declinedJobs},
 
     //client based views
-    {path: "/client", component: client_dashboard},
-    {path: "/client/post-job", component: post_job},
+    {path: "/dashboard", component: client_dashboard},
+    {path: "/saved-jobs", component: client_jobs},
+    {path: "/post-job", component: post_job},
     {path: "/client/successful", component: JobSuccess}
 ]
 

@@ -31,7 +31,7 @@
 .loader__element:before {
 	content: '';
 	display: block;
-    background: red;
+    background: var(--app-blue);
 	height: var(--size);
 	width: 10%;
     /* border-radius: 30px; */

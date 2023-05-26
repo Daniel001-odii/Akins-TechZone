@@ -8,7 +8,7 @@
           <rect x="6.31836" y="6.04541" width="64.3636" height="64.3636" rx="32.1818" stroke="#ECFDF3" stroke-width="10.7273"/>
         </svg>
           <p class="tz-modal-title">Job posted Successfully!</p>
-          <RouterLink to="/client">
+          <RouterLink to="/dashboard">
                 <button class="cust-btn">Return to Dashboard</button>
           </RouterLink>
       </div>

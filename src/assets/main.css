@@ -21,6 +21,7 @@ a{
     border: none;
     background: var(--app-blue);
   }
+  .control{border-radius: 30px;}
   :root {
     --app-blue: #4E79BC;
     --app-blue-hover: #3166ba;

@@ -195,7 +195,7 @@
 
 <div>
   <div class="slider-form-buttons">
-    <button  class="cust-btn" @click="prev" :disabled="currentIndex === 0" v-if="currentIndex != 0">Previous</button>
+    <button  class="cust-btn control" @click="prev" :disabled="currentIndex === 0" v-if="currentIndex != 0">Previous</button>
                 <!-- <div class="form-progress-btn" @click="prev" :disabled="currentIndex === 0" v-if="currentIndex != 0">
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 47" fill="none">
                           <path d="M11.484 20.334L27.576 4.24197L23.334 -3.05176e-05L0 23.334L23.334 46.668L27.576 42.426L11.484 26.334H48V20.334H11.484Z" fill="#4E79BC"/>
@@ -208,7 +208,7 @@
                   </svg>
                 </div> -->
     <!--  -->
-    <button class="cust-btn" @click="next" :disabled="currentIndex === 4" v-if="currentIndex != 4">Next</button>
+    <button class="cust-btn control" @click="next" :disabled="currentIndex === 4" v-if="currentIndex != 4">Next</button>
   </div>
 
   <div class="progress">

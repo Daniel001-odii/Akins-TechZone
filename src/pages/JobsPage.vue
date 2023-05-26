@@ -35,10 +35,11 @@
 
 
 <div class="Page-contents">
+    
       <!--this container houses two extra individually scrollable containers: The Job cards(by the left) and the Job full detail (by the right)-->
 
 <!-- <div> -->
-<Transition name="fade">
+<!-- <Transition name="fade"> -->
     
     <div class="page-content-sub" v-if="filteredJobs.length > 0">
         <div class="job-cards-area">
@@ -48,7 +49,7 @@
                         <template #job-title>{{ job.job_tag }}</template>
                         <template #job-post-company></template>
                         <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
-                        <template #job-duration> {{ job.work_period }}</template>
+                        <template #job-duration> {{ job.work_period.substring(0,5) }}...</template>
                         <template #job-description>{{ job.job_des.substring(0,120) }}...</template>
                         <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                     </JobCard>
@@ -135,19 +136,22 @@
         </div>
     </div>
         
-        
-        <span v-else-if="filteredJobs.length === 0" 
+    <span v-if="isLoading" style="color:var(--app-blue)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span v-if="filteredJobs.length === 0" 
                 style="display: flex;
                 justify-content: center;
-                align-items: center;">No jobs found...</span>
+                align-items: center;"> 
+                
+                No jobs found...</span>
+                
         
         
-</Transition>
+<!-- </Transition> -->
 </div>
   
-        <div class="footer">
+        <!-- <div class="footer">
             <Footer/>
-        </div>
+        </div> -->
   
   </div>
   </template>
@@ -162,6 +166,8 @@
   import LeftNav from '../components/LeftNav.vue'
   import PageFilter from '../components/PageFilter.vue';
   import axios from 'axios';
+  import Loader from '../components/loader.vue'
+
 //   import { response } from 'express';
 
   import jobsData from '@/pages/JobLists.json'; // import the JSON file
@@ -170,7 +176,7 @@
 
   
       export default {
-          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter },
+          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter, Loader },
             data() {
                 return {
                 selectedJob: 0, // index of currently selected job
@@ -182,6 +188,7 @@
                 hoursDifference: null,
                 timeInSeconds: 0,
                 timeInMinutes: 0,
+                isLoading: false,
                 }
             },
             methods: {
@@ -195,11 +202,13 @@
 
 
                 fetchJobListings(){
+                    this.isLoading = true;
                     axios.get(api_url).then(response => {
                         this.jobs = response.data;
                         this.jobs.reverse();
                         console.log(response.data)
                     }).catch(error => {
+                        this.isLoading = false;
                         console.error(error);
                     })
                 },
@@ -242,7 +251,8 @@
                     job.job_tag.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
                     job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
                     job.budget.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                    job.budget_des.toLowerCase().includes(this.searchTerm.toLowerCase())
+                    job.budget_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                    job.work_period.toLowerCase().includes(this.searchTerm.toLowerCase())
                     );
                 });
     },

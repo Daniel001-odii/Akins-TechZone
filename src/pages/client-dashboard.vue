@@ -13,7 +13,7 @@
                <div class="container">
                     <div class="tz-client-header">
                         <h4 class="tz-client-title">Welcome back, Charles</h4>
-                        <RouterLink to="/client/post-job">
+                        <RouterLink to="/post-job">
                             <button class="post-job-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
                                     <path d="M6.06641 12H18.0664" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
