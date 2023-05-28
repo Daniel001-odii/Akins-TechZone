@@ -124,7 +124,7 @@
       import { ref } from 'vue';
 
 
-      const api_url = "http://127.0.0.1:8000/api/jobs";
+      const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
     
       
           export default {

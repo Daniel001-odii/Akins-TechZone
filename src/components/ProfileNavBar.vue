@@ -54,7 +54,7 @@ import { RouterLink } from "vue-router";
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const Api_url = "http://127.0.0.1:8000/api";
+const Api_url = "https://techzoneapp.herokuapp.com/api";
 
 export default {
     mounted() {

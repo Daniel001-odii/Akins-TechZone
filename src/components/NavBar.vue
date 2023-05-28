@@ -239,7 +239,7 @@ import LeftNav from './LeftNav.vue';
 import { RouterLink } from 'vue-router';
 import axios from 'axios';
 
-const api_url = "http://127.0.0.1:8000/api/logout";
+const api_url = "https://techzoneapp.herokuapp.com/api/logout";
 
 const token = localStorage.getItem('token');
 

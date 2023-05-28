@@ -12,7 +12,7 @@ import NavBarHome from '../components/NavBarHome.vue';
 
 import axios from 'axios'
 
-const Api_url = "http://127.0.0.1:8000";
+const Api_url = "https://techzoneapp.herokuapp.com";
 
 
 export default {

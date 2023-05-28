@@ -267,7 +267,7 @@ methods: {
     this.formData.job_des.replace(/[\n-]/g, '');
     console.log(this.formData);
     try{
-      const response = await axios.post("http://127.0.0.1:8000/api/jobs", this.formData);
+      const response = await axios.post("https://techzoneapp.herokuapp.com/api/jobs", this.formData);
       if(response.status === 200){
         console.log("job posted successfully!");
         this.isLoading = false;

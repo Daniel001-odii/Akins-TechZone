@@ -32,7 +32,7 @@
   import { reactive } from 'vue';
   import LeftNav from '../components/LeftNav.vue';
   
-  const Api_url = "http://127.0.0.1:8000/api";
+  const Api_url = "https://techzoneapp.herokuapp.com/api";
   
       export default {
           components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav },

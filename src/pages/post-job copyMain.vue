@@ -27,15 +27,15 @@
       </div>
     </div>
   </div>
-
-
     <div>
       <label for="skillSet">Skill Set:</label>
       <input type="text" id="skillSet" v-model="skill_set" disabled="true" required>
       <!-- <input type="text" id="skillSet" v-model="skillSet" required> -->
-
     </div>
 
+
+
+    
     <div>
       <label for="workPeriod">Work Period: Small, Medium, Large | Entry Level, Intermediate, Expert</label>
       <input type="text" id="workPeriod" v-model="workPeriod" required>
@@ -128,7 +128,7 @@ const inputValue = ref('');
   methods: {
     async submitForm() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/jobs', {
+        const response = await fetch('https://techzoneapp.herokuapp.com/api/jobs', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

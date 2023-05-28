@@ -95,7 +95,7 @@ const loading = ref(false);
 
 
 
-// const Api_url = "http://127.0.0.1:8000/api/register";
+// const Api_url = "https://techzoneapp.herokuapp.com/api/register";
 const Api_url = "https://techzone.herokuapp.com/register";
 
 

@@ -90,7 +90,7 @@ import {ref} from 'vue';
 const loading = ref(false);
 
 
-const Api_url = "http://127.0.0.1:8000";
+const Api_url = "https://techzoneapp.herokuapp.com";
 
     export default {
         components:{Loader},
