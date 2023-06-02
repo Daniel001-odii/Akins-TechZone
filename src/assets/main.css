@@ -456,7 +456,7 @@ p{
       border-bottom: 1px solid #C8C6C6;
   }
 /*-----------reponsive job-detail-header-------------*/
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1200px) {
   .job-detail-header{
       flex-direction: column;
   }
@@ -492,9 +492,9 @@ p{
   }
   .job-detail-content{
       padding: 10px;
-      overflow-x: scroll;
+      /* overflow-x: scroll; */
       height: 100% !important;
-      width: 500px;
+      /* width: 500px; */
   }
   .skill_set{
     display: flex;

@@ -119,7 +119,7 @@
       import PageFilter from '../components/PageFilter.vue';
       import axios from 'axios';
     //   import { response } from 'express';
-    import draggable from 'vuedraggable';
+      import draggable from 'vuedraggable';
       import jobsData from '@/pages/JobLists.json'; // import the JSON file
       import { ref } from 'vue';
 

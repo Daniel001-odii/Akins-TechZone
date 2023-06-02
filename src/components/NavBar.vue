@@ -1,7 +1,7 @@
 <template>
     
     
-    <div v-if="userIsLoggedIn">
+    <div v-if="!userIsLoggedIn">
         <nav class="Tz-navbar">
             <div class="Tz-brand-area">
                 <div class="nav-toggler">
@@ -16,18 +16,19 @@
                     </RouterLink>
             </div>
 
-            <div class="nav-contents">
-                
+            <div class="nav-contents"> 
                 <div class="Tz-nav-links">
-                    <slot>
-                    <span><RouterLink to="/jobs">Find Job </RouterLink></span>
-                    <span><RouterLink to="/client">Hire Talent</RouterLink></span>
-                    </slot>
+                    <span><slot name="action-1"><RouterLink to="/jobs">Find Job</RouterLink></slot></span>
+                    <span><slot name="action-2"><RouterLink to="/client">Hire Talent</RouterLink></slot></span>
                 </div>
 
                 <div class="nav-auth-buttons">
-                    <RouterLink to="/login"><button class="cust-btn signIn">Sign in</button></RouterLink>
-                    <button @click="signup_options = !signup_options" class="cust-btn signUp">Sign Up</button>
+                    <button  @click="login_options = !login_options; signup_options = false" class="cust-btn signIn">Sign in</button>
+                    <button @click="signup_options = !signup_options; login_options = false" class="cust-btn signUp">Sign Up</button>
+                </div>
+                <div class="login-options" v-if="login_options">
+                    <RouterLink to="/client-login"><div class="options">As Employer</div></RouterLink>
+                    <RouterLink to="/login"><div class="options">As Talent</div></RouterLink>
                 </div>
                 <div class="signup-options" v-if="signup_options">
                     <RouterLink to="/client-signUp"><div class="options">As Employer</div></RouterLink>
@@ -64,12 +65,13 @@
                 <span>
                 <i v-if="!signup_options" class="bi bi-caret-down-fill"></i>
                 <i v-if="signup_options" class="bi bi-caret-up-fill"></i>
-                </span></div>
+                </span>
             </div>
-                <div class="sub-signUp menu-item" v-if="signup_options">
-                    <RouterLink to="/talent-signUp" class="options"><div>As Employer</div></RouterLink>
-                    <RouterLink to="/client-signUp" class="options"><div>As Talent</div></RouterLink>
-                </div>
+        </div>
+            <div class="sub-signUp menu-item" v-if="signup_options">
+                <RouterLink to="/talent-signUp" class="options"><div>As Employer</div></RouterLink>
+                <RouterLink to="/client-signUp" class="options"><div>As Talent</div></RouterLink>
+            </div>
         <!-- </RouterLink> -->
                 
         
@@ -83,7 +85,7 @@
 </transition>
 </div>
 
-<div v-if="!userIsLoggedIn">
+<div v-if="userIsLoggedIn">
 <nav class="Tz-navbar">
         <div class="Tz-brand-area">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none"  class="menu-toggle"  @click="showMenu = !showMenu">
@@ -116,7 +118,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 20" fill="none">
                                         <path d="M10.5 20C4.977 20 0.5 15.523 0.5 10C0.5 4.477 4.977 0 10.5 0C16.023 0 20.5 4.477 20.5 10C20.5 15.523 16.023 20 10.5 20ZM9.503 14L16.573 6.929L15.159 5.515L9.503 11.172L6.674 8.343L5.26 9.757L9.503 14Z" fill="#00632B"/>
                                     </svg>
-                                    <slot> New login detected</slot>
+                                    <slot name="notification-item"> New login detected</slot>
                                     </div>
                                     <span class="notify-time">Just now</span>
                                 </div>
@@ -139,7 +141,7 @@
                                 <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
                                 <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
                             </svg>
-                            <span  style="font-size: 12px;">User name here <br/><button @click="logout" class="logout">Logout</button> <br/></span>
+                            <span  style="font-size: 12px;">Youre signed in! <br/><button @click="logout" class="logout">Logout</button> <br/></span>
                         </div>
                     </div>
         <!-- </div> -->
@@ -251,10 +253,12 @@ export default {
             showMenu:false,
             showNotifications: false,
             userIsLoggedIn: false,
+            signup_options:false,
+            login_options:false,
         };
     },
     methods: {
-        logout() {
+        logoutNow() {
         axios.get(`${api_url}`, null, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -271,10 +275,16 @@ export default {
             // Handle error, e.g., show error message to the user
             });
         },
-        methods: {
-            checkLoginStatus() {
+        logout(){
             const token = localStorage.getItem('token');
-            this.userIsLoggedIn = !!token; // Set isLoggedIn to true if a token exists, otherwise false
+            localStorage.removeItem('token');
+            console.log("You logged out!");
+            this.$router.push('/')
+        },
+        checkLoginStatus(){
+            const token = localStorage.getItem('token');
+            this.userIsLoggedIn = !!token; 
+            // Set isLoggedIn to true if a token exists, otherwise false
             console.log("user is logged in? " + this.userIsLoggedIn);
             },
         },
@@ -282,15 +292,18 @@ export default {
             this.checkLoginStatus();
   },
   }
-  };
+//   };
 
 </script>
 
 
-<style>
+<style scoped>
 .logout{
-    color: red;
+    color: blue;
     cursor: pointer;
+    border: none;
+    padding: 5px 10px;
+
 }
 .notification-modal{
     display: block;
@@ -450,6 +463,129 @@ export default {
   }
   
 
+  
+.nav-toggler{
+    display: none;
+}
+.Tz-brand-area{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-contents{
+    /* border: 1px solid red; */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 20px;
+}
+
+.Tz-nav-links{
+    display: flex;
+    justify-content: space-between;
+    width: 180px;
+    font-weight: 50px;
+    /* border: 1px solid green; */
+}
+.nav-auth-buttons{
+    width: 200px;
+    /* border: 1px solid red; */
+    justify-content: space-between;
+    display: flex;
+}
+
+.signUp{
+    background: var(--app-blue) !important;
+    border-radius: 5px;
+}
+.signIn{
+    color: #000;
+    border-radius: 5px;
+    background: none !important;
+}
+.signIn:hover{
+    background: var(--app-hover) !important;
+}
+
+.signup-options{
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    background: #fff;
+    box-shadow: 0px 12px 12px #e2e2e2;
+}
+.login-options{
+    display: block;
+    position: absolute;
+    right: 120px;
+    top: 60px;
+    background: #fff;
+    box-shadow: 0px 12px 12px #e2e2e2;
+}
+.options{
+    padding: 5px 10px;
+    width: 100%;
+}
+.options:hover{
+     background: var(--app-blue);
+     color: #fff;
+}
+.options > div:hover{
+    color: #fff;
+}
+.menu-item-label{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sub-signUp{
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 50px;
+    height: 80px;
+    justify-content: center;
+    width: 100%;
+}
+.sub-signUp > div{
+    width: 100%;
+}
+.sub-signUp:hover{
+    background: none;
+}
+
+/*-----------animation for menu---------------*/
+.slide-enter-active,
+.slide-leave-active {
+  transition: margin 0.3s;
+  margin-top: 0;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  /* opacity: 0; */
+  margin-top: -100vh;
+}
+
+ /*--meida queries-------*/
+ @media only screen and (max-width: 600px) {
+    .Tz-navbar{
+        justify-content: space-between;
+        /* border: 1px solid red; */
+    }
+    .nav-contents{
+        display: none;
+    }
+    .nav-toggler{
+        display: block;
+    }
+    }
+    
 
  /*--meida queries-------*/
  @media only screen and (max-width: 600px) {

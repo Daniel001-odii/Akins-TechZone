@@ -126,7 +126,7 @@ const Api_url = "https://techzoneapp.herokuapp.com";
             console.log(response.data.access_token)
 
             // Redirect the user to the home page
-            this.$router.push('/client');
+            this.$router.push('/client/dashboard');
         } 
         catch (error) {
             if (error.response && error.response.data && error.response.data.errors) {this.errors = error.response.data.errors}

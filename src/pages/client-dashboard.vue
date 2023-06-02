@@ -1,7 +1,10 @@
 <template>
     <div class="page-grid-container">
         <div class="Navigation">
-            <NavBar/>
+            <Navbar>
+                <template #action-1><RouterLink to="/client/post-job">Post Job</RouterLink></template>
+                <template #action-2><RouterLink to="/client">Hire Talent</RouterLink></template>
+            </Navbar>
         </div>
         <div class="Left-Nav">
             <LeftNav/>
@@ -13,7 +16,7 @@
                <div class="container">
                     <div class="tz-client-header">
                         <h4 class="tz-client-title">Welcome back, Charles</h4>
-                        <RouterLink to="/post-job">
+                        <RouterLink to="/client/post-job">
                             <button class="post-job-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
                                     <path d="M6.06641 12H18.0664" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -70,7 +73,7 @@
       import { RouterLink } from 'vue-router';
       import Footer from '../components/Footer.vue';
       import JobCard from '../components/JobCard.vue';
-      import NavBar from '../components/NavBar.vue';
+      import Navbar from '../components/NavBar.vue';
       import ProfileNavBar from '../components/ProfileNavBar.vue';
       import { reactive } from 'vue';
       import LeftNav from '../components/Client_LeftNav.vue'
@@ -84,7 +87,7 @@
     
       
           export default {
-              components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter },
+              components:{ JobCard, Navbar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter },
               data() {
                     return {
                     isCollapsed: true,

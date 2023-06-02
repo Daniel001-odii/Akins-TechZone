@@ -1,6 +1,8 @@
 <template>
   <Modal v-if="showModal"/>
-  <NavBarHome/>
+  <Navbar>
+    <template #action-1><RouterLink to="/jobs">Post Job</RouterLink></template>
+  </Navbar>
  <div class="page-container">
 <div class="page-sub">
   <form @submit.prevent="submitForm">
@@ -234,9 +236,10 @@ import CheckBox from '../components/CheckBox.vue'
 import Search from '../components/Search.vue';
 import Modal from '../components/modal.vue'
 import axios from 'axios';
+import Navbar from '../components/NavBar.vue' 
 
 export default {
-  components: { NavBarHome, CheckBox, Search, Modal },
+  components: { Navbar, CheckBox, Search, Modal },
   data() {
   return {
     currentIndex: 0,

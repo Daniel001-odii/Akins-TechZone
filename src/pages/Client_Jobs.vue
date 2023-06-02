@@ -1,7 +1,10 @@
 <template>
     <div class="page-grid-container">
         <div class="Navigation">
-            <NavBar/>
+            <NavBar>
+                <template #action-1><RouterLink to="/client/post-job">Post Job</RouterLink></template>
+                <template #action-2><RouterLink to="/client">Hire Talent</RouterLink></template>
+            </NavBar>
         </div>
         <div class="Left-Nav">
             <LeftNav/>
@@ -12,7 +15,7 @@
         <div class="Page-contents">
                <div class="container">
                     <div class="tz-client-header">
-                        <h4 class="tz-client-title">Welcome back, Charles</h4>
+                        <h4 class="tz-client-title">Your saved jobs appear here</h4>
                         <RouterLink to="/client/post-job">
                             <button class="post-job-btn">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">

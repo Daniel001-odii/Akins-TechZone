@@ -60,6 +60,7 @@
     
             <!-----------job  details from search results--------------------------------------------------->
         <div class="job-details-area card">
+            <div style="overflow-y: scroll;">
             <slot name="job-details">
                 <div class="job-detail-header">
                     <div class="jdh-left">
@@ -92,22 +93,22 @@
                         <RouterLink to="/job-detail">
                             <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
                         </RouterLink>
-                        <span style="padding: 5px 10px;">
+                        <!-- <span style="padding: 5px 10px;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
                                 <path d="M0.485051 8.71692C-0.160649 8.50169 -0.166834 8.1541 0.497421 7.93268L24.1075 0.0630534C24.7619 -0.154654 25.1367 0.21149 24.9536 0.852243L18.2072 24.4611C18.0216 25.1155 17.6444 25.1378 17.3673 24.5168L12.9216 14.5121L20.3434 4.61635L10.4476 12.0382L0.485051 8.71692Z" fill="#4E79BC"/>
                             </svg>
-                        </span>
+                        </span> -->
                     </div>
                 </div>
                 <!--------- job details header ends here------------->
                 <div class="job-detail-content">
                     <div class="jd-section">
                         <span class="jdh-title">Job Description</span>
-                            {{ filteredJobs[selectedJob].job_des }}
+                        <span style="width:100%;">{{ filteredJobs[selectedJob].job_des }}</span>
                     </div>
                     <div class="jd-section">
                         <span class="jdh-title">Payment type</span>
-                            {{ filteredJobs[selectedJob].budget_des }}
+                       {{ filteredJobs[selectedJob].budget_des }}
                     </div>
                     <div class="jd-section">
                         <span class="jdh-title">Project type</span>
@@ -127,31 +128,33 @@
                         <span class="jdh-title">About the recruiter</span>
                         {{ filteredJobs[selectedJob].job_tag }} recruiter is recruiting for {{ filteredJobs[selectedJob].budget_des }} payment
                     </div>
-                    <div class="jd-section" style="color: var(--app-blue) !important">
-                        <RouterLink to="/job-detail"><i class="bi bi-box-arrow-up-right"></i><span>Open job in a new window</span></RouterLink>
-                    </div>
+                    <!-- <div class="jd-section" style="color: var(--app-blue) !important">
+                        <RouterLink :to="{name: '/job-detail', params: {id: participantUser.user_id}}"   target= '_blank'><i class="bi bi-box-arrow-up-right"></i><span>Open job in a new window</span></RouterLink>
+                    </div> -->
                 </div>
             </slot>
+            </div>
                   
         </div>
     </div>
         
-    <span v-if="isLoading" style="color:var(--app-blue)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        <span v-if="filteredJobs.length === 0" 
+
+
+
+    <!-- <span v-if="isLoading" style="color:var(--app-blue)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
+
+    <Skeleton v-if="isLoading"/>
+        <span v-if="filteredJobs.length === 0 && isLoading != true" 
                 style="display: flex;
                 justify-content: center;
-                align-items: center;"> 
+                align-items: center;
+                padding: 50px;"> 
                 
                 No jobs found...</span>
-                
-        
         
 <!-- </Transition> -->
 </div>
   
-        <!-- <div class="footer">
-            <Footer/>
-        </div> -->
   
   </div>
   </template>
@@ -167,6 +170,7 @@
   import PageFilter from '../components/PageFilter.vue';
   import axios from 'axios';
   import Loader from '../components/loader.vue'
+  import Skeleton from '../components/pageSkeleton.vue'
 
 //   import { response } from 'express';
 
@@ -176,7 +180,7 @@
 
   
       export default {
-          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter, Loader },
+          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter, Loader, Skeleton },
             data() {
                 return {
                 selectedJob: 0, // index of currently selected job
@@ -189,6 +193,7 @@
                 timeInSeconds: 0,
                 timeInMinutes: 0,
                 isLoading: false,
+                
                 }
             },
             methods: {
@@ -206,15 +211,15 @@
                     axios.get(api_url).then(response => {
                         this.jobs = response.data;
                         this.jobs.reverse();
-                        console.log(response.data)
+                        console.log(response.data);
+                        this.isLoading = false;
                     }).catch(error => {
                         this.isLoading = false;
                         console.error(error);
                     })
                 },
 
-                
-                //converts the created_at property of the api to readable, hours, days, months, years text for display
+            //converts the created_at property of the api to readable, hours, days, months, years text for display
                 getHoursTillDate(dateString) {
                 const date = new Date(dateString)
                 const now = new Date()
@@ -238,7 +243,7 @@
                     const diffInMonths = Math.floor(diffInHours / 720)
                     return `${diffInMonths} months`
                 }
-                }
+                },
             },
             
             computed: {
@@ -260,6 +265,8 @@
 
             mounted(){
                 this.fetchJobListings();
+                this.getHoursTillDate();
+                //call the check login status function......
             },
 }
 

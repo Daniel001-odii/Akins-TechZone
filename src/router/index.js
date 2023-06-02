@@ -50,8 +50,8 @@ const routes = [
     {path: "/:catchAll(.*)", redirect: "/404"},
     {path: "/savedJobs", component: SavedJobs},
     {path: "/messages", component: Messages},
-    {path: "/customize-profile", component: customize},
-    {path: "/customize-profile-client", component: customize_client},
+    {path: "/talent/customize-profile", component: customize},
+    {path: "/employer/customize-profile", component: customize_client},
     {path: "/job-detail", component: JobDetail},
     {path: "/notifications", component: Notifications},
     // {path: "/signUp-employer", component: EmployerSignup},
@@ -64,9 +64,9 @@ const routes = [
     {path: "/jobs/declined-jobs", component: declinedJobs},
 
     //client based views
-    {path: "/dashboard", component: client_dashboard},
-    {path: "/saved-jobs", component: client_jobs},
-    {path: "/post-job", component: post_job},
+    {path: "/client/dashboard", component: client_dashboard},
+    {path: "/client/saved-jobs", component: client_jobs},
+    {path: "/client/post-job", component: post_job},
     {path: "/client/successful", component: JobSuccess}
 ]
 
