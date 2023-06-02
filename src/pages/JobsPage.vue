@@ -128,9 +128,11 @@
                         <span class="jdh-title">About the recruiter</span>
                         {{ filteredJobs[selectedJob].job_tag }} recruiter is recruiting for {{ filteredJobs[selectedJob].budget_des }} payment
                     </div>
-                    <!-- <div class="jd-section" style="color: var(--app-blue) !important">
-                        <RouterLink :to="{name: '/job-detail', params: {id: participantUser.user_id}}"   target= '_blank'><i class="bi bi-box-arrow-up-right"></i><span>Open job in a new window</span></RouterLink>
-                    </div> -->
+                    <div class="jd-section">
+                        <RouterLink to="/job-detail" target="_blank"><i class="bi bi-box-arrow-up-right"></i>
+                            <span style="color: var(--app-blue) !important; padding: 25px 0px;">Open job in a new window</span>
+                        </RouterLink>
+                    </div>
                 </div>
             </slot>
             </div>
