@@ -1,7 +1,8 @@
 <template>
   <Modal v-if="showModal"/>
   <Navbar>
-    <template #action-1><RouterLink to="/jobs">Post Job</RouterLink></template>
+    <template #action-1><RouterLink to="/client/post-job">Post Job</RouterLink></template>
+    <template #action-2><RouterLink to="/client/post-job"></RouterLink></template>
   </Navbar>
  <div class="page-container">
 <div class="page-sub">

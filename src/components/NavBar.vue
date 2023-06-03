@@ -1,11 +1,4 @@
-<template>
-    <div v-if="userIsOffline" style="
-    /* height: 25px;  */
-    background: red; 
-    color: #fff;
-    text-align: center;
-    padding: 2px;"><small>{{ stateText }}</small></div>
-    
+<template>    
     <div v-if="!userIsLoggedIn">
         <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
@@ -24,21 +17,27 @@
             <div class="nav-contents"> 
                 <div class="Tz-nav-links">
                     <span><slot name="action-1"><RouterLink to="/jobs">Find Job</RouterLink></slot></span>
-                    <span><slot name="action-2"><RouterLink to="/client">Hire Talent</RouterLink></slot></span>
+                    <span><slot name="action-2"><RouterLink to="/client/dashboard">Hire Talen</RouterLink></slot></span>
                 </div>
 
                 <div class="nav-auth-buttons">
-                    <button  @click="login_options = !login_options; signup_options = false" class="cust-btn signIn">Sign in</button>
-                    <button @click="signup_options = !signup_options; login_options = false" class="cust-btn signUp">Sign Up</button>
+                    <button  @click="toggleDropdown" class="cust-btn login">
+                        <span>Sign in</span>
+                    <div class="login-options" v-show="isDropdownOpen">
+                        <RouterLink to="/client-login"><div class="options">As Employer</div></RouterLink>
+                        <RouterLink to="/login"><div class="options">As Talent</div></RouterLink>
+                    </div>
+                    </button>
+                    <button @click="toggleDropdown" class="cust-btn signUp">
+                    <span>Sign Up</span>
+                    <div class="signup-options" v-show="isDropdownOpen">
+                        <RouterLink to="/client-signUp"><div class="options">As Employer</div></RouterLink>
+                        <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
+                    </div>
+                    </button>
                 </div>
-                <div class="login-options" v-if="login_options">
-                    <RouterLink to="/client-login"><div class="options">As Employer</div></RouterLink>
-                    <RouterLink to="/login"><div class="options">As Talent</div></RouterLink>
-                </div>
-                <div class="signup-options" v-if="signup_options">
-                    <RouterLink to="/client-signUp"><div class="options">As Employer</div></RouterLink>
-                    <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
-                </div>
+                
+                
             </div>
     </nav>
 
@@ -245,13 +244,30 @@ import { reactive } from 'vue';
 import LeftNav from './LeftNav.vue';
 import { RouterLink } from 'vue-router';
 import axios from 'axios';
+import { ref } from 'vue';
+
+
+
+    
 
 const api_url = "https://techzoneapp.herokuapp.com/api/logout";
 
 const token = localStorage.getItem('token');
-
+const isDropdownOpen = ref(false);
 
 export default {
+    setup() {
+    const isDropdownOpen = ref(false);
+
+    const toggleDropdown = () => {
+      isDropdownOpen.value = !isDropdownOpen.value;
+    };
+
+    return {
+      isDropdownOpen,
+      toggleDropdown,
+    };
+  },
     components:{ Search, LeftNav, RouterLink },
     data(){
         return{
@@ -262,9 +278,14 @@ export default {
             login_options:false,
             userIsOffline: false,
             stateText: "You are offline",
+            // isDropdownOpen,
         };
     },
+
     methods: {
+        // toggleDropdown (){
+        //     isDropdownOpen.value = !isDropdownOpen.value;
+        // },
         logoutNow() {
         axios.get(`${api_url}`, null, {
             headers: {
@@ -296,20 +317,21 @@ export default {
             },
 
             //the function below is rather used to see when user is offline and online
-            fetchJobListings(){
-                    axios.get("https://techzoneapp.herokuapp.com/api/jobs").then(response => {
-                        this.userIsOffline = false;
-                        console.log("online!");
-                        stateText = "you are now online!"
-                    }).catch(error => {
-                        this.userIsOffline = true;
-                        console.log("offline!")
-                    })
-                },
+        fetchJobListings(){
+            axios.get("https://techzoneapp.herokuapp.com/api/jobs").then(response => {
+            this.userIsOffline = false;
+            console.log("online!");
+            stateText = "you are now online!"
+            }).catch(error => {
+              this.userIsOffline = true;
+              console.log("offline!")
+               })},
         },
         mounted() {
             this.checkLoginStatus();
             this.fetchJobListings();
+            
+            // this.toggleDropdown();
   },
   }
 //   };
@@ -523,30 +545,39 @@ export default {
     background: var(--app-blue) !important;
     border-radius: 5px;
 }
-.signIn{
+.signUp:hover .signup-options{
+    display: block;
+}
+.login{
     color: #000;
     border-radius: 5px;
     background: none !important;
 }
-.signIn:hover{
+.login:hover{
     background: var(--app-hover) !important;
+}
+.login:hover .login-options{
+    display: block;
 }
 
 .signup-options{
-    display: block;
+    display: none;
     position: absolute;
     right: 10px;
-    top: 60px;
+    top: 45px;
     background: #fff;
+    width: 100px;
     box-shadow: 0px 12px 12px #e2e2e2;
+    text-align: right;
 }
 .login-options{
-    display: block;
+    display: none;
     position: absolute;
     right: 120px;
-    top: 60px;
+    top: 45px;
     background: #fff;
     box-shadow: 0px 12px 12px #e2e2e2;
+    text-align: right;
 }
 .options{
     padding: 5px 10px;

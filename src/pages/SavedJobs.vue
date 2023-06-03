@@ -7,7 +7,7 @@
          <LeftNav/>
     </div>
     <div class="Page-header">
-          <div class="page-title"><slot name="page-title">Work Explorer</slot></div>
+          <div class="page-title"><slot name="page-title">Saved Jobs</slot></div>
           <div class="page-filters">
              <PageFilter>
                 <!-- <button class="filter-menu" style="margin-left: 10px;">Last 1 hour</button> -->
