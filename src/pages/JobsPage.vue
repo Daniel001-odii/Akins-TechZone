@@ -90,7 +90,7 @@
                         </span>
                     </div>
                     <div class="jdh-right">
-                        <RouterLink to="/job-detail">
+                        <RouterLink to="/jobs/application">
                             <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
                         </RouterLink>
                         <!-- <span style="padding: 5px 10px;">
@@ -129,7 +129,7 @@
                         {{ filteredJobs[selectedJob].job_tag }} recruiter is recruiting for {{ filteredJobs[selectedJob].budget_des }} payment
                     </div>
                     <div class="jd-section">
-                        <RouterLink to="/job-detail" target="_blank"><i class="bi bi-box-arrow-up-right"></i>
+                        <RouterLink to="/jobs/application" target="_blank"><i class="bi bi-box-arrow-up-right"></i>
                             <span style="color: var(--app-blue) !important; padding: 25px 0px;">Open job in a new window</span>
                         </RouterLink>
                     </div>

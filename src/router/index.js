@@ -52,7 +52,7 @@ const routes = [
     {path: "/messages", component: Messages},
     {path: "/talent/customize-profile", component: customize},
     {path: "/employer/customize-profile", component: customize_client},
-    {path: "/job-detail", component: JobDetail},
+    {path: "/jobs/application", component: JobDetail},
     {path: "/notifications", component: Notifications},
     // {path: "/signUp-employer", component: EmployerSignup},
     {path: "/reset-password", component: ResetPassword},

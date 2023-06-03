@@ -573,12 +573,20 @@ opacity: 0;
 .Left-Nav{
   display: none;
 }
-.job-details-area{
-display: none;
-}
+
   .page-tabs {
       font-size: 0.9em;
       overflow: scroll;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .job-details-area{
+    display: none !important;
+    }
+  .job-cards-area{
+    width: 100%;
+    margin: 10px;
   }
 }
 

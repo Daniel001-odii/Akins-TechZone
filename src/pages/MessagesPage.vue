@@ -10,7 +10,7 @@
     <div class="Page-header">
           <div class="page-title">Messages</div>
           <div class="page-filters"></div>
-          <div class="insights-content"><p>Coming soon...<br/> we are working hard to see that your money is super safe with us</p></div>
+          <div class="insights-content"><small>Dont worry your chats with clients are end to end encrypted</small></div>
     </div>
     <div class="Page-contents">
           <!----this is an insight page and needs no job lisitng content-->

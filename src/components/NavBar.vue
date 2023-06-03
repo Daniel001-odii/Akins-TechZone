@@ -1,8 +1,13 @@
 <template>
-    
+    <div v-if="userIsOffline" style="
+    /* height: 25px;  */
+    background: red; 
+    color: #fff;
+    text-align: center;
+    padding: 2px;"><small>{{ stateText }}</small></div>
     
     <div v-if="!userIsLoggedIn">
-        <nav class="Tz-navbar">
+        <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
                 <div class="nav-toggler">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none" class="menu-toggle" @click="showMenu = !showMenu">
@@ -141,7 +146,7 @@
                                 <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
                                 <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
                             </svg>
-                            <span  style="font-size: 12px;">Youre signed in! <br/><button @click="logout" class="logout">Logout</button> <br/></span>
+                            <span  style="font-size: 12px;">Youre signed in! <br/><button @click="logout" class="logout">Click to logout</button> <br/></span>
                         </div>
                     </div>
         <!-- </div> -->
@@ -255,6 +260,8 @@ export default {
             userIsLoggedIn: false,
             signup_options:false,
             login_options:false,
+            userIsOffline: false,
+            stateText: "You are offline",
         };
     },
     methods: {
@@ -287,9 +294,22 @@ export default {
             // Set isLoggedIn to true if a token exists, otherwise false
             console.log("user is logged in? " + this.userIsLoggedIn);
             },
+
+            //the function below is rather used to see when user is offline and online
+            fetchJobListings(){
+                    axios.get("https://techzoneapp.herokuapp.com/api/jobs").then(response => {
+                        this.userIsOffline = false;
+                        console.log("online!");
+                        stateText = "you are now online!"
+                    }).catch(error => {
+                        this.userIsOffline = true;
+                        console.log("offline!")
+                    })
+                },
         },
         mounted() {
             this.checkLoginStatus();
+            this.fetchJobListings();
   },
   }
 //   };
@@ -302,7 +322,8 @@ export default {
     color: blue;
     cursor: pointer;
     border: none;
-    padding: 5px 10px;
+    /* padding: 5px 10px; */
+    background: none;
 
 }
 .notification-modal{

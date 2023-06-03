@@ -7,7 +7,7 @@
             <LeftNav/>
         </div>
         <div class="Page-header">
-            <div class="page-title"><slot name="page-title">Application</slot></div>
+            <div class="page-title"><slot name="page-title">Application for [Sample Job Post]</slot></div>
         </div>
         <div class="Page-contents">
                 <div class="tz-job-content-area">

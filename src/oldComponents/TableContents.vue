@@ -15,7 +15,7 @@
   <tbody>
     <tr>
       <th scope="row">1</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper <i data-v-2d1117dc="" class="bi bi-arrow-up-right"></i></RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper <i data-v-2d1117dc="" class="bi bi-arrow-up-right"></i></RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -26,7 +26,7 @@
   
     <tr>
       <th scope="row">2</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -37,7 +37,7 @@
   
     <tr>
       <th scope="row">3</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -47,7 +47,7 @@
     </tr>
     <tr>
       <th scope="row">4</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -57,7 +57,7 @@
     </tr>
     <tr>
       <th scope="row">5</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -67,7 +67,7 @@
     </tr>
     <tr>
       <th scope="row">6</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -77,7 +77,7 @@
     </tr>
     <tr>
       <th scope="row">7</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -87,7 +87,7 @@
     </tr>
     <tr>
       <th scope="row">8</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -97,7 +97,7 @@
     </tr>
     <tr>
       <th scope="row">9</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>
@@ -107,7 +107,7 @@
     </tr>
     <tr>
       <th scope="row">10</th>
-      <td><RouterLink to="/job-detail">Senior SoftwareDeveloper</RouterLink></td>
+      <td><RouterLink to="/jobs/application">Senior SoftwareDeveloper</RouterLink></td>
       <td>Software Development</td>
       <td>Microsoft</td>
       <td>Somehwere in Nigeria</td>

@@ -87,7 +87,7 @@
                                     (₦){{ jobs[selectedJob].budget }} | {{ jobs[selectedJob].work_period }}</span>
                               </div>
                               <div class="jdh-right">
-                                <RouterLink to="/job-detail">
+                                <RouterLink to="/jobs/application">
                                   <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
                                 </RouterLink>
                                   <!-- <i class="bi bi-heart"></i> -->

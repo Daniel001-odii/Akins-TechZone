@@ -8,6 +8,15 @@
             <span class="navtext">Work Explorer</span>
             </div>
         </RouterLink>
+
+        <RouterLink to="/messages" :class="{ 'active-nav': isPayments }">
+        <div class="message" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 27 26">
+                <path :class="{ 'active-nav': isPayments }" d="M15.8537 25.5L12.439 21.2317H6.09756C5.77413 21.2317 5.46394 21.1032 5.23524 20.8745C5.00653 20.6458 4.87805 20.3356 4.87805 20.0122V6.72317C4.87805 6.39974 5.00653 6.08955 5.23524 5.86085C5.46394 5.63214 5.77413 5.50366 6.09756 5.50366H25.6098C25.9332 5.50366 26.2434 5.63214 26.4721 5.86085C26.7008 6.08955 26.8293 6.39974 26.8293 6.72317V20.0122C26.8293 20.3356 26.7008 20.6458 26.4721 20.8745C26.2434 21.1032 25.9332 21.2317 25.6098 21.2317H19.2683L15.8537 25.5ZM18.0963 18.7927H24.3902V7.94268H7.31707V18.7927H13.611L15.8537 21.5951L18.0963 18.7927ZM1.21951 0.5H21.9512V2.93902H2.43902V16.3537H0V1.71951C0 1.39608 0.128484 1.08589 0.357187 0.857187C0.58589 0.628484 0.896077 0.5 1.21951 0.5Z" fill="#09121F"/>
+            </svg>
+            <span class="navtext">Messages</span>
+        </div>
+        </RouterLink>
         
         <RouterLink to="/savedJobs"  :class="{ 'active-nav': isSaveJobs }">
         <div class="saved-jobs">
@@ -18,23 +27,16 @@
         </div>
         </RouterLink>
         
-        <RouterLink to="/insights" :class="{ 'active-nav': isInsights}">
+        <!-- <RouterLink to="/insights" :class="{ 'active-nav': isInsights}">
         <div class="insights" >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 25 26" fill="var(--app-blue)">
             <path :class="{ 'active-nav': isInsights}" d="M2.6728 0.5V22.7222H24.0552V25.5H0V0.5H2.6728ZM23.1103 5.07361L25 7.0375L17.3732 14.9639L13.364 10.7986L7.62682 16.7597L5.73716 14.7958L13.364 6.86944L17.3732 11.0347L23.1103 5.07361Z" fill="#45494F"/>
             </svg>
             <span class="navtext">Insights</span>
         </div>
-        </RouterLink>
+        </RouterLink> -->
 
-        <RouterLink to="/messages" :class="{ 'active-nav': isPayments }">
-        <div class="message" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 27 26">
-                <path :class="{ 'active-nav': isPayments }" d="M15.8537 25.5L12.439 21.2317H6.09756C5.77413 21.2317 5.46394 21.1032 5.23524 20.8745C5.00653 20.6458 4.87805 20.3356 4.87805 20.0122V6.72317C4.87805 6.39974 5.00653 6.08955 5.23524 5.86085C5.46394 5.63214 5.77413 5.50366 6.09756 5.50366H25.6098C25.9332 5.50366 26.2434 5.63214 26.4721 5.86085C26.7008 6.08955 26.8293 6.39974 26.8293 6.72317V20.0122C26.8293 20.3356 26.7008 20.6458 26.4721 20.8745C26.2434 21.1032 25.9332 21.2317 25.6098 21.2317H19.2683L15.8537 25.5ZM18.0963 18.7927H24.3902V7.94268H7.31707V18.7927H13.611L15.8537 21.5951L18.0963 18.7927ZM1.21951 0.5H21.9512V2.93902H2.43902V16.3537H0V1.71951C0 1.39608 0.128484 1.08589 0.357187 0.857187C0.58589 0.628484 0.896077 0.5 1.21951 0.5Z" fill="#09121F"/>
-            </svg>
-            <span class="navtext">Messages</span>
-        </div>
-        </RouterLink>
+        
 
 
 </template>
