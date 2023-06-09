@@ -148,11 +148,14 @@
     <Skeleton v-if="isLoading"/>
         <span v-if="filteredJobs.length === 0 && isLoading != true" 
                 style="display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                padding: 50px;"> 
+                padding: 50px;">
+        <img height="200" src="../components/Logos_icons/job_not_found.png"><br/>
                 
-                No jobs found...</span>
+                <b>Sorry, No jobs found</b>
+            </span>
         
 <!-- </Transition> -->
 </div>

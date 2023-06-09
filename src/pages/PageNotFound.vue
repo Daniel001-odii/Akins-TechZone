@@ -28,9 +28,9 @@ export default {
     <!-- <div class="container"> -->
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->
-        <div style="margin-top: 50px; color: grey" class="hero-title"> 404! <br/>Something was here before, i swear . . .
+        <div style="margin-top: 50px; color: grey" class="hero-title">i swear <br/>something was here before ...
             <br/>
-            <img style="filter: grayscale(100%);" height="200" src="https://www.pngmart.com/files/12/Minions-PNG-Transparent-Image.png">
+            <img height="200" src="../components/Logos_icons/job_not_found.png">
     </div>
     </div>
     <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; color: var(--app-grey); margin-top: 30px;  font-weight: normal;">See if you are using the correct URL or 
@@ -64,7 +64,7 @@ export default {
    }
     .hero-title{
         font-size: 50px;
-        font-weight: 700;
+        /* font-weight: 700; */
     }
     .brick{
         width: 250px;

@@ -130,24 +130,31 @@ const Api_url = "https://techzoneapp.herokuapp.com";
         // },
 
 
-    async login() {
-        this.isLoading = true;
-        try {
-            const response = await axios.post(`${Api_url}/api/login`, {
-            email: this.email,
-            password: this.password
-            });
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            console.log(token)
-            this.$router.push('/jobs');
-        } 
-        catch (error) {
-            if (error.response && error.response.data && error.response.data.errors) {this.errors = error.response.data.errors}
-            console.error("main error: " + error.request.response);
-            this.isLoading = false;
-        }
+        async login() {
+  this.isLoading = true;
+  try {
+    const response = await axios.post(`${Api_url}/api/login`, {
+      email: this.email,
+      password: this.password
+    });
+    const token = response.data.token;
+    localStorage.setItem('token', token);
+    console.log(token);
+    
+    // Get the intended route from query parameter, if available
+    const redirect = this.$route.query.redirect || '/jobs';
+    
+    this.$router.push(redirect); // Redirect to the intended route
+  } 
+  catch (error) {
+    if (error.response && error.response.data && error.response.data.errors) {
+      this.errors = error.response.data.errors;
+    }
+    console.error("main error: " + error.request.response);
+    this.isLoading = false;
+  }
 }
+
 
 
 

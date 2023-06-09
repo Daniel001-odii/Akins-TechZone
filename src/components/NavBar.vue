@@ -17,7 +17,7 @@
             <div class="nav-contents"> 
                 <div class="Tz-nav-links">
                     <span><slot name="action-1"><RouterLink to="/jobs">Find Job</RouterLink></slot></span>
-                    <span><slot name="action-2"><RouterLink to="/client/dashboard">Hire Talen</RouterLink></slot></span>
+                    <span><slot name="action-2"><RouterLink to="/client/dashboard">Hire Talent</RouterLink></slot></span>
                 </div>
 
                 <div class="nav-auth-buttons">
@@ -105,9 +105,16 @@
                 </span>
         </div>
 
-            <!-- <div class="tz-search">
-                <Search/>
-            </div> -->
+        <div class="nav-contents">
+            <div class="Tz-nav-links">
+                    <span><slot name="action-1"><RouterLink to="/jobs">Find Job</RouterLink></slot></span>
+                    <!-- <span><slot name="action-2"><RouterLink to="/client/dashboard">Hire Talent</RouterLink></slot></span> -->
+            </div>
+
+            <div class="tz-search"><Search/></div>
+        </div>
+
+            
 
                     <div class="Tz-nav-actions">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 40 40" fill="none" class="notifications" @click="showNotifications=!showNotifications">
@@ -140,7 +147,7 @@
                         </svg>
 
                         <!--Logged in user credential display-->
-                        <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; margin-right: 10px;">
+                        <div style="width: 150px; display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; margin-right: 10px;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 51 50" fill="none">
                                 <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
                                 <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
@@ -519,11 +526,11 @@ export default {
 
 .nav-contents{
     /* border: 1px solid red; */
-    width: 100%;
+    width: 80%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-left: 20px;
 }
 
