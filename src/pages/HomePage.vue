@@ -72,7 +72,7 @@ export default {
             <div class="user-area area-left" style="text-align: right;">
                 <b>I want to Hire</b><br/>
                 Gain access to an endless list of talents for your next project..<br/>
-                <RouterLink to="/client-signUp"> <button class="cust-btn getStarted" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button></RouterLink>
+                <RouterLink to="/employer/signup"> <button class="cust-btn getStarted" style="padding: 8px 15px">Get Started <i class="bi bi-arrow-up-right"></i></button></RouterLink>
                 <img src="../assets/imgs/dottedArrow.svg" class="arrow right-arrow">
             </div>
             <img class="area-img img-fluid" style="z-index: 1;" src="../assets/imgs/femaleHero.svg">

@@ -86,8 +86,17 @@
         font-size: 1.8em !important;
         text-align: center;
     }
+    .notify{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+    width: 100%;
+}
 
-
+.notify:hover{
+    background: var(--app-hover);
+}
     @media only screen and (max-width: 600px) {
       .notification{
       width: 100%;

@@ -16,7 +16,7 @@
                 
                 <div class="left-content">
                 <h2 style="font-weight: bolder;">Welcome Back!</h2>
-                <p>Please enter your login details</p>
+                <p>Please enter your client login details</p>
 
                 <!--form starts here ------------------------------->
                 <!-------- show login errors here-------->
@@ -64,7 +64,7 @@
                 <div style="padding-left: 10px;" class="signup-on-form">
                             <p style="color: blue; cursor: pointer;" @click="signup_options=!signup_options">Sign Up</p>
                             <div class="signup-options" v-if="signup_options">
-                                <RouterLink to="/client-signUp"><div class="options">As Employer</div></RouterLink>
+                                <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
                                 <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                             </div>
                 </div>

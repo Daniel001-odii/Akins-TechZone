@@ -27,7 +27,7 @@
                     <button @click="signup_options = !signup_options" class="cust-btn signUp">Sign Up</button>
                 </div>
                 <div class="signup-options" v-if="signup_options">
-                    <RouterLink to="/client-signUp"><div class="options">As Employer</div></RouterLink>
+                    <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
                     <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                 </div>
             </div>
@@ -65,7 +65,7 @@
             </div>
                 <div class="sub-signUp menu-item" v-if="signup_options">
                     <RouterLink to="/talent-signUp" class="options"><div>As Employer</div></RouterLink>
-                    <RouterLink to="/client-signUp" class="options"><div>As Talent</div></RouterLink>
+                    <RouterLink to="/employer/signup" class="options"><div>As Talent</div></RouterLink>
                 </div>
         <!-- </RouterLink> -->
                 

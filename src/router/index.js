@@ -1,11 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomePage.vue'
+import SupportPage from '../pages/support.vue'
+
 import NewPage from '../pages/JobsPage.vue'
 import PageNotFound from '../pages/PageNotFound.vue'
 import Insight from '../pages/InsightPage.vue'
 import Messages from '../pages/MessagesPage.vue'
 import SavedJobs from '../pages/SavedJobs.vue'
 import Notifications from '../pages/notifications.vue'
+import UserProfile from '../pages/Profile.vue'
 //pages based on job category......
 import requestedJobs from '../pages/RequestedJobs.vue'
 import assignedJobs from '../pages/AssignedJobs.vue'
@@ -36,11 +39,12 @@ import client_jobs from '../pages/Client_Jobs.vue'
 
 const routes = [
     {path: '/', component: HomePage},
+    {path: '/user/profile', component: UserProfile},
     {path: '/jobs', component: NewPage},
     {path: '/login', component: Login},
     {path: '/employer/login', component: ClientLogin},
     {path: '/talent-signUp', component: SignUp},
-    {path: '/client-signUp', component: SignUpClient},
+    {path: '/employer/signup', component: SignUpClient},
     {path: '/insights', component: Insight},
     {path: "/404", name: "PageNotFound", component: PageNotFound},
     {path: "/:catchAll(.*)", redirect: "/404"},
@@ -64,6 +68,8 @@ const routes = [
     {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true },},
     {path: "/client/post-job", component: post_job, meta: { requiresAuth: true },},
     {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true },},
+    {path: "/support", component: SupportPage},
+
 ]
 
 

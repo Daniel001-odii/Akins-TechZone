@@ -28,7 +28,7 @@ export default {
     <!-- <div class="container"> -->
     <div class="hero-section">
         <!-- <img class="brick" src="./imgs/leftBrick.svg"> -->
-        <div style="margin-top: 50px; color: grey" class="hero-title">i swear <br/>something was here before ...
+        <div style="margin-top: 50px; color: grey" class="hero-title">Oops.. 404 <br/> i swear something was here before ...
             <br/>
             <img height="200" src="../components/Logos_icons/job_not_found.png">
     </div>

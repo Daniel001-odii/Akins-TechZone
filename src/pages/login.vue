@@ -64,7 +64,7 @@
                 <div style="padding-left: 10px;" class="signup-on-form">
                             <p style="color: blue; cursor: pointer;" @click="signup_options=!signup_options">Sign Up</p>
                             <div class="signup-options" v-if="signup_options">
-                                <RouterLink to="/client-signUp"><div class="options">As Employer</div></RouterLink>
+                                <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
                                 <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                             </div>
                 </div>
