@@ -1,20 +1,21 @@
 <template>
     <div class="page-grid-container">
         <div class="Navigation">
+            <!-- <div v-if="isLoading">Loading...</div> -->
             <NavBar/>
         </div>
         <div class="Left-Nav">
             <LeftNav/>
         </div>
         <div class="Page-header">
-            <div class="page-title"><slot name="page-title">Application for [Sample Job Post]</slot></div>
+            <div class="page-title">Application for {{ job.job_tag }}</div>
         </div>
         <div class="Page-contents">
                 <div class="tz-job-content-area">
                     <div class="tz-company-header-img"></div>
                     <div class="job-detail-header">
                         <div class="jdh-left">
-                            <span><b>Sample</b></span>
+                            <span><b>{{ job.job_tag }}</b></span>
                             <small>microsot Imc. <i>Stars</i></small>
                                 <!---------------clock icon-------------->
                             <span class="jdh-detail">
@@ -36,7 +37,8 @@
                                 <!------------wallet icon-------------->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
                                     <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
-                                </svg>(₦)00000
+                                </svg>
+                                {{ job.budget_des }} : {{ job.budget }}
                             </span>
                         </div>
                         <div class="jdh-right">
@@ -48,20 +50,20 @@
                         </div>
                     </div>
                     <div class="tz-job-content-description">
-                            <p class="tz-form-title">Job Title</p>
-                            <p>
-                                We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. The successful candidate will have a proven track record in designing and developing software solutions, as well as a strong understanding of programming principles and best practices. The role will involve working collaboratively with other developers, project managers, and stakeholders to design and implement high-quality software solutions.
-                            </p>
-                            Bachelor's degree in Computer Science, Software Engineering or related field.
-                            5+ years of experience in software development.
-                            Strong experience in developing software using at least one of the following programming languages: Java, Python, C#, JavaScript.
-                            Solid understanding of software development principles and best practices.
-                            Experience with software development methodologies such as Agile, Scrum, and Kanban.
-                            Strong knowledge of software design patterns and principles.
-                            Excellent communication skills and ability to work collaboratively in a team environment.
-                            Experience with cloud computing platforms such as AWS or Azure is a plus.
-                            Experience with containerization and orchestration technologies such as Docker and Kubernetes is a plus.
-                            Strong analytical and problem-solving skills.
+                            <p class="tz-form-title">Job Description</p>
+                            {{ job.job_des }}
+                    </div>
+                    <div class="tz-job-content-description">
+                            <p class="tz-form-title">Skills Required</p>
+                            <div class="skill_set">
+                            <div v-for="(skills,index) in job.skill_set.split(', ')" :key="index">
+                                    <div class="skills">{{ skills }}</div>
+                            </div>
+                            </div>
+                    </div>
+                    <div class="tz-job-content-description">
+                            <p class="tz-form-title">Share this job post</p>
+                            {{ window.loation.href }}
                     </div>
                 </div>
                 <div class="tz-form-area">
@@ -91,11 +93,11 @@
                                 
                                 <small>input the amount you want to get paid for this job</small>
                             </div>
-                            <!-- <div class="form-sub">
+                            <div class="form-sub">
                                 <p>Reason</p>
                                 <input type="textarea">
                                 <small>give a detailed reason for countering the offer</small>
-                            </div> -->
+                            </div>
                         </div>
                         <div class="tz-form-content">
                             <button class="tz-form-submit-btn cust-btn" type="submit">Submit Application</button>
@@ -109,7 +111,7 @@
       </template>
       
       <script>
-      import { RouterLink } from 'vue-router';
+      import { RouterLink , useRoute  } from 'vue-router';
       import Footer from '../components/Footer.vue';
       import JobCard from '../components/JobCard.vue';
       import NavBar from '../components/NavBar.vue';
@@ -121,44 +123,46 @@
     //   import { response } from 'express';
       import draggable from 'vuedraggable';
       import jobsData from '@/pages/JobLists.json'; // import the JSON file
-      import { ref } from 'vue';
+      import { ref, onMounted} from 'vue';
 
-
-      const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
-    
+    //   const api_url = `https://techzoneapp.herokuapp.com/api/jobs/${particular_job}`;
       
-          export default {
-              components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter, draggable },
-              name: 'App',
-                setup() {
-                    const selectedFile = ref(null);
-
-                    const handleDrop = (event) => {
-                    event.preventDefault();
-                    const file = event.dataTransfer.files[0];
-                    selectedFile.value = file;
-                    };
-
-                    const handleFileInputChange = () => {
-                    const file = event.target.files[0];
-                    selectedFile.value = file;
-                    console.log(selectedFile.value)
-                    };
-
-                    const handleButtonClick = () => {
-                    const fileInput = document.querySelector('input[type="file"]');
-                    fileInput.click();
-                    };
-
-                    return {
-                    selectedFile,
-                    handleDrop,
-                    handleFileInputChange,
-                    handleButtonClick
-                    };
+    export default {
+            name: 'Application',
+            components: {
+                JobCard,
+                NavBar,
+                ProfileNavBar,
+                Footer,
+                RouterLink,
+                LeftNav,
+                PageFilter,
+                draggable
+            },
+            data() {
+                return {
+                job: '',
+                isLoading: true
+                };
+            },
+            methods: {
+                async fetchJob() {
+                try {
+                    const response = await axios.get(`https://techzoneapp.herokuapp.com/api/jobs/${this.jobId}`);
+                    this.job = response.data;
+                    this.isLoading = false;
+                    console.log(this.job.job_tag);
+                } catch (error) {
+                    console.error(error);
                 }
-    }
-    
+                }
+            },
+            mounted() {
+                const route = useRoute();
+                this.jobId = route.params.id;
+                this.fetchJob();
+            }
+};
       </script>       
       
       

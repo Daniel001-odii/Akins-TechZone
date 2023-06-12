@@ -401,7 +401,7 @@ p{
   .Page-contents { 
       grid-area: Page-contents; 
       /* overflow: scroll; */
-      height: 100vh;
+      /* height: 100vh; */
       /* border: 2px solid red; */
   }
 
@@ -493,7 +493,7 @@ p{
   .job-detail-content{
       padding: 10px;
       /* overflow-x: scroll; */
-      height: 100% !important;
+      /* height: 100% !important; */
       /* width: 500px; */
   }
   .skill_set{

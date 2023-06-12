@@ -1,5 +1,5 @@
 <template>    
-    <div v-if="userIsLoggedIn">
+    <div v-if="!userIsLoggedIn">
         <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
                     <div class="nav-toggler">
@@ -93,7 +93,7 @@
 </transition>
 </div>
 
-<div v-if="!userIsLoggedIn">
+<div v-if="userIsLoggedIn">
 <nav class="Tz-navbar">
         <div class="Tz-brand-area">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none"  class="menu-toggle"  @click="showMenu = !showMenu">
@@ -621,7 +621,7 @@ export default {
     flex-direction: column;
     background: #fff;
     /* border-radius: 5px; */
-    box-shadow: 0px 3px 5px #efefef;
+    box-shadow: 0px 5px 10px #efefef;
     position: absolute;
     top: 60px;
     right: 70px;

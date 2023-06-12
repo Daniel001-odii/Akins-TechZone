@@ -1,11 +1,22 @@
-
-// changed from top code to code below ...
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js'
-// import 'popper.js';
+import 'bootstrap/dist/js/bootstrap.js';
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App);
+
+app.mixin({
+  data() {
+    return {
+      title: 'New tech zone',
+    };
+  },
+  mounted(){
+    var title = this.$route.name
+    document.title = title
+  },
+});
+
+app.use(router).mount('#app');

@@ -114,6 +114,10 @@
                         <span class="jdh-title">Project type</span>
                             {{ filteredJobs[selectedJob].work_period }}
                     </div>
+                    <div class="jd-section">
+                        <span class="jdh-title">Job dedicated url:</span>
+                            <a>https://techzoneapp.herokuapp.com/api/jobs/{{ filteredJobs[selectedJob].id }}</a>
+                    </div>
                     
                     <div class="jd-section">
                         <span class="jdh-title">Skills Required</span>
@@ -129,9 +133,13 @@
                         {{ filteredJobs[selectedJob].job_tag }} recruiter is recruiting for {{ filteredJobs[selectedJob].budget_des }} payment
                     </div>
                     <div class="jd-section">
-                        <RouterLink to="/jobs/application" target="_blank"><i class="bi bi-box-arrow-up-right"></i>
-                            <span style="color: var(--app-blue) !important; padding: 25px 0px;">Open job in a new window</span>
-                        </RouterLink>
+                        <!-- <RouterLink :to="`${api_url}/${filteredJobs[selectedJob].id}`">
+                        <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
+                        </RouterLink> -->
+                        <span>
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            <span @click="navigateToJobDetails(filteredJobs[selectedJob].id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;">Open job in a new window</span>
+                        </span>
                     </div>
                 </div>
             </slot>
@@ -166,7 +174,7 @@
   </template>
   
   <script>
-  import { RouterLink } from 'vue-router';
+  import { RouterLink, useRouter } from 'vue-router';
   import Footer from '../components/Footer.vue';
   import JobCard from '../components/JobCard.vue';
   import NavBar from '../components/NavBar.vue';
@@ -186,7 +194,7 @@
 
   
       export default {
-          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter, Loader, Skeleton },
+          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, useRouter, LeftNav, PageFilter, Loader, Skeleton },
             data() {
                 return {
                 selectedJob: 0, // index of currently selected job
@@ -224,6 +232,14 @@
                         console.error(error);
                     })
                 },
+
+
+                //this function opens up in a new page the details of any job clicked...
+                navigateToJobDetails(jobId) {
+                const route = this.$router.resolve({ name: 'Application', params: { id: jobId } });
+                window.open(route.href, '_blank');
+                },
+
 
             //converts the created_at property of the api to readable, hours, days, months, years text for display
                 getHoursTillDate(dateString) {
