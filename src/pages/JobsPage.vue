@@ -146,7 +146,8 @@
 
     <!-- <span v-if="isLoading" style="color:var(--app-blue)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
 
-    <Skeleton v-if="isLoading"/>
+    <!-- <Skeleton v-if="isLoading"/> -->
+    <DotLoader v-if="isLoading"/>
         <span v-if="filteredJobs.length === 0 && isLoading != true" 
                 style="display: flex;
                 flex-direction: column;
@@ -178,6 +179,7 @@
   import axios from 'axios';
   import Loader from '../components/loader.vue'
   import Skeleton from '../components/pageSkeleton.vue'
+  import DotLoader from '../components/DotLoader.vue'
 
 //   import { response } from 'express';
 
@@ -187,7 +189,7 @@
 
   
       export default {
-          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, useRouter, LeftNav, PageFilter, Loader, Skeleton },
+          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, useRouter, LeftNav, PageFilter, Loader, Skeleton, DotLoader },
             data() {
                 return {
                 selectedJob: 0, // index of currently selected job

@@ -77,6 +77,7 @@
                     </div>
                 </div>
                 <div class="tz-form-area">
+                    <span class="tz-form-title">Submit an application for this job</span>
                     <form>
                         <div class="tz-form-content">
                             <span class="tz-form-title">Cover Letter</span>
@@ -115,11 +116,11 @@
                     </form>
                 </div>
         </div>
-        <div v-else style="height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center;">
-            <div class="loader"></div>
+        <div v-else style="" class="Page-contents">
+            <DotLoader/>
         </div>
         
-        <!-- <div class="footer"><Footer/></div> -->
+        <div class="footer"><Footer/></div>
       
     </div>
       </template>
@@ -136,6 +137,7 @@
       import axios from 'axios';
       import draggable from 'vuedraggable';
       import jobsData from '@/pages/JobLists.json'; // import the JSON file
+      import DotLoader from '../components/DotLoader.vue'
       import { ref, onMounted} from 'vue';
 
       const api_url = 'https://techzoneapp.herokuapp.com/api/jobs/';
@@ -150,8 +152,36 @@
             RouterLink,
             LeftNav,
             PageFilter,
-            draggable
+            draggable,
+            DotLoader,
         },
+        setup() {
+                    const selectedFile = ref(null);
+
+                    const handleDrop = (event) => {
+                    event.preventDefault();
+                    const file = event.dataTransfer.files[0];
+                    selectedFile.value = file;
+                    };
+
+                    const handleFileInputChange = () => {
+                    const file = event.target.files[0];
+                    selectedFile.value = file;
+                    console.log(selectedFile.value)
+                    };
+
+                    const handleButtonClick = () => {
+                    const fileInput = document.querySelector('input[type="file"]');
+                    fileInput.click();
+                    };
+
+                    return {
+                    selectedFile,
+                    handleDrop,
+                    handleFileInputChange,
+                    handleButtonClick
+                    };
+                },
         data() {
             return {
             job: null,
@@ -187,29 +217,7 @@
       
       
       <style scoped>
-      .loader,
-.loader:before,
-.loader:after {
-  width: 20px; /* update this to control the size */
-  aspect-ratio: .5;
-  display: grid;
-  background: radial-gradient(#000 68%,#0000 72%) center/100% 50% no-repeat;
-  animation: load 1.2s infinite linear calc(var(--_s,0)*.4s);
-  transform: translate(calc(var(--_s,0)*150%));
-}
-.loader:before,
-.loader:after {
-  content: "";
-  grid-area: 1/1;
-}
-.loader:before {--_s: -1}
-.loader:after  {--_s:  1}
 
-@keyframes load {
-  20% {background-position: top   }
-  40% {background-position: bottom}
-  60% {background-position: center}
-}
 
 
 
@@ -308,6 +316,7 @@ small{font-size: 12px;}
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   width: 100%;
   height: 150px;
   border: 2px dashed #ccc;
@@ -335,7 +344,7 @@ butto {
         width: 100%;
         overflow: visible;
         height: auto;
-        border: 2px solid red;
+        /* border: 2px solid red; */
     }
 }
       </style>

@@ -21,9 +21,9 @@
                         </div>
                     </div>
             </div>
-            <Search/>
 
-
+            <div class="search"><Search/></div>
+        
                 <div class="nav-auth-buttons">
                     <button  @click="toggleDropdown" class="cust-btn login">
                         <span>Sign in</span>
@@ -114,12 +114,11 @@
                     </div>
                 </div>
         </div>
-        <Search/>
 
-        
 
-            
+        <div class="search"><Search/></div>
 
+    
                     <div class="Tz-nav-actions">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 40 40" fill="none" class="notifications" @click="showNotifications=!showNotifications">
                             <circle cx="20.0459" cy="20" r="17.5375" stroke="#4E79BC" stroke-width="3.05"/>
@@ -426,7 +425,7 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 10px;
+    /* gap: 10px; */
 }
 .menu-header{
     /* background: red; */
@@ -667,7 +666,7 @@ export default {
 }
 
  /*--meida queries-------*/
- @media only screen and (max-width: 600px) {
+ @media only screen and (max-width: 720px) {
     .Tz-navbar{
         justify-content: space-between;
         /* border: 1px solid red; */
@@ -678,12 +677,7 @@ export default {
     .nav-toggler{
         display: block;
     }
-    }
-    
-
- /*--meida queries-------*/
- @media only screen and (max-width: 600px) {
-    .tz-search{
+    .search{
         display: none !important;
     }
     .help{
@@ -699,6 +693,9 @@ export default {
     }
     .menu-toggle{
         display: inline-block;
+    }
+    .nav-auth-buttons{
+        display: none;
     }
     }
     
