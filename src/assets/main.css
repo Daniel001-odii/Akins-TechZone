@@ -460,6 +460,10 @@ p{
   .job-detail-header{
       flex-direction: column;
   }
+  .jdh-detail{
+    justify-content: flex-start !important;
+    align-items: center !important;
+  }
 }
 
 
@@ -468,6 +472,8 @@ p{
       display: flex;
       flex-direction: column;
       padding: 10px;
+      align-items: flex-start;
+      gap: 10px;
   }
   .jdh-right{
       display: flex;
@@ -484,8 +490,10 @@ p{
       /* padding: 8px; */
       /* background: var(--app-hover); */
       border-radius: 5px;
-      margin: 5px;
+      /* margin: 5px; */
       display: flex;
+      justify-content: center;
+      align-items: center;
       gap: 10px;
       max-width: 500px;
       flex-wrap: wrap; 

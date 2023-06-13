@@ -90,9 +90,7 @@
                         </span>
                     </div>
                     <div class="jdh-right">
-                        <RouterLink to="/jobs/application">
-                            <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
-                        </RouterLink>
+                            <button @click="navigateToJobDetails(filteredJobs[selectedJob].id)" class="cust-btn" style="border-radius: 5px;">Apply Here</button>
                         <!-- <span style="padding: 5px 10px;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
                                 <path d="M0.485051 8.71692C-0.160649 8.50169 -0.166834 8.1541 0.497421 7.93268L24.1075 0.0630534C24.7619 -0.154654 25.1367 0.21149 24.9536 0.852243L18.2072 24.4611C18.0216 25.1155 17.6444 25.1378 17.3673 24.5168L12.9216 14.5121L20.3434 4.61635L10.4476 12.0382L0.485051 8.71692Z" fill="#4E79BC"/>
@@ -114,10 +112,6 @@
                         <span class="jdh-title">Project type</span>
                             {{ filteredJobs[selectedJob].work_period }}
                     </div>
-                    <div class="jd-section">
-                        <span class="jdh-title">Job dedicated url:</span>
-                            <a>https://techzoneapp.herokuapp.com/api/jobs/{{ filteredJobs[selectedJob].id }}</a>
-                    </div>
                     
                     <div class="jd-section">
                         <span class="jdh-title">Skills Required</span>
@@ -137,8 +131,7 @@
                         <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
                         </RouterLink> -->
                         <span>
-                            <i class="bi bi-box-arrow-up-right"></i>
-                            <span @click="navigateToJobDetails(filteredJobs[selectedJob].id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;">Open job in a new window</span>
+                            <span @click="navigateToJobDetails(filteredJobs[selectedJob].id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                         </span>
                     </div>
                 </div>

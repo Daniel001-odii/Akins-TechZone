@@ -325,26 +325,6 @@ export default {
     },
 
     methods: {
-        // toggleDropdown (){
-        //     isDropdownOpen.value = !isDropdownOpen.value;
-        // },
-        logoutNow() {
-        axios.get(`${api_url}`, null, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-            }).then(() => {
-            // Clear the token from localStorage or Vuex
-            localStorage.removeItem('token');
-            console.log("you logged out now!");
-            // Redirect or perform any other action
-            // e.g., this.$router.push('/login');
-            })
-            .catch(error => {
-            console.error(error);
-            // Handle error, e.g., show error message to the user
-            });
-        },
         logout(){
             const token = localStorage.getItem('token');
             localStorage.removeItem('token');
@@ -357,26 +337,11 @@ export default {
             // Set isLoggedIn to true if a token exists, otherwise false
             console.log("user is logged in? " + this.userIsLoggedIn);
             },
-
-            //the function below is rather used to see when user is offline and online
-        fetchJobListings(){
-            axios.get("https://techzoneapp.herokuapp.com/api/jobs").then(response => {
-            this.userIsOffline = false;
-            console.log("online!");
-            stateText = "you are now online!"
-            }).catch(error => {
-              this.userIsOffline = true;
-              console.log("offline!")
-               })},
         },
         mounted() {
             this.checkLoginStatus();
-            this.fetchJobListings();
-            
-            // this.toggleDropdown();
   },
   }
-//   };
 
 </script>
 

@@ -38,39 +38,45 @@ import client_jobs from '../pages/Client_Jobs.vue'
 
 
 const routes = [
-    {path: '/', component: HomePage},
-    {path: '/user/profile', component: UserProfile},
-    {path: '/jobs', name:'Techzone', component: NewPage},
-    {path: '/login', name: 'Login', component: Login},
-    {path: '/employer/login', name: 'Employer:login', component: ClientLogin},
-    {path: '/talent-signUp', component: SignUp},
-    {path: '/employer/signup', component: SignUpClient},
-    {path: '/insights', component: Insight},
-    {path: "/404", name: "PageNotFound", component: PageNotFound},
-    {path: "/:catchAll(.*)", redirect: "/404"},
-    {path: "/savedJobs", name: 'Saved jobs', component: SavedJobs, meta: { requiresAuth: true },},
-    {path: "/messages", name: 'Messages', component: Messages, meta: { requiresAuth: true },},
-    {path: "/talent/customize-profile", component: customize},
-    {path: "/employer/customize-profile", component: customize_client},
-    {path: "/jobs/:id/application", name: 'Application', component: JobDetail, meta: { requiresAuth: true },},
-    {path: "/notifications", component: Notifications, meta: { requiresAuth: true },},
-    // {path: "/signUp-employer", component: EmployerSignup},
-    {path: "/reset-password", component: ResetPassword},
+  {path: '/', component: HomePage},
+  {path: '/user/profile', component: UserProfile},
+  {path: '/jobs', name:'Techzone', component: NewPage},
+  {path: '/login', name: 'Login', component: Login},
+  {path: '/employer/login', name: 'Employer:login', component: ClientLogin},
+  {path: '/talent-signUp', component: SignUp},
+  {path: '/employer/signup', component: SignUpClient},
+  {path: '/insights', component: Insight},
+  {path: "/404", name: "PageNotFound", component: PageNotFound},
+  {path: "/:catchAll(.*)", redirect: "/404"},
+  {path: "/savedJobs", name: 'Saved jobs', component: SavedJobs, meta: { requiresAuth: true }},
+  {path: "/messages", name: 'Messages', component: Messages, meta: { requiresAuth: true }},
+  {path: "/talent/customize-profile", component: customize},
+  {path: "/employer/customize-profile", component: customize_client},
+  {path: "/jobs/:id/application", name: 'Application', component: JobDetail, meta: { requiresAuth: true }},
+  {path: "/notifications", component: Notifications, meta: { requiresAuth: true }},
+  {path: "/reset-password", component: ResetPassword},
 
-    //job categories.......
-    {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true },},
-    {path: "/jobs/assigned-jobs", component: assignedJobs, meta: { requiresAuth: true },},
-    {path: "/jobs/completed-jobs", component: completedJobs, meta: { requiresAuth: true },},
-    {path: "/jobs/declined-jobs", component: declinedJobs, meta: { requiresAuth: true },},
+  //job categories.......
+  {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true }},
+  {path: "/jobs/assigned-jobs", component: assignedJobs, meta: { requiresAuth: true }},
+  {path: "/jobs/completed-jobs", component: completedJobs, meta: { requiresAuth: true }},
+  {path: "/jobs/declined-jobs", component: declinedJobs, meta: { requiresAuth: true }},
 
-    //client based views
-    {path: "/client/dashboard", component: client_dashboard, meta: { requiresAuth: true },},
-    {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true },},
-    {path: "/client/post-job", component: post_job, meta: { requiresAuth: true },},
-    {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true },},
-    {path: "/support", component: SupportPage},
+  //client based views
+  {path: "/client/dashboard", component: client_dashboard, meta: { requiresAuth: true }},
+  {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true }},
+  {path: "/client/post-job", component: post_job, meta: { requiresAuth: true }},
+  {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
+  {path: "/support", component: SupportPage},
+];
 
-]
+routes.forEach(route => {
+  if (!route.name) {
+      const pathParts = route.path.split('/');
+      route.name = pathParts[pathParts.length - 1];
+  }
+});
+
 
 
 const router = createRouter({
