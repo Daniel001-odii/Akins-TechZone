@@ -589,9 +589,17 @@ opacity: 0;
 }
 
 @media screen and (max-width: 650px) {
-  .job-details-area{
+  /* .job-details-area{
     display: none !important;
-    }
+    } */
+    .job-details-area{
+      /* display: none !important; */
+      position: absolute !important;
+      top: 50vh;
+      z-index: 99999;
+      width: 100%;
+      left: 0px;
+      }
   .job-cards-area{
     width: 100%;
     margin: 10px;

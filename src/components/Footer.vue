@@ -12,7 +12,6 @@
             <RouterLink to="/jobs">Privacy</RouterLink>
         </div>
         <div class="footer-last">
-            <!-- <Search/> -->
                 <div class="email-input">
                     <input type="email" placeholder="Enter your email">
                     <button class="email-btn">Subscribe</button>
@@ -44,7 +43,6 @@ import Search from './Search.vue';
     .footer-links{
         display: flex;
         flex-direction: row;
-
         justify-content: space-between;
         align-items: center;
         font-size: 0.9em;
@@ -57,10 +55,12 @@ import Search from './Search.vue';
     .footer-last{
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        /* justify-content: space-around; */
+        justify-content: center;
         align-items: center;
         width: 100%;
         padding: 20px;
+        /* height: 50px; */
         /* border: 2px solid red; */
     }
 
