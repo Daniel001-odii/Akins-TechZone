@@ -2,11 +2,11 @@
   <NavBar/>
     <div>
       <h1>Saved Jobs</h1>
-      <ul>
+      <!-- <ul>
         <li v-for="job in savedJobs" :key="job.id">
           {{ job.title }}
         </li>
-      </ul>
+      </ul> -->
     </div>
   </template>
   
@@ -26,25 +26,25 @@ import NavBar from '../components/NavBar.vue';
         this.getSavedJobs();
     },
     methods: {
-        async getSavedJobs() {
-            const token = localStorage.getItem("token");
-            try {
-                const response = await fetch(`/jobs/${token}/save`);
-                //   console.log(token)
-                if (response.ok) {
-                    // const data = await response.json();
-                    const data = response.data;
-                    this.savedJobs = data;
-                    console.log(this.savedJobs);
-                }
-                else {
-                    console.error("Error fetching saved jobs:", response.statusText);
-                }
-            }
-            catch (error) {
-                console.error("Error fetching saved jobs:", error);
-            }
-        },
+        // async getSavedJobs() {
+        //     const token = localStorage.getItem("token");
+        //     try {
+        //         const response = await fetch(`/jobs/${token}/save`);
+        //         //   console.log(token)
+        //         if (response.ok) {
+        //             // const data = await response.json();
+        //             const data = response.data;
+        //             this.savedJobs = data;
+        //             console.log(this.savedJobs);
+        //         }
+        //         else {
+        //             console.error("Error fetching saved jobs:", response.statusText);
+        //         }
+        //     }
+        //     catch (error) {
+        //         console.error("Error fetching saved jobs:", error);
+        //     }
+        // },
     },
     components: { NavBar }
 };
