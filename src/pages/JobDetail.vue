@@ -93,7 +93,7 @@
                         <div class="tz-form-content">
                             <span class="tz-form-title">Attachment</span>
                             <div class="drop-zone" @drop="handleDrop" @dragover.prevent>
-                                <!-- <img @click="handleButtonClick" style="cursor: pointer;" src="../components/Logos_icons/cloud.png" class="cloud"> -->
+                                <img @click="handleButtonClick" style="cursor: pointer;" src="../components/Logos_icons/cloud.png" class="cloud">
                                 <span v-if="!selectedFile">Drag and drop files or <i  @click="handleButtonClick" style="color:blue; cursor: pointer;">upload</i> project files here.</span>
                                 <span v-else>{{ selectedFile.name }}</span>
                             </div>
@@ -201,7 +201,6 @@
         methods: {
             copyText() {
                 const contentToCopy = document.getElementById('contentToCopy').innerText;
-
                 navigator.clipboard.writeText(contentToCopy)
                     .then(() => {
                     this.$refs.toast.showSuccessToast('Successfully copied to clipboard');

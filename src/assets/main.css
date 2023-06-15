@@ -574,6 +574,7 @@ opacity: 0;
  .tz-copy-link{
   border-radius: 5px;
   border: 1px dotted var(--app-blue);
+  height: 35px;
   width: 275px;
   padding: 2px 5px;
   display: flex;
