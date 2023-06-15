@@ -18,6 +18,4 @@ app.mixin({
     document.title = title
   },
 });
-
-app.use(createMetaManager());
 app.use(router).mount('#app');
