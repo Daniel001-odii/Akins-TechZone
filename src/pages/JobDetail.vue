@@ -93,7 +93,9 @@
                         <div class="tz-form-content">
                             <span class="tz-form-title">Attachment</span>
                             <div class="drop-zone" @drop="handleDrop" @dragover.prevent>
-                                <img @click="handleButtonClick" src="../components/Logos_icons/content.png" class="cloud">
+                                <!-- <i class="bi bi-upload"></i>
+                                <img @click="handleButtonClick" src="../components/Logos_icons/content.png"> -->
+                                <img @click="handleButtonClick" style="cursor: pointer;" src="../components/Logos_icons/cloud.png" class="cloud">
                                 <span v-if="!selectedFile">Drag and drop files or <i  @click="handleButtonClick" style="color:blue; cursor: pointer;">upload</i> project files here.</span>
                                 <span v-else>{{ selectedFile.name }}</span>
                             </div>
@@ -366,10 +368,10 @@ small{font-size: 12px;}
   border-radius: 5px;
   margin-bottom: 20px;
 }
-.cloud{
+/* .cloud{
     height: 68px;
     width: 160px;
-}
+} */
 butto {
   padding: 10px 20px;
   background: #4CAF50;
