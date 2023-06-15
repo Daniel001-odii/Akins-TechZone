@@ -41,14 +41,12 @@ import NavBar from '../components/NavBar.vue'
         height: 150px !important;
         width: 1px !important;
         background: var(--app-grey) !important;
-        /* border: 1px solid var(--); */
     }
     .tz-profile-card{
         width: 80%;
         padding: 40px;
         background: #fff;
         margin: 0 auto;
-        /* margin-top: 30px; */
         display: flex;
         flex-direction: row;
         align-items: center;
