@@ -4,7 +4,12 @@
             <div class="profile-left">
                 <div class="tz-user-thumbnail"></div>
                 <div class="tz-user-details">
-                    <p>Bob Charlie</p>
+                    <p  class="tz-user-name">Bob Charlie</p>
+                    <div class="tz-user-skill">UI/UX Designer</div>
+                    <div class="tz-user-bio">Here, user gives a brief description about his/herself, more like a brief introduction.</div>
+                    <div class="tz-cust-btn">Edit Profile</div>
+                    <div class="tz-cust-btn">View Resume</div>
+
                 </div>
             </div>
             <div class="profile-right"></div>

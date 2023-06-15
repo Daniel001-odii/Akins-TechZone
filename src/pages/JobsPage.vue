@@ -46,7 +46,10 @@
                 <slot name="job-cards">
                 <div v-for="(job, index) in filteredJobs" :key="index">
                     <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }" >
-                        <template #job-title>{{ job.job_tag }}</template>
+                        <template #job-title>
+                            <span class="mobile-link" @click="navigateToJobDetails(filteredJobs[selectedJob].id)">{{ job.job_tag }}</span>
+                            <span class="desktop-link">{{ job.job_tag }}</span>
+                        </template>
                         <template #job-post-company></template>
                         <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
                         <template #job-duration> {{ job.work_period.substring(0,5) }}...</template>
@@ -291,5 +294,5 @@
   
   
   <style>
-     
+    @media screen and (max-width: 650px) {}
   </style>

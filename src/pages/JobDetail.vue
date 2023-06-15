@@ -1,4 +1,7 @@
 <template>
+    <!-- add message toast to page -->
+    <Toast ref="toast"></Toast>
+
     <div class="page-grid-container">
         <div class="Navigation">
             <!-- <div v-if="isLoading">Loading...</div> -->
@@ -32,7 +35,8 @@
                                     <path d="M18.75 12.25C18.75 17.08 14.83 21 10 21C5.17 21 1.25 17.08 1.25 12.25C1.25 7.42 5.17 3.5 10 3.5C14.83 3.5 18.75 7.42 18.75 12.25Z" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M10 7V12" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>Posted sample ago
+                                </svg>
+                                {{ getHoursTillDate(job.created_at) }} ago
                                 </span>
                             </span>
                             <span class="jdh-detail">
@@ -40,7 +44,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
                                     <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
                                 </svg>
-                                {{ job.budget_des }} : {{ job.budget }}
+                                {{ job.budget_des }} : (₦){{ formatBudgetAmount(job.budget) }}
                             </span>
                         </div>
                         <!-- <div class="jdh-right">
@@ -73,7 +77,10 @@
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Share this job post</p>
-                            {{ shareLink }}
+                            <div class="tz-copy-link">
+                                <div id="contentToCopy" class="tz-disabled-link">{{ shareLink }}</div>
+                                <i class="bi bi-clipboard" @click="copyText"></i>
+                            </div>
                     </div>
                 </div>
                 <div class="tz-form-area">
@@ -86,7 +93,7 @@
                         <div class="tz-form-content">
                             <span class="tz-form-title">Attachment</span>
                             <div class="drop-zone" @drop="handleDrop" @dragover.prevent>
-                                <!-- <img src="../components/Logos_icons/content.png" class="cloud"> -->
+                                <img @click="handleButtonClick" src="../components/Logos_icons/content.png" class="cloud">
                                 <span v-if="!selectedFile">Drag and drop files or <i  @click="handleButtonClick" style="color:blue; cursor: pointer;">upload</i> project files here.</span>
                                 <span v-else>{{ selectedFile.name }}</span>
                             </div>
@@ -116,7 +123,7 @@
                     </form>
                 </div>
         </div>
-        <div v-else style="" class="Page-contents">
+        <div v-else style="height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center;" class="Page-contents">
             <DotLoader/>
         </div>
         
@@ -139,6 +146,7 @@
       import jobsData from '@/pages/JobLists.json'; // import the JSON file
       import DotLoader from '../components/DotLoader.vue'
       import { ref, onMounted} from 'vue';
+      import Toast from '@/components/Toast.vue';
 
       const api_url = 'https://techzoneapp.herokuapp.com/api/jobs/';
       
@@ -154,6 +162,7 @@
             PageFilter,
             draggable,
             DotLoader,
+            Toast,
         },
         setup() {
                     const selectedFile = ref(null);
@@ -190,6 +199,17 @@
             };
         },
         methods: {
+            copyText() {
+                const contentToCopy = document.getElementById('contentToCopy').innerText;
+
+                navigator.clipboard.writeText(contentToCopy)
+                    .then(() => {
+                    this.$refs.toast.showSuccessToast('Successfully copied to clipboard');
+                    })
+                    .catch((error) => {
+                    console.error('Error copying to clipboard:', error);
+                    });
+                },
             fetchJobListings() {
             const jobId = this.$route.params.id;
             axios
@@ -205,6 +225,29 @@
                 this.isLoading = false;
                 });
             },
+            getHoursTillDate(dateString) {
+                const date = new Date(dateString)
+                const now = new Date()
+                const diff = now.getTime() - date.getTime()
+                const diffInHours = Math.floor(diff / (1000 * 60 * 60))
+                const diffInMins = Math.floor(diff / (1000 * 60))
+                const diffInSecs = Math.floor(diff / (1000))
+                const timeInSeconds = Math.floor(date.getTime() / 1000); 
+                //calculate respectively......
+                if (diffInMins < 60) {return `${diffInMins} minutes`}
+                else if (diffInHours < 24) {return `${diffInHours} hours`} 
+                else if (diffInHours < 720) {
+                    const diffInDays = Math.floor(diffInHours / 24)
+                    return `${diffInDays} days`
+                } else {
+                    const diffInMonths = Math.floor(diffInHours / 720)
+                    return `${diffInMonths} months`
+                }
+                },
+                formatBudgetAmount(value){
+                    const formattedValue = new Intl.NumberFormat('en-US').format(value);
+                    return formattedValue;
+                },
         },
         created() {
             this.fetchJobListings();
