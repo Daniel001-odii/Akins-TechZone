@@ -285,7 +285,6 @@ import LeftNav from './LeftNav.vue';
 import { RouterLink } from 'vue-router';
 import axios from 'axios';
 import { ref } from 'vue';
-// import { useMeta } from 'vue-meta'
 
 const api_url = "https://techzoneapp.herokuapp.com/api/logout";
 
