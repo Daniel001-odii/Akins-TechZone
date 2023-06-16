@@ -21,7 +21,7 @@
             </div>
             <div class="section-divider"></div>
             <div class="tz-profile-right">
-                <table>
+                <table style="width: 250px;">
                     <tbody>
                     <tr>
                         <td>Availability</td>
@@ -225,28 +225,37 @@ th, td{
     .tz-profile-last{
         width: 80%;
         /* background: #cb2c2c; */
-        padding: 20px;
+        /* padding: 20px; */
         margin:0 auto;
         margin-top: 20px;
         gap: 25px;
         display: flex;
         flex-direction: row;
+        /* border: 1px solid green; */
     }
 
     .tz-emphasis{
         display: flex;
         flex-direction: column;
+        margin-bottom: 15px;
     }
 
     .bio-area{
         width: 35%;
         background: #fff;
+        padding: 10px;
     }
     .about-area{
         width: 100%;
-        background: red;
+        background: #ffffff;
     }
-
+    /* @media only screen and (max-width: 1020px) {
+        .tz-profile-card, .tz-profile-last, .tz-profile-header{
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+    } */
     @media only screen and (max-width: 720px) {
         .tz-profile-card{
             flex-direction: column;
@@ -254,17 +263,25 @@ th, td{
         }
         .tz-profile-left{
             flex-direction: column;
+            align-items: flex-start;
         }
         .section-divider{
             display: none;
         }
         .tz-profile-last{
             flex-direction: column;
+            gap: 5px;
+        }
+        .tz-profile-right{
+            justify-content: center;
+            padding: 0px;
         }
         .about-area{
-            background: red;
-            height: 15px;height: ;
-            /* display: grid; */
+            height: 400px;
+        }
+        .tz-profile-header, .tz-profile-last, .about-area{
+            width: 100%;
+            margin-top: 5px !important;
         }
         .bio-area{
         width: 100%;
