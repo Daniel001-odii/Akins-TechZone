@@ -3,7 +3,7 @@
         <div class="card job-card">
             <div class="plane">
                 <span style="padding: 5px 10px;" data-toggle="tooltip" data-placement="bottom" title="save job">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 25 25" fill="none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
                     <path class="saved-job" d="M0.485051 8.71692C-0.160649 8.50169 -0.166834 8.1541 0.497421 7.93268L24.1075 0.0630534C24.7619 -0.154654 25.1367 0.21149 24.9536 0.852243L18.2072 24.4611C18.0216 25.1155 17.6444 25.1378 17.3673 24.5168L12.9216 14.5121L20.3434 4.61635L10.4476 12.0382L0.485051 8.71692Z" fill="#fff"/>
                     </svg>
                 </span>
@@ -65,7 +65,10 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f2f2f2;
+    /* background: #f2f2f2; */
+}
+.saved-job{
+    fill: var(--app-grey);
 }
 .saved-job:hover{
     fill: var(--app-blue);

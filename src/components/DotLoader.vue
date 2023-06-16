@@ -1,10 +1,14 @@
 <template>
     <div class="box">
-    <div class="snippet" data-title="dot-pulse">
+    <!-- <div class="snippet" data-title="dot-pulse">
             <div class="stage">
                 <div class="dot-pulse"></div>
             </div>
-    </div>
+    </div> -->
+    <!-- <div class="spinner-border text-light" role="status">
+      <span class="sr-only">Loading...</span>
+    </div> -->
+    <div class="spinner-border text-primary" role="status"></div>
     <i>Loading...</i>
     </div>
 </template>

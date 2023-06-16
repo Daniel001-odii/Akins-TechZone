@@ -100,7 +100,7 @@
                                 <input type="file" ref="fileInput" @change="handleFileInputChange" style="display: none">
                                 <span @click="handleButtonClick" style="color:blue; cursor: pointer;margin: 0;" class="cust-bt">Upload files</span>
                         </div>
-                        <div class="tz-form-content">
+                        <div class="tz-form-content row">
                             <span class="tz-form-title">Counter offer</span>
                             <div class="form-sub">
                                 <p>Requesting Fee</p>
@@ -113,7 +113,7 @@
                             </div>
                             <div class="form-sub">
                                 <p>Reason</p>
-                                <input type="textarea">
+                                <textarea type="textarea" class="tz-form-textarea" style="height: 70px;" placeholder="...."></textarea>
                                 <small>give a detailed reason for countering the offer</small>
                             </div>
                         </div>
@@ -299,6 +299,9 @@ small{font-size: 12px;}
     display: flex;
     flex-direction: column;
     padding: 10px;
+}
+.row{
+    flex-direction: row !important;
 }
 .tz-form-title{
     font-size: 16px;
