@@ -12,10 +12,10 @@
             <RouterLink to="/jobs">Privacy</RouterLink>
         </div>
         <div class="footer-last">
-                <div class="email-input">
+                <!-- <div class="email-input">
                     <input type="email" placeholder="Enter your email">
                     <button class="email-btn">Subscribe</button>
-                </div>
+                </div> -->
                 <p class="fw-light copyright">&copy; 2023 TechZone, All rights reserved.</p>
         </div>
     </div>
@@ -54,18 +54,19 @@ import Search from './Search.vue';
 
     .footer-last{
         display: flex;
-        flex-direction: row;
+        /* flex-direction: row; */
         /* justify-content: space-around; */
         justify-content: center;
         align-items: center;
         width: 100%;
         padding: 20px;
+        font-size: 0.8em;
         /* height: 50px; */
         /* border: 2px solid red; */
     }
 
-    .footer-links, .footer-last{
-        margin-top: 30px;
+    .footer-links, .footer-lat{
+        margin-top: 20px;
     }
 
     .email-input{

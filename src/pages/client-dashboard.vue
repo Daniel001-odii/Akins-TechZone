@@ -9,9 +9,9 @@
         <div class="Left-Nav">
             <LeftNav/>
         </div>
-        <!-- <div class="Page-header">
-            <div class="page-title"><slot name="page-title">Application</slot></div>
-        </div>  this page has no header-->
+        <div class="Page-header">
+            <!-- <div class="page-title"><slot name="page-title">Dashboard</slot></div> -->
+        </div> 
         <div class="Page-contents">
                <div class="container">
                     <div class="tz-client-header">
@@ -93,7 +93,7 @@
                 </div>
                </div>
         </div>
-        <!-- <div class="footer"><Footer/></div> -->
+        <div class="footer"><Footer/></div>
       
     </div>
       </template>

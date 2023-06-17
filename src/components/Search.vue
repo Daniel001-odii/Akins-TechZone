@@ -83,7 +83,7 @@
 
 @media only screen and (max-width: 700px) {
     .cust-search-in{
-        width: 100px !important;
+        /* width: 100px !important; */
     }
 }
 

@@ -7,8 +7,8 @@
             <RouterLink to="completed-jobs"><div class="job-category">Completed (15)</div></RouterLink>
             <RouterLink to="declined-jobs"><div class="job-category job-category-active">Declined (4)</div></RouterLink></template>
         <template #job-cards>
-            <PostCard/>
-            <PostCard/>
+            <!-- <PostCard/>
+            <PostCard/> -->
         </template>
     </PageTemplate>
   </template>

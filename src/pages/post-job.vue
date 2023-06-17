@@ -48,12 +48,19 @@
               <div class="section-sub">
             <div>
                 <div class="section-title">Search Skill here or Manually add your own</div>
-                <div class="filter-search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 25 26" fill="none">
-                        <path d="M11.1311 0.727295C17.1339 0.727295 22.0058 5.59917 22.0058 11.602C22.0058 17.6049 17.1339 22.4767 11.1311 22.4767C5.12822 22.4767 0.256348 17.6049 0.256348 11.602C0.256348 5.59917 5.12822 0.727295 11.1311 0.727295ZM11.1311 20.0601C15.8036 20.0601 19.5892 16.2745 19.5892 11.602C19.5892 6.9283 15.8036 3.1439 11.1311 3.1439C6.45736 3.1439 2.67295 6.9283 2.67295 11.602C2.67295 16.2745 6.45736 20.0601 11.1311 20.0601ZM21.3835 20.1459L24.8018 23.563L23.0921 25.2727L19.675 21.8545L21.3835 20.1459V20.1459Z" fill="#45494F"/>
-                    </svg>
-                    <input type="search" class="ft-search" placeholder="Search a types of jobs"  v-model="inputValue" @keyup.enter="addTag">
-              </div>
+                <div class="sch">
+                  <div class="filter-search">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 25 26" fill="none">
+                          <path d="M11.1311 0.727295C17.1339 0.727295 22.0058 5.59917 22.0058 11.602C22.0058 17.6049 17.1339 22.4767 11.1311 22.4767C5.12822 22.4767 0.256348 17.6049 0.256348 11.602C0.256348 5.59917 5.12822 0.727295 11.1311 0.727295ZM11.1311 20.0601C15.8036 20.0601 19.5892 16.2745 19.5892 11.602C19.5892 6.9283 15.8036 3.1439 11.1311 3.1439C6.45736 3.1439 2.67295 6.9283 2.67295 11.602C2.67295 16.2745 6.45736 20.0601 11.1311 20.0601ZM21.3835 20.1459L24.8018 23.563L23.0921 25.2727L19.675 21.8545L21.3835 20.1459V20.1459Z" fill="#45494F"/>
+                      </svg>
+                        <input type="search" class="ft-search" placeholder="Search a types of jobs"  v-model="inputValue" @keyup.enter="addTag" @input="generateSuggestions">
+                  </div>
+                  <div class="suggestions">
+                      <span class="suggest" v-for="(suggestion, index) in suggestions" :key="index" @click="selectSuggestion(suggestion)">
+                            {{ suggestion }}
+                      </span>
+                  </div>
+                </div>
                 <div class="section-title">Selected skills:</div>
                 <div class="tags-container">
                     <div v-for="(tag, index) in tags" :key="index" class="tag">
@@ -93,28 +100,28 @@
           <div class="section-divider"></div>
           <div class="section">
             <div class="sub-section">
-                  <label class="radio-selection">
-                      <input type="radio" name="project-type" v-model="formData.work_period" value="Small: Usually quick and straighforward, Project has a life span of 1 to 3 Months">
-                      <div class="radio-items">
-                        <p style="font-weight: bold;">Small</p>
-                        <p>Usually quick and straighforward, Project has a life span of 1 to 3 Months</p>
-                      </div>
-                  </label>
-                  <label class="radio-selection">
-                      <input type="radio" name="project-type" v-model="formData.work_period" value="Medium: Project has a life span of about 6 months">
-                      <div class="radio-items">
-                        <p style="font-weight: bold;">Medium</p>
-                        <p>Project has a life span of about 6 months</p>
-                      </div>
-                  </label>
-                  <label class="radio-selection">
-                      <input type="radio" name="project-type" v-model="formData.work_period" value="Large: Project has a life span of greater than 6 months">
-                      <div class="radio-items">
-                        <p style="font-weight: bold;">Large</p>
-                        <p>Project has a life span of greater than 6 months</p>
-                      </div>
-                  </label>
-            </div>
+            <label class="radio-selection">
+              <input type="radio" name="project-type" v-model="formData.work_period" value="Small: Usually quick and straightforward, Project has a life span of 1 to 3 Months">
+              <div class="radio-items">
+                <p style="font-weight: bold;">Small</p>
+                <p>Usually quick and straightforward, Project has a life span of 1 to 3 Months</p>
+              </div>
+            </label>
+            <label class="radio-selection">
+              <input type="radio" name="project-type" v-model="formData.work_period" value="Medium: Project has a life span of about 6 months">
+              <div class="radio-items">
+                <p style="font-weight: bold;">Medium</p>
+                <p>Project has a life span of about 6 months</p>
+              </div>
+            </label>
+            <label class="radio-selection">
+              <input type="radio" name="project-type" v-model="formData.work_period" value="Large: Project has a life span of greater than 6 months">
+              <div class="radio-items">
+                <p style="font-weight: bold;">Large</p>
+                <p>Project has a life span of greater than 6 months</p>
+              </div>
+            </label>
+          </div>
           </div>
     </div>
   </Transition>
@@ -135,29 +142,46 @@
 
           <div class="section">
               <div class="sub-section">
-                <label class="radio-selection">
+
+                <div class="row-budgets">
+                  <label class="budget-select">
                       <input type="radio" name="project-budget" v-model="formData.budget_des" value="Fixed price">
                       <div class="radio-items">
-                        <p style="font-weight: bold;">Fixed Price</p>
+                        <p style="font-weight: bold;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
+                          <path d="M8.4125 24.625C9.4375 23.525 11 23.6125 11.9 24.8125L13.1625 26.5C14.175 27.8375 15.8125 27.8375 16.825 26.5L18.0875 24.8125C18.9875 23.6125 20.55 23.525 21.575 24.625C23.8 27 25.6125 26.2125 25.6125 22.8875V8.8C25.625 3.7625 24.45 2.5 19.725 2.5H10.275C5.55 2.5 4.375 3.7625 4.375 8.8V22.875C4.375 26.2125 6.2 26.9875 8.4125 24.625Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M10 8.75H20" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M11.25 13.75H18.75" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                          Fixed Price</p>
                         <!-- <p>Project Based</p> -->
                       </div>
                   </label>
 
-                  <label class="radio-selection">
+                  <label class="budget-select">
                       <input type="radio" name="project-budget"  v-model="formData.budget_des" value="Hourly">
                       <div class="radio-items">
-                        <p style="font-weight: bold;">Hourly rate</p>
+                        <p style="font-weight: bold;">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
+                          <path d="M27.5 15C27.5 21.9 21.9 27.5 15 27.5C8.1 27.5 2.5 21.9 2.5 15C2.5 8.1 8.1 2.5 15 2.5C21.9 2.5 27.5 8.1 27.5 15Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M19.6371 18.975L15.7621 16.6625C15.0871 16.2625 14.5371 15.3 14.5371 14.5125V9.3875" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                          Hourly rate</p>
                         <!-- <p>Hourly rate</p> -->
                       </div>
                   </label>
+                  <label class="budget-select">
+                    <p style="font-weight: bold;">Project Budget (₦)</p>
+                      <input type="number" name="project-budget" style="width:50%" v-model="formData.budget" required>
+                  </label>
+                </div>
 
-                  <label class="radio-selection">
+                  <!-- <label class="radio-selection">
                       <input type="number" name="project-budget" style="width:50%" v-model="formData.budget" required>
                       <div class="radio-items">
                         <p style="font-weight: bold;">(₦) Total Budget</p>
-                        <!-- <p>Hourly rate</p> -->
                       </div>
-                  </label>
+                  </label> -->
               </div>
               <div class="section-last">
                 After Project is completed  and satisfied, payment will be released to Freelancer.
@@ -219,12 +243,6 @@
   </div>
 </div>
 </div>
-
-
-          <!--
-          
-         -->
-
  </div>
 </template>
 
@@ -243,6 +261,10 @@ export default {
   components: { Navbar, CheckBox, Search, Modal },
   data() {
   return {
+    inputValue: '',
+    suggestions: [],
+    selectedSuggestions: [],
+
     currentIndex: 0,
     formData: {
         job_tag: '',
@@ -259,6 +281,32 @@ export default {
   }
 },
 methods: {
+  generateSuggestions() {
+      // Clear previous suggestions
+      this.suggestions = [];
+
+      // Get input value and convert to lowercase for case-insensitive comparison
+      const input = this.inputValue.toLowerCase();
+
+      const wordSuggestions = ["apple", "banana", "cat", "dog", "elephant", "fox", "grape", "house", "ice cream"];
+
+      // Generate suggestions based on the input
+      if (input.length > 0) {
+        const filteredSuggestions = wordSuggestions.filter(word => word.includes(input) && !this.selectedSuggestions.includes(word));
+        this.suggestions = filteredSuggestions;
+      }
+    },
+    selectSuggestion(suggestion) {
+      // Update the search box value with the selected suggestion
+      this.inputValue = suggestion;
+      // Add the selected suggestion to the list of selected suggestions
+      this.selectedSuggestions.push(suggestion);
+      // Remove the selected suggestion from the suggestions list
+      const suggestionIndex = this.suggestions.indexOf(suggestion);
+      if (suggestionIndex !== -1) {
+        this.suggestions.splice(suggestionIndex, 1);
+      }
+    },
   prev() {
     this.currentIndex--;
   },
@@ -314,7 +362,42 @@ methods: {
 
 
 <style scoped>
+.row-budgets{
+  display: flex;
+  flex-wrap: wrap;
+}
+.suggestions{
+  box-shadow: 0px 5px 5px #e6e6e6;
+  display: flex;
+  flex-direction: column;
+}
+.suggest{
+  padding: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.suggest:hover{
+  background: var(--app-hover);
+}
+.budget-select{
+  display: flex;
+  flex-direction: column;
+  max-width: 150px;
+  border: 1px solid #d5d5d5;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  justify-content: center !important;
+  align-items: flex-end;
+  border-radius: 5px;
+}
 
+.sch{
+display: flex;
+flex-direction: column;
+margin-bottom: 10px;
+/* background: red; */
+}
 .tag {
   display: inline-block;
   padding: 4px 8px;
