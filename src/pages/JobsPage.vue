@@ -165,7 +165,7 @@
 <!-- </Transition> -->
 </div>
   
-<Footer/>
+<!-- <Footer/>  -->
   
   </div>
   </template>

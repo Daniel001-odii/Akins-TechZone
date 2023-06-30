@@ -238,9 +238,13 @@ data(){
             </div>
         </div>
     </div>
-    <div class="tz-second-section" style="background: #F6F9FF;">
-        <div class="tz-second-title">Take The Next Step<br/> In Your Journey - Sign Up And <br/>Unlock Limitless Opportunities</div>
-        <div class="cust-btn">Sign Up</div>
+    <div class="tz-second-last" style="background: #F6F9FF;">
+        <div style="display: flex; align-items: flex-start; flex-direction: column; padding: 50px;">
+            <div class="tz-second-title" style="text-align: left; ">Take The Next Step In Your Journey - Sign Up And Unlock Limitless Opportunities</div>
+            <div class="cust-btn" style="width: 100px; border-radius: 60px;">Sign Up</div>
+        </div>
+        <img src="../assets/imgs/landing_girl.png" class="last-girl">
+        
     </div>
     
 </main>
@@ -255,7 +259,17 @@ data(){
 
 
 <style scoped>
-
+.last-girl{
+    width: 50%;
+    height: auto;
+    /* border: 1px solid red; */
+}
+.tz-second-last{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
 .ft-jobCard-des{
     padding: 10px;
     overflow-y: hidden;
@@ -371,7 +385,6 @@ data(){
     font-weight: bolder;
     line-height: 100%;
     text-align: center;
-    /* padding: 25px; */
     margin-top: 50px;
     margin-bottom: 35px;
 }
@@ -381,7 +394,6 @@ data(){
     border-radius: 60px;
 }
 .tz-hero-left{
-    /* border: 1px solid red; */
     width: 50%;
     padding: 50px;
     line-height: 65px;
@@ -583,11 +595,20 @@ data(){
     }
     .tz-hero-left{
         width: 100%;
+        margin: 0 !important;
     }
     .tz-right-image{
         width: 100%;
     }
+    .tz-second-last{
+        flex-direction: column;
+        justify-content: center;
     }
+    .last-girl{
+        width: 100%;
+    }
+
+}
     
 
 @media only screen and (max-width: 350px) {
@@ -596,6 +617,9 @@ data(){
     }
     .tz-hero-form{
         font-size: 10px;
+    }
+    .tz-second-title{
+        font-size: 1.4em;
     }
     }
 
