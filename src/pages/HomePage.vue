@@ -93,16 +93,21 @@ data(){
             <div class="search"><Search/></div>
         
                 <div class="nav-auth-buttons">
-                    <button  @click="toggleDropdown" class="cust-btn login" style="background: none; color: #fff; border: 1px solid var(--app-blue);">
-                        <span>Sign in</span>
-                    <div class="login-options" v-show="isDropdownOpen">
+                    <button class="cust-btn login" style="background: none; color: #fff; border: 1px solid var(--app-blue);">
+                        Sign in
+                    <!-- <div class="login-options" v-show="isDropdownOpen">
+                        <RouterLink to="/employer/login"><div class="options">As Employer</div></RouterLink>
+                        <RouterLink to="/login"><div class="options">As Talent</div></RouterLink>
+                    </div> -->
+                    <div class="login-options">
                         <RouterLink to="/employer/login"><div class="options">As Employer</div></RouterLink>
                         <RouterLink to="/login"><div class="options">As Talent</div></RouterLink>
                     </div>
                     </button>
-                    <button @click="toggleDropdown" class="cust-btn signUp">
+
+                    <button class="cust-btn signUp">
                     <span>Sign Up</span>
-                    <div class="signup-options" v-show="isDropdownOpen">
+                    <div class="signup-options">
                         <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
                         <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                     </div>
@@ -111,9 +116,9 @@ data(){
 
                     <div class="nav-toggler">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none" class="menu-toggle" @click="showMenu = !showMenu">
-                            <path d="M1.94727 1.75464H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
-                            <path d="M1.94727 10.0001H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
-                            <path d="M1.94727 18.2455H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
+                            <path d="M1.94727 1.75464H31.6308" stroke="#fff" stroke-width="1.9789" stroke-linecap="round"/>
+                            <path d="M1.94727 10.0001H31.6308" stroke="#fff" stroke-width="1.9789" stroke-linecap="round"/>
+                            <path d="M1.94727 18.2455H31.6308" stroke="#fff" stroke-width="1.9789" stroke-linecap="round"/>
                         </svg>
                     </div>
         </nav>
@@ -259,6 +264,11 @@ data(){
 
 
 <style scoped>
+.login:hover .login-options{
+    display: block;
+    /* background: red !important; */
+    /* position: relative; */
+}
 .last-girl{
     width: 50%;
     height: auto;
@@ -515,33 +525,26 @@ data(){
 .login{
     color: #000;
     border-radius: 5px;
-    background: none !important;
-}
-.login:hover{
-    background: var(--app-hover) !important;
-}
-.login:hover .login-options{
-    display: block;
+    background: none;
 }
 
 .signup-options{
     display: none;
     position: absolute;
     right: 10px;
-    top: 45px;
-    background: #fff;
+    top: 50px;
+    background: #ffffff;
     width: 100px;
-    box-shadow: 0px 12px 12px #e2e2e2;
+    /* box-shadow: 0px 12px 12px #e2e2e2; */
     text-align: right;
 }
 
 .login-options{
     display: none;
     position: absolute;
-    right: 120px;
-    top: 45px;
+    right: 118px;
+    top: 50px;
     background: #fff;
-    box-shadow: 0px 12px 12px #e2e2e2;
     text-align: right;
 }
 .options{
@@ -626,8 +629,8 @@ data(){
 
 
 .closeBtn{
-    color: var(--app-blue);
-    font-size: 40px;
+    /* color: var(--app-blue); */
+    font-size: 30px;
     position: absolute; 
     right: 20px;
     top:2px;
@@ -650,9 +653,8 @@ data(){
     align-items: center;
     /* gap: 10px; */
 }
-.menu-header > h2{
-    margin: 0;
-    padding: 0;
+.menu-header{
+    margin-top: 20px;
 }
 .menu-item{
     height: 50px;
@@ -736,36 +738,6 @@ data(){
     gap: 10px;
 }
 
-.signUp{
-    background: var(--app-blue) !important;
-    border-radius: 5px;
-}
-.signUp:hover .signup-options{
-    display: block;
-}
-.login{
-    color: #000;
-    border-radius: 5px;
-    background: none !important;
-}
-.login:hover{
-    background: var(--app-hover) !important;
-}
-.login:hover .login-options{
-    display: block;
-}
-
-.signup-options{
-    display: none;
-    position: absolute;
-    right: 10px;
-    top: 45px;
-    background: #fff;
-    width: 100px;
-    box-shadow: 0px 12px 12px #e2e2e2;
-    text-align: right;
-}
-
 .tz-user-menu{
     display: flex;
     flex-direction: column;
@@ -802,15 +774,7 @@ data(){
 .tz-menu-conent:hover{
     background: var(--app-hover);
 }
-.login-options{
-    display: none;
-    position: absolute;
-    right: 120px;
-    top: 45px;
-    background: #fff;
-    box-shadow: 0px 12px 12px #e2e2e2;
-    text-align: right;
-}
+
 .options{
     padding: 5px 10px;
     width: 100%;
