@@ -37,7 +37,6 @@ import Search from './Search.vue';
         justify-content: center;
         align-items: center;
         width: 100%;
-        background: #000;
         /* height: 250px; */
         padding: 10px;
     }

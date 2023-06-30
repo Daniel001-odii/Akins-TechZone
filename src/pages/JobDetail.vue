@@ -15,7 +15,7 @@
         </div>
         <div v-if="!isLoading" class="Page-contents">
                 <div class="tz-job-content-area">
-                    <div class="tz-company-header-img"></div>
+                    <!-- <div class="tz-company-header-img"></div> -->
                     <div class="job-detail-header">
                         <div class="jdh-left">
                             <span><b>{{ job.job_tag }}</b></span>

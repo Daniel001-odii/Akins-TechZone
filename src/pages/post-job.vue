@@ -288,7 +288,29 @@ methods: {
       // Get input value and convert to lowercase for case-insensitive comparison
       const input = this.inputValue.toLowerCase();
 
-      const wordSuggestions = ["apple", "banana", "cat", "dog", "elephant", "fox", "grape", "house", "ice cream"];
+      const wordSuggestions = [
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "React",
+  "Vue",
+  "Angular",
+  "Node.js",
+  "Express",
+  "MongoDB",
+  "SQL",
+  "REST",
+  "API",
+  "Frontend",
+  "Backend",
+  "Responsive",
+  "UI",
+  "UX",
+  "Bootstrap",
+  "SASS",
+  "Webpack",
+  "Git",
+  "GitHub"];
 
       // Generate suggestions based on the input
       if (input.length > 0) {
@@ -367,9 +389,15 @@ methods: {
   flex-wrap: wrap;
 }
 .suggestions{
+  z-index: 999;
+  top: 50;
+  background: #fff;
+  position: relative;
   box-shadow: 0px 5px 5px #e6e6e6;
   display: flex;
   flex-direction: column;
+  max-height: 100px;
+  overflow-y: scroll;
 }
 .suggest{
   padding: 5px;
