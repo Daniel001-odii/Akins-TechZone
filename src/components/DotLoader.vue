@@ -1,15 +1,20 @@
 <template>
     <div class="box">
-    <!-- <div class="snippet" data-title="dot-pulse">
-            <div class="stage">
-                <div class="dot-pulse"></div>
-            </div>
-    </div> -->
-    <!-- <div class="spinner-border text-light" role="status">
-      <span class="sr-only">Loading...</span>
-    </div> -->
-    <div class="spinner-border text-primary" role="status"></div>
-    <i>Loading...</i>
+      <!-- <div class="loader">
+        <img src="../components/Logos_icons/techzoneSingle.png" />
+      </div> -->
+      <div class="loaderClass">
+      <img src="https://www.tutorialspoint.com/static/images/client/science.svg" alt="logoImage">
+   </div>
+
+
+      <!-- <div class="loader-container">
+      <div class="loader">
+    <div class="logo"></div>
+  </div> 
+</div>-->
+    <!-- <div class="spinner-border text-primary" role="status"></div>
+    <i>Loading...</i> -->
     </div>
 </template>
 
@@ -20,16 +25,48 @@
 </script>
 
 <style scoped>
-.box{
+.loaderClass {
+         border: 12px solid #dcd7d7;
+         border-top: 12px solid #04802f;
+         border-radius: 50%;
+         width: 120px;
+         height: 120px;
+         animation: SpinLoader 2.5s linear infinite;
+      }
+      .loaderClass img {
+         height: 120px;
+         width: 120px;
+         border-radius: 50%;
+         animation: LogoModify 2.5s linear infinite;
+      }
+      @keyframes SpinLoader {
+         0% {
+            transform: rotate(0deg);
+         }
+         100% {
+            transform: rotate(360deg);
+         }
+      }
+      @keyframes LogoModify {
+         0% {
+            transform: rotate(360deg);
+         }
+         100% {
+            transform: rotate(0deg);
+         }
+      }
+
+
+/* .box{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 90vh;
     width: 100%;
-}
+} */
 /* //pulse.... */
-.dot-pulse {
+/* .dot-pulse {
   position: relative;
   left: -9999px;
   width: 12px;
@@ -95,7 +132,7 @@
   60%, 100% {
     box-shadow: 10014px 0 0 -5px;
   }
-}
+} */
 
 
 

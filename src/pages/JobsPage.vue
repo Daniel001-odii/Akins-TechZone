@@ -149,7 +149,6 @@
 
     <!-- <span v-if="isLoading" style="color:var(--app-blue)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
 
-    <!-- <Skeleton v-if="isLoading"/> -->
     <DotLoader v-if="isLoading"/>
         <span v-if="filteredJobs.length === 0 && isLoading != true" 
                 style="display: flex;
@@ -162,7 +161,7 @@
                 <b>Sorry, No jobs found</b>
             </span>
         
-<!-- </Transition> -->
+
 </div>
   
 <!-- <Footer/>  -->
