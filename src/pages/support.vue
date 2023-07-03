@@ -16,14 +16,103 @@
             <img class="faq-hero-right" src="../assets/imgs/FAQ.png">
         </div>
         <div class="tz-FAQ-main">
-            <div class="tz-FAQ-category">
-                <p class="title">General FAQs</p>
-                <div class="sub-title">Everything you need to know about the product and how it works. Cant find answer?, Reachout</div>
-            </div>
 
             <div class="tz-FAQ-category">
-                <p class="title">Billing & Payment FAQs</p>
-                <div class="sub-title">Everything you need to know about Billing and Payment. Cant find answer?, Reachout</div>
+                <div class="category-description">
+                    <p class="title">General FAQs</p>
+                    <div class="sub-title">Everything you need to know about Billing and Payment. Cant find answer?, Reachout</div>
+                </div>
+                <div class="wrapper">
+                <ul>
+                <li>
+                    <input type="checkbox" id="list-item-1">
+                    <label for="list-item-1" class="FAQ-topic-title">Is there a free trial available?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="list-item-2">
+                    <label for="list-item-2" class="FAQ-topic-title">How can i search for jobs on the platform?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="list-item-3">
+                    <label for="list-item-3" class="FAQ-topic-title">How can i upload my resume to the platform?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="list-item-4">
+                    <label for="list-item-4" class="FAQ-topic-title">How can i apply for a job listing?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="list-item-5">
+                    <label for="list-item-5" class="FAQ-topic-title">How can i save job listings for later?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="list-item-5">
+                    <label for="list-item-5" class="FAQ-topic-title">How do i post a job listing as an employer?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                </ul>
+                </div>
+            </div>
+            <div class="tz-FAQ-category">
+                <div class="category-description">
+                    <p class="title">Billing & Payment FAQs</p>
+                    <div class="sub-title">Everything you need to know about Billing and Payment. Cant find answer?, Reachout</div>
+                </div>
+                <div class="wrapper">
+                <ul>
+                <li>
+                    <input type="checkbox" id="list-item-6">
+                    <label for="list-item-6" class="FAQ-topic-title">Are there any fees for employers posting job listings?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="list-item-7">
+                    <label for="list-item-7" class="FAQ-topic-title">How can i update or change my billing information?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="list-item-8">
+                    <label for="list-item-8" class="FAQ-topic-title">Are there any hidden fees or charges?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="list-item-9">
+                    <label for="list-item-9" class="FAQ-topic-title">How does billing work?</label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                <li>
+                    <input type="checkbox" id="list-item-10">
+                    <label for="list-item-10" class="FAQ-topic-title">What happens if my payment fails or there is an issue with billing? </label>
+                    <ul>
+                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    </ul>
+                </li>
+                </ul>
+                </div>
             </div>
         </div>
 
@@ -56,7 +145,8 @@ import Footer from '../components/Footer.vue'
     }
 
     .sub-title{
-        font-size: 0.8em;
+        font-size: 0.7em;
+        padding-bottom: 20px;
     }
     p{
         margin: 0;
@@ -90,5 +180,94 @@ import Footer from '../components/Footer.vue'
         justify-content: space-around;
         align-items: center;
     }
+
+    .category-description{
+        width: 450px;
+    }
+    .tz-FAQ-category{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    .FAQ-topic-title{
+        font-weight: bold;
+        font-size: 0.8em;
+    }
     
+
+
+
+.wrapper{
+  /* margin: 10% auto; */
+  width: 400px;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+label{
+  display: block;
+  cursor: pointer;
+  /* padding-bottom: 10px; */
+  /* border: 1px solid #fff; */
+  border-bottom: none;
+}
+
+label:hover{
+  /* background: #26C281; */
+}
+
+label.last{
+  border-bottom: 1px solid #fff;
+}
+
+ul ul li{
+  /* padding: 10px; */
+  /* background: #59ABE3; */
+}
+
+.FAQ-topic-title{
+    border-bottom: 1px solid #efefef;
+    border-top: 1px solid #efefef;
+    padding: 15px 0px 15px 0px;
+}
+
+input[type="checkbox"]{
+  position: absolute;
+  left: -9999px;
+}
+
+input[type="checkbox"] ~ ul{
+  height: 0;
+  transform: scaleY(0);
+}
+
+input[type="checkbox"]:checked ~ ul{
+  height: 100%;
+  transform-origin: top;
+  transition: transform .2s ease-out;
+  transform: scaleY(1); 
+}
+
+input[type="checkbox"]:checked + label{
+  /* background: #26C281;/ */
+  /* border-bottom: 1px solid #fff; */
+}
+
+
+
+@media only screen and (max-width: 720px) {
+    .tz-faq-hero{
+        flex-direction: column;
+    }
+    .tz-FAQ-category{
+        flex-direction: column;
+    }
+    .wrapper{
+        width: auto;
+    }
+}
 </style>
