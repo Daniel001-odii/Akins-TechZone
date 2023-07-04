@@ -134,14 +134,13 @@ import Footer from '../components/Footer.vue'
 
 <style scoped>
     .tz-faq-hero{
-        height: 400px;
         display: flex;
         flex-direction: row;
-        justify-content: flex-end;
         align-items: center;
         background: #080D27;
         color: #fff;
         font-size: 0.8em;
+        padding: 25px 0px 25px 25px;
     }
 
     .sub-title{
@@ -155,7 +154,6 @@ import Footer from '../components/Footer.vue'
     .faq-hero-left{
         padding: 25px;
         width: 100%;
-        /* border: 1px solid red; */
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -167,11 +165,9 @@ import Footer from '../components/Footer.vue'
     }
     .faq-hero-right{
         height: 90%;
-        width: auto;
-        /* border: 1px solid red; */
+        width: 400px;
     }
     .faq-hero-left-sub{
-        width: 450px;
     }
     .tz-FAQ-main{
         padding: 25px;
@@ -179,10 +175,11 @@ import Footer from '../components/Footer.vue'
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+        background: #fff;
     }
 
     .category-description{
-        width: 450px;
+        max-width: 450px;
     }
     .tz-FAQ-category{
         display: flex;
@@ -198,7 +195,6 @@ import Footer from '../components/Footer.vue'
 
 
 .wrapper{
-  /* margin: 10% auto; */
   width: 400px;
 }
 
@@ -211,23 +207,16 @@ ul{
 label{
   display: block;
   cursor: pointer;
-  /* padding-bottom: 10px; */
-  /* border: 1px solid #fff; */
   border-bottom: none;
 }
 
 label:hover{
-  /* background: #26C281; */
 }
 
 label.last{
   border-bottom: 1px solid #fff;
 }
 
-ul ul li{
-  /* padding: 10px; */
-  /* background: #59ABE3; */
-}
 
 .FAQ-topic-title{
     border-bottom: 1px solid #efefef;
@@ -253,8 +242,6 @@ input[type="checkbox"]:checked ~ ul{
 }
 
 input[type="checkbox"]:checked + label{
-  /* background: #26C281;/ */
-  /* border-bottom: 1px solid #fff; */
 }
 
 
@@ -268,6 +255,9 @@ input[type="checkbox"]:checked + label{
     }
     .wrapper{
         width: auto;
+    }
+    .faq-hero-right{
+        display: none;
     }
 }
 </style>

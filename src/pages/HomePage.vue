@@ -85,7 +85,7 @@ data(){
                         <div class="Tz-nav-links">
                             <span><RouterLink to="/jobs" class="tz-page-link">Find Work</RouterLink></span>
                             <span><RouterLink to="/client/dashboard" class="tz-page-link">Hire Talent</RouterLink></span>
-                            <span><RouterLink to="/client/dashboard" class="tz-page-link">Support</RouterLink></span>
+                            <span><RouterLink to="/support" class="tz-page-link">Support</RouterLink></span>
                         </div>
                     </div>
             </div>
@@ -266,8 +266,6 @@ data(){
 <style scoped>
 .login:hover .login-options{
     display: block;
-    /* background: red !important; */
-    /* position: relative; */
 }
 .last-girl{
     width: 50%;
