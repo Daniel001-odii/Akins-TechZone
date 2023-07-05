@@ -7,7 +7,7 @@
         <div class="tz-faq-hero">
             <div class="faq-hero-left">
                 <div class="faq-hero-left-sub">
-                <p class="support title">Support</p>
+                <!-- <p class="support title">Support</p> -->
                 <p class="FAQ" >Frequently asked questions</p>
                 <p class="FAQ-description sub-title" >Need help with something? Here are our most frequently asked questions.</p>
                 </div>
@@ -114,7 +114,15 @@
                 </ul>
                 </div>
             </div>
+
+            <div class="tz-FAQ-last">
+                <img src="../assets/imgs/Avatar group.png"> 
+                <p><b>Still have questions? </b><br/>
+                    Can’t find the answer you’re looking for? Please reach out to us directly.</p>
+                    <button style="border-radius: 5px;" class="cust-btn">Reach out</button>
+            </div>
         </div>
+       
 
 
     </main>
@@ -185,13 +193,25 @@ import Footer from '../components/Footer.vue'
         display: flex;
         flex-direction: row;
         align-items: flex-start;
+        margin-bottom: 50px;
     }
     .FAQ-topic-title{
         font-weight: bold;
         font-size: 0.8em;
     }
     
-
+    .tz-FAQ-last{
+        background: #F9FAFB;
+        padding: 20px 100px;
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        border-radius: 5px;
+    }
 
 
 .wrapper{
@@ -258,6 +278,9 @@ input[type="checkbox"]:checked + label{
     }
     .faq-hero-right{
         display: none;
+    }
+    .tz-FAQ-last{
+        padding: 10px 12px;
     }
 }
 </style>
