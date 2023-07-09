@@ -116,7 +116,7 @@
             </div>
 
             <div class="tz-FAQ-last">
-                <img src="../assets/imgs/Avatar group.png"> 
+                <img src="../assets/imgs/Avatar_group.png"> 
                 <p><b>Still have questions? </b><br/>
                     Can’t find the answer you’re looking for? Please reach out to us directly.</p>
                     <button style="border-radius: 5px;" class="cust-btn">Reach out</button>
