@@ -285,8 +285,7 @@ export default {
             signup_options:false,
             login_options:false,
             userIsOffline: false,
-            stateText: "You are offline",
-            // isDropdownOpen,
+            stateText: "You are offline",S
         };
     },
 
@@ -299,7 +298,6 @@ export default {
         checkLoginStatus(){
             const token = localStorage.getItem('token');
             this.userIsLoggedIn = !!token; 
-            // Set isLoggedIn to true if a token exists, otherwise false
             console.log("user is logged in? " + this.userIsLoggedIn);
             },
         },
@@ -312,10 +310,6 @@ export default {
 
 
 <style scoped>
-/* svg{
-    height: 18px !important;
-    width: 18px !important;
-} */
 .logout{
     color: blue;
     cursor: pointer;
