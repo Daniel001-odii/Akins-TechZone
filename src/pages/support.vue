@@ -175,8 +175,6 @@ import Footer from '../components/Footer.vue'
         height: 90%;
         width: 400px;
     }
-    .faq-hero-left-sub{
-    }
     .tz-FAQ-main{
         padding: 25px;
         display: flex;
@@ -228,9 +226,6 @@ label{
   display: block;
   cursor: pointer;
   border-bottom: none;
-}
-
-label:hover{
 }
 
 label.last{

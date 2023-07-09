@@ -132,9 +132,6 @@
                         {{ filteredJobs[selectedJob].job_tag }} recruiter is recruiting for {{ filteredJobs[selectedJob].budget_des }} payment
                     </div>
                     <div class="jd-section">
-                        <!-- <RouterLink :to="`${api_url}/${filteredJobs[selectedJob].id}`">
-                        <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
-                        </RouterLink> -->
                         <span>
                             <span @click="navigateToJobDetails(filteredJobs[selectedJob].id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                         </span>
@@ -146,10 +143,6 @@
         </div>
     </div>
         
-
-
-
-    <!-- <span v-if="isLoading" style="color:var(--app-blue)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
 
     <DotLoader v-if="isLoading"/>
         <span v-if="filteredJobs.length === 0 && isLoading != true" 
@@ -287,7 +280,6 @@
             mounted(){
                 this.fetchJobListings();
                 this.getHoursTillDate();
-                //call the check login status function......
             },
 }
 

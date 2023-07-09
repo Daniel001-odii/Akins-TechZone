@@ -25,10 +25,10 @@
               <div class="page-tabs">
                   <!-- <slot name="page-tabs"> -->
                       <RouterLink to="/jobs"><div class="job-category">Available Jobs</div></RouterLink>
-                      <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested (0)</div></RouterLink>
-                      <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned (5)</div></RouterLink>
-                      <RouterLink to="/jobs/completed-jobs"><div class="job-category job-category-active">Completed ({{ jobs.length }})</div></RouterLink>
-                      <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined (4)</div></RouterLink>
+                      <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested</div></RouterLink>
+                      <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned</div></RouterLink>
+                      <RouterLink to="/jobs/completed-jobs"><div class="job-category job-category-active">Completed</div></RouterLink>
+                      <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined</div></RouterLink>
                   <!-- </slot> -->
               </div>
         </div>

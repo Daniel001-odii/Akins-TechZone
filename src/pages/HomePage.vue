@@ -30,6 +30,8 @@ data(){
         return{
             userMenuIsShown: false,
             showMenu:false,
+            signin_options: false,
+            signup_options:false,
         }
     },
     setup() {
@@ -133,9 +135,8 @@ data(){
 
             <RouterLink to="/jobs" class="menu-item"><div><span class="menu-item-label">Find Job</span></div></RouterLink>
             <RouterLink to="/client" class="menu-item"><div><span class="menu-item-label">Hire Talent</span></div></RouterLink>
-            <!-- <RouterLink to="/signUp" class="menu-item"> -->
                 <div class="menu-item">
-                    <div class="menu-item-label" @click="signup_options =!signup_options"><span>Sign Up</span> 
+                    <div class="menu-item-label" @click="signup_options =!signup_options; signin_options=false"><span>Sign Up</span> 
                         <span>
                         <i v-if="!signup_options" class="bi bi-caret-down-fill"></i>
                         <i v-if="signup_options" class="bi bi-caret-up-fill"></i>
@@ -143,17 +144,21 @@ data(){
                     </div>
                 </div>
                     <div class="sub-signUp menu-item" v-if="signup_options">
-                        <RouterLink to="/employer/signup" class="options"><div>As Employer</div></RouterLink>
-                        <RouterLink to="/talent-signUp" class="options"><div>As Talent</div></RouterLink>
+                        <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
+                        <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
                     </div>
-                <!-- </RouterLink> -->
-                        
-                
-                <RouterLink to="/login" class="menu-item">
-                <div>
-                    <span class="menu-item-label">Sign In</span>
+                <div class="menu-item">
+                    <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span> 
+                        <span>
+                        <i v-if="!signin_options" class="bi bi-caret-down-fill"></i>
+                        <i v-if="signin_options" class="bi bi-caret-up-fill"></i>
+                        </span>
+                    </div>
                 </div>
-                </RouterLink>
+                    <div class="sub-signUp menu-item" v-if="signin_options">
+                        <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
+                        <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
+                    </div>
 
             </div>
         </transition>
@@ -270,7 +275,6 @@ data(){
 .last-girl{
     width: 50%;
     height: auto;
-    /* border: 1px solid red; */
 }
 .tz-second-last{
     display: flex;
@@ -441,13 +445,11 @@ data(){
     width: 100%;
     margin: 0 auto;
     padding: 10px;
-    /* background: url("../assets/imgs/LandingBg.svg"); */
     background: #000000;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /* border-bottom: 0.5px solid #C8C6C6; */
     z-index: 99999;
     position: sticky;
     /* top: 20px; */

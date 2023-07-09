@@ -2,14 +2,10 @@
     <PageTemplate>
         <template #page-tabs>
             <RouterLink to="/jobs"><div class="job-category">Available Jobs</div></RouterLink>
-            <RouterLink to="requested-jobs"><div class="job-category">Requested (0)</div></RouterLink>
-            <RouterLink to="assigned-jobs"><div class="job-category">Assigned (5)</div></RouterLink>
-            <RouterLink to="completed-jobs"><div class="job-category">Completed (15)</div></RouterLink>
-            <RouterLink to="declined-jobs"><div class="job-category job-category-active">Declined (4)</div></RouterLink></template>
-        <template #job-cards>
-            <!-- <PostCard/>
-            <PostCard/> -->
-        </template>
+            <RouterLink to="requested-jobs"><div class="job-category">Requested</div></RouterLink>
+            <RouterLink to="assigned-jobs"><div class="job-category">Assigned</div></RouterLink>
+            <RouterLink to="completed-jobs"><div class="job-category">Completed</div></RouterLink>
+            <RouterLink to="declined-jobs"><div class="job-category job-category-active">Declined</div></RouterLink></template>
     </PageTemplate>
   </template>
   
