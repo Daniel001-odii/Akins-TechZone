@@ -285,7 +285,7 @@ export default {
             signup_options:false,
             login_options:false,
             userIsOffline: false,
-            stateText: "You are offline",S
+            stateText: "You are offline",
         };
     },
 
