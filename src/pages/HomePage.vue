@@ -300,7 +300,7 @@ data(){
     border-radius: 0px 5px 5px 0px;
     max-width: 500px;
     background: #fff;
-    min-width: 300px;
+    /* min-width: 300px; */
 }
 .blueSpace{
     width: 50px;
@@ -355,7 +355,7 @@ data(){
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    padding: 50px;
+    /* padding: 50px; */
 }
 .tz-trends-container{
     display: flex;
@@ -407,7 +407,7 @@ data(){
 }
 .tz-hero-left{
     width: 50%;
-    padding: 50px;
+    /* padding: 50px; */
     line-height: 65px;
     margin-top: 100px;
 }
