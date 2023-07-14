@@ -229,7 +229,7 @@
         </div>
         </RouterLink>
 
-        <RouterLink to="/settings" class="menu-item">
+        <RouterLink to="/user/profile" class="menu-item">
         <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 51 50" fill="none">
                             <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
@@ -238,6 +238,16 @@
             <span class="menu-item-label">Profile Settings</span>
         </div>
         </RouterLink>
+
+        <span class="menu-item">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 51 50" fill="none">
+                            <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
+                            <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
+                        </svg>
+            <span class="menu-item-label" @click="logout">Logout</span>
+        </div>
+        </span>
        
 
     </div>
@@ -290,11 +300,16 @@ export default {
     },
 
     methods: {
+        
         logout(){
-        axios.post(`${api_url}`)
-        .then(response => {this.$router.push('/')})
-        .catch(error =>{console.error(error)})
+        // axios.post(`${api_url}`)
+        // .then(response => {this.$router.push('/')})
+        // .catch(error =>{console.error(error)})
+        localStorage.removeItem(localStorage.getItem('token'));
+        this.$router.push('/');
         },
+
+
         checkLoginStatus(){
             const token = localStorage.getItem('token');
             this.userIsLoggedIn = !!token; 

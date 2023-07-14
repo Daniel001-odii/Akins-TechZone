@@ -82,7 +82,8 @@
   
   <script>
   import axios from 'axios';
-  const Api_url = "https://techzoneapp.herokuapp.com/api/employer/register";
+  // const Api_url = "https://techzoneapp.herokuapp.com/api/employer/register";
+  const Api_url = "https://techzoneapp.herokuapp.com";
   // const form_error = [];
   
   export default {
@@ -93,7 +94,8 @@
                 lastname: '',
                 email: '',
                 password: '',
-                password_confirmation: ''},
+                password_confirmation: ''
+              },
                 errors: {},
                 isLoading: false,
                 
@@ -105,7 +107,7 @@
       async signup() {
         this.isLoading = true;
         try {
-          const response = await axios.post(Api_url, this.user);
+          const response = await axios.post(`${Api_url}/api/employer/register`, this.user);
           console.log(response.data);
           this.isLoading = true;
                     //handle successful signup
