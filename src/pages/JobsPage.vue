@@ -194,7 +194,6 @@
                 /*------ the area below ensures the search filter works, pls dont touch-----*/
                 searchTerm: '',
                 jobs:[],
-                // jobs:jobsData,
                 hoursDifference: null,
                 timeInSeconds: 0,
                 timeInMinutes: 0,
@@ -217,7 +216,7 @@
                     axios.get(api_url).then(response => {
                         this.jobs = response.data;
                         this.jobs.reverse();
-                        console.log(response.data);
+                        // console.log(response.data); logs all jobs to the console to test for data type....
                         this.isLoading = false;
                     }).catch(error => {
                         this.isLoading = false;

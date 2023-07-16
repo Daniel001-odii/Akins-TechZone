@@ -12,8 +12,8 @@ import NavBarHome from '../components/NavBarHome.vue';
 import JobCard from '../components/JobCard.vue';
 import axios from 'axios'
 
-const Api_url = "https://techzoneapp.herokuapp.com";
-
+// const Api_url = "https://techzoneapp.herokuapp.com";
+const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
 
 export default {
     components: {
@@ -32,10 +32,53 @@ data(){
             showMenu:false,
             signin_options: false,
             signup_options:false,
+            jobs:[],
+            isLoading:false,
         }
     },
-    setup() {
-    const items = ref([
+methods:{
+    fetchJobListings(){
+            this.isLoading = true;
+            axios.get(api_url).then(response => {
+            this.jobs = response.data;
+            this.jobs.reverse();
+            console.log(response.data);
+                this.isLoading = false;
+            }).catch(error => {
+            this.isLoading = false;
+            console.error(error);
+        })
+    },
+    repeatedSkills() {
+      const skillCount = {};
+      for (const job of this.jobs) {
+        const skills = job.skill_set.split(', ');
+        for (const skill of skills) {
+          if (!skillCount[skill]) {
+            skillCount[skill] = 1;
+          } else {
+            skillCount[skill]++;
+          }
+        }
+      }
+      const repeatedSkills = {};
+      for (const skill in skillCount) {
+        if (skillCount[skill] > 2) {
+          repeatedSkills[skill] = skillCount[skill];
+        }
+      }
+      return repeatedSkills;
+    },
+},
+computed: {
+    
+  },
+mounted(){
+            this.fetchJobListings();
+            this.repeatedSkills();
+        },
+setup() {
+    const jobs = ref([
       { id: 1, name: 'Audio-visual', 'trend-count': getRandomTrendCount() },
       { id: 2, name: 'CCTV/Alarm Systems', 'trend-count': getRandomTrendCount() },
       { id: 3, name: 'Desktop/Laptop', 'trend-count': getRandomTrendCount() },
@@ -64,7 +107,7 @@ data(){
     }
 
     return {
-      items,
+      jobs,
     };
   },
 };
@@ -144,10 +187,10 @@ data(){
                     </div>
                 </div>
                     <div class="sub-signUp menu-item" v-if="signup_options">
-                        <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
-                        <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
+                        <RouterLink to="/employer/signup" class="options"><div>As Employer</div></RouterLink>
+                        <RouterLink to="/talent-signUp" class="options"><div>As Talent</div></RouterLink>
                     </div>
-                <div class="menu-item">
+                <!-- <div class="menu-item">
                     <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span> 
                         <span>
                         <i v-if="!signin_options" class="bi bi-caret-down-fill"></i>
@@ -158,7 +201,7 @@ data(){
                     <div class="sub-signUp menu-item" v-if="signin_options">
                         <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
                         <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
-                    </div>
+                    </div> -->
 
             </div>
         </transition>
@@ -186,7 +229,12 @@ data(){
     <div class="tz-second-section">
         <div class="tz-second-title">Discover The Trending Jobs <br/> In Demand</div>
         <div class="tz-trends-container">
-            <div v-for="item in items" :key="item.id">
+            <!-- {{  repeatedSkills }} -->
+            <!-- <div style="border: 1px solid red; height: 300px; width: 100%;"><div v-for="(skill, count) in repeatedSkills" :key="skill">
+                {{ skill }} {{ count }}
+            </div></div> -->
+            
+            <div v-for="item in jobs" :key="item.id">
                 <div class="tz-trend">{{ item.name }}<span class="tz-trend-count">{{ item['trend-count'] }} JOBS</span></div>
             </div>
         </div>
@@ -251,7 +299,14 @@ data(){
     <div class="tz-second-last" style="background: #F6F9FF;">
         <div style="display: flex; align-items: flex-start; flex-direction: column; padding: 50px;">
             <div class="tz-second-title" style="text-align: left; ">Take The Next Step In Your Journey - Sign Up And Unlock Limitless Opportunities</div>
-            <div class="cust-btn" style="width: 100px; border-radius: 60px;">Sign Up</div>
+            <!-- <div class="cust-btn" style="width: 100px; border-radius: 60px;">Sign Up</div> -->
+            <button class="cust-btn signUp2">
+                    <span>Sign Up</span>
+                    <div class="signup-options2">
+                        <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
+                        <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
+                    </div>
+            </button>
         </div>
         <img src="../assets/imgs/landing_girl.png" class="last-girl">
         
@@ -428,10 +483,9 @@ data(){
     height: 100%;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     flex-direction: row;
     background: #000;
-    padding: 20px;
+    padding: 50px;
     gap: 50px;
     /* border: 1px solid red; */
 }
@@ -519,13 +573,32 @@ data(){
     background: var(--app-blue) !important;
     border-radius: 5px;
 }
+.signUp2{
+    background: var(--app-blue) !important;
+    border-radius: 5px;
+    position: relative;
+}
 .signUp:hover .signup-options{
+    display: block;
+}
+
+.signUp2:hover .signup-options2{
     display: block;
 }
 .login{
     color: #000;
     border-radius: 5px;
     background: none;
+}
+.signup-options2{
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 35px;
+    background: #ffffff;
+    width: 100px;
+    box-shadow: 0px 12px 12px #e2e2e2;
+    text-align: right;
 }
 
 .signup-options{

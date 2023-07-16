@@ -67,8 +67,8 @@
                     </div>
                 </div>
                     <div class="sub-signUp menu-item" v-if="signup_options">
-                        <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
-                        <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
+                        <RouterLink to="/employer/signup" class="options"><div>As Employer</div></RouterLink>
+                        <RouterLink to="/signup" class="options"><div>As Talent</div></RouterLink>
                     </div>
                 <div class="menu-item">
                     <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span> 
