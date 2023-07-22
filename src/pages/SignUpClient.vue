@@ -19,7 +19,15 @@
                   <!-------- show login errors here-------->
                   <!-- <p v-for="error in errors" :key="error">{{ error }}</p> -->
                   <div v-for="error in errors" :key="error">
-                    <p class="alert alert-danger" v-for="lines in error" :key="lines" role="alert">{{ lines }}</p>
+                    <!-- <p class="alert alert-danger" v-for="lines in error" :key="lines" role="alert">{{ lines }}</p> -->
+                  
+
+                    <div class="alert alert-danger alert-dismissible fade show" v-for="lines in error" :key="lines" role="alert">
+                      <strong>Holy guacamole!</strong> {{ lines }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
                   </div>
                   <form @submit.prevent="signup">
   

@@ -120,12 +120,9 @@ const Api_url = "https://techzoneapp.herokuapp.com";
             email: this.email,
             password: this.password
             });
-            localStorage.setItem('token', response.data.access_token);
-            
-            //display token in console...
-            console.log(response.data.access_token)
-
-            // Redirect the user to the home page
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+            console.log(token);
             this.$router.push('/client/dashboard');
         } 
         catch (error) {

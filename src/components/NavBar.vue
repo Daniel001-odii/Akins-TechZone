@@ -305,7 +305,7 @@ export default {
         // axios.post(`${api_url}`)
         // .then(response => {this.$router.push('/')})
         // .catch(error =>{console.error(error)})
-        localStorage.removeItem(localStorage.getItem('token'));
+        localStorage.removeItem('token');
         this.$router.push('/');
         },
 

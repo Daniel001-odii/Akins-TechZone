@@ -209,6 +209,7 @@ setup() {
 </header>
 <main>
     <div class="hero-section">
+        <div class="hero-section-sub">
         <div class="tz-hero-left">
             <div class="tz-hero-title">Hire the right Employees, Find Your Dream Job.</div>
             <div class="tz-hero-subtitle">TechZone is a job search platform in Nigeria. 
@@ -223,7 +224,9 @@ setup() {
                 <button class="tz-hero-formSubmit" onsubmit="">FIND A JOB</button>
             </form>
        </div>
-       <img class="tz-right-image" src="../assets/imgs/people.png">
+       <!-- <img class="tz-right-image" src="../assets/imgs/people.png"> -->
+       <div class="tz-right-image"></div>
+       </div>
     </div>
     
     <div class="tz-second-section">
@@ -399,10 +402,19 @@ setup() {
     width: 100%;
 }
 .tz-right-image{
-    width: 50%;
+    /* width: 50%;
     height: 100%;
-    /* border: 1px solid red; */
+    border: 1px solid red; */
+    height: 500px;
+    width: 50%;
+    background: url("../assets/imgs/people.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* border: 1px solid green; */
+    display: block;
 }
+
 .featured-jobs{
     display: flex;
     flex-direction: row;
@@ -462,9 +474,9 @@ setup() {
 }
 .tz-hero-left{
     width: 50%;
-    /* padding: 50px; */
     line-height: 65px;
     margin-top: 100px;
+    margin-bottom: 50px;
 }
 .tz-hero-title{
     font-size: 3em;
@@ -480,14 +492,18 @@ setup() {
     margin-bottom: 15px;
 }
 .hero-section{
-    height: 100%;
+    background: #000;
+    
+}
+
+.hero-section-sub{
     display: flex;
     justify-content: center;
     flex-direction: row;
-    background: #000;
-    padding: 50px;
     gap: 50px;
+    max-width: 1250px;
     /* border: 1px solid red; */
+    margin: 0 auto;
 }
 
 .Tz-navbar{
@@ -666,12 +682,19 @@ setup() {
     }
 
     .hero-section{
-        flex-direction: column;
+        flex-direction: column !important;
         gap: 2px;
     }
+
     .tz-hero-left{
         width: 100%;
         margin: 0 !important;
+        padding: 30px;
+    }
+
+    .hero-section-sub{
+        flex-direction: column;
+        /* padding: 30px !important; */
     }
     .tz-right-image{
         width: 100%;
