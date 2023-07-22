@@ -37,45 +37,45 @@ data(){
         }
     },
 methods:{
-    fetchJobListings(){
-            this.isLoading = true;
-            axios.get(api_url).then(response => {
-            this.jobs = response.data;
-            this.jobs.reverse();
-            console.log(response.data);
-                this.isLoading = false;
-            }).catch(error => {
-            this.isLoading = false;
-            console.error(error);
-        })
-    },
-    repeatedSkills() {
-      const skillCount = {};
-      for (const job of this.jobs) {
-        const skills = job.skill_set.split(', ');
-        for (const skill of skills) {
-          if (!skillCount[skill]) {
-            skillCount[skill] = 1;
-          } else {
-            skillCount[skill]++;
-          }
-        }
-      }
-      const repeatedSkills = {};
-      for (const skill in skillCount) {
-        if (skillCount[skill] > 2) {
-          repeatedSkills[skill] = skillCount[skill];
-        }
-      }
-      return repeatedSkills;
-    },
+    // fetchJobListings(){
+    //         this.isLoading = true;
+    //         axios.get(api_url).then(response => {
+    //         this.jobs = response.data;
+    //         this.jobs.reverse();
+    //         console.log(response.data);
+    //             this.isLoading = false;
+    //         }).catch(error => {
+    //         this.isLoading = false;
+    //         console.error(error);
+    //     })
+    // },
+    // repeatedSkills() {
+    //   const skillCount = {};
+    //   for (const job of this.jobs) {
+    //     const skills = job.skill_set.split(', ');
+    //     for (const skill of skills) {
+    //       if (!skillCount[skill]) {
+    //         skillCount[skill] = 1;
+    //       } else {
+    //         skillCount[skill]++;
+    //       }
+    //     }
+    //   }
+    //   const repeatedSkills = {};
+    //   for (const skill in skillCount) {
+    //     if (skillCount[skill] > 2) {
+    //       repeatedSkills[skill] = skillCount[skill];
+    //     }
+    //   }
+    //   return repeatedSkills;
+    // },
 },
 computed: {
     
   },
 mounted(){
-            this.fetchJobListings();
-            this.repeatedSkills();
+            // this.fetchJobListings();
+            // this.repeatedSkills();
         },
 setup() {
     const jobs = ref([
@@ -232,11 +232,6 @@ setup() {
     <div class="tz-second-section">
         <div class="tz-second-title">Discover The Trending Jobs <br/> In Demand</div>
         <div class="tz-trends-container">
-            <!-- {{  repeatedSkills }} -->
-            <!-- <div style="border: 1px solid red; height: 300px; width: 100%;"><div v-for="(skill, count) in repeatedSkills" :key="skill">
-                {{ skill }} {{ count }}
-            </div></div> -->
-            
             <div v-for="item in jobs" :key="item.id">
                 <div class="tz-trend">{{ item.name }}<span class="tz-trend-count">{{ item['trend-count'] }} JOBS</span></div>
             </div>
@@ -428,7 +423,7 @@ setup() {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 50px;
+    padding: 25px;
     flex-wrap: wrap;
     width: 85%;
     gap: 10px;
@@ -621,7 +616,7 @@ setup() {
     display: none;
     position: absolute;
     right: 10px;
-    top: 50px;
+    top: 48px;
     background: #ffffff;
     width: 100px;
     /* box-shadow: 0px 12px 12px #e2e2e2; */
@@ -632,7 +627,7 @@ setup() {
     display: none;
     position: absolute;
     right: 118px;
-    top: 50px;
+    top: 48px;
     background: #fff;
     text-align: right;
 }
@@ -706,6 +701,10 @@ setup() {
     .last-girl{
         width: 100%;
     }
+    .tz-trends-container{
+        padding: 0px;
+        width: 100%;
+    }
 
 }
     
@@ -759,7 +758,7 @@ setup() {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 30px;
+    padding: 30px;
 }
 .menu-item > div{
     display: flex;
