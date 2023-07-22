@@ -190,7 +190,7 @@ setup() {
                         <RouterLink to="/employer/signup" class="options"><div>As Employer</div></RouterLink>
                         <RouterLink to="/talent-signUp" class="options"><div>As Talent</div></RouterLink>
                     </div>
-                <!-- <div class="menu-item">
+                <div class="menu-item">
                     <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span> 
                         <span>
                         <i v-if="!signin_options" class="bi bi-caret-down-fill"></i>
@@ -201,7 +201,7 @@ setup() {
                     <div class="sub-signUp menu-item" v-if="signin_options">
                         <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
                         <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
-                    </div> -->
+                    </div>
 
             </div>
         </transition>
