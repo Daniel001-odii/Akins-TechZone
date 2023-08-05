@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomePage.vue'
 import SupportPage from '../pages/support.vue'
+import SupportForm from '../pages/support_form.vue'
 
 import NewPage from '../pages/JobsPage.vue'
 import PageNotFound from '../pages/PageNotFound.vue'
@@ -68,6 +69,7 @@ const routes = [
   {path: "/client/post-job", component: post_job, meta: { requiresAuth: true }},
   {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
   {path: "/support", component: SupportPage},
+  {path: "/support/form", component: SupportForm},
 ];
 
 routes.forEach(route => {

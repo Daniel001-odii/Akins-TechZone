@@ -119,7 +119,8 @@
                 <img src="../assets/imgs/Avatar_group.png"> 
                 <p><b>Still have questions? </b><br/>
                     Can’t find the answer you’re looking for? Please reach out to us directly.</p>
-                    <button style="border-radius: 5px;" class="cust-btn">Reach out</button>
+                    <RouterLink to="/support/form"> <button style="border-radius: 5px;" class="cust-btn">Reach out</button></RouterLink>
+                   
             </div>
         </div>
        
@@ -132,11 +133,12 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
 
     export default {
-        components:{NavBar, Footer}
+        components:{ NavBar, Footer, RouterLink }
     }
 </script>
 
