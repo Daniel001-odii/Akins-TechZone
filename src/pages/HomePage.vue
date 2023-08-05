@@ -198,10 +198,11 @@ setup() {
                         </span>
                     </div>
                 </div>
-                    <div class="sub-signUp menu-item" v-if="signin_options">
+                <div class="sub-signUp menu-item" v-if="signin_options">
                         <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
                         <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
-                    </div>
+                </div>
+                <RouterLink to="/support/form" class="menu-item"><div><span class="menu-item-label">support</span></div></RouterLink>
 
             </div>
         </transition>

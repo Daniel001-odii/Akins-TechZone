@@ -78,10 +78,11 @@
                         </span>
                     </div>
                 </div>
-                    <div class="sub-signUp menu-item" v-if="signin_options">
+                <div class="sub-signUp menu-item" v-if="signin_options">
                         <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
                         <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
-                    </div>
+                </div>
+                <RouterLink to="/support/form" class="menu-item"><div><span class="menu-item-label">support</span></div></RouterLink>
 
             </div>
         </transition>
@@ -439,7 +440,7 @@ export default {
     gap: 30px;
 }
 .menu-item:hover{
-    background: var(--app-blue);
+    background: var(--app-hover);
     /* color: #fff !important; */
 }
 .menu-from-nav.navActive{
