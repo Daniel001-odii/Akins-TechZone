@@ -1,6 +1,6 @@
 <template>
     <NavBar/>
-    <RouterLink to="/jobs">
+    <!-- <RouterLink to="/jobs">
         <div class="back-btn" style="">
             <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
             <circle cx="11.75" cy="11.25" r="11.25" fill="#F6F9FF"/>
@@ -8,7 +8,7 @@
             </svg>
             Back
         </div>
-    </RouterLink>
+    </RouterLink> -->
     
     <div class="tz-profile-card">
             <div class="tz-profile-left">
@@ -27,7 +27,7 @@
             </div>
             <div class="section-divider"></div>
             <div class="tz-profile-right">
-                <table style="width: 250px;">
+                <table style="width:;">
                     <tbody>
                     <tr>
                         <td>Availability</td>
@@ -123,12 +123,16 @@
             </div>
         </div>
     </div>
+    <footer>
+        <Footer/>
+    </footer>
 </template>
 
 <script>
 import NavBar from '../components/NavBar.vue'
+import Footer from '../components/Footer.vue'
     export default {
-        components:{NavBar}
+        components:{NavBar, Footer}
     }
 </script>
 
@@ -176,13 +180,16 @@ th, td{
         flex-direction: row;
         align-items: center;
         gap: 30px;
+
+        border: 1px solid red;
+        width: 100%;
     }
     .tz-profile-right{
         display: flex;
         flex-direction: column;
     }
     .tz-profile-left, .tz-profile-right{
-        justify-content: center;
+        /* justify-content: center; */
     }
     .tz-user-name{
         font-size: 30px;
@@ -196,7 +203,7 @@ th, td{
     }
     .tz-user-bio{
         font-size: 14px;
-        max-width: 300px;
+        /* max-width: 300px; */
     }
     .tz-btn-array{
         gap: 5px;
@@ -242,6 +249,7 @@ th, td{
         gap: 5px;
         display: flex;
         flex-direction: row;
+        
     }
 
     .tz-emphasis{
@@ -283,7 +291,7 @@ th, td{
         }
         .tz-profile-left{
             flex-direction: column;
-            align-items: flex-start;
+            /* align-items: flex-start; */
         }
         .section-divider{
             display: none;
@@ -291,6 +299,7 @@ th, td{
         .tz-profile-last{
             flex-direction: column;
             gap: 5px;
+            padding: 10px;
         }
         .tz-profile-right{
             justify-content: center;

@@ -13,7 +13,7 @@ import JobCard from '../components/JobCard.vue';
 import axios from 'axios'
 
 // const Api_url = "https://techzoneapp.herokuapp.com";
-const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
+const api_url = "https://techzoneapp.herokuapp.com/api";
 
 export default {
     components: {
@@ -34,82 +34,74 @@ data(){
             signup_options:false,
             jobs:[],
             isLoading:false,
+            top4devJobs:[],
+            indemandTagsReal: [],
         }
     },
 methods:{
-    // fetchJobListings(){
-    //         this.isLoading = true;
-    //         axios.get(api_url).then(response => {
-    //         this.jobs = response.data;
-    //         this.jobs.reverse();
-    //         console.log(response.data);
-    //             this.isLoading = false;
-    //         }).catch(error => {
-    //         this.isLoading = false;
-    //         console.error(error);
-    //     })
-    // },
-    // repeatedSkills() {
-    //   const skillCount = {};
-    //   for (const job of this.jobs) {
-    //     const skills = job.skill_set.split(', ');
-    //     for (const skill of skills) {
-    //       if (!skillCount[skill]) {
-    //         skillCount[skill] = 1;
-    //       } else {
-    //         skillCount[skill]++;
-    //       }
-    //     }
-    //   }
-    //   const repeatedSkills = {};
-    //   for (const skill in skillCount) {
-    //     if (skillCount[skill] > 2) {
-    //       repeatedSkills[skill] = skillCount[skill];
-    //     }
-    //   }
-    //   return repeatedSkills;
-    // },
+    fetchJobListings(){
+                    this.isLoading = true;
+                    axios.get(`${api_url}/jobs`).then(response => {
+                        this.jobs = response.data;
+                        this.jobs.reverse();
+
+                        //get all developer jobs...
+                        this.top4devJobs = this.jobs.filter((job) =>job.job_tag.toLowerCase().includes('developer') || job.job_des.toLowerCase().includes('developer'));
+                        console.log(this.top4devJobs);
+
+                        // console.log(response.data); //logs all jobs to the console to test for data type....
+                        // this.indemandTags();
+                        this.isLoading = false;
+                    }).catch(error => {
+                        this.isLoading = false;
+                        console.error(error);
+                    })
+                },
+
+                getHoursTillDate(dateString) {
+                const date = new Date(dateString)
+                const now = new Date()
+                const diff = now.getTime() - date.getTime()
+                const diffInHours = Math.floor(diff / (1000 * 60 * 60))
+                const diffInMins = Math.floor(diff / (1000 * 60))
+                const diffInSecs = Math.floor(diff / (1000))
+
+                const timeInSeconds = Math.floor(date.getTime() / 1000); // Convert to seconds
+                    // console.log("time in minutes is: " + diffInMins)
+                //calculate respectively......
+                if (diffInMins < 60) {
+                    return `${diffInMins} minutes`
+                }
+                else if (diffInHours < 24) {
+                    if(diffInHours <= 1){return `${diffInHours} hour`}
+                    else{return `${diffInHours} hours`}
+
+                } else if (diffInHours < 720) {
+                    const diffInDays = Math.floor(diffInHours / 24)
+                    if(diffInDays <= 1){ return `${diffInDays} day`}
+                    else{return `${diffInDays} days`}
+
+                } else {
+                    const diffInMonths = Math.floor(diffInHours / 720)
+                    if(diffInMonths <= 1){ return `${diffInMonths} month`}
+                    else{return `${diffInMonths} months`;}
+                }
+                },
+
+    indemandTags(requestedTag){
+        return this.jobs.filter((job) =>job.skill_set.toLowerCase().includes(requestedTag) || job.job_tag.toLowerCase().includes(requestedTag)).length;
+        // console.log("there are " + python_jobs + " jobs with the word python");
+                }
 },
 computed: {
     
   },
 mounted(){
-            // this.fetchJobListings();
-            // this.repeatedSkills();
+            this.fetchJobListings();
+            this.getHoursTillDate();
+            
+            // this.topDevJobs();
         },
-setup() {
-    const jobs = ref([
-      { id: 1, name: 'Audio-visual', 'trend-count': getRandomTrendCount() },
-      { id: 2, name: 'CCTV/Alarm Systems', 'trend-count': getRandomTrendCount() },
-      { id: 3, name: 'Desktop/Laptop', 'trend-count': getRandomTrendCount() },
-      { id: 4, name: 'Fiber Cabling', 'trend-count': getRandomTrendCount() },
-      { id: 5, name: 'Networking', 'trend-count': getRandomTrendCount() },
-      { id: 6, name: 'Point of Sale', 'trend-count': getRandomTrendCount() },
-      { id: 7, name: 'Printer', 'trend-count': getRandomTrendCount() },
-      { id: 8, name: 'Server Hardware/Software', 'trend-count': getRandomTrendCount() },
-      { id: 9, name: 'Smart Home', 'trend-count': getRandomTrendCount() },
-      { id: 10, name: 'General Tasks', 'trend-count': getRandomTrendCount() },
-      { id: 11, name: 'Automated Teller Machine', 'trend-count': getRandomTrendCount() },
-      { id: 12, name: 'Low Voltage Cabling', 'trend-count': getRandomTrendCount() },
-      { id: 13, name: 'High Voltage Cabling', 'trend-count': getRandomTrendCount() },
-      { id: 14, name: 'Satellite (DSTV/GOTV Services)', 'trend-count': getRandomTrendCount() },
-      { id: 15, name: 'Structured Cabling', 'trend-count': getRandomTrendCount() },
-      { id: 16, name: 'Telecom/VoIP', 'trend-count': getRandomTrendCount() },
-      { id: 17, name: 'Project Management', 'trend-count': getRandomTrendCount() },
-      { id: 18, name: 'Electrical', 'trend-count': getRandomTrendCount() },
-      { id: 19, name: 'Plumbing', 'trend-count': getRandomTrendCount() },
-      { id: 20, name: 'Carpentry/Fixture Install', 'trend-count': getRandomTrendCount() },
-    ]);
-
-    function getRandomTrendCount() {
-      // Generate a random number between 1000 and 9999
-      return Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000;
-    }
-
-    return {
-      jobs,
-    };
-  },
 };
 
 
@@ -139,11 +131,7 @@ setup() {
         
                 <div class="nav-auth-buttons">
                     <button class="cust-btn login" style="background: none; color: #fff; border: 1px solid var(--app-blue);">
-                        Sign in
-                    <!-- <div class="login-options" v-show="isDropdownOpen">
-                        <RouterLink to="/employer/login"><div class="options">As Employer</div></RouterLink>
-                        <RouterLink to="/login"><div class="options">As Talent</div></RouterLink>
-                    </div> -->
+                    <span>Sign in</span>
                     <div class="login-options">
                         <RouterLink to="/employer/login"><div class="options">As Employer</div></RouterLink>
                         <RouterLink to="/login"><div class="options">As Talent</div></RouterLink>
@@ -202,7 +190,7 @@ setup() {
                         <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
                         <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
                 </div>
-                <RouterLink to="/support/form" class="menu-item"><div><span class="menu-item-label">support</span></div></RouterLink>
+                <RouterLink to="/support" class="menu-item"><div><span class="menu-item-label">support</span></div></RouterLink>
 
             </div>
         </transition>
@@ -233,15 +221,39 @@ setup() {
     <div class="tz-second-section">
         <div class="tz-second-title">Discover The Trending Jobs <br/> In Demand</div>
         <div class="tz-trends-container">
-            <div v-for="item in jobs" :key="item.id">
-                <div class="tz-trend">{{ item.name }}<span class="tz-trend-count">{{ item['trend-count'] }} JOBS</span></div>
-            </div>
+            <div class="tz-trend"> python <span class="tz-trend-count">{{ indemandTags("python") }} JOBS</span></div>
+            <div class="tz-trend"> javascript <span class="tz-trend-count">{{ indemandTags("javascript") }} JOBS</span></div>
+            <div class="tz-trend"> html <span class="tz-trend-count">{{ indemandTags("html") }} JOBS</span></div>
+            <div class="tz-trend"> programming <span class="tz-trend-count">{{ indemandTags("programming") }} JOBS</span></div>
+            <div class="tz-trend"> android <span class="tz-trend-count">{{ indemandTags("android") }} JOBS</span></div>
+            <div class="tz-trend"> Low voltage cabling <span class="tz-trend-count">{{ indemandTags("cabling") }} JOBS</span></div>
+            
         </div>
     </div>
     <div class="tz-second-section" style="background: #F6F9FF;">
-        <div class="tz-second-title">Featured Jobs</div>
-        <div class="featured-jobs">
-            <div class="ft-jobCard">
+        <div class="tz-second-title"> 	&#128293; Featured Developer Jobs</div>
+        <!-- <div class=""> -->
+            <!-- just checking -->
+            <span v-if="isLoading">Loading...</span>
+            <div v-else class="featured-jobs">
+                <div v-for="job in top4devJobs" :key="job.id" class="">
+                    <div class="ft-jobCard">
+                        <div class="blueSpace"></div>
+                        <div class="ft-jobCard-content">
+                        <div class="ft-jobCard-head">
+                            <div class="ft-jobCard-left">
+                                <div class="ft-job-title">{{job.job_tag}}</div>
+                                <div class="ft-job-location">Lekki Phase 1, Lagos State</div>
+                            </div>
+                            <div class="ft-jobCard-right">{{getHoursTillDate(job.created_at)}} ago</div>
+                        </div>
+                        <div class="ft-jobCard-des">{{job.job_des.substring(0,120)}}</div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- <div class="ft-jobCard">
                 <div class="blueSpace"></div>
                 <div class="ft-jobCard-content">
                 <div class="ft-jobCard-head">
@@ -253,47 +265,9 @@ setup() {
                 </div>
                 <div class="ft-jobCard-des">We are seeking a highly experienced and skilled Server Hardware Engineer to join our dynamic team. The successful candidate will have a proven track... </div>
                 </div>
-            </div>
-            <div class="ft-jobCard">
-                <div class="blueSpace"></div>
-                <div class="ft-jobCard-content">
-                <div class="ft-jobCard-head">
-                    <div class="ft-jobCard-left">
-                        <div class="ft-job-title">Server Hardware Engineer</div>
-                        <div class="ft-job-location">Lekki Phase 1, Lagos State</div>
-                    </div>
-                    <div class="ft-jobCard-right">19/07/2013</div>
-                </div>
-                <div class="ft-jobCard-des">We are seeking a highly experienced and skilled Server Hardware Engineer to join our dynamic team. The successful candidate will have a proven track... </div>
-                </div>
-            </div>
-            <div class="ft-jobCard">
-                <div class="blueSpace"></div>
-                <div class="ft-jobCard-content">
-                <div class="ft-jobCard-head">
-                    <div class="ft-jobCard-left">
-                        <div class="ft-job-title">Server Hardware Engineer</div>
-                        <div class="ft-job-location">Lekki Phase 1, Lagos State</div>
-                    </div>
-                    <div class="ft-jobCard-right">19/07/2013</div>
-                </div>
-                <div class="ft-jobCard-des">We are seeking a highly experienced and skilled Server Hardware Engineer to join our dynamic team. The successful candidate will have a proven track... </div>
-                </div>
-            </div>
-            <div class="ft-jobCard">
-                <div class="blueSpace"></div>
-                <div class="ft-jobCard-content">
-                <div class="ft-jobCard-head">
-                    <div class="ft-jobCard-left">
-                        <div class="ft-job-title">Server Hardware Engineer</div>
-                        <div class="ft-job-location">Lekki Phase 1, Lagos State</div>
-                    </div>
-                    <div class="ft-jobCard-right">19/07/2013</div>
-                </div>
-                <div class="ft-jobCard-des">We are seeking a highly experienced and skilled Server Hardware Engineer to join our dynamic team. The successful candidate will have a proven track... </div>
-                </div>
-            </div>
-        </div>
+            </div> -->
+            
+        <!-- </div> -->
     </div>
     <div class="tz-second-last" style="background: #F6F9FF;">
         <div style="display: flex; align-items: flex-start; flex-direction: column; padding: 50px;">
@@ -336,6 +310,10 @@ setup() {
     justify-content: space-between;
     width: 100%;
 }
+
+.ft-jobCard{
+    font-size: 15px !important;
+}
 .ft-jobCard-des{
     padding: 10px;
     overflow-y: hidden;
@@ -345,6 +323,10 @@ setup() {
     flex-direction: row;
     justify-content: space-between;
     padding: 10px;
+}
+
+.ft-job-title{
+    font-weight: bold;
 }
 .ft-jobCard{
     border-left: 20px solid var(--app-blue);
@@ -418,6 +400,7 @@ setup() {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    /* border: 1px solid red; */
     /* padding: 50px; */
 }
 .tz-trends-container{
@@ -456,7 +439,7 @@ setup() {
     /* height: 80vh; */
 }
 .tz-second-title{
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: bolder;
     line-height: 100%;
     text-align: center;

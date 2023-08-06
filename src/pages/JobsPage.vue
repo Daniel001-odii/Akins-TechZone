@@ -233,7 +233,7 @@
 
 
             //converts the created_at property of the api to readable, hours, days, months, years text for display
-                getHoursTillDate(dateString) {
+            getHoursTillDate(dateString) {
                 const date = new Date(dateString)
                 const now = new Date()
                 const diff = now.getTime() - date.getTime()
@@ -248,13 +248,18 @@
                     return `${diffInMins} minutes`
                 }
                 else if (diffInHours < 24) {
-                    return `${diffInHours} hours`
+                    if(diffInHours <= 1){return `${diffInHours} hour`}
+                    else{return `${diffInHours} hours`}
+
                 } else if (diffInHours < 720) {
                     const diffInDays = Math.floor(diffInHours / 24)
-                    return `${diffInDays} days`
+                    if(diffInDays <= 1){ return `${diffInDays} day`}
+                    else{return `${diffInDays} days`}
+                    
                 } else {
                     const diffInMonths = Math.floor(diffInHours / 720)
-                    return `${diffInMonths} months`
+                    if(diffInMonths <= 1){ return `${diffInMonths} month`}
+                    else{return `${diffInMonths} months`;}
                 }
                 },
             },
