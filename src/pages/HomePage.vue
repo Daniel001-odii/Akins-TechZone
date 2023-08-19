@@ -227,6 +227,7 @@ mounted(){
             <div class="tz-trend"> programming <span class="tz-trend-count">{{ indemandTags("programming") }} JOBS</span></div>
             <div class="tz-trend"> android <span class="tz-trend-count">{{ indemandTags("android") }} JOBS</span></div>
             <div class="tz-trend"> Low voltage cabling <span class="tz-trend-count">{{ indemandTags("cabling") }} JOBS</span></div>
+            <div class="tz-trend"> PHP <span class="tz-trend-count">{{ indemandTags("php") }} JOBS</span></div>
             
         </div>
     </div>
