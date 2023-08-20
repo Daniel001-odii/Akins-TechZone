@@ -70,7 +70,7 @@ export default {
   },
   data() {
     return {
-      api_url: 'http://127.0.0.1:5000/api/submit',
+      api_url: 'https://techzone-form-ccb2240b74a4.herokuapp.com/api/submit',
       formData: {
         name: '',
         email: '',
