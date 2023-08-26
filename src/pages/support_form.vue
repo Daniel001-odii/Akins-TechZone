@@ -55,18 +55,22 @@
                     </button>
         </form>
     </div>
+
+    
 </main>
+<Footer></Footer>
 </template>
 
 <script>
 import NavBar from '../components/NavBar.vue';
+import Footer from '../components/Footer.vue'
 import axios from 'axios';
 import { RouterLink } from 'vue-router';
 
 
 export default {
   components: {
-    NavBar, RouterLink
+    NavBar, RouterLink, Footer
   },
   data() {
     return {
@@ -108,16 +112,15 @@ body{
 }
 main{
     background: #fff;
-    /* height: 90vh; */
     padding: 20px;
     overflow: hidden !important;
 }
 .tz-main{
     max-width: 500px;
     margin: 0 auto;
-    padding-top: 20px 0px;
+    padding: 20px 0px;
     overflow-y: scroll;
-    /* margin-bottom: 50px; */
+    margin-bottom: 50px;
 }
 
 p{

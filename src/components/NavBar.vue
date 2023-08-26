@@ -1,5 +1,11 @@
 <template>    
-    <div v-if="!userIsLoggedIn">
+<div>
+    <div v-if="isOnline" class="popup online">You're online!</div>
+    <div v-else class="popup offline">You're offline.</div>
+</div>
+
+
+<div v-if="!userIsLoggedIn">
         <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
                     
@@ -254,8 +260,7 @@
     </div>
 </transition>
 </div> 
-
-    
+  
     
 </template>
 
@@ -268,6 +273,7 @@ import LeftNav from './LeftNav.vue';
 import { RouterLink } from 'vue-router';
 import axios from 'axios';
 import { ref } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 
 const api_url = "https://techzoneapp.herokuapp.com/api/logout";
 
@@ -275,18 +281,21 @@ const token = localStorage.getItem('token');
 const isDropdownOpen = ref(false);
 
 export default {
+    name: 'ConnectionStatus',
+ 
     setup() {
     const isDropdownOpen = ref(false);
-
     const toggleDropdown = () => {
       isDropdownOpen.value = !isDropdownOpen.value;
     };
 
+    //code that handles when user is off and online.......
     return {
       isDropdownOpen,
       toggleDropdown,
     };
   },
+  
     components:{ Search, LeftNav, RouterLink },
     data(){
         return{
@@ -297,29 +306,40 @@ export default {
             login_options:false,
             userIsOffline: false,
             stateText: "You are offline",
+            isOnline: navigator.onLine,
         };
     },
+    created() {
+            window.addEventListener('online', this.updateOnlineStatus);
+            window.addEventListener('offline', this.updateOnlineStatus);
+        },
+
 
     methods: {
-        
         logout(){
-        // axios.post(`${api_url}`)
-        // .then(response => {this.$router.push('/')})
-        // .catch(error =>{console.error(error)})
         localStorage.removeItem('token');
         this.$router.push('/');
         },
-
 
         checkLoginStatus(){
             const token = localStorage.getItem('token');
             this.userIsLoggedIn = !!token; 
             console.log("user is logged in? " + this.userIsLoggedIn);
             },
+
+        updateOnlineStatus(event) {
+            this.isOnline = navigator.onLine;
+            },
         },
-        mounted() {
+        beforeDestroy() {
+            window.removeEventListener('online', this.updateOnlineStatus);
+            window.removeEventListener('offline', this.updateOnlineStatus);
+        },
+
+    mounted() {
             this.checkLoginStatus();
         },
+       
   }
 
 </script>
@@ -685,5 +705,26 @@ export default {
         display: none;
     }
     }
-    
+
+
+
+/* network status checker */
+.popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  z-index: 1000;
+}
+
+.online {
+  background-color: green;
+}
+
+.offline {
+  background-color: red;
+}
 </style>

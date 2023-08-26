@@ -1,4 +1,5 @@
 <template>
+
 <div class="page-grid-container">
       <div class="Navigation">
           <NavBar/>
