@@ -1,7 +1,112 @@
+/* Dark and light mode styles */
+.dark {
+  background-color: var(--background-dark) !important;
+  color: var(--text-light) !important;
+  fill: var(--text-light) !important;
+}
+.dark .cust-btn{
+  background-color: var(--btn-dark) !important;
+  color: #fff !important;
+}
+.dark .cust-search-btn{
+  background-color: var(--btn-dark) !important;
+  color: #fff !important;
+}
+.dark .filter-menu{
+  background-color: var(--btn-dark) !important;
+  color: var(--text-light) !important;
+  border: 1px solid var(--border-dark);
+}
+.dark .skills{
+  color: var(--text-light) !important;
+}
+.dark .skills{
+  color: var(--text-light) !important;
+}
+.dark a{
+  color: var(--text-light) !important;
+}
+.dark .jobFeature > div{
+  background-color: var(--btn-dark) !important;
+}
+.dark .filter-search{
+  background-color: var(--accent-dark) !important;
+}
+.dark .page-grid-container{
+  background-color: var(--background-dark) !important;
+}
+.dark .job-card{
+  background-color: var(--accent-dark) !important;
+  border: 1px solid var(--border-dark) !important;
+}
+.dark .job-details-area{
+  background-color: var(--accent-dark) !important;
+  border: 1px solid var(--border-dark) !important;
+}
+.dark .job-detail-header{
+  border-bottom: 1px solid #0000002d;
+}
+.dark .Page-header{
+  border-bottom: 1px solid var(--border-dark) !important;
+  border-left: 1px solid var(--border-dark) !important;
+}
+.dark .page-filters{
+  border-top: 1px solid var(--border-dark) !important;
+  border-bottom: 1px solid var(--border-dark) !important;
+}
+.dark .Tz-navbar{
+  background-color: var(--accent-dark) !important;
+  border-bottom: 1px solid var(--border-dark) !important;
+}
+.dark .tz-menu-content{
+  background-color: var(--accent-dark) !important;
+}
+
+.dark .tz-menu-content > path{
+  fill: #fff !important;
+}
+.dark .tz-menu-content:hover{
+  background-color: var(--background-dark) !important;
+}
+.dark .ft-search{
+  color: #fff !important;
+}
+.dark .tz-trend{
+  background-color: var(--background-dark) !important;
+  border: 1px solid var(--border-dark);
+}
+.dark .tz-trend-count{
+  color: grey !important;
+}
+/* .dark .ft-search > svg > path{
+  color: #fff !important;
+  stroke: #fff !important;
+  fill: #fff;
+} */
+.dark svg > *{
+  /* color: #fff !important;
+  stroke: #fff !important; */
+}
+.dark .cust-search-in{
+  background-color: var(--background-dark) !important;
+  border: 1px solid var(--border-dark);
+  color: #fff !important;
+}
+/* Default transition for properties */
+.theme-transition {
+  transition: background-color 1s, color 0.2s;
+}
+
+
 header{
     width: 100%;
 }
-
+.menu-toggle{
+  margin: 0px 10px 0px 10px;
+  cursor: pointer;
+  display: none;
+  font-size: 28px;
+}
 i{
   padding: 5px;
 }
@@ -9,7 +114,6 @@ i{
 a{
   text-decoration: none !important;
   color: var(--app-dark-grey) !important;
-  /* color: var(--app-blue) !important; */
 }
 
 /*------ styles for buttons------------*/
@@ -31,13 +135,23 @@ a{
     --app-hover: #efefef83;
     --app-btn-disabled: #64a0ff;
     --app-blue-light: #4E79BC1A;
-
-    
     --main-color: #d4d4d4;
     --loader-color: #4CAF50;
     --back-color: #d4d4d4;
+
+    --background-light: #fff;
+    --text-light: #fff;
     --time: 2s;
     --size: 3px;
+
+
+    /* dark mode styles............... */
+    --background-dark: #27323F;
+    --text-dark: #000;
+    --accent: #769BBF;
+    --btn-dark: #283A51;
+    --accent-dark: #1F2A36;
+    --border-dark: grey;
   }
   .blue{
     color: var(--app-blue);
@@ -78,7 +192,7 @@ a{
   justify-content: center;
   align-items: center;
   padding: 0px 10px !important;
-  color: var(--app-dark-grey) !important;
+  /* color: var(--app-dark-grey) !important; */
   /* padding: 10px; */
 }
 
@@ -94,7 +208,7 @@ a{
 }
 
 .tz-nav-block:hover{
-  /* background: var(--app-hover) !important; */
+  background: var(--app-hover) !important;
   border-bottom: 3px solid var(--app-blue);
 }
 
@@ -107,7 +221,7 @@ a{
 
 
 
-/*------------------- syles for Auth pages ------------------*/
+/*------------------- syles for Auth views ------------------*/
 p{
   margin: 0;
 }
@@ -201,7 +315,7 @@ p{
 
 
 
-  /*---------------------- Auth pages -----------------------*/
+  /*---------------------- Auth views -----------------------*/
   .topLeftImage{
     width: 100%;
 }
@@ -311,7 +425,7 @@ p{
 
 
 
-/*------------------ styling for jobs pages --------------------*/
+/*------------------ styling for jobs views --------------------*/
 
 .page-grid-container {
   display: grid;
@@ -488,10 +602,8 @@ p{
       font-weight: bold;
   }
   .jdh-detail{
-      /* padding: 8px; */
-      /* background: var(--app-hover); */
+      font-weight: 1px !important;
       border-radius: 5px;
-      /* margin: 5px; */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -526,7 +638,7 @@ p{
 .filter-search{
     border-radius: 5px;
     background: var(--app-hover);
-    color: #000;
+    /* color: #000; */
     border: none;
     height: 30px;
     margin: 6px 0px;
@@ -588,11 +700,11 @@ opacity: 0;
  .tz-disabled-link{
   overflow: scroll;
   cursor: not-allowed;
-  color: var(--app-grey);
+  /* color: var(--app-grey); */
  }
  .tz-copy-link > i{
   cursor: pointer;
-  color: var(--app-blue);
+  /* color: var(--app-blue); */
   /* border: 1px solid blue;
   border-radius: 5px;
   height: 28px; */

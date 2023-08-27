@@ -143,7 +143,7 @@
       import PageFilter from '../components/PageFilter.vue';
       import axios from 'axios';
       import draggable from 'vuedraggable';
-      import jobsData from '@/pages/JobLists.json'; // import the JSON file
+      import jobsData from '@/views/JobLists.json'; // import the JSON file
       import DotLoader from '../components/DotLoader.vue'
       import { ref, onMounted} from 'vue';
       import Toast from '@/components/Toast.vue';

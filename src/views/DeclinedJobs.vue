@@ -1,9 +1,10 @@
 <template>
-    <div class="page-grid-container">
-          <div class="Navigation">
+
+    <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+          <div class="Navigation" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
               <NavBar/>
           </div>
-        <div class="Left-Nav">
+        <div class="Left-Nav" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
              <LeftNav/>
         </div>
         <div class="Page-header">
@@ -11,41 +12,36 @@
               <div class="page-filters">
                  <PageFilter>
                <div class="filter-search">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 25 26" fill="none">
-                        <path d="M11.1311 0.727295C17.1339 0.727295 22.0058 5.59917 22.0058 11.602C22.0058 17.6049 17.1339 22.4767 11.1311 22.4767C5.12822 22.4767 0.256348 17.6049 0.256348 11.602C0.256348 5.59917 5.12822 0.727295 11.1311 0.727295ZM11.1311 20.0601C15.8036 20.0601 19.5892 16.2745 19.5892 11.602C19.5892 6.9283 15.8036 3.1439 11.1311 3.1439C6.45736 3.1439 2.67295 6.9283 2.67295 11.602C2.67295 16.2745 6.45736 20.0601 11.1311 20.0601ZM21.3835 20.1459L24.8018 23.563L23.0921 25.2727L19.675 21.8545L21.3835 20.1459V20.1459Z" fill="#45494F"/>
-                    </svg>
-                    <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search...">
+                    <i class="bi bi-search"></i>
+                    <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search all types of jobs">
                </div>
                
                <button class="filter-menu">Full-time</button>
                <button class="filter-menu">Remote</button>
                <button class="filter-menu">Last 1 hour</button>
+               <button class="filter-menu">Salary range</button>
                  </PageFilter>
               </div>
               <div class="page-tabs">
                   <!-- <slot name="page-tabs"> -->
+                      <!-- <RouterLink to=""><div class="job-category job-category-active">Available Jobs ({{ jobs.length }})</div></RouterLink> -->
                       <RouterLink to="/jobs"><div class="job-category">Available Jobs</div></RouterLink>
                       <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested</div></RouterLink>
                       <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned</div></RouterLink>
-                      <RouterLink to="/jobs/completed-jobs"><div class="job-category job-category-active">Completed</div></RouterLink>
-                      <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined</div></RouterLink>
+                      <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed</div></RouterLink>
+                      <RouterLink to="/jobs/declined-jobs"><div class="job-category  job-category-active">Declined</div></RouterLink>
                   <!-- </slot> -->
               </div>
         </div>
     
     
-    <div class="Page-contents">
-        
-          <!--this container houses two extra individually scrollable containers: The Job cards(by the left) and the Job full detail (by the right)-->
+    <div class="Page-contents" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     
-    <!-- <div> -->
-    <!-- <Transition name="fade"> -->
-        
-        <div class="page-content-sub" v-if="filteredJobs.length > 0">
+        <div class="page-content-sub" v-if="filteredJobs.length > 0" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="job-cards-area">
                     <slot name="job-cards">
                     <div v-for="(job, index) in filteredJobs" :key="index">
-                        <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }" >
+                        <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                             <template #job-title>
                                 <span class="mobile-link" @click="navigateToJobDetails(filteredJobs[selectedJob].id)">{{ job.job_tag }}</span>
                                 <span class="desktop-link">{{ job.job_tag }}</span>
@@ -62,7 +58,7 @@
             </div>
         
                 <!-----------job  details from search results--------------------------------------------------->
-            <div class="job-details-area card">
+            <div class="job-details-area card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                 <div style="overflow-y: scroll;">
                 <slot name="job-details">
                     <div class="job-detail-header">
@@ -130,9 +126,6 @@
                             {{ filteredJobs[selectedJob].job_tag }} recruiter is recruiting for {{ filteredJobs[selectedJob].budget_des }} payment
                         </div>
                         <div class="jd-section">
-                            <!-- <RouterLink :to="`${api_url}/${filteredJobs[selectedJob].id}`">
-                            <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
-                            </RouterLink> -->
                             <span>
                                 <span @click="navigateToJobDetails(filteredJobs[selectedJob].id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                             </span>
@@ -145,27 +138,23 @@
         </div>
             
     
-    
-    
-        <!-- <span v-if="isLoading" style="color:var(--app-blue)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
-    
-        <!-- <Skeleton v-if="isLoading"/> -->
         <DotLoader v-if="isLoading"/>
-            <span v-if="filteredJobs.length === 0 && isLoading != true" 
-                    style="display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    padding: 50px;">
-            <img height="200" src="../components/Logos_icons/job_not_found.png"><br/>
-                    
-                    <b>Sorry, No jobs found</b>
-                </span>
+        <span v-if="filteredJobs.length === 0 && isLoading != true" 
+                style="display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 50px;">
+        <i class="bi bi-search" style="font-size: 50px; padding: 0; margin: 0;"></i><br/>
+                <b>Sorry, No jobs found</b>
+            </span>
             
-    <!-- </Transition> -->
+    
     </div>
       
-    <Footer/>
+      <div class="footer">
+          <Footer/>
+      </div>
       
       </div>
       </template>
@@ -183,15 +172,20 @@
       import Loader from '../components/loader.vue'
       import Skeleton from '../components/pageSkeleton.vue'
       import DotLoader from '../components/DotLoader.vue'
-    
-    //   import { response } from 'express';
-    
-      import jobsData from '@/pages/JobLists.json'; // import the JSON file
+      import themeStore from '@/theme/theme';
     
       const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
     
       
           export default {
+            setup(){
+                  // Accessing themeStore properties and methods
+                    const toggleTheme = themeStore.toggleTheme;
+                    return{
+                        themeStore,
+                        toggleTheme,
+                    };
+            },
               components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, useRouter, LeftNav, PageFilter, Loader, Skeleton, DotLoader },
                 data() {
                     return {
@@ -200,7 +194,6 @@
                     /*------ the area below ensures the search filter works, pls dont touch-----*/
                     searchTerm: '',
                     jobs:[],
-                    // jobs:jobsData,
                     hoursDifference: null,
                     timeInSeconds: 0,
                     timeInMinutes: 0,
@@ -223,7 +216,7 @@
                         axios.get(api_url).then(response => {
                             this.jobs = response.data;
                             this.jobs.reverse();
-                            console.log(response.data);
+                            // console.log(response.data); logs all jobs to the console to test for data type....
                             this.isLoading = false;
                         }).catch(error => {
                             this.isLoading = false;
@@ -240,7 +233,7 @@
     
     
                 //converts the created_at property of the api to readable, hours, days, months, years text for display
-                    getHoursTillDate(dateString) {
+                getHoursTillDate(dateString) {
                     const date = new Date(dateString)
                     const now = new Date()
                     const diff = now.getTime() - date.getTime()
@@ -255,13 +248,18 @@
                         return `${diffInMins} minutes`
                     }
                     else if (diffInHours < 24) {
-                        return `${diffInHours} hours`
+                        if(diffInHours <= 1){return `${diffInHours} hour`}
+                        else{return `${diffInHours} hours`}
+    
                     } else if (diffInHours < 720) {
                         const diffInDays = Math.floor(diffInHours / 24)
-                        return `${diffInDays} days`
+                        if(diffInDays <= 1){ return `${diffInDays} day`}
+                        else{return `${diffInDays} days`}
+                        
                     } else {
                         const diffInMonths = Math.floor(diffInHours / 720)
-                        return `${diffInMonths} months`
+                        if(diffInMonths <= 1){ return `${diffInMonths} month`}
+                        else{return `${diffInMonths} months`;}
                     }
                     },
                 },
@@ -286,13 +284,7 @@
                 mounted(){
                     this.fetchJobListings();
                     this.getHoursTillDate();
-                    //call the check login status function......
                 },
     }
     
       </script>       
-      
-      
-      <style>
-        @media screen and (max-width: 650px) {}
-      </style>

@@ -1,19 +1,19 @@
 
 <template>
-      <div class="page-grid-container">
+      <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
-            <NavBar/>
+            <NavBar :class="['theme-transition', { 'dark': themeStore.darkMode }]"/>
         </div>
       <div class="Left-Nav">
            <LeftNav/>
       </div>
-      <div class="Page-header">
+      <div class="Page-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="page-title"><slot name="page-title">Work Explorer</slot></div>
             <div class="page-filters">
-               <PageFilter/>
+               <PageFilter :class="['theme-transition', { 'dark': themeStore.darkMode }]"/>
             </div>
             <div class="page-tabs">
-                <slot name="page-tabs">
+                <slot name="page-tabs" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                     <RouterLink to=""><div class="job-category job-category-active">Available Jobs</div></RouterLink>
                     <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested (0)</div></RouterLink>
                     <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned (5)</div></RouterLink>
@@ -27,13 +27,13 @@
         <!--this container houses two extra individually scrollable containers: The Job cards(by the left) and the Job full detail (by the right)-->
         <div class="page-content-sub">
             <div class="job-cards-area">
-                <slot name="job-cards"><p>You havent imported any Job cards yet...</p></slot>
+                <slot name="job-cards" :class="['theme-transition', { 'dark': themeStore.darkMode }]"><p>You havent imported any Job cards yet...</p></slot>
             </div>
 
 
             <!-------the full job description goes below here... and is made scrollable, except the header part which remains static------>
             <div class="job-details-area card">
-                <slot name="job-details">
+                <slot name="job-details" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="job-detail">
                             <div class="job-detail-header">
                                 <div class="jdh-left">
@@ -94,9 +94,22 @@
     
     import LeftNav from '../components/LeftNav.vue'
     import PageFilter from '../components/PageFilter.vue';
+
+    import themeStore from '@/theme/theme';
+
+    // const Api_url = "https://techzoneapp.herokuapp.com";
+    const api_url = "https://techzoneapp.herokuapp.com/api";
     
     
         export default {
+            setup(){
+                // Accessing themeStore properties and methods
+                    const toggleTheme = themeStore.toggleTheme;
+                    return{
+                        themeStore,
+                        toggleTheme,
+                    };
+            },
             components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter }
         }
     </script>       

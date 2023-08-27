@@ -5,7 +5,7 @@
 </div>
 
 
-<div v-if="!userIsLoggedIn">
+<div v-if="userIsLoggedIn">
         <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
                     
@@ -94,8 +94,8 @@
         </transition>
 </div>
 
-<div v-if="userIsLoggedIn">
-<nav class="Tz-navbar">
+<div v-if="!userIsLoggedIn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+<nav class="Tz-navbar" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Tz-brand-area">
                 
                 <span v-if="!userIsLoggedIn">
@@ -114,23 +114,15 @@
 
 
         <div class="search"><Search/></div>
-
-    
                     <div class="Tz-nav-actions">
                             <span class="notifications">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 40 40" fill="none">
-                                    <circle cx="20.0459" cy="20" r="17.5375" stroke="#4E79BC" stroke-width="3.05"/>
-                                    <path d="M27.7264 24.3451H29.5765V26.1953H11.0747V24.3451H12.9249V17.8695C12.9249 15.9067 13.7046 14.0243 15.0925 12.6364C16.4804 11.2485 18.3628 10.4688 20.3256 10.4688C22.2884 10.4688 24.1708 11.2485 25.5587 12.6364C26.9466 14.0243 27.7264 15.9067 27.7264 17.8695V24.3451ZM25.8762 24.3451V17.8695C25.8762 16.3974 25.2914 14.9856 24.2505 13.9447C23.2095 12.9037 21.7977 12.3189 20.3256 12.3189C18.8535 12.3189 17.4417 12.9037 16.4008 13.9447C15.3599 14.9856 14.7751 16.3974 14.7751 17.8695V24.3451H25.8762ZM17.5504 28.0455H23.1009V29.8957H17.5504V28.0455Z" fill="#4E79BC"/>
-                                </svg>
-                            
+                                <i class="bi bi-bell"></i>
                                 <!---notifications modal-->
-                                <div class="notification-modal">
+                                <div class="notification-modal" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="notifications-header">Notifications</div>
                                     <div class="notify">
                                         <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 20" fill="none">
-                                            <path d="M10.5 20C4.977 20 0.5 15.523 0.5 10C0.5 4.477 4.977 0 10.5 0C16.023 0 20.5 4.477 20.5 10C20.5 15.523 16.023 20 10.5 20ZM9.503 14L16.573 6.929L15.159 5.515L9.503 11.172L6.674 8.343L5.26 9.757L9.503 14Z" fill="#00632B"/>
-                                        </svg>
+                                        <i class="bi bi-check-circle-fill"></i>
                                         <slot name="notification-item"> New login detected</slot>
                                         </div>
                                         <span class="notify-time">Just now</span>
@@ -140,9 +132,7 @@
                                 </div>
                             </span>
                            
-                        <svg xmlns="http://www.w3.org/2000/svg" width="5" height="20" viewBox="0 0 5 28" fill="none">
-                            <path d="M4.80859 25.4375C4.80859 26.6956 3.77922 27.725 2.52109 27.725C1.26297 27.725 0.233594 26.6956 0.233594 25.4375C0.233594 24.1794 1.26297 23.15 2.52109 23.15C3.77922 23.15 4.80859 24.1794 4.80859 25.4375ZM4.80859 2.56247C4.80859 3.8206 3.77922 4.84997 2.52109 4.84997C1.26297 4.84997 0.233594 3.8206 0.233594 2.56247C0.233594 1.30435 1.26297 0.274974 2.52109 0.274974C3.77922 0.274974 4.80859 1.30435 4.80859 2.56247ZM4.80859 14C4.80859 15.2581 3.77922 16.2875 2.52109 16.2875C1.26297 16.2875 0.233594 15.2581 0.233594 14C0.233594 12.7418 1.26297 11.7125 2.52109 11.7125C3.77922 11.7125 4.80859 12.7418 4.80859 14Z" fill="#45494F"/>
-                        </svg>
+                            <i class="bi bi-three-dots-vertical"></i>
                         
                         <!--Logged in user credential display-->
                         <div class="user-menu-toggle" style="width: 150px; display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; margin-right: 10px;">
@@ -150,45 +140,49 @@
                             <span  style="font-size: 12px;">Youre signed in! <br/><button class="logout">user@email.com</button> <br/></span>
                         
                             <div class="tz-user-menu">
-                                <RouterLink to="/user/profile"><div class="tz-menu-conent">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                    <path d="M12.3337 13V11.6667C12.3337 10.9594 12.0527 10.2811 11.5526 9.78105C11.0525 9.28095 10.3742 9 9.66699 9H4.33366C3.62641 9 2.94814 9.28095 2.44804 9.78105C1.94794 10.2811 1.66699 10.9594 1.66699 11.6667V13M9.66699 3.66667C9.66699 5.13943 8.47308 6.33333 7.00033 6.33333C5.52757 6.33333 4.33366 5.13943 4.33366 3.66667C4.33366 2.19391 5.52757 1 7.00033 1C8.47308 1 9.66699 2.19391 9.66699 3.66667Z" stroke="#344054" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
+                                <RouterLink to="/user/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                    <div class="tz-menu-content">
+                                        <i class="bi bi-person-circle"></i>
                                     View profile</div>
                                 </RouterLink>
-                                <div class="tz-menu-conent">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <g clip-path="url(#clip0_834_6624)">
-                                    <path d="M8.00033 9.99996C9.10489 9.99996 10.0003 9.10453 10.0003 7.99996C10.0003 6.89539 9.10489 5.99996 8.00033 5.99996C6.89576 5.99996 6.00033 6.89539 6.00033 7.99996C6.00033 9.10453 6.89576 9.99996 8.00033 9.99996Z" stroke="#344054" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M12.9337 9.99996C12.8449 10.201 12.8184 10.4241 12.8577 10.6404C12.8969 10.8566 13 11.0562 13.1537 11.2133L13.1937 11.2533C13.3176 11.3771 13.416 11.5242 13.4831 11.686C13.5502 11.8479 13.5847 12.0214 13.5847 12.1966C13.5847 12.3718 13.5502 12.5453 13.4831 12.7072C13.416 12.8691 13.3176 13.0161 13.1937 13.14C13.0698 13.2639 12.9228 13.3623 12.7609 13.4294C12.599 13.4965 12.4255 13.531 12.2503 13.531C12.0751 13.531 11.9016 13.4965 11.7397 13.4294C11.5779 13.3623 11.4308 13.2639 11.307 13.14L11.267 13.1C11.1099 12.9463 10.9103 12.8432 10.6941 12.804C10.4778 12.7647 10.2547 12.7912 10.0537 12.88C9.85648 12.9645 9.68831 13.1048 9.56986 13.2836C9.45141 13.4625 9.38785 13.6721 9.38699 13.8866V14C9.38699 14.3536 9.24652 14.6927 8.99647 14.9428C8.74642 15.1928 8.40728 15.3333 8.05366 15.3333C7.70004 15.3333 7.3609 15.1928 7.11085 14.9428C6.8608 14.6927 6.72033 14.3536 6.72033 14V13.94C6.71516 13.7193 6.64374 13.5053 6.51533 13.3258C6.38693 13.1462 6.20748 13.0095 6.00033 12.9333C5.79925 12.8445 5.5762 12.8181 5.35993 12.8573C5.14367 12.8965 4.94411 12.9996 4.78699 13.1533L4.74699 13.1933C4.62316 13.3173 4.47611 13.4156 4.31425 13.4827C4.15238 13.5498 3.97888 13.5843 3.80366 13.5843C3.62844 13.5843 3.45494 13.5498 3.29307 13.4827C3.13121 13.4156 2.98416 13.3173 2.86033 13.1933C2.73636 13.0695 2.63801 12.9224 2.57091 12.7605C2.50381 12.5987 2.46928 12.4252 2.46928 12.25C2.46928 12.0747 2.50381 11.9012 2.57091 11.7394C2.63801 11.5775 2.73636 11.4305 2.86033 11.3066L2.90033 11.2666C3.05402 11.1095 3.15712 10.9099 3.19633 10.6937C3.23554 10.4774 3.20907 10.2544 3.12033 10.0533C3.03582 9.85611 2.8955 9.68795 2.71664 9.5695C2.53778 9.45105 2.32818 9.38748 2.11366 9.38663H2.00033C1.6467 9.38663 1.30756 9.24615 1.05752 8.9961C0.807468 8.74605 0.666992 8.40691 0.666992 8.05329C0.666992 7.69967 0.807468 7.36053 1.05752 7.11048C1.30756 6.86043 1.6467 6.71996 2.00033 6.71996H2.06033C2.28099 6.7148 2.495 6.64337 2.67452 6.51497C2.85405 6.38656 2.9908 6.20712 3.06699 5.99996C3.15574 5.79888 3.18221 5.57583 3.143 5.35957C3.10378 5.1433 3.00068 4.94375 2.84699 4.78663L2.80699 4.74663C2.68302 4.62279 2.58468 4.47574 2.51758 4.31388C2.45048 4.15202 2.41594 3.97851 2.41594 3.80329C2.41594 3.62807 2.45048 3.45457 2.51758 3.29271C2.58468 3.13084 2.68302 2.98379 2.80699 2.85996C2.93082 2.73599 3.07787 2.63765 3.23974 2.57055C3.4016 2.50345 3.5751 2.46891 3.75033 2.46891C3.92555 2.46891 4.09905 2.50345 4.26091 2.57055C4.42278 2.63765 4.56983 2.73599 4.69366 2.85996L4.73366 2.89996C4.89078 3.05365 5.09034 3.15675 5.3066 3.19596C5.52286 3.23517 5.74591 3.2087 5.94699 3.11996H6.00033C6.1975 3.03545 6.36567 2.89513 6.48412 2.71627C6.60257 2.53741 6.66614 2.32782 6.66699 2.11329V1.99996C6.66699 1.64634 6.80747 1.3072 7.05752 1.05715C7.30756 0.807102 7.6467 0.666626 8.00033 0.666626C8.35395 0.666626 8.69309 0.807102 8.94313 1.05715C9.19318 1.3072 9.33366 1.64634 9.33366 1.99996V2.05996C9.33451 2.27448 9.39808 2.48408 9.51653 2.66294C9.63498 2.8418 9.80315 2.98212 10.0003 3.06663C10.2014 3.15537 10.4245 3.18184 10.6407 3.14263C10.857 3.10342 11.0565 3.00032 11.2137 2.84663L11.2537 2.80663C11.3775 2.68266 11.5245 2.58431 11.6864 2.51721C11.8483 2.45011 12.0218 2.41558 12.197 2.41558C12.3722 2.41558 12.5457 2.45011 12.7076 2.51721C12.8694 2.58431 13.0165 2.68266 13.1403 2.80663C13.2643 2.93046 13.3626 3.07751 13.4297 3.23937C13.4968 3.40124 13.5314 3.57474 13.5314 3.74996C13.5314 3.92518 13.4968 4.09868 13.4297 4.26055C13.3626 4.42241 13.2643 4.56946 13.1403 4.69329L13.1003 4.73329C12.9466 4.89041 12.8435 5.08997 12.8043 5.30623C12.7651 5.5225 12.7916 5.74555 12.8803 5.94663V5.99996C12.9648 6.19714 13.1052 6.3653 13.284 6.48375C13.4629 6.6022 13.6725 6.66577 13.887 6.66663H14.0003C14.3539 6.66663 14.6931 6.8071 14.9431 7.05715C15.1932 7.3072 15.3337 7.64634 15.3337 7.99996C15.3337 8.35358 15.1932 8.69272 14.9431 8.94277C14.6931 9.19282 14.3539 9.33329 14.0003 9.33329H13.9403C13.7258 9.33415 13.5162 9.39771 13.3373 9.51616C13.1585 9.63461 13.0182 9.80278 12.9337 9.99996Z" stroke="#344054" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </g>
-                                    <defs><clipPath id="clip0_834_6624"><rect width="16" height="16" fill="white"/></clipPath></defs>
-                                    </svg>
+                                <div class="tz-menu-content">
+                                    <i class="bi bi-gear-fill"></i>
                                     Settings</div>
-                                <RouterLink to="/support">
-                                    <div class="tz-menu-conent">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M6.05967 6.00004C6.21641 5.55449 6.52578 5.17878 6.93298 4.93946C7.34018 4.70015 7.81894 4.61267 8.28446 4.69252C8.74998 4.77236 9.17222 5.01439 9.47639 5.37573C9.78057 5.73706 9.94705 6.19439 9.94634 6.66671C9.94634 8.00004 7.94634 8.66671 7.94634 8.66671M7.99967 11.3334H8.00634M14.6663 8.00004C14.6663 11.6819 11.6816 14.6667 7.99967 14.6667C4.31778 14.6667 1.33301 11.6819 1.33301 8.00004C1.33301 4.31814 4.31778 1.33337 7.99967 1.33337C11.6816 1.33337 14.6663 4.31814 14.6663 8.00004Z" stroke="#344054" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
+                                <RouterLink to="/support" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                    <div class="tz-menu-content">
+                                        <i class="bi bi-question-circle-fill"></i>
                                     Support</div>
                                 </RouterLink>
-                                <div @click="logout" class="tz-menu-conent">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                    <path d="M5 13H2.33333C1.97971 13 1.64057 12.8595 1.39052 12.6095C1.14048 12.3594 1 12.0203 1 11.6667V2.33333C1 1.97971 1.14048 1.64057 1.39052 1.39052C1.64057 1.14048 1.97971 1 2.33333 1H5M9.66667 10.3333L13 7M13 7L9.66667 3.66667M13 7H5" stroke="#344054" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                    Log out</div>
+                                <div @click="logout" class="tz-menu-content">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Log out
+                                </div>
+                                <div class="tz-menu-content" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-toggle-on" viewBox="0 0 16 16">
+                                    <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+                                    </svg> -->
+                                    <i>
+                                    <label class="switch"> 
+                                    <input type="checkbox" @click="themeStore.toggleTheme">
+                                    <span class="slider round"></span>
+                                    </label></i>
+                                    Switch modes
+                                    
+                                    <!-- <button class="tz_mode_switch" @click="themeStore.toggleTheme">Toggle Theme {{ darkMode }}</button> -->
+                                </div>
                             </div>
                         </div>
                     </div>
         <!-- </div> -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none"  class="menu-toggle"  @click="showMenu = !showMenu">
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none"  class="menu-toggle"  @click="showMenu = !showMenu">
                     <path d="M1.94727 1.75464H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
                     <path d="M1.94727 10.0001H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
                     <path d="M1.94727 18.2455H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
-                </svg>
+                </svg> -->
+                <i class="bi bi-list menu-toggle"  @click="showMenu = !showMenu"></i>
     </nav>
 
-<transition name="slide">
+<transition name="slide" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     <div class="menu-from-nav" :class="{ 'navActive': showMenu }" v-if="showMenu">
        <div class="menu-header">
         <!-- <RouterLink to="/"  class="navbar-brand">
@@ -255,6 +249,13 @@
             <span class="menu-item-label" @click="logout">Logout</span>
         </div>
         </span>
+        <span class="menu-item">
+            <label class="switch">
+                <input type="checkbox" @click="themeStore.toggleTheme">
+                <span class="slider round"></span>
+            </label>
+            <span class="menu-item-label" style="padding-left: 10px;">Switch theme</span>
+        </span>
        
 
     </div>
@@ -274,6 +275,7 @@ import { RouterLink } from 'vue-router';
 import axios from 'axios';
 import { ref } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
+import themeStore from '@/theme/theme';
 
 const api_url = "https://techzoneapp.herokuapp.com/api/logout";
 
@@ -288,11 +290,15 @@ export default {
     const toggleDropdown = () => {
       isDropdownOpen.value = !isDropdownOpen.value;
     };
+    // Accessing themeStore properties and methods
+    const toggleTheme = themeStore.toggleTheme;
 
     //code that handles when user is off and online.......
     return {
       isDropdownOpen,
       toggleDropdown,
+      themeStore,
+      toggleTheme
     };
   },
   
@@ -346,11 +352,12 @@ export default {
 
 
 <style scoped>
+
 .logout{
-    color: blue;
+    /* color: blue; */
     cursor: pointer;
     border: none;
-    background: none;
+    /* background: none; */
 
 }
 .user-menu-toggle:hover .tz-user-menu{
@@ -394,7 +401,7 @@ export default {
     margin-top: 5px;
 }
 .notifications-footer > *{
-    color: var(--app-blue) !important;
+    /* color: var(--app-blue) !important; */
 }
 .notifications:hover{
     cursor: pointer !important;
@@ -408,8 +415,8 @@ export default {
     flex-direction: row;
 }
 .closeBtn{
-    color: var(--app-blue);
-    font-size: 40px;
+    /* color: var(--app-blue); */
+    font-size: 30px;
     position: absolute; 
     right: 20px;
     top:2px;
@@ -495,7 +502,6 @@ export default {
     margin: 0px 10px 0px 10px;
     cursor: pointer;
     display: none;
-    
 }
 
 .cust-actions{
@@ -528,8 +534,6 @@ export default {
 }
 
 .nav-contents{
-    /* border: 1px solid red; */
-    /* width: 100%; */
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -554,14 +558,14 @@ export default {
 }
 
 .signUp{
-    background: var(--app-blue) !important;
+    background: var(--app-blue);
     border-radius: 5px;
 }
 .signUp:hover .signup-options{
     display: block;
 }
 .login{
-    color: #000;
+    /* color: #000; */
     border-radius: 5px;
     background: none !important;
 }
@@ -603,18 +607,18 @@ export default {
     background: url("./Logos_icons/dummy_user.png");
 }
 .tz-user-thumbnail:hover .tz-user-menu{
-    background: red;
+    /* background: red; */
     display: flex;
 }
-.tz-menu-conent{
+.tz-menu-content{
     cursor: pointer;
     padding: 8px;
     padding-right: 30px;
 }
-.tz-menu-conent > svg{
+.tz-menu-content > svg{
     margin-right: 8px;
 }
-.tz-menu-conent:hover{
+.tz-menu-content:hover{
     background: var(--app-hover);
 }
 
@@ -623,7 +627,7 @@ export default {
     position: absolute;
     right: 120px;
     top: 45px;
-    background: #fff;
+    /* background: #fff; */
     box-shadow: 0px 12px 12px #e2e2e2;
     text-align: right;
 }
@@ -726,5 +730,69 @@ export default {
 
 .offline {
   background-color: red;
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height:23px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(15px);
+  -ms-transform: translateX(15px);
+  transform: translateX(15px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 </style>

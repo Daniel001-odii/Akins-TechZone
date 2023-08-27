@@ -7,7 +7,7 @@
          <LeftNav/>
     </div>
     <div class="Page-header">
-          <div class="page-title"><slot name="page-title">Work Explorer</slot></div>
+          <div class="page-title"><slot name="page-title">Saved Jobs</slot></div>
           <div class="page-filters">
              <PageFilter>
                 <!-- <button class="filter-menu" style="margin-left: 10px;">Last 1 hour</button> -->
@@ -24,13 +24,6 @@
              </PageFilter>
           </div>
           <div class="page-tabs">
-              <!-- <slot name="page-tabs"> -->
-                  <!-- <RouterLink to="/jobs"><div class="job-category">Available Jobs</div></RouterLink>
-                  <RouterLink to="requested-jobs"><div class="job-category job-category-active">Requested</div></RouterLink>
-                  <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned</div></RouterLink>
-                  <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed</div></RouterLink>
-                  <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined</div></RouterLink> -->
-              <!-- </slot> -->
           </div>
           
     </div>
@@ -87,9 +80,7 @@
                                     (₦){{ jobs[selectedJob].budget }} | {{ jobs[selectedJob].work_period }}</span>
                               </div>
                               <div class="jdh-right">
-                                <RouterLink to="/jobs/application">
                                   <button class="cust-btn" style="border-radius: 5px;">Apply Here</button>
-                                </RouterLink>
                                   <!-- <i class="bi bi-heart"></i> -->
                               </div>
                           </div>
@@ -162,7 +153,7 @@
   import { reactive } from 'vue';
   import LeftNav from '../components/LeftNav.vue'
   import PageFilter from '../components/PageFilter.vue';
-  import jobsData from '@/pages/JobLists.json'; // import the JSON file
+  import jobsData from '@/views/JobLists.json'; // import the JSON file
   
       export default {
           components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter },
@@ -203,8 +194,7 @@
                         return this.jobs;
                     }
                     return this.jobs.filter(job => {
-                        return job.job_tag.toLowerCase().includes(this.searchTerm.toLowerCase()) || job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase()) 
-                        || job.budget.toLowerCase().includes(this.searchTerm.toLowerCase()) || job.budget_des.toLowerCase().includes(this.searchTerm.toLowerCase())
+                        return job.job_tag.toLowerCase().includes(this.searchTerm.toLowerCase()) || job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase())
                     });
             },
             },

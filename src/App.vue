@@ -1,16 +1,19 @@
 <script>
 import NavBar from './components/NavBar.vue';
-// import Mainbody from './pages/JobsPage.vue';
-import LandingContent from './pages/HomePage.vue';
+// import Mainbody from './views/JobsPage.vue';
+import LandingContent from './views/HomePage.vue';
 import FooterNext from './components/Footer.vue';
-import HomePage from './pages/HomePage.vue';
-import Login from './pages/login.vue';
-import SignUp from './pages/SignUp.vue';
+import HomePage from './views/HomePage.vue';
+import Login from './views/login.vue';
+import SignUp from './views/SignUp.vue';
+
 
 
 export default {
     setup() {
-        return {};
+        return {
+    };
+        
     },
     components: {
     NavBar,
@@ -24,23 +27,7 @@ export default {
 </script>
 
 <template>
-
-    <!-- <header>
-        <NavBar/>
-
-    </header>
-    <main>
-            
-    </main>
-    <footer>
-        <FooterNext/>
-    </footer>
-     -->
-     <!-- <HomePage/> -->   
-     
-     <!-- <SignUp/> -->
      <router-view/>
-
 </template>
 
 

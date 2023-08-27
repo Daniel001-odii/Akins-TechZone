@@ -9,6 +9,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@vueuse/core": "^10.4.0",
     "axios": "^1.3.4",
     "bootstrap": "^5.2.3",
     "bootstrap-double-slider": "^1.0.3",

@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="mini-job-description">
-                <slot name="job-description">Hi, we are looking for someone to help us create and design several landing pages for different book series. The first project is about creating a landing page for a islamic book. </slot>
+                <slot name="job-description">Hi, we are looking for someone to help us create and design several landing views for different book series. The first project is about creating a landing page for a islamic book. </slot>
             </div>
             <div class="time-posted">Posted <slot name="job-post-time">0 hours</slot> ago</div>
         </div>

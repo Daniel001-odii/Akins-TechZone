@@ -12,10 +12,20 @@ import NavBarHome from '../components/NavBarHome.vue';
 import JobCard from '../components/JobCard.vue';
 import axios from 'axios'
 
+import themeStore from '@/theme/theme';
+
 // const Api_url = "https://techzoneapp.herokuapp.com";
 const api_url = "https://techzoneapp.herokuapp.com/api";
 
 export default {
+    setup(){
+              // Accessing themeStore properties and methods
+                const toggleTheme = themeStore.toggleTheme;
+                return{
+                    themeStore,
+                    toggleTheme,
+                };
+        },
     components: {
     InfiniteScroll,
     Footer,
@@ -148,14 +158,15 @@ mounted(){
                 </div>
 
                     <div class="nav-toggler">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none" class="menu-toggle" @click="showMenu = !showMenu">
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none" class="menu-toggle" @click="showMenu = !showMenu">
                             <path d="M1.94727 1.75464H31.6308" stroke="#fff" stroke-width="1.9789" stroke-linecap="round"/>
                             <path d="M1.94727 10.0001H31.6308" stroke="#fff" stroke-width="1.9789" stroke-linecap="round"/>
                             <path d="M1.94727 18.2455H31.6308" stroke="#fff" stroke-width="1.9789" stroke-linecap="round"/>
-                        </svg>
+                        </svg> -->
+                        <i class="bi bi-list menu-toggle" style="color: #fff !important;"  @click="showMenu = !showMenu"></i>
                     </div>
         </nav>
-        <transition name="slide">
+        <transition name="slide" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="menu-from-nav" :class="{ 'navActive': showMenu }" v-if="showMenu">
             <div class="menu-header">
                 <RouterLink to="/"  class="navbar-brand">
@@ -218,7 +229,7 @@ mounted(){
        </div>
     </div>
     
-    <div class="tz-second-section">
+    <div class="tz-second-section" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="tz-second-title">Discover The Trending Jobs <br/> In Demand</div>
         <div class="tz-trends-container">
             <div class="tz-trend"> python <span class="tz-trend-count">{{ indemandTags("python") }} JOBS</span></div>
@@ -231,14 +242,14 @@ mounted(){
             
         </div>
     </div>
-    <div class="tz-second-section" style="background: #F6F9FF;">
+    <div class="tz-second-section" style="background: #F6F9FF;" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="tz-second-title"> 	&#128293; Featured Developer Jobs</div>
         <!-- <div class=""> -->
             <!-- just checking -->
             <span v-if="isLoading">Loading...</span>
-            <div v-else class="featured-jobs">
+            <div v-else class="featured-jobs" >
                 <div v-for="job in top4devJobs" :key="job.id" class="">
-                    <div class="ft-jobCard">
+                    <div class="ft-jobCard" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="blueSpace"></div>
                         <div class="ft-jobCard-content">
                         <div class="ft-jobCard-head">
@@ -254,29 +265,14 @@ mounted(){
                     
                 </div>
             </div>
-            <!-- <div class="ft-jobCard">
-                <div class="blueSpace"></div>
-                <div class="ft-jobCard-content">
-                <div class="ft-jobCard-head">
-                    <div class="ft-jobCard-left">
-                        <div class="ft-job-title">Server Hardware Engineer</div>
-                        <div class="ft-job-location">Lekki Phase 1, Lagos State</div>
-                    </div>
-                    <div class="ft-jobCard-right">19/07/2013</div>
-                </div>
-                <div class="ft-jobCard-des">We are seeking a highly experienced and skilled Server Hardware Engineer to join our dynamic team. The successful candidate will have a proven track... </div>
-                </div>
-            </div> -->
-            
-        <!-- </div> -->
     </div>
-    <div class="tz-second-last" style="background: #F6F9FF;">
+    <div class="tz-second-last" style="background: #F6F9FF;" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div style="display: flex; align-items: flex-start; flex-direction: column; padding: 50px;">
             <div class="tz-second-title" style="text-align: left; ">Take The Next Step In Your Journey - Sign Up And Unlock Limitless Opportunities</div>
             <!-- <div class="cust-btn" style="width: 100px; border-radius: 60px;">Sign Up</div> -->
             <button class="cust-btn signUp2">
                     <span>Sign Up</span>
-                    <div class="signup-options2">
+                    <div class="signup-options2" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
                         <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                     </div>
@@ -508,10 +504,10 @@ mounted(){
 
 
 .menu-toggle{
-    margin: 0px 10px 0px 10px;
-    cursor: pointer;
-    display: none;
-    
+  margin: 0px 10px 0px 10px;
+  cursor: pointer;
+  display: none;
+  font-size: 28px;
 }
 
 
@@ -723,7 +719,7 @@ mounted(){
 .menu-from-nav{
     position: fixed;
     top: 0;
-    background-color: #fff;
+    background: #fff;
     height: 0px;
     width: 100%;
     z-index: 99999;

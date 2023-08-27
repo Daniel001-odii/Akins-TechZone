@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import jobsData from '@/pages/JobLists.json'; // import the JSON file
+import jobsData from '@/views/JobLists.json'; // import the JSON file
 
 export default {
   data() {

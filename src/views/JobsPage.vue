@@ -1,10 +1,10 @@
 <template>
 
-<div class="page-grid-container">
-      <div class="Navigation">
+<div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+      <div class="Navigation" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
           <NavBar/>
       </div>
-    <div class="Left-Nav">
+    <div class="Left-Nav" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
          <LeftNav/>
     </div>
     <div class="Page-header">
@@ -12,9 +12,7 @@
           <div class="page-filters">
              <PageFilter>
            <div class="filter-search">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 25 26" fill="none">
-                    <path d="M11.1311 0.727295C17.1339 0.727295 22.0058 5.59917 22.0058 11.602C22.0058 17.6049 17.1339 22.4767 11.1311 22.4767C5.12822 22.4767 0.256348 17.6049 0.256348 11.602C0.256348 5.59917 5.12822 0.727295 11.1311 0.727295ZM11.1311 20.0601C15.8036 20.0601 19.5892 16.2745 19.5892 11.602C19.5892 6.9283 15.8036 3.1439 11.1311 3.1439C6.45736 3.1439 2.67295 6.9283 2.67295 11.602C2.67295 16.2745 6.45736 20.0601 11.1311 20.0601ZM21.3835 20.1459L24.8018 23.563L23.0921 25.2727L19.675 21.8545L21.3835 20.1459V20.1459Z" fill="#45494F"/>
-                </svg>
+                <i class="bi bi-search"></i>
                 <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search all types of jobs">
            </div>
            
@@ -38,17 +36,11 @@
 
 
 <div class="Page-contents">
-    
-      <!--this container houses two extra individually scrollable containers: The Job cards(by the left) and the Job full detail (by the right)-->
-
-<!-- <div> -->
-<!-- <Transition name="fade"> -->
-    
-    <div class="page-content-sub" v-if="filteredJobs.length > 0">
+    <div class="page-content-sub" v-if="filteredJobs.length > 0" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="job-cards-area">
                 <slot name="job-cards">
                 <div v-for="(job, index) in filteredJobs" :key="index">
-                    <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }" >
+                    <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }">
                         <template #job-title>
                             <span class="mobile-link" @click="navigateToJobDetails(filteredJobs[selectedJob].id)">{{ job.job_tag }}</span>
                             <span class="desktop-link">{{ job.job_tag }}</span>
@@ -65,7 +57,7 @@
         </div>
     
             <!-----------job  details from search results--------------------------------------------------->
-        <div class="job-details-area card">
+        <div class="job-details-area card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div style="overflow-y: scroll;">
             <slot name="job-details">
                 <div class="job-detail-header">
@@ -152,15 +144,16 @@
                 justify-content: center;
                 align-items: center;
                 padding: 50px;">
-        <img height="200" src="../components/Logos_icons/job_not_found.png"><br/>
-                
+        <i class="bi bi-search" style="font-size: 50px; padding: 0; margin: 0;"></i><br/>
                 <b>Sorry, No jobs found</b>
             </span>
         
 
 </div>
   
-<!-- <Footer/>  -->
+  <div class="footer">
+      <Footer/>
+  </div>
   
   </div>
   </template>
@@ -178,15 +171,20 @@
   import Loader from '../components/loader.vue'
   import Skeleton from '../components/pageSkeleton.vue'
   import DotLoader from '../components/DotLoader.vue'
-
-//   import { response } from 'express';
-
-  import jobsData from '@/pages/JobLists.json'; // import the JSON file
+  import themeStore from '@/theme/theme';
 
   const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
 
   
       export default {
+        setup(){
+              // Accessing themeStore properties and methods
+                const toggleTheme = themeStore.toggleTheme;
+                return{
+                    themeStore,
+                    toggleTheme,
+                };
+        },
           components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, useRouter, LeftNav, PageFilter, Loader, Skeleton, DotLoader },
             data() {
                 return {

@@ -94,7 +94,7 @@ path:hover{
     }
     .active-nav{
         background: #F7F9FF; 
-        border-left: 5px solid #4E79BC !important;
+        /* border-left: 5px solid #4E79BC !important; */
         color: #4E79BC !important;
         fill: var(--app-blue);
         }
