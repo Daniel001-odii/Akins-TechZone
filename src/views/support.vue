@@ -2,7 +2,7 @@
     <header>
         <NavBar/>
     </header>
-    <main>
+    <main :class="['theme-transition', { 'dark': themeStore.darkMode }]">
 
         <div class="tz-faq-hero">
             <div class="faq-hero-left">
@@ -15,7 +15,7 @@
             <!-- <div class="faq-hero-right"></div> -->
             <img class="faq-hero-right" src="../assets/imgs/FAQ.png">
         </div>
-        <div class="tz-FAQ-main">
+        <div class="tz-FAQ-main" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
 
             <div class="tz-FAQ-category">
                 <div class="category-description">
@@ -115,7 +115,7 @@
                 </div>
             </div>
 
-            <div class="tz-FAQ-last">
+            <div class="tz-FAQ-last" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                 <img src="../assets/imgs/Avatar_group.png"> 
                 <p><b>Still have questions? </b><br/>
                     Can’t find the answer you’re looking for? Please reach out to us directly.</p>
@@ -136,8 +136,18 @@
 import { RouterLink } from 'vue-router';
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
+import themeStore from '@/theme/theme';
+
 
     export default {
+        setup(){
+                  // Accessing themeStore properties and methods
+                    const toggleTheme = themeStore.toggleTheme;
+                    return{
+                        themeStore,
+                        toggleTheme,
+                    };
+                },
         components:{ NavBar, Footer, RouterLink }
     }
 </script>

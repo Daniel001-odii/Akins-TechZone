@@ -92,6 +92,9 @@
   border: 1px solid var(--border-dark);
   color: #fff !important;
 }
+.dark .tz-FAQ-last{
+  background: var(--accent-dark) !important;
+}
 /* Default transition for properties */
 .theme-transition {
   transition: background-color 1s, color 0.2s;
