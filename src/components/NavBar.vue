@@ -5,8 +5,8 @@
 </div>
 
 
-<div v-if="!userIsLoggedIn">
-        <nav class="Tz-navbar container-fluid">
+<div v-if="!userIsLoggedIn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+    <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
                     
                     <RouterLink to="/"  class="navbar-brand">
@@ -16,8 +16,9 @@
 
                     <div class="nav-contents"> 
                         <div class="Tz-nav-links">
-                            <span><slot name="action-1"><RouterLink to="/jobs">Find Work</RouterLink></slot></span>
-                            <span><slot name="action-2"><RouterLink to="/client/dashboard">Hire Talent</RouterLink></slot></span>
+                            <span><RouterLink to="/jobs" class="tz-page-link">Find Work</RouterLink></span>
+                            <span><RouterLink to="/client/dashboard" class="tz-page-link">Hire Talent</RouterLink></span>
+                            <span><RouterLink to="/support" class="tz-page-link">Support</RouterLink></span>
                         </div>
                     </div>
             </div>
@@ -25,16 +26,17 @@
             <div class="search"><Search/></div>
         
                 <div class="nav-auth-buttons">
-                    <button  @click="toggleDropdown" class="cust-btn login">
-                        <span>Sign in</span>
-                    <div class="login-options" v-show="isDropdownOpen">
+                    <button class="cust-btn login" style="background: none; color: #000000; border: 1px solid var(--app-blue);">
+                    <span>Sign in</span>
+                    <div class="login-options">
                         <RouterLink to="/employer/login"><div class="options">As Employer</div></RouterLink>
                         <RouterLink to="/login"><div class="options">As Talent</div></RouterLink>
                     </div>
                     </button>
-                    <button @click="toggleDropdown" class="cust-btn signUp">
+
+                    <button class="cust-btn signUp">
                     <span>Sign Up</span>
-                    <div class="signup-options" v-show="isDropdownOpen">
+                    <div class="signup-options">
                         <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
                         <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                     </div>
@@ -42,18 +44,10 @@
                 </div>
 
                     <div class="nav-toggler">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none" class="menu-toggle" @click="showMenu = !showMenu">
-                            <path d="M1.94727 1.75464H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
-                            <path d="M1.94727 10.0001H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
-                            <path d="M1.94727 18.2455H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
-                        </svg>
+                        <i class="bi bi-list menu-toggle" style="color: #fff !important;"  @click="showMenu = !showMenu"></i>
                     </div>
-                
-                
-           
-    </nav>
-
-    <transition name="slide">
+        </nav>
+        <transition name="slide" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="menu-from-nav" :class="{ 'navActive': showMenu }" v-if="showMenu">
             <div class="menu-header">
                 <RouterLink to="/"  class="navbar-brand">
@@ -74,7 +68,7 @@
                 </div>
                     <div class="sub-signUp menu-item" v-if="signup_options">
                         <RouterLink to="/employer/signup" class="options"><div>As Employer</div></RouterLink>
-                        <RouterLink to="/signup" class="options"><div>As Talent</div></RouterLink>
+                        <RouterLink to="/talent-signUp" class="options"><div>As Talent</div></RouterLink>
                     </div>
                 <div class="menu-item">
                     <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span> 
@@ -88,7 +82,7 @@
                         <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
                         <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
                 </div>
-                <RouterLink to="/support/form" class="menu-item"><div><span class="menu-item-label">support</span></div></RouterLink>
+                <RouterLink to="/support" class="menu-item"><div><span class="menu-item-label">support</span></div></RouterLink>
 
             </div>
         </transition>
@@ -309,7 +303,7 @@ export default {
             showMenu:false,
             userIsLoggedIn: false,
             signup_options:false,
-            login_options:false,
+            signin_options:false,
             userIsOffline: false,
             stateText: "You are offline",
             isOnline: navigator.onLine,
@@ -599,7 +593,16 @@ export default {
     font-size: 0.9rem;
     overflow-x: hidden;
 }
-
+.login-options{
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    right: 120px;
+    top: 45px;
+    background: #fff;
+    box-shadow: 0px 5px 10px #efefef;
+    text-align: right;
+}
 .tz-user-thumbnail{
     height: 35px;
     width: 35px;
@@ -622,15 +625,7 @@ export default {
     background: var(--app-hover);
 }
 
-.login-options{
-    display: none;
-    position: absolute;
-    right: 120px;
-    top: 45px;
-    /* background: #fff; */
-    box-shadow: 0px 12px 12px #e2e2e2;
-    text-align: right;
-}
+
 .options{
     padding: 5px 10px;
     width: 100%;

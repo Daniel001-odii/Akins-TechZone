@@ -49,25 +49,25 @@ const routes = [
   {path: '/insights', component: Insight},
   {path: "/404", name: "PageNotFound", component: PageNotFound},
   {path: "/:catchAll(.*)", redirect: "/404"},
-  {path: "/savedJobs", name: 'Saved jobs', component: SavedJobs, meta: { requiresAuth: false }},
-  {path: "/messages", name: 'Messages', component: Messages, meta: { requiresAuth: false }},
+  {path: "/savedJobs", name: 'Saved jobs', component: SavedJobs, meta: { requiresAuth: true }},
+  {path: "/messages", name: 'Messages', component: Messages, meta: { requiresAuth: true }},
   {path: "/talent/customize-profile", component: customize},
   {path: "/employer/customize-profile", component: customize_client},
-  {path: "/jobs/:job_id/application", name: 'Application', component: JobDetail, meta: { requiresAuth: false }},
-  {path: "/notifications", component: Notifications, meta: { requiresAuth: false }},
+  {path: "/jobs/:job_id/application", name: 'Application', component: JobDetail, meta: { requiresAuth: true }},
+  {path: "/notifications", component: Notifications, meta: { requiresAuth: true }},
   {path: "/reset-password", component: ResetPassword},
 
   //job categories.......
-  {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: false }},
-  {path: "/jobs/assigned-jobs", component: assignedJobs, meta: { requiresAuth: false }},
-  {path: "/jobs/completed-jobs", component: completedJobs, meta: { requiresAuth: false }},
-  {path: "/jobs/declined-jobs", component: declinedJobs, meta: { requiresAuth: false }},
+  {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true }},
+  {path: "/jobs/assigned-jobs", component: assignedJobs, meta: { requiresAuth: true }},
+  {path: "/jobs/completed-jobs", component: completedJobs, meta: { requiresAuth: true }},
+  {path: "/jobs/declined-jobs", component: declinedJobs, meta: { requiresAuth: true }},
 
   //client based views
-  {path: "/client/dashboard", component: client_dashboard, meta: { requiresAuth: false }},
-  {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: false }},
-  {path: "/client/post-job", component: post_job, meta: { requiresAuth: false }},
-  {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: false }},
+  {path: "/client/dashboard", component: client_dashboard, meta: { requiresAuth: true }},
+  {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true }},
+  {path: "/client/post-job", component: post_job, meta: { requiresAuth: true }},
+  {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
   {path: "/support", component: SupportPage},
   {path: "/support/form", component: SupportForm},
 ];
@@ -86,17 +86,17 @@ const router = createRouter({
     routes
 })
 
-// router.beforeEach((to, from, next) => {
-//     const isAuthenticated = localStorage.getItem('token') !== null;
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = localStorage.getItem('token') !== null;
     
-//     if (to.meta.requiresAuth && !isAuthenticated) {
-//       const intendedRoute = to.path;
-//       const loginUrl = `/login?redirect=${encodeURIComponent(intendedRoute)}`;
-//       next(loginUrl); // Redirect to the login page with the intended route as a query parameter
-//     } else {
-//       next(); // Proceed to the requested route
-//     }
-//   });
+    if (to.meta.requiresAuth && !isAuthenticated) {
+      const intendedRoute = to.path;
+      const loginUrl = `/login?redirect=${encodeURIComponent(intendedRoute)}`;
+      next(loginUrl); // Redirect to the login page with the intended route as a query parameter
+    } else {
+      next(); // Proceed to the requested route
+    }
+  });
   
 
 export default router
