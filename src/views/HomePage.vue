@@ -124,7 +124,7 @@ mounted(){
             <div class="Tz-brand-area">
                     
                     <RouterLink to="/"  class="navbar-brand">
-                        <img class="nav-img" src="../components/Logos_icons/techzone.png">
+                        <img class="nav-img" src="../components/Logos_icons/techzone_white.png">
                     </RouterLink>
             
 
