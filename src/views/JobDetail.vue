@@ -2,21 +2,21 @@
     <!-- add message toast to page -->
     <Toast ref="toast"></Toast>
 
-    <div class="page-grid-container">
+    <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
             <!-- <div v-if="isLoading">Loading...</div> -->
             <NavBar/>
         </div>
         <div class="Left-Nav">
-            <LeftNav/>
+            <LeftNav />
         </div>
         <div class="Page-header">
-            <div class="page-title">Application</div>
+            <div class="page-title" :class="['theme-transition', { 'dark': themeStore.darkMode }]">Application</div>
         </div>
-        <div v-if="!isLoading" class="Page-contents">
+        <div v-if="!isLoading" class="Page-contents" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                 <div class="tz-job-content-area">
                     <!-- <div class="tz-company-header-img"></div> -->
-                    <div class="job-detail-header">
+                    <div class="job-detail-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="jdh-left">
                             <span><b>{{ job.job_tag }}</b></span>
                             <small>microsot Imc. <i>Stars</i></small>
@@ -55,7 +55,7 @@
                             </span>
                         </div> -->
                     </div>
-                    <div class="tz-job-content-description">
+                    <div class="tz-job-content-description" >
                             <p class="tz-form-title">Job Description</p>
                             {{ job.job_des }}
                     </div>
@@ -83,7 +83,7 @@
                             </div>
                     </div>
                 </div>
-                <div class="tz-form-area">
+                <div class="tz-form-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                     <span class="tz-form-title">Submit an application for this job</span>
                     <form>
                         <div class="tz-form-content">
@@ -123,8 +123,10 @@
                     </form>
                 </div>
         </div>
+
         <div v-else style="height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center;" class="Page-contents">
             <DotLoader/>
+            <!-- <SkeletonLoader/> -->
         </div>
         
         <div class="footer"><Footer/></div>
@@ -147,6 +149,8 @@
       import DotLoader from '../components/DotLoader.vue'
       import { ref, onMounted} from 'vue';
       import Toast from '@/components/Toast.vue';
+      import themeStore from '@/theme/theme';
+      import SkeletonLoader from '../components/pageSkeleton.vue'
 
       const api_url = 'https://techzoneapp.herokuapp.com/api/jobs/';
       
@@ -163,10 +167,12 @@
             draggable,
             DotLoader,
             Toast,
+            SkeletonLoader,
         },
         setup() {
-                    const selectedFile = ref(null);
+            const toggleTheme = themeStore.toggleTheme;
 
+                    const selectedFile = ref(null);
                     const handleDrop = (event) => {
                     event.preventDefault();
                     const file = event.dataTransfer.files[0];
@@ -188,7 +194,9 @@
                     selectedFile,
                     handleDrop,
                     handleFileInputChange,
-                    handleButtonClick
+                    handleButtonClick,
+                    themeStore,
+                    toggleTheme,
                     };
                 },
         data() {
@@ -210,12 +218,11 @@
                     });
                 },
             fetchJobListings() {
-            const jobId = this.$route.params.id;
-            axios
-                .get(`https://techzoneapp.herokuapp.com/api/jobs/${jobId}`)
+            const jobId = this.$route.params.job_id;
+            axios.get(`https://techzoneapp.herokuapp.com/api/jobs/${jobId}`)
                 .then(response => {
-                this.job = response.data;
-                console.log(response.data);
+                    this.job = response.data;
+                    console.log(response.data);
                 })
                 .catch(error => {
                 console.error(error);

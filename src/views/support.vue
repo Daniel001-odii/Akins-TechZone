@@ -28,14 +28,14 @@
                     <input type="checkbox" id="list-item-1">
                     <label for="list-item-1" class="FAQ-topic-title">Is there a free trial available?</label>
                     <ul>
-                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    <li class="FAQ-topic-content sub-title">As of now TechZone is 100 percent free for both companies and freelancers, no hidden fees or charges for signing up and posting jobs on the website, if these changes in the nearest future, all TechZone users will be notified through their preferable means of communication. However there will be a 10 percent fee deduction for jobs that are completed by a freelancers. </li>
                     </ul>
                 </li>
                 <li>
                     <input type="checkbox" id="list-item-2">
                     <label for="list-item-2" class="FAQ-topic-title">How can i search for jobs on the platform?</label>
                     <ul>
-                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    <li class="FAQ-topic-content sub-title">You can search for jobs on the platform via the search bar on your dashboard or on the website's homepage. </li>
                     </ul>
                 </li>
                 <li>

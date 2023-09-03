@@ -5,7 +5,7 @@
 </div>
 
 
-<div v-if="userIsLoggedIn">
+<div v-if="!userIsLoggedIn">
         <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
                     
@@ -94,7 +94,7 @@
         </transition>
 </div>
 
-<div v-if="!userIsLoggedIn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+<div v-if="userIsLoggedIn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
 <nav class="Tz-navbar" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Tz-brand-area">
                 

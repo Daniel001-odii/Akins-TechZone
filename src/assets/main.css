@@ -78,15 +78,32 @@
 .dark .tz-trend-count{
   color: grey !important;
 }
-/* .dark .ft-search > svg > path{
-  color: #fff !important;
-  stroke: #fff !important;
-  fill: #fff;
-} */
-.dark svg > *{
-  /* color: #fff !important;
-  stroke: #fff !important; */
+
+
+.dark .Left-Nav{
+  background-color: var(--background-dark) !important;
 }
+
+
+/* ------------ DARK  MODE STYLES FOR PROFILE VIEW----------- */
+.dark .body{
+  background-color: var(--background-dark) !important;
+}
+
+.dark .tz-profile-card{
+  background: var(--accent-dark) !important;
+}
+.dark .tz-profile-header{
+  background: var(--accent-dark) !important;
+}
+.dark .bio-area{
+  background: var(--accent-dark) !important;
+}
+.dark .about-area{
+  background: var(--accent-dark) !important;
+}
+
+
 .dark .cust-search-in{
   background-color: var(--background-dark) !important;
   border: 1px solid var(--border-dark);
@@ -444,6 +461,8 @@ p{
   grid-template-rows: 60px auto auto;
   height: 100%;
   }
+
+ 
   
   .Navigation { grid-area: Navigation; }
   .Left-Nav {
@@ -751,6 +770,9 @@ opacity: 0;
   .job-cards-area{
     width: 100%;
     margin: 10px;
+  }
+  .jdh-detail{
+    padding: 0;
   }
 }
 

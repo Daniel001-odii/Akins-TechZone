@@ -53,7 +53,7 @@ const routes = [
   {path: "/messages", name: 'Messages', component: Messages, meta: { requiresAuth: false }},
   {path: "/talent/customize-profile", component: customize},
   {path: "/employer/customize-profile", component: customize_client},
-  {path: "/jobs/:id/application", name: 'Application', component: JobDetail, meta: { requiresAuth: false }},
+  {path: "/jobs/:job_id/application", name: 'Application', component: JobDetail, meta: { requiresAuth: false }},
   {path: "/notifications", component: Notifications, meta: { requiresAuth: false }},
   {path: "/reset-password", component: ResetPassword},
 
@@ -86,17 +86,17 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    const isAuthenticated = localStorage.getItem('token') !== null;
+// router.beforeEach((to, from, next) => {
+//     const isAuthenticated = localStorage.getItem('token') !== null;
     
-    if (to.meta.requiresAuth && !isAuthenticated) {
-      const intendedRoute = to.path;
-      const loginUrl = `/login?redirect=${encodeURIComponent(intendedRoute)}`;
-      next(loginUrl); // Redirect to the login page with the intended route as a query parameter
-    } else {
-      next(); // Proceed to the requested route
-    }
-  });
+//     if (to.meta.requiresAuth && !isAuthenticated) {
+//       const intendedRoute = to.path;
+//       const loginUrl = `/login?redirect=${encodeURIComponent(intendedRoute)}`;
+//       next(loginUrl); // Redirect to the login page with the intended route as a query parameter
+//     } else {
+//       next(); // Proceed to the requested route
+//     }
+//   });
   
 
 export default router

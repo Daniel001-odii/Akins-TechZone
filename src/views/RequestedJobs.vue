@@ -16,10 +16,21 @@
                     <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search all types of jobs">
                </div>
                
-               <button class="filter-menu">Full-time</button>
-               <button class="filter-menu">Remote</button>
-               <button class="filter-menu">Last 1 hour</button>
-               <button class="filter-menu">Salary range</button>
+               <select class="filter-menu">
+            <option>Full-time</option>
+            <option>Part time</option>
+            <option>Contract</option>
+           </select>
+           <select class="filter-menu">
+            <option>Remote</option>
+            <option>On site</option>
+            <option>Hybrid</option>
+           </select>
+           <select class="filter-menu">
+            <option>Last 1 hour</option>
+            <option>Last 2 hours</option>
+            <option>Last 3 hours</option>
+           </select>
                  </PageFilter>
               </div>
               <div class="page-tabs">

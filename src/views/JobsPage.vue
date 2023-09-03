@@ -15,11 +15,26 @@
                 <i class="bi bi-search"></i>
                 <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search all types of jobs">
            </div>
-           
-           <button class="filter-menu">Full-time</button>
-           <button class="filter-menu">Remote</button>
-           <button class="filter-menu">Last 1 hour</button>
-           <button class="filter-menu">Salary range</button>
+           <select class="filter-menu">
+            <option>Full-time</option>
+            <option>Part time</option>
+            <option>Contract</option>
+           </select>
+           <select class="filter-menu">
+            <option>Remote</option>
+            <option>On site</option>
+            <option>Hybrid</option>
+           </select>
+           <select class="filter-menu">
+            <option>Last 1 hour</option>
+            <option>Last 2 hours</option>
+            <option>Last 3 hours</option>
+           </select>
+           <button class="filter-menu">use filter</button>
+           <!-- <button class="filter-menu">Full-time</button> -->
+           <!-- <button class="filter-menu">Remote</button> -->
+           <!-- <button class="filter-menu">Last 1 hour</button>
+           <button class="filter-menu">Salary range</button> -->
              </PageFilter>
           </div>
           <div class="page-tabs">
@@ -40,9 +55,9 @@
         <div class="job-cards-area">
                 <slot name="job-cards">
                 <div v-for="(job, index) in filteredJobs" :key="index">
-                    <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }">
+                    <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <template #job-title>
-                            <span class="mobile-link" @click="navigateToJobDetails(filteredJobs[selectedJob].id)">{{ job.job_tag }}</span>
+                            <span class="mobile-link" @click="navigateToJobDetails(filteredJobs[selectedJob].job_id)">{{ job.job_tag }} <i class="bi bi-box-arrow-up-right"></i></span>
                             <span class="desktop-link">{{ job.job_tag }}</span>
                         </template>
                         <template #job-post-company></template>
@@ -88,12 +103,8 @@
                         </span>
                     </div>
                     <div class="jdh-right">
-                            <button @click="navigateToJobDetails(filteredJobs[selectedJob].id)" class="cust-btn" style="border-radius: 5px;">Apply Here</button>
-                        <!-- <span style="padding: 5px 10px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
-                                <path d="M0.485051 8.71692C-0.160649 8.50169 -0.166834 8.1541 0.497421 7.93268L24.1075 0.0630534C24.7619 -0.154654 25.1367 0.21149 24.9536 0.852243L18.2072 24.4611C18.0216 25.1155 17.6444 25.1378 17.3673 24.5168L12.9216 14.5121L20.3434 4.61635L10.4476 12.0382L0.485051 8.71692Z" fill="#4E79BC"/>
-                            </svg>
-                        </span> -->
+                    
+                            <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(filteredJobs[selectedJob].job_id)">Apply Here</button>
                     </div>
                 </div>
                 <!--------- job details header ends here------------->
@@ -122,11 +133,12 @@
                             
                     <div class="jd-section">
                         <span class="jdh-title">About the recruiter</span>
+                        <!-- <p style="color: red;">this job id = {{navigateToJobDetails(filteredJobs[selectedJob].id)}}</p> -->
                         {{ filteredJobs[selectedJob].job_tag }} recruiter is recruiting for {{ filteredJobs[selectedJob].budget_des }} payment
                     </div>
                     <div class="jd-section">
                         <span>
-                            <span @click="navigateToJobDetails(filteredJobs[selectedJob].id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
+                            <span @click="navigateToJobDetails(filteredJobs[selectedJob].job_id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                         </span>
                     </div>
                 </div>
@@ -138,6 +150,8 @@
         
 
     <DotLoader v-if="isLoading"/>
+    <!-- <Skeleton v-if="isLoading"/> -->
+
         <span v-if="filteredJobs.length === 0 && isLoading != true" 
                 style="display: flex;
                 flex-direction: column;
@@ -225,8 +239,8 @@
 
 
                 //this function opens up in a new page the details of any job clicked...
-                navigateToJobDetails(jobId) {
-                const route = this.$router.resolve({ name: 'Application', params: { id: jobId } });
+                navigateToJobDetails(job_id) {
+                const route = this.$router.resolve({ name: 'Application', params: { job_id: job_id } });
                 window.open(route.href, '_blank');
                 },
 
@@ -291,4 +305,24 @@
   
   <style>
     @media screen and (max-width: 650px) {}
+    
+#user-top-navigation-container .nav-tooltip {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translate(-50%);
+    padding: 10px;
+    text-transform: none;
+    background-color: var(--nav-tooltip-bg);
+    color: var(--nav-tooltip-text);
+    border-radius: var(--nav-tooltip-radius);
+    box-shadow: var(--nav-tooltip-shadow);
+    white-space: nowrap;
+    z-index: var(--nav-tooltip-zindex);
+    cursor: default;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .1s ease-in-out;
+    transition-delay: .5s;
+}
   </style>
