@@ -79,8 +79,9 @@
                             <p class="tz-form-title">Share this job post</p>
                             <div class="tz-copy-link">
                                 <div id="contentToCopy" class="tz-disabled-link">{{ shareLink }}</div>
-                                <i class="bi bi-clipboard" @click="copyText"></i>
+                                
                             </div>
+                            <span class="bi bi-clipboar" @click="copyText"><u>copy link</u></span>
                     </div>
                 </div>
                 <div class="tz-form-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -106,7 +107,7 @@
                                 <p>Requesting Fee</p>
                                 <div class="amount-input">
                                     <div class="currency">NGN</div>
-                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="counterOffer">
+                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="counterOffer" @input="formatCurrency">
                                 </div>
                                 
                                 <small>input the amount you want to get paid for this job</small>
@@ -203,7 +204,7 @@
             return {
             job: null,
             isLoading: true,
-            shareLink: window.location.href
+            shareLink: window.location.href,
             };
         },
         methods: {
@@ -254,6 +255,9 @@
                     const formattedValue = new Intl.NumberFormat('en-US').format(value);
                     return formattedValue;
                 },
+
+            counterOffer(){
+        },
         },
         created() {
             this.fetchJobListings();

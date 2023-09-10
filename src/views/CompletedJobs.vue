@@ -30,7 +30,7 @@
             <option>Last 1 hour</option>
             <option>Last 2 hours</option>
             <option>Last 3 hours</option>
-           </select>
+           </select>    
                  </PageFilter>
               </div>
               <div class="page-tabs">

@@ -92,9 +92,9 @@
 <nav class="Tz-navbar" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Tz-brand-area">
                 
-                <span v-if="!userIsLoggedIn">
+                <!-- <span v-if="!userIsLoggedIn">
                     <RouterLink to="/jobs"  class="navbar-brand"><img class="nav-img" src="../components/Logos_icons/techzone.png"></RouterLink>
-                </span>
+                </span> -->
                 <span v-if="userIsLoggedIn">
                     <RouterLink to="/"  class="navbar-brand"><img class="nav-img" src="../components/Logos_icons/techzone.png"></RouterLink>
                 </span>
