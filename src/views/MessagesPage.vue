@@ -13,7 +13,18 @@
           <div class="insights-content"><small>Dont worry your chats with clients are end to end encrypted</small></div>
     </div>
     <div class="Page-contents">
-          <!----this is an insight page and needs no job lisitng content-->
+          <!----message page contents starts here ----->
+          <div class="tz_message">
+            <div class="tz_message_left">
+            <div class="filter-search">
+                <i class="bi bi-search"></i>
+                <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search conversations">
+           </div>
+          </div>
+          <div class="tz_message_main">
+            <div class="tz_client_name">Client Name</div>
+          </div>
+          </div>
           
     </div>
     <div class="footer">
@@ -54,13 +65,32 @@ methods: {
   
   
   <style scoped>
-  .insights-content{
+ .insights-content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        width: 100%;
+        font-size: 1.8em !important;
+        text-align: center;
+    }
+
+    .tz_message{
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      width: 100%;
-      font-size: 1.8em !important;
-      text-align: center;
+      flex-direction: row;
+    }
+  .tz_message_left{
+    height: 100vh;
+    border-right: 1px solid #efefef;
+    width: 300px;
+    padding-right: 10px;
+  }
+
+  .tz_message_main{
+
+  }
+
+  .tz_client_name{
+    padding: 10px;
   }
   </style>

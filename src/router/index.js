@@ -39,23 +39,23 @@ import client_jobs from '../views/Client_Jobs.vue'
 
 
 const routes = [
-  {path: '/', component: HomePage},
-  {path: '/user/profile', component: UserProfile},
-  {path: '/jobs', name:'Techzone', component: NewPage},
+  {path: '/', component: HomePage, name: "Techzone"},
+  {path: '/user/profile', component: UserProfile, name: "Techzone - profile"},
+  {path: '/jobs', name:'Techzone - jobs', component: NewPage},
   {path: '/login', name: 'Login', component: Login},
-  {path: '/employer/login', name: 'Employer:login', component: ClientLogin},
-  {path: '/talent-signUp', component: SignUp},
-  {path: '/employer/signup', component: SignUpClient},
-  {path: '/insights', component: Insight},
+  {path: '/employer/login', name: 'Employer - login', component: ClientLogin},
+  {path: '/talent-signUp', component: SignUp, name: "Signup"},
+  {path: '/employer/signup', component: SignUpClient, name: "Employer signup"},
+  {path: '/insights', component: Insight, name: "Techzone - insights"},
   {path: "/404", name: "PageNotFound", component: PageNotFound},
   {path: "/:catchAll(.*)", redirect: "/404"},
-  {path: "/savedJobs", name: 'Saved jobs', component: SavedJobs, meta: { requiresAuth: true }},
-  {path: "/messages", name: 'Messages', component: Messages, meta: { requiresAuth: true }},
+  {path: "/savedJobs", name: 'Techzone - Saved jobs', component: SavedJobs, meta: { requiresAuth: true }},
+  {path: "/messages", name: 'Techzone - Messages', component: Messages, meta: { requiresAuth: true }},
   {path: "/talent/customize-profile", component: customize},
   {path: "/employer/customize-profile", component: customize_client},
-  {path: "/jobs/:job_id/application", name: 'Application', component: JobDetail, meta: { requiresAuth: true }},
-  {path: "/notifications", component: Notifications, meta: { requiresAuth: true }},
-  {path: "/reset-password", component: ResetPassword},
+  {path: "/jobs/:job_id/application", name: 'Techzone - Application', component: JobDetail, meta: { requiresAuth: true }},
+  {path: "/notifications", name:  "Techzone - Notifications", component: Notifications, meta: { requiresAuth: true }},
+  {path: "/reset-password", name: "Password - reset", component: ResetPassword},
 
   //job categories.......
   {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true }},
@@ -64,20 +64,17 @@ const routes = [
   {path: "/jobs/declined-jobs", component: declinedJobs, meta: { requiresAuth: true }},
 
   //client based views
-  {path: "/client/dashboard", component: client_dashboard, meta: { requiresAuth: true }},
+  {path: "/client/dashboard", name: "Techzone - dashboard", component: client_dashboard, meta: { requiresAuth: true }},
   {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true }},
-  {path: "/client/post-job", component: post_job, meta: { requiresAuth: true }},
+  {path: "/client/post-job", name: "Techzone - Post", component: post_job, meta: { requiresAuth: true }},
   {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
-  {path: "/support", component: SupportPage},
-  {path: "/support/form", component: SupportForm},
+  {path: "/support", name: "Techzone - support", component: SupportPage},
+  {path: "/support/form", name: "Techzone - form", component: SupportForm},
 ];
 
-routes.forEach(route => {
-  if (!route.name) {
-      const pathParts = route.path.split('/');
-      route.name = pathParts[pathParts.length - 1];
-  }
-});
+
+
+
 
 
 

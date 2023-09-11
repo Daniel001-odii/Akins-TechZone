@@ -109,6 +109,9 @@ computed: {
 mounted(){
             this.fetchJobListings();
             this.getHoursTillDate();
+            var title = this.$route.name
+    console.log(title)
+    document.title = title
             
             // this.topDevJobs();
         },
