@@ -110,7 +110,7 @@ data(){
       // For example, you could check if there's a valid authentication token in local storage or a Vuex store
       const token = localStorage.getItem('token');
       this.userIsLoggedIn = !!token; // Set isLoggedIn to true if a token exists, otherwise false
-      console.log("user is logged in? " + this. userIsLoggedIn);
+    //   console.log("user is logged in? " + this. userIsLoggedIn);
     },
   },
   };

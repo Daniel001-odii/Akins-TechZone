@@ -1,7 +1,8 @@
 <template>    
-<div>
-    <div v-if="isOnline" class="popup online">You're online!</div>
-    <div v-else class="popup offline">You're offline.</div>
+<div class="popup" :class="{ online: isOnline, 'offline': !isOnline }">
+    <span v-if="isOnline" class="online">You're online!</span>
+    <span v-else class="offline">You're offline.</span>
+    <span id="status_dismiss">&times;</span>
 </div>
 
 
@@ -101,7 +102,7 @@
                 <div class="nav-contents">
                     <div class="Tz-nav-links">
                             <span><slot name="action-1"><RouterLink to="/jobs">Find Work</RouterLink></slot></span>
-                            <!-- <span><slot name="action-2"><RouterLink to="/client/dashboard">Hire Talent</RouterLink></slot></span> -->
+                            <span><slot name="action-2"></slot></span>
                     </div>
                 </div>
         </div>
@@ -346,6 +347,40 @@ export default {
 
 
 <style scoped>
+
+.dark .tz-user-menu{
+    border-radius: 6px;
+    border: 1px solid var(--dark-gray-dark-gray-4, #3C464E);
+    /* Shadow / Elevation 6 */
+    box-shadow: 0px 40px 64px 0px rgba(91, 104, 113, 0.24), 0px 0px 1px 0px rgba(26, 32, 36, 0.32);
+}
+.dark .notification-modal{
+    background-color: var(--accent-dark) !important;
+    border-radius: 6px;
+    border: 1px solid var(--dark-gray-dark-gray-4, #3C464E);
+    /* Shadow / Elevation 6 */
+    box-shadow: 0px 40px 64px 0px rgba(91, 104, 113, 0.24), 0px 0px 1px 0px rgba(26, 32, 36, 0.32);
+}
+.dark .notify:hover{
+    background-color: var(--background-dark) !important;
+}
+.dark .login-options{
+    background-color: var(--background-dark) !important;
+    color: var(--text-light) !important;
+    border-radius: 6px;
+    border: 1px solid var(--dark-gray-dark-gray-4, #3C464E);
+    /* Shadow / Elevation 6 */
+    box-shadow: 0px 40px 64px 0px rgba(91, 104, 113, 0.24), 0px 0px 1px 0px rgba(26, 32, 36, 0.32);
+}
+.dark .signup-options{
+    background-color: var(--background-dark) !important;
+    color: var(--text-light) !important;
+    border-radius: 6px;
+    border: 1px solid var(--dark-gray-dark-gray-4, #3C464E);
+    /* Shadow / Elevation 6 */
+    box-shadow: 0px 40px 64px 0px rgba(91, 104, 113, 0.24), 0px 0px 1px 0px rgba(26, 32, 36, 0.32);
+}
+
 
 .logout{
     /* color: blue; */
@@ -709,18 +744,24 @@ export default {
 
 /* network status checker */
 .popup {
-  position: fixed;
+  position: absolute;
   bottom: 20px;
   right: 20px;
   padding: 10px;
   border-radius: 5px;
   color: #fff;
   font-size: 16px;
-  z-index: 1000;
+  z-index: 999999;
+}
+
+#status_dismiss{
+    padding-left: 10px;
 }
 
 .online {
   background-color: green;
+  height: 100%;
+  width: 100%;
 }
 
 .offline {

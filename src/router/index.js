@@ -5,7 +5,7 @@ import SupportForm from '../views/support_form.vue'
 
 import NewPage from '../views/JobsPage.vue'
 import PageNotFound from '../views/PageNotFound.vue'
-import Insight from '../views/InsightPage.vue'
+// import Insight from '../views/InsightPage.vue'
 import Messages from '../views/MessagesPage.vue'
 import SavedJobs from '../views/SavedJobs.vue'
 import Notifications from '../views/notifications.vue'
@@ -34,6 +34,7 @@ import client_dashboard from '../views/client-dashboard.vue'
 import post_job from '../views/post-job.vue'
 import JobSuccess from '../views/JobSuccess.vue' ///page is deprecated and has been replaced with a moda instead..
 import client_jobs from '../views/Client_Jobs.vue'
+import client_messages from '../views/Client_MessagesPage.vue'
 
 // import 
 
@@ -46,7 +47,7 @@ const routes = [
   {path: '/employer/login', name: 'Employer - login', component: ClientLogin},
   {path: '/talent-signUp', component: SignUp, name: "Signup"},
   {path: '/employer/signup', component: SignUpClient, name: "Employer signup"},
-  {path: '/insights', component: Insight, name: "Techzone - insights"},
+  // {path: '/insights', component: Insight, name: "Techzone - insights"},
   {path: "/404", name: "PageNotFound", component: PageNotFound},
   {path: "/:catchAll(.*)", redirect: "/404"},
   {path: "/savedJobs", name: 'Techzone - Saved jobs', component: SavedJobs, meta: { requiresAuth: true }},
@@ -67,6 +68,7 @@ const routes = [
   {path: "/client/dashboard", name: "Techzone - dashboard", component: client_dashboard, meta: { requiresAuth: true }},
   {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true }},
   {path: "/client/post-job", name: "Techzone - Post", component: post_job, meta: { requiresAuth: true }},
+  {path: "/client/messages", name: "Techzone - Client Messages", component: client_messages, meta: { requiresAuth: true }},
   {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
   {path: "/support", name: "Techzone - support", component: SupportPage},
   {path: "/support/form", name: "Techzone - form", component: SupportForm},

@@ -2,7 +2,10 @@
 <template>
   <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     <div class="Navigation">
-      <NavBar/>
+            <Navbar>
+                <template #action-1><RouterLink to="/client/post-job">Post Job</RouterLink></template>
+                <template #action-2><RouterLink to="/client/post-job">Direct Route</RouterLink></template>
+            </Navbar>
     </div>
     <div class="Left-Nav">
           <LeftNav/>
@@ -38,16 +41,16 @@
   import { RouterLink } from 'vue-router';
   import Footer from '../components/Footer.vue';
   import PostCard from '../components/JobCard.vue';
-  import NavBar from '../components/NavBar.vue';
+  import Navbar from '../components/NavBar.vue';
   import ProfileNavBar from '../components/ProfileNavBar.vue';
   import { reactive } from 'vue';
-  import LeftNav from '../components/LeftNav.vue';
+  import LeftNav from '../components/Client_LeftNav.vue';
   import themeStore from '@/theme/theme';
   
   const Api_url = "https://techzoneapp.herokuapp.com/api";
   
       export default {
-          components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav },
+          components:{ PostCard, Navbar, ProfileNavBar, Footer, RouterLink, LeftNav },
           setup(){
           const toggleTheme = themeStore.toggleTheme;
                 return{

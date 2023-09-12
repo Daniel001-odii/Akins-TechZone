@@ -1,61 +1,66 @@
 <template>
-        <!-- <div class="spacer"></div> -->
-        <RouterLink to="/client/dashboard" :class="{ 'active-nav': isDashboard }">
-        <div class="jobs" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 25 26" fill="none">
-                <path d="M3.125 9.09375V16.9062" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M7.8125 6.48956V19.5104" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12.5 3.88544V22.1146" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M17.1875 6.48956V19.5104" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M21.875 9.09375V16.9062" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+    <div :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+        <div class="spacer"></div>
+        <RouterLink to="/client/dashboard">
+        <div class="jobs"  :class="{ 'active-nav': isDashboard }">
+            <i class="bi bi-soundwave"></i>
             <span class="navtext">Dashboard</span>
             </div>
         </RouterLink>
-        
-        <RouterLink to="/client/saved-jobs"  :class="{ 'active-nav': isSaveJobs }">
-        <div class="saved-jobs">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 25 26" fill="none">
-                <path :class="{ 'active-nav': isSaveJobs }" d="M6.25 5.5V1.75C6.25 1.41848 6.3817 1.10054 6.61612 0.866116C6.85054 0.631696 7.16848 0.5 7.5 0.5H17.5C17.8315 0.5 18.1495 0.631696 18.3839 0.866116C18.6183 1.10054 18.75 1.41848 18.75 1.75V5.5H23.75C24.0815 5.5 24.3995 5.6317 24.6339 5.86612C24.8683 6.10054 25 6.41848 25 6.75V24.25C25 24.5815 24.8683 24.8995 24.6339 25.1339C24.3995 25.3683 24.0815 25.5 23.75 25.5H1.25C0.918479 25.5 0.600537 25.3683 0.366116 25.1339C0.131696 24.8995 0 24.5815 0 24.25V6.75C0 6.41848 0.131696 6.10054 0.366116 5.86612C0.600537 5.6317 0.918479 5.5 1.25 5.5H6.25ZM2.5 19.25V23H22.5V19.25H2.5ZM2.5 16.75H22.5V8H2.5V16.75ZM8.75 3V5.5H16.25V3H8.75ZM11.25 13H13.75V15.5H11.25V13Z" fill="#000"/>
-            </svg>
+
+        <RouterLink v-if="userIsLoggedIn" to="/client/messages">
+        <div class="message"  :class="{ 'active-nav': ismessages }">
+            <i class="bi bi-chat-left-text-fill"></i>
+            <span class="navtext">Messages</span>
+        </div>
+        </RouterLink>
+
+        <RouterLink v-if="userIsLoggedIn" to="/client/saved-jobs">
+        <div class="message"  :class="{ 'active-nav': isJobs }">
+            <i class="bi bi-briefcase-fill" ></i>
             <span class="navtext">My Jobs</span>
         </div>
         </RouterLink>
 
-        <RouterLink to="/messages" :class="{ 'active-nav': isMessages }">
-        <div class="message" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 27 26">
-                <path :class="{ 'active-nav': isMessages }" d="M15.8537 25.5L12.439 21.2317H6.09756C5.77413 21.2317 5.46394 21.1032 5.23524 20.8745C5.00653 20.6458 4.87805 20.3356 4.87805 20.0122V6.72317C4.87805 6.39974 5.00653 6.08955 5.23524 5.86085C5.46394 5.63214 5.77413 5.50366 6.09756 5.50366H25.6098C25.9332 5.50366 26.2434 5.63214 26.4721 5.86085C26.7008 6.08955 26.8293 6.39974 26.8293 6.72317V20.0122C26.8293 20.3356 26.7008 20.6458 26.4721 20.8745C26.2434 21.1032 25.9332 21.2317 25.6098 21.2317H19.2683L15.8537 25.5ZM18.0963 18.7927H24.3902V7.94268H7.31707V18.7927H13.611L15.8537 21.5951L18.0963 18.7927ZM1.21951 0.5H21.9512V2.93902H2.43902V16.3537H0V1.71951C0 1.39608 0.128484 1.08589 0.357187 0.857187C0.58589 0.628484 0.896077 0.5 1.21951 0.5Z" fill="#09121F"/>
-            </svg>
-            <span class="navtext">Messages</span>
-        </div>
-        </RouterLink>
-        
-        <RouterLink to="/insights" :class="{ 'active-nav': isSettings}">
-        <div class="insights" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 23 24" fill="none">
-                <path d="M0.289073 14.4015C-0.0403682 12.8455 -0.0403682 11.2379 0.289073 9.68192C1.56061 9.83084 2.67176 9.41044 3.03375 8.53525C3.39688 7.65893 2.91003 6.57641 1.90426 5.78256C2.77147 4.44954 3.90816 3.31285 5.24118 2.44564C6.03388 3.45027 7.11755 3.93826 7.99387 3.57513C8.8702 3.212 9.29061 2.10199 9.14054 0.830455C10.6965 0.501014 12.3042 0.501014 13.8601 0.830455C13.7112 2.10199 14.1316 3.21315 15.0068 3.57513C15.8831 3.93826 16.9656 3.45142 17.7595 2.44564C19.0925 3.31285 20.2292 4.44954 21.0964 5.78256C20.0918 6.57526 19.6038 7.65893 19.9669 8.53525C20.33 9.41158 21.44 9.83199 22.7116 9.68192C23.041 11.2379 23.041 12.8455 22.7116 14.4015C21.44 14.2526 20.3289 14.673 19.9669 15.5482C19.6038 16.4245 20.0906 17.507 21.0964 18.3009C20.2292 19.6339 19.0925 20.7706 17.7595 21.6378C16.9668 20.6331 15.8831 20.1451 15.0068 20.5083C14.1304 20.8714 13.71 21.9814 13.8601 23.253C12.3042 23.5824 10.6965 23.5824 9.14054 23.253C9.28946 21.9814 8.86905 20.8703 7.99387 20.5083C7.11755 20.1451 6.03502 20.632 5.24118 21.6378C3.90816 20.7706 2.77147 19.6339 1.90426 18.3009C2.90889 17.5082 3.39688 16.4245 3.03375 15.5482C2.67062 14.6718 1.56061 14.2514 0.289073 14.4015ZM2.33613 12.2823C3.5962 12.6317 4.63519 13.4301 5.15068 14.6718C5.66502 15.9147 5.49434 17.2149 4.85055 18.3513C4.96052 18.4681 5.07393 18.5815 5.19077 18.6915C6.32828 18.0477 7.62731 17.8782 8.8702 18.3913C10.1119 18.9068 10.9104 19.9458 11.2598 21.2059C11.4201 21.2105 11.5805 21.2105 11.7409 21.2059C12.0903 19.9458 12.8887 18.9068 14.1304 18.3913C15.3733 17.877 16.6735 18.0477 17.8099 18.6915C17.9267 18.5815 18.0401 18.4681 18.1501 18.3513C17.5063 17.2137 17.3368 15.9147 17.85 14.6718C18.3655 13.4301 19.4044 12.6317 20.6645 12.2823C20.6691 12.1219 20.6691 11.9615 20.6645 11.8011C19.4044 11.4518 18.3655 10.6533 17.85 9.41158C17.3356 8.16869 17.5063 6.86852 18.1501 5.73216C18.0397 5.61577 17.9263 5.50232 17.8099 5.39193C16.6724 6.03572 15.3733 6.20526 14.1304 5.69206C12.8887 5.17658 12.0903 4.13758 11.7409 2.87751C11.5805 2.87326 11.4201 2.87326 11.2598 2.87751C10.9104 4.13758 10.1119 5.17658 8.8702 5.69206C7.62731 6.2064 6.32713 6.03572 5.19077 5.39193C5.07393 5.5019 4.96052 5.61531 4.85055 5.73216C5.49434 6.86966 5.66387 8.16869 5.15068 9.41158C4.63519 10.6533 3.5962 11.4518 2.33613 11.8011C2.33154 11.9615 2.33154 12.1219 2.33613 12.2823ZM11.5003 15.4783C10.5889 15.4783 9.71478 15.1162 9.0703 14.4717C8.42582 13.8272 8.06375 12.9531 8.06375 12.0417C8.06375 11.1303 8.42582 10.2562 9.0703 9.61168C9.71478 8.9672 10.5889 8.60513 11.5003 8.60513C12.4118 8.60513 13.2859 8.9672 13.9303 9.61168C14.5748 10.2562 14.9369 11.1303 14.9369 12.0417C14.9369 12.9531 14.5748 13.8272 13.9303 14.4717C13.2859 15.1162 12.4118 15.4783 11.5003 15.4783ZM11.5003 13.1872C11.8041 13.1872 12.0955 13.0665 12.3103 12.8517C12.5252 12.6369 12.6458 12.3455 12.6458 12.0417C12.6458 11.7379 12.5252 11.4465 12.3103 11.2317C12.0955 11.0169 11.8041 10.8962 11.5003 10.8962C11.1965 10.8962 10.9051 11.0169 10.6903 11.2317C10.4755 11.4465 10.3548 11.7379 10.3548 12.0417C10.3548 12.3455 10.4755 12.6369 10.6903 12.8517C10.9051 13.0665 11.1965 13.1872 11.5003 13.1872Z" fill="#09121F"/>
-            </svg>
-            <span class="navtext">Settings</span>
-        </div>
-        </RouterLink>
-
-        
-
-
+       
+    </div>
 </template>
 
 <script>
 import { RouterLink } from 'vue-router';
+import themeStore from '@/theme/theme';
 
     export default {
+        setup(){
+              // Accessing themeStore properties and methods
+                const toggleTheme = themeStore.toggleTheme;
+                return{
+                    themeStore,
+                    toggleTheme,
+                };
+        },
     components: { RouterLink },
+    data(){
+        return{
+            userIsLoggedIn: false,
+        }
+    },
     computed: {
-        isMessages() { return this.$route.path.startsWith("/messages"); },
-  isSaveJobs() { return this.$route.path.startsWith("/client/saved-jobs"); },
-  isDashboard() { return this.$route.path.startsWith("/client/dashboard"); },
-  isSettings() { return this.$route.path.startsWith("/insights"); },
-  },
+        isDashboard() { return this.$route.path.startsWith("/client/dashboard"); },
+        isJobs() { return this.$route.path.startsWith("/client/saved-jobs"); },
+        ismessages() { return this.$route.path.startsWith("/client/messages"); },
+    },
+    methods:{
+    checkLoginStatus(){
+            const token = localStorage.getItem('token');
+            this.userIsLoggedIn = !!token; 
+            // Set isLoggedIn to true if a token exists, otherwise false
+            console.log("user is logged in? " + this.userIsLoggedIn);
+            },
+        },
+    mounted() {
+        this.checkLoginStatus();
+    },
 
 
 }
@@ -82,21 +87,29 @@ path:hover{
         padding: 10px;
         height: 80px;
         align-items: center;
-        border-left: 5px solid #fff;
+        /* border-left: 5px solid #fff; */
     }
     .jobs:hover, .saved-jobs:hover, .insights:hover, .message:hover{
         background: #F7F9FF;
         color: #4E79BC;
         fill: #4E79BC !important;
+        /* border-left: 5px solid #ff0505; */
     }
     .navtext{
         padding-left: 5px;
     }
     .active-nav{
         background: #F7F9FF; 
-        /* border-left: 5px solid #4E79BC !important; */
+        border-left: 5px solid #4E79BC !important;
         color: #4E79BC !important;
         fill: var(--app-blue);
+        }
+    
+        .dark .active-nav{
+            background: var(--accent-dark);
+        }
+        .dark .active-nav:hover{
+            background: var(--accent-dark) !important;
         }
 
         @media screen and (max-width: 1000px) {
