@@ -745,9 +745,11 @@ export default {
 /* network status checker */
 .popup {
   position: absolute;
+  height: 50px !important;
+  width: 150px !important;
   bottom: 20px;
   right: 20px;
-  padding: 10px;
+  padding: 10px !important;
   border-radius: 5px;
   color: #fff;
   font-size: 16px;
