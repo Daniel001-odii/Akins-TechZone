@@ -113,7 +113,7 @@
                             <span class="notifications">
                                 <i class="bi bi-bell"></i>
                                 <!---notifications modal-->
-                                <div class="notification-modal" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                <div class="notification-modal notification-modal-sw" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="notifications-header">Notifications</div>
                                     <div class="notify">
                                         <div>
@@ -134,7 +134,7 @@
                             <div @click="userMenuIsShown=!userMenuIsShown" class="tz-user-thumbnail"></div>
                             <span  style="font-size: 12px;">Youre signed in! <br/><button class="logout">user@email.com</button> <br/></span>
                         
-                            <div class="tz-user-menu">
+                            <div class="tz-user-menu tz-user-menu-sw">
                                 <RouterLink to="/user/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="tz-menu-content">
                                         <i class="bi bi-person-circle"></i>
@@ -399,12 +399,39 @@ export default {
     position: absolute;
     width: 300px;
     background: #fff;
-    box-shadow: 0px 12px 12px #F1F4F4;
-    top: 45px;
-    right: 60px;
+    border: 1px solid #00000023;
+    /* box-shadow: 0px 12px 12px #F1F4F4; */
+    top: 50px;
+    right: 80px;
     font-size: 0.8em;
     z-index: 999999;
 }
+
+.notification-modal-sw:before {
+    left: auto;
+    right: 142px;
+    top: -14px;
+}
+
+.notification-modal:before {
+    border: 7px solid #00000000;
+    border-bottom: 7px solid #3C464E;
+}
+
+.notification-modal:before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+}
+
+
+
+
+
+
+
+
+
 
 .notifications:hover .notification-modal{
     display: block;
@@ -581,8 +608,6 @@ export default {
     font-weight: 50px;
 }
 .nav-auth-buttons{
-    /* width: 300px; */
-    /* border: 1px solid goldenrod; */
     justify-content: space-between;
     display: flex;
     gap: 10px;
@@ -622,14 +647,40 @@ export default {
     display: none;
     flex-direction: column;
     background: #fff;
-    box-shadow: 0px 5px 10px #efefef;
+    border: 1px solid #00000023;
+    width: 180px;
     position: absolute;
-    top: 45px;
-    right: 70px;
-    z-index: 999;
-    font-size: 0.9rem;
+    top: 50px;
+    right: 20px;
+    z-index: 999999;
+    font-size: 0.8em;
     overflow-x: hidden;
 }
+.tz-user-menu:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+}
+
+.tz-user-menu-sw:after {
+    left: auto;
+    right: 120px;
+    top: -14px;
+    z-index: 99999999;
+}
+
+.tz-user-menu:after {
+    border: 7px solid #00000000;
+    border-bottom: 7px solid #fb0909;
+    z-index: 99999999;
+}
+
+
+
+
+
+
+
 .login-options{
     display: none;
     flex-direction: column;
