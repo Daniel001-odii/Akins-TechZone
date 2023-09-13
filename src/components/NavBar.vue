@@ -1,8 +1,8 @@
 <template>    
-<div class="popup" :class="{ online: isOnline, 'offline': !isOnline }">
+<div v-if="showStatus" id="status" class="popup" :class="{ online: isOnline, 'offline': !isOnline }">
     <span v-if="isOnline" class="online">You're online!</span>
     <span v-else class="offline">You're offline.</span>
-    <span id="status_dismiss">&times;</span>
+    <span @click="showStatus = !showStatus" id="status_dismiss">&times;</span>
 </div>
 
 
@@ -308,6 +308,7 @@ export default {
             userIsOffline: false,
             stateText: "You are offline",
             isOnline: navigator.onLine,
+            showStatus: false,
         };
     },
     created() {
@@ -330,17 +331,18 @@ export default {
 
         updateOnlineStatus(event) {
             this.isOnline = navigator.onLine;
+            // 
             },
         },
         beforeDestroy() {
             window.removeEventListener('online', this.updateOnlineStatus);
             window.removeEventListener('offline', this.updateOnlineStatus);
+            this.showStatus = false;
         },
 
     mounted() {
             this.checkLoginStatus();
         },
-       
   }
 
 </script>
@@ -744,9 +746,7 @@ export default {
 
 /* network status checker */
 .popup {
-  position: absolute;
-  height: 50px !important;
-  width: 150px !important;
+  position: fixed;
   bottom: 20px;
   right: 20px;
   padding: 10px !important;
@@ -758,12 +758,11 @@ export default {
 
 #status_dismiss{
     padding-left: 10px;
+    cursor: pointer;
 }
 
 .online {
   background-color: green;
-  height: 100%;
-  width: 100%;
 }
 
 .offline {

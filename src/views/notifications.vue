@@ -1,18 +1,23 @@
 
 <template>
-    <div class="page-grid-container">
+    <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
       <div class="Navigation">
         <NavBar/>
       </div>
       <div class="Left-Nav">
             <LeftNav/>
       </div>
-      <div class="Page-header">
+      <div class="Page-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="page-title">Notifications</div>
             <div class="page-filters"></div>
-            <div class="insights-content">
-                <!---notifications modal-->
-                <div class="notification" >
+            <div class="insights-content" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+               
+            </div>
+      </div>
+      <div class="Page-contents" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+            <!----this is an insight page and needs no job lisitng content-->
+             <!---notifications modal-->
+             <div class="notification" >
                                 <div class="notify">
                                     <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 20" fill="none">
@@ -43,11 +48,6 @@
                                     <span class="notify-time">Just now</span>
                                 </div>
                             </div>
-            </div>
-      </div>
-      <div class="Page-contents">
-            <!----this is an insight page and needs no job lisitng content-->
-            
       </div>
       <div class="footer">
         <Footer/>
@@ -64,10 +64,18 @@
     import ProfileNavBar from '../components/ProfileNavBar.vue';
     import { reactive } from 'vue';
     import LeftNav from '../components/LeftNav.vue';
+    import themeStore from '@/theme/theme';
     
     
         export default {
-            components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav }
+            components:{ PostCard, NavBar, ProfileNavBar, Footer, RouterLink, LeftNav },
+            setup(){
+          const toggleTheme = themeStore.toggleTheme;
+                return{
+                    themeStore,
+                    toggleTheme,
+                }
+              },
         }
     </script>       
     
@@ -77,7 +85,7 @@
       width: 90%;
       font-size: 0.6em;
     }
-    .insights-content{
+    .insights-content, .Page-contents{
         display: flex;
         justify-content: center;
         align-items: center;

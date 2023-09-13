@@ -240,7 +240,7 @@
 
                 //this function opens up in a new page the details of any job clicked...
                 navigateToJobDetails(job_id) {
-                const route = this.$router.resolve({ name: 'Application', params: { job_id: job_id } });
+                const route = this.$router.resolve({ name: 'Techzone - Application', params: { job_id: job_id } });
                 window.open(route.href, '_blank');
                 },
 

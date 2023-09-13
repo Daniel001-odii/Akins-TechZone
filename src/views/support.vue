@@ -42,28 +42,28 @@
                     <input type="checkbox" id="list-item-3">
                     <label for="list-item-3" class="FAQ-topic-title">How can i upload my resume to the platform?</label>
                     <ul>
-                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    <li class="FAQ-topic-content sub-title">You have to be logged in as a talent and via your profile settings options you can upload your resume</li>
                     </ul>
                 </li>
                 <li>
                     <input type="checkbox" id="list-item-4">
                     <label for="list-item-4" class="FAQ-topic-title">How can i apply for a job listing?</label>
                     <ul>
-                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    <li class="FAQ-topic-content sub-title">You can apply for jobs via the job lisitings page once logged in</li>
                     </ul>
                 </li>
                 <li>
                     <input type="checkbox" id="list-item-5">
                     <label for="list-item-5" class="FAQ-topic-title">How can i save job listings for later?</label>
                     <ul>
-                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    <li class="FAQ-topic-content sub-title">for every job listing there is a save icon, you can save any job of your choice by clicking the save icon</li>
                     </ul>
                 </li>
                 <li>
                     <input type="checkbox" id="list-item-5">
                     <label for="list-item-5" class="FAQ-topic-title">How do i post a job listing as an employer?</label>
                     <ul>
-                    <li class="FAQ-topic-content sub-title">Yes, you can try us for free for 30 days. If you want, we’ll provide you with a free, personalized 30-minute onboarding call to get you up and running as soon as possible.</li>
+                    <li class="FAQ-topic-content sub-title">you have to be logged in as an employer, from your dashboard you can post jobs to hire talent(s).</li>
                     </ul>
                 </li>
                 </ul>
