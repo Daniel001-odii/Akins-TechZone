@@ -15,11 +15,6 @@
                     <i class="bi bi-search"></i>
                     <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search all types of jobs">
                </div>
-               
-               <!-- <button class="filter-menu">Full-time</button>
-               <button class="filter-menu">Remote</button>
-               <button class="filter-menu">Last 1 hour</button>
-               <button class="filter-menu">Salary range</button> -->
                  </PageFilter>
               </div>
               <div class="page-tabs">

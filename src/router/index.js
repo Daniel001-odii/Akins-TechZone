@@ -35,6 +35,7 @@ import post_job from '../views/post-job.vue'
 import JobSuccess from '../views/JobSuccess.vue' ///page is deprecated and has been replaced with a moda instead..
 import client_jobs from '../views/Client_Jobs.vue'
 import client_messages from '../views/Client_MessagesPage.vue'
+import client_payment from '../views/Payment.vue'
 
 // import 
 
@@ -69,6 +70,7 @@ const routes = [
   {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true }},
   {path: "/client/post-job", name: "Techzone - Post", component: post_job, meta: { requiresAuth: true }},
   {path: "/client/messages", name: "Techzone - Client Messages", component: client_messages, meta: { requiresAuth: true }},
+  {path: "/client/payment", name: "Techzone - Client payment", component: client_payment, meta: { requiresAuth: true }},
   {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
   {path: "/support", name: "Techzone - support", component: SupportPage},
   {path: "/support/form", name: "Techzone - form", component: SupportForm},

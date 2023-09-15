@@ -111,7 +111,7 @@
                 <div class="job-detail-content">
                     <div class="jd-section">
                         <span class="jdh-title">Job Description</span>
-                        <span style="width:100%;">{{ filteredJobs[selectedJob].job_des }}</span>
+                        <p style="width:100%;">{{ filteredJobs[selectedJob].job_des }}</p>
                     </div>
                     <div class="jd-section">
                         <span class="jdh-title">Payment type</span>
@@ -188,6 +188,7 @@
   import themeStore from '@/theme/theme';
 
   const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
+// const api_url = "http://127.0.0.1:8000/api/jobs"
 
   
       export default {
