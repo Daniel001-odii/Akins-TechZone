@@ -78,9 +78,11 @@
         <button class="escrow_btn cust-btn" style="background: #42d642 !important; border-radius: 5px;">Pay to Escrow</button> <br/>
         <div>
             <div class="rel" style="position: relative;">
+                <a href="https://escrow.com" target="_blank">
                 <div class="escrow_popup">
                     <div class="esc_title"><i class="bi bi-info-circle-fill"></i> Learn more about Escrow</div>
                 </div>
+                </a>
                 <i class="bi bi-question-circle about_esc"></i>
             </div>
             </div>
@@ -139,7 +141,7 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    justify-content: space-around;
+    justify-content: left;
     flex-wrap: wrap;
     gap: 20px;
 }
@@ -158,7 +160,8 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
     padding: 10px 0px;
 }
 .tz_content{
-    font-size: 0.8em;    
+    font-size: 0.8em;
+    width: 100%;    
 }
 
 .tz_content_col{
@@ -174,8 +177,8 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
     align-items: center;
     justify-content: center;
     gap: 10px;
-    border: 1px solid var(--app-grey);
-    padding: 10px;
+    /* border: 1px solid var(--app-grey); */
+    padding: 10px 0px;
     cursor: pointer;
     /* border-radius: 30px; */
 }
@@ -241,7 +244,7 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
     padding: 10px;
     position: absolute;
     top: -50px;
-    display: none;
+    /* display: none; */
 }
 .esc_title{
     font-size: 0.7rem !important;
