@@ -69,13 +69,14 @@
 
     @media only screen and (max-width: 960px) {
         .cust-search-container{
-        width: 400px;
+        /* width: 400px; */
+        width: 100%;
     }
     }
 
     @media only screen and (max-width: 850px) {
     .cust-search-container{
-        width: 100%;
+        
     }
 }
 

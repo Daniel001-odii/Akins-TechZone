@@ -14,8 +14,9 @@ import axios from 'axios'
 
 import themeStore from '@/theme/theme';
 
-// const Api_url = "https://techzoneapp.herokuapp.com";
-const api_url = "https://techzoneapp.herokuapp.com/api";
+
+// const api_url = "https://techzoneapp.herokuapp.com/api";
+const api_url = "http://127.0.0.1:5000/api";
 
 export default {
     setup(){

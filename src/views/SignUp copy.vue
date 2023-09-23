@@ -77,7 +77,7 @@
                 <div class="ima"><img style="width: 250px;" src="../components/Logos_icons/techZoneVertical.png"></div>
             </div>
         </div>
-</template>
+      </template>
       
       <script>
       import axios from 'axios';
@@ -104,8 +104,8 @@
       this.isLoading = true;
       try {
         const response = await axios.post(api_url, this.user, {
-          headers: { 'Content-Type': 'application/json' },
-        });
+          headers: {'Content-Type': 'application/json',}
+        }); // Replace '/api/signup' with your actual API endpoint
         console.log(response.data);
         this.isLoading = false;
 
@@ -121,6 +121,5 @@
     },
   },
 };
-
       </script>
       

@@ -37,7 +37,7 @@
                   <!-- <slot name="page-tabs"> -->
                       <!-- <RouterLink to=""><div class="job-category job-category-active">Available Jobs ({{ jobs.length }})</div></RouterLink> -->
                       <RouterLink to="/jobs"><div class="job-category">Available Jobs</div></RouterLink>
-                      <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested</div></RouterLink>
+                      <!-- <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested</div></RouterLink> -->
                       <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned</div></RouterLink>
                       <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed</div></RouterLink>
                       <RouterLink to="/jobs/declined-jobs"><div class="job-category  job-category-active">Declined</div></RouterLink>

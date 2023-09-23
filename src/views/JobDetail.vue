@@ -18,7 +18,7 @@
                     <!-- <div class="tz-company-header-img"></div> -->
                     <div class="job-detail-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="jdh-left">
-                            <span><b>{{ job.job_tag }}</b></span>
+                            <span><b>{{ data[0].job_title }}</b></span>
                             <small>microsot Imc. <i>Stars</i></small>
                                 <!---------------clock icon-------------->
                             <span class="jdh-detail">
@@ -36,7 +36,7 @@
                                     <path d="M10 7V12" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                {{ getHoursTillDate(job.created_at) }} ago
+                                {{ getHoursTillDate( data[0].created_at) }} ago
                                 </span>
                             </span>
                             <span class="jdh-detail">
@@ -44,7 +44,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
                                     <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
                                 </svg>
-                                {{ job.budget_des }} : (₦){{ formatBudgetAmount(job.budget) }}
+                                {{ data[0].budget_type }} : (₦){{ formatBudgetAmount(data[0].budget) }}
                             </span>
                         </div>
                         <!-- <div class="jdh-right">
@@ -57,23 +57,23 @@
                     </div>
                     <div class="tz-job-content-description" >
                             <p class="tz-form-title">Job Description</p>
-                            {{ job.job_des }}
+                            {{ data[0].job_description }}
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Skills Required</p>
                             <div class="skill_set">
-                            <div v-for="(skills,index) in job.skill_set.split(', ')" :key="index">
+                            <div v-for="(skills,index) in data[0].skills.split(', ')" :key="index">
                                     <div class="skills">{{ skills }}</div>
                             </div>
                             </div>
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Project type</p>
-                            {{ job.work_period }}
+                            {{ data[0].period }}
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Payment type</p>
-                            {{ job.budget_des }}
+                            {{ data[0].budget_type }}
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Share this job post</p>
@@ -89,7 +89,7 @@
                     <form>
                         <div class="tz-form-content">
                             <span class="tz-form-title">Cover Letter</span>
-                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." v-model="converLetter" required></textarea>
+                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." required></textarea>
                         </div>
                         <div class="tz-form-content">
                             <span class="tz-form-title">Attachment</span>
@@ -153,8 +153,10 @@
       import themeStore from '@/theme/theme';
       import SkeletonLoader from '../components/pageSkeleton.vue'
 
-      const api_url = 'https://techzoneapp.herokuapp.com/api/jobs/';
-      
+    //   const api_url = 'https://techzoneapp.herokuapp.com/api/jobs/';
+      const api_url = "http://127.0.0.1:5000/api/jobs/"
+
+
       export default {
         name: 'Application',
         components: {
@@ -202,7 +204,7 @@
                 },
         data() {
             return {
-            job: null,
+            data: [],
             isLoading: true,
             shareLink: window.location.href,
             };
@@ -220,10 +222,13 @@
                 },
             fetchJobListings() {
             const jobId = this.$route.params.job_id;
-            axios.get(`https://techzoneapp.herokuapp.com/api/jobs/${jobId}`)
+            // console.log(this.$route.params.job_id);
+            
+
+            axios.get(`http://127.0.0.1:5000/api/jobs/${jobId}`)
                 .then(response => {
-                    this.job = response.data;
-                    console.log(response.data);
+                    this.data.push(response.data.job);
+                    console.log(this.data[0]);
                 })
                 .catch(error => {
                 console.error(error);
@@ -232,6 +237,8 @@
                 this.isLoading = false;
                 });
             },
+
+
             getHoursTillDate(dateString) {
                 const date = new Date(dateString)
                 const now = new Date()

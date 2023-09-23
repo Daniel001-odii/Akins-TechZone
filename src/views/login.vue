@@ -90,7 +90,8 @@ import {ref} from 'vue';
 const loading = ref(false);
 
 
-const Api_url = "https://techzoneapp.herokuapp.com";
+// const Api_url = "https://techzoneapp.herokuapp.com";
+const Api_url = "http://127.0.0.1:5000";
 
     export default {
         components:{Loader},
@@ -130,14 +131,14 @@ const Api_url = "https://techzoneapp.herokuapp.com";
         // },
 
 
-        async login() {
+async login() {
   this.isLoading = true;
   try {
     const response = await axios.post(`${Api_url}/api/login`, {
       email: this.email,
       password: this.password
     });
-    const token = response.data.token;
+    const token = response.data.accessToken;
     localStorage.setItem('token', token);
     console.log(token);
     

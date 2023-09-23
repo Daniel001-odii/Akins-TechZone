@@ -42,7 +42,7 @@ import themeStore from '@/theme/theme';
     components: { RouterLink },
     data(){
         return{
-            userIsLoggedIn: false,
+            userIsLoggedIn: true,
         }
     },
     computed: {

@@ -132,7 +132,7 @@
                         <!--Logged in user credential display-->
                         <div class="user-menu-toggle" style="width: 150px; display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; margin-right: 10px;">
                             <div @click="userMenuIsShown=!userMenuIsShown" class="tz-user-thumbnail"></div>
-                            <span  style="font-size: 12px;">Youre signed in! <br/><button class="logout">user@email.com</button> <br/></span>
+                            <span  style="font-size: 12px;">Youre signed in! <br/><button class="logout"> {{ userDetails.user.email }}</button> <br/></span>
                         
                             <div class="tz-user-menu tz-user-menu-sw">
                                 <RouterLink to="/user/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -272,7 +272,8 @@ import { ref } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import themeStore from '@/theme/theme';
 
-const api_url = "https://techzoneapp.herokuapp.com/api/logout";
+// const api_url = "https://techzoneapp.herokuapp.com/api/logout";
+const api_url = "http://127.0.0.1:5000/api"
 
 const token = localStorage.getItem('token');
 const isDropdownOpen = ref(false);
@@ -300,6 +301,7 @@ export default {
     components:{ Search, LeftNav, RouterLink },
     data(){
         return{
+            userDetails:[],
             userMenuIsShown: false,
             showMenu:false,
             userIsLoggedIn: false,
@@ -333,6 +335,29 @@ export default {
             this.isOnline = navigator.onLine;
             // 
             },
+            /// this function gets the users details via api route
+            getUserDetails() {
+        const token = localStorage.getItem('token'); // Get the token from localStorage
+        const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
+
+        // Set up headers with the token
+        const headers = {
+            Authorization: `JWT ${token}`, // Assuming it's a JWT token
+        };
+
+        axios.get(user_url, { headers })
+            .then((response) => {
+            // Handle the response here
+            // For example, you can set user details in your component's data
+            this.userDetails = response.data;
+            // console.log(response.data) // Assuming userDetails is a data property
+            this.isLoading = false;
+            })
+            .catch((error) => {
+            // Handle errors
+            console.error(error);
+            });
+        },
         },
         beforeDestroy() {
             window.removeEventListener('online', this.updateOnlineStatus);
@@ -342,6 +367,7 @@ export default {
 
     mounted() {
             this.checkLoginStatus();
+            this.getUserDetails();
         },
   }
 

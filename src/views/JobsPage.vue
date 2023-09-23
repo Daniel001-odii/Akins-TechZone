@@ -10,38 +10,36 @@
     <div class="Page-header">
           <div class="page-title"><slot name="page-title">Work Explorer</slot></div>
           <div class="page-filters">
-             <PageFilter>
+                 <!-- Search input fields and form -->
+    <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
            <div class="filter-search">
                 <i class="bi bi-search"></i>
-                <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search all types of jobs">
+                <input type="search" class="ft-search" v-model="keywords" placeholder="Search all types of jobs">
            </div>
-           <select class="filter-menu">
-            <option>Full-time</option>
-            <option>Part time</option>
-            <option>Contract</option>
+           <button class="filter-menu" style="background: rgb(4, 197, 4) !important; border: none; color: #fff;" type="submit">Search</button>
+           <select class="filter-menu" v-model="jobType">
+                <option value="">All type</option>
+                <option value="small">small</option>
+                <option value="medium">medium</option>
+                <option value="large">large</option>
            </select>
-           <select class="filter-menu">
-            <option>Remote</option>
-            <option>On site</option>
-            <option>Hybrid</option>
+           <select class="filter-menu" disabled>
+                <option>Remote</option>
+                <option>On site</option>
+                <option>Hybrid</option>
            </select>
-           <select class="filter-menu">
-            <option>Last 1 hour</option>
-            <option>Last 2 hours</option>
-            <option>Last 3 hours</option>
+           <select class="filter-menu" disabled>
+                <option>All time</option>
+                <option>Last 2 hours</option>
+                <option>Last 3 hours</option>
            </select>
-           <button class="filter-menu">use filter</button>
-           <!-- <button class="filter-menu">Full-time</button> -->
-           <!-- <button class="filter-menu">Remote</button> -->
-           <!-- <button class="filter-menu">Last 1 hour</button>
-           <button class="filter-menu">Salary range</button> -->
-             </PageFilter>
+           
+    </form>
           </div>
           <div class="page-tabs">
               <!-- <slot name="page-tabs"> -->
                   <!-- <RouterLink to=""><div class="job-category job-category-active">Available Jobs ({{ jobs.length }})</div></RouterLink> -->
                   <RouterLink to=""><div class="job-category job-category-active">Available Jobs</div></RouterLink>
-                  <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested</div></RouterLink>
                   <RouterLink to="/jobs/assigned-jobs"><div class="job-category">Assigned</div></RouterLink>
                   <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed</div></RouterLink>
                   <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined</div></RouterLink>
@@ -51,19 +49,19 @@
 
 
 <div class="Page-contents">
-    <div class="page-content-sub" v-if="filteredJobs.length > 0" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+    <div class="page-content-sub" v-if="jobs.length > 0" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="job-cards-area">
                 <slot name="job-cards">
-                <div v-for="(job, index) in filteredJobs" :key="index">
+                <div v-for="(job, index) in jobs" :key="index">
                     <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <template #job-title>
-                            <span class="mobile-link" @click="navigateToJobDetails(filteredJobs[selectedJob].job_id)">{{ job.job_tag }} <i class="bi bi-box-arrow-up-right"></i></span>
-                            <span class="desktop-link">{{ job.job_tag }}</span>
+                            <span class="mobile-link" @click="navigateToJobDetails(jobs[selectedJob]._id)">{{ job.job_title }} <i class="bi bi-box-arrow-up-right"></i></span>
+                            <span class="desktop-link">{{ job.job_title }}</span>
                         </template>
                         <template #job-post-company></template>
                         <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
-                        <template #job-duration> {{ job.work_period.substring(0,5) }}...</template>
-                        <template #job-description>{{ job.job_des.substring(0,120) }}...</template>
+                        <template #job-duration> {{ job.period }}</template>
+                        <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
                         <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                     </JobCard>
                     
@@ -77,8 +75,9 @@
             <slot name="job-details">
                 <div class="job-detail-header">
                     <div class="jdh-left">
-                        <span><b>{{ filteredJobs[selectedJob].job_tag }}</b></span>
+                        <span><b>{{ jobs[selectedJob].job_title }}</b></span>
                         <small>microsot Imc. <i>Stars</i></small>
+                        <span>Job is saved: {{ checkSavedJobs(jobs[selectedJob]._id) }}</span>
                             <!---------------clock icon-------------->
                         <span class="jdh-detail">
                             <!---------------location icon-------------->
@@ -93,39 +92,43 @@
                                 <path d="M18.75 12.25C18.75 17.08 14.83 21 10 21C5.17 21 1.25 17.08 1.25 12.25C1.25 7.42 5.17 3.5 10 3.5C14.83 3.5 18.75 7.42 18.75 12.25Z" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M10 7V12" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>Posted {{ getHoursTillDate(filteredJobs[selectedJob].created_at) }} ago
+                            </svg>Posted {{ getHoursTillDate(jobs[selectedJob].created_at) }} ago
                         </span>
+                        
                         <span class="jdh-detail">
                             <!------------wallet icon-------------->
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
                                 <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
-                            </svg>(₦){{ formatBudgetAmount(filteredJobs[selectedJob].budget) }} {{ filteredJobs[selectedJob].budget_des }}
+                            </svg>(₦){{ formatBudgetAmount(jobs[selectedJob].budget) }} {{ jobs[selectedJob].budget_des }}
                         </span>
                     </div>
-                    <div class="jdh-right">
                     
-                            <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(filteredJobs[selectedJob].job_id)">Apply Here</button>
+                    <div class="jdh-right">
+                            <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">Apply Here</button>
+                            <button class="save-btn" style="border-radius: 5px; margin-left: 10px;" @click="saveJob" :style="{ color:  checkSavedJobs(jobs[selectedJob]._id) ? 'green' : 'var(--app-grey)' }">
+                                <i class="bi bi-star-fill"></i>
+                            </button>
                     </div>
                 </div>
                 <!--------- job details header ends here------------->
                 <div class="job-detail-content">
                     <div class="jd-section">
                         <span class="jdh-title">Job Description</span>
-                        <p style="width:100%;">{{ filteredJobs[selectedJob].job_des }}</p>
+                        <p style="width:100%;">{{ jobs[selectedJob].job_description }}</p>
                     </div>
                     <div class="jd-section">
                         <span class="jdh-title">Payment type</span>
-                       {{ filteredJobs[selectedJob].budget_des }}
+                       {{ jobs[selectedJob].budget_type }}
                     </div>
                     <div class="jd-section">
                         <span class="jdh-title">Project type</span>
-                            {{ filteredJobs[selectedJob].work_period }}
+                            {{ jobs[selectedJob].period }}
                     </div>
                     
                     <div class="jd-section">
                         <span class="jdh-title">Skills Required</span>
                         <div class="skill_set">
-                            <div v-for="(skills,index) in filteredJobs[selectedJob].skill_set.split(', ')" :key="index">
+                            <div v-for="(skills,index) in jobs[selectedJob].skills.split(', ')" :key="index">
                                 <div class="skills">{{ skills }}</div>
                             </div>
                         </div>
@@ -134,12 +137,14 @@
                     <div class="jd-section">
                         <span class="jdh-title">About the recruiter</span>
                         <!-- <p style="color: red;">this job id = {{navigateToJobDetails(filteredJobs[selectedJob].id)}}</p> -->
-                        {{ filteredJobs[selectedJob].job_tag }} recruiter is recruiting for {{ filteredJobs[selectedJob].budget_des }} payment
+                        {{ jobs[selectedJob].job_title }} recruiter is recruiting for {{ jobs[selectedJob].budget_type }} payment
                     </div>
                     <div class="jd-section">
                         <span>
-                            <span @click="navigateToJobDetails(filteredJobs[selectedJob].job_id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
+                            {{  userSavedJobs }}
+                            <span @click="navigateToJobDetails(jobs[selectedJob]._id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                         </span>
+                        
                     </div>
                 </div>
             </slot>
@@ -152,7 +157,7 @@
     <DotLoader v-if="isLoading"/>
     <!-- <Skeleton v-if="isLoading"/> -->
 
-        <span v-if="filteredJobs.length === 0 && isLoading != true" 
+        <span v-if="jobs.length === 0 && isLoading != true" 
                 style="display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -187,8 +192,8 @@
   import DotLoader from '../components/DotLoader.vue'
   import themeStore from '@/theme/theme';
 
-  const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
-// const api_url = "http://127.0.0.1:8000/api/jobs"
+//   const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
+const api_url = "http://127.0.0.1:5000/api"
 
   
       export default {
@@ -212,7 +217,14 @@
                 timeInSeconds: 0,
                 timeInMinutes: 0,
                 isLoading: false,
-                
+                userDetails:[],
+                userSavedJobs:[],
+                // variables for search functionalities.....
+                keywords: '',
+                budgetMin: '',
+                budgetMax: '',
+                jobType: '',
+                location: '',
                 }
             },
             methods: {
@@ -227,10 +239,10 @@
 
                 fetchJobListings(){
                     this.isLoading = true;
-                    axios.get(api_url).then(response => {
-                        this.jobs = response.data;
-                        this.jobs.reverse();
-                        // console.log(response.data); logs all jobs to the console to test for data type....
+                    axios.get(`${api_url}/jobs`).then(response => {
+                        this.jobs = response.data.jobs.reverse();
+                        // this.jobs.reverse();
+                        console.log( response.data.jobs); //logs all jobs to the console to test for data type....
                         this.isLoading = false;
                     }).catch(error => {
                         this.isLoading = false;
@@ -238,6 +250,59 @@
                     })
                 },
 
+                getUserDetails() {
+                    const token = localStorage.getItem('token'); // Get the token from localStorage
+                    const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
+
+                    // Set up headers with the token
+                    const headers = {
+                        Authorization: `JWT ${token}`, // Assuming it's a JWT token
+                    };
+
+                    axios.get(user_url, { headers })
+                        .then((response) => {
+                        // Handle the response here
+                        // For example, you can set user details in your component's data
+                        this.userDetails = response.data.user;
+                        this.userSavedJobs = this.userDetails.saved_jobs;
+                        console.log('user details: ', this.userSavedJobs) // Assuming userDetails is a data property
+                        this.isLoading = false;
+                        })
+                        .catch((error) => {
+                        // Handle errors
+                        console.error(error);
+                        });
+                },
+
+                // Function to check if a job ID is saved
+                checkSavedJobs(jobId) {
+                return this.userSavedJobs.includes(jobId);
+                },
+                
+                async saveJob() {
+                    
+                // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
+                const token = localStorage.getItem('token');
+                
+                
+
+                try {
+                    const config = {
+                    headers: {
+                        Authorization: `JWT ${token}`,
+                    },
+                    };
+
+                    const jobId = this.jobs[this.selectedJob]._id;
+                    const response = await axios.post(`${api_url}/jobs/save/${jobId}`, {}, config);
+                    this.getUserDetails();
+                    console.log(response);
+
+                } catch (error) {
+                    console.error('Error saving job:', error);
+                
+                }
+                },
 
                 //this function opens up in a new page the details of any job clicked...
                 navigateToJobDetails(job_id) {
@@ -276,28 +341,58 @@
                     else{return `${diffInMonths} months`;}
                 }
                 },
+
+            async searchJobs() {
+                // Define your search criteria here
+                const keywords = this.keywords; // Assuming you have a data property named 'keywords'
+                const budgetMin = this.budgetMin; // Assuming you have a data property named 'budgetMin'
+                const budgetMax = this.budgetMax; // Assuming you have a data property named 'budgetMax'
+                const jobType = this.jobType; // Assuming you have a data property named 'jobType'
+                const location = this.location; // Assuming you have a data property named 'location'
+
+                try {
+                // Make an Axios GET request to your search endpoint
+                const response = await axios.get(`${api_url}/search`, {
+                    params: {
+                    keywords,
+                    budgetMin,
+                    budgetMax,
+                    jobType,
+                    location,
+                    },
+                });
+
+                // Handle the response data (jobs) as needed
+                this.jobs = response.data.jobs.reverse(); // Assuming you have a data property named 'jobs'
+                } catch (error) {
+                console.error('Error searching jobs:', error);
+                // Handle errors, e.g., show an error message to the user
+                }
+            },
             },
             
             computed: {
-                filteredJobs() {
-                if (!this.searchTerm) {
-                    return this.jobs;
-                }
-                return this.jobs.filter((job) => {
-                    return (
-                    job.job_tag.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                    job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                    job.budget.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                    job.budget_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                    job.work_period.toLowerCase().includes(this.searchTerm.toLowerCase())
-                    );
-                });
-    },
+    //             filteredJobs() {
+    //             if (!this.searchTerm) {
+    //                 return this.jobs;
+    //             }
+    //             return this.jobs.filter((job) => {
+    //                 return (
+    //                 job.job_title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+    //                 job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+    //                 job.budget.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+    //                 job.budget_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+    //                 job.work_period.toLowerCase().includes(this.searchTerm.toLowerCase())
+    //                 );
+    //             });
+    // },
             },
 
             mounted(){
                 this.fetchJobListings();
                 this.getHoursTillDate();
+                this.checkSavedJobs();
+                this.getUserDetails();
             },
 }
 
@@ -325,5 +420,13 @@
     opacity: 0;
     transition: opacity .1s ease-in-out;
     transition-delay: .5s;
+}
+
+
+.save-btn{
+    background: none;
+    padding: 0px 10px;
+    font-size: 20px;
+    border: none;
 }
   </style>
