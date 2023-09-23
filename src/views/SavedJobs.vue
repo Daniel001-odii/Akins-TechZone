@@ -76,8 +76,10 @@
                             </span>
                         </div>
                         <div class="jdh-right">
-                        
                                 <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">Apply Here</button>
+                                <!-- <button class="save-btn" style="border-radius: 5px; margin-left: 10px;" @click="saveJob" :style="{ color:  checkSavedJobs(jobs[selectedJob]._id) ? 'var(--app-blue)' : 'var(--app-grey)' }">
+                                    <i class="bi bi-send-fill"></i>
+                                </button> -->
                         </div>
                     </div>
                     <!--------- job details header ends here------------->
@@ -186,6 +188,7 @@
                     timeInMinutes: 0,
                     isLoading: false,
                     userDetails:[],
+                    userSavedJobs:[],
                     // variables for search functionalities.....
                     keywords: '',
                     budgetMin: '',
@@ -219,6 +222,7 @@
                             axios.get(`${api_url}/savedJobs`, config)
                                 .then((response) => {
                                 this.jobs = response.data.savedJobs;
+                                this.jobs.reverse();
                                 console.log(this.jobs) //this line is used for debugging reponse from request...
                                 this.isLoading = false;
                                 })
@@ -292,6 +296,53 @@
                     console.error('Error searching jobs:', error);
                     // Handle errors, e.g., show an error message to the user
                     }
+                },
+                getUserDetails() {
+                    const token = localStorage.getItem('token'); // Get the token from localStorage
+                    const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
+
+                    // Set up headers with the token
+                    const headers = {
+                        Authorization: `JWT ${token}`, // Assuming it's a JWT token
+                    };
+
+                    axios.get(user_url, { headers })
+                        .then((response) => {
+                        // Handle the response here
+                        // For example, you can set user details in your component's data
+                        this.userDetails = response.data.user;
+                        this.userSavedJobs = this.userDetails.saved_jobs;
+                        console.log('user details: ', this.userSavedJobs) // Assuming userDetails is a data property
+                        this.isLoading = false;
+                        })
+                        .catch((error) => {
+                        // Handle errors
+                        console.error(error);
+                        });
+                },
+
+                // Function to check if a job ID is saved
+                checkSavedJobs(jobId) {
+                return this.userSavedJobs.includes(jobId);
+                },
+                
+                async saveJob() {
+                // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
+                const token = localStorage.getItem('token');
+                try {
+                    const config = {
+                    headers: {
+                        Authorization: `JWT ${token}`,
+                    },
+                    };
+                    const jobId = this.jobs[this.selectedJob]._id;
+                    const response = await axios.post(`${api_url}/jobs/save/${jobId}`, {}, config);
+                    this.getUserDetails();
+                    console.log(response);
+
+                } catch (error) {
+                    console.error('Error saving job:', error);
+                }
                 },
                 },
                 

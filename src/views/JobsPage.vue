@@ -77,7 +77,7 @@
                     <div class="jdh-left">
                         <span><b>{{ jobs[selectedJob].job_title }}</b></span>
                         <small>microsot Imc. <i>Stars</i></small>
-                        <span>Job is saved: {{ checkSavedJobs(jobs[selectedJob]._id) }}</span>
+                        <!-- <span>Job is saved: {{ checkSavedJobs(jobs[selectedJob]._id) }}</span> -->
                             <!---------------clock icon-------------->
                         <span class="jdh-detail">
                             <!---------------location icon-------------->
@@ -104,9 +104,19 @@
                     </div>
                     
                     <div class="jdh-right">
+                        
                             <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">Apply Here</button>
-                            <button class="save-btn" style="border-radius: 5px; margin-left: 10px;" @click="saveJob" :style="{ color:  checkSavedJobs(jobs[selectedJob]._id) ? 'green' : 'var(--app-grey)' }">
-                                <i class="bi bi-star-fill"></i>
+                           
+                                
+                           
+                                <button class="save-btn" style="border-radius: 5px; margin-left: 2px;" @click="saveJob">
+                                <div v-if="jobIsSaving" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div v-else>
+                                    <i v-if="checkSavedJobs(jobs[selectedJob]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
+                                    <i v-else class="bi bi-heart"></i>
+                                </div>
                             </button>
                     </div>
                 </div>
@@ -141,7 +151,6 @@
                     </div>
                     <div class="jd-section">
                         <span>
-                            {{  userSavedJobs }}
                             <span @click="navigateToJobDetails(jobs[selectedJob]._id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                         </span>
                         
@@ -212,13 +221,17 @@ const api_url = "http://127.0.0.1:5000/api"
 
                 /*------ the area below ensures the search filter works, pls dont touch-----*/
                 searchTerm: '',
-                jobs:[],
+                jobs:'',
                 hoursDifference: null,
                 timeInSeconds: 0,
                 timeInMinutes: 0,
                 isLoading: false,
-                userDetails:[],
+                userDetails:'',
                 userSavedJobs:[],
+                jobIsSaving: false,
+
+                // 
+                applied_jobs:'',
                 // variables for search functionalities.....
                 keywords: '',
                 budgetMin: '',
@@ -241,8 +254,9 @@ const api_url = "http://127.0.0.1:5000/api"
                     this.isLoading = true;
                     axios.get(`${api_url}/jobs`).then(response => {
                         this.jobs = response.data.jobs.reverse();
-                        // this.jobs.reverse();
-                        console.log( response.data.jobs); //logs all jobs to the console to test for data type....
+                        this.applied_jobs = this.jobs.values().applications
+                        // console.log("applications received: ", response.data.jobs[0].applications); //logs all jobs to the console to test for data type....
+                        console.log("applied jobs: ", this.applied_jobs)
                         this.isLoading = false;
                     }).catch(error => {
                         this.isLoading = false;
@@ -265,7 +279,7 @@ const api_url = "http://127.0.0.1:5000/api"
                         // For example, you can set user details in your component's data
                         this.userDetails = response.data.user;
                         this.userSavedJobs = this.userDetails.saved_jobs;
-                        console.log('user details: ', this.userSavedJobs) // Assuming userDetails is a data property
+                        // console.log('user details: ', this.userSavedJobs) // Assuming userDetails is a data property
                         this.isLoading = false;
                         })
                         .catch((error) => {
@@ -280,27 +294,24 @@ const api_url = "http://127.0.0.1:5000/api"
                 },
                 
                 async saveJob() {
-                    
                 // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
                 const token = localStorage.getItem('token');
-                
-                
-
+                this.jobIsSaving = true;
                 try {
                     const config = {
                     headers: {
                         Authorization: `JWT ${token}`,
                     },
                     };
-
                     const jobId = this.jobs[this.selectedJob]._id;
                     const response = await axios.post(`${api_url}/jobs/save/${jobId}`, {}, config);
                     this.getUserDetails();
+                    this.jobIsSaving = false;
                     console.log(response);
 
                 } catch (error) {
                     console.error('Error saving job:', error);
-                
+                    this.jobIsSaving = false;
                 }
                 },
 
@@ -343,6 +354,7 @@ const api_url = "http://127.0.0.1:5000/api"
                 },
 
             async searchJobs() {
+                this.isLoading = true;
                 // Define your search criteria here
                 const keywords = this.keywords; // Assuming you have a data property named 'keywords'
                 const budgetMin = this.budgetMin; // Assuming you have a data property named 'budgetMin'
@@ -363,8 +375,10 @@ const api_url = "http://127.0.0.1:5000/api"
                 });
 
                 // Handle the response data (jobs) as needed
+                this.isLoading = false;
                 this.jobs = response.data.jobs.reverse(); // Assuming you have a data property named 'jobs'
                 } catch (error) {
+                this.isLoading = false;
                 console.error('Error searching jobs:', error);
                 // Handle errors, e.g., show an error message to the user
                 }
@@ -424,9 +438,13 @@ const api_url = "http://127.0.0.1:5000/api"
 
 
 .save-btn{
+    /* height: 20px; */
+    /* width: 20px; */
     background: none;
     padding: 0px 10px;
     font-size: 20px;
+    outline: none;
+    /* border-radius: 50% !important; */
     border: none;
 }
   </style>

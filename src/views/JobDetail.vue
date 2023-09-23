@@ -1,6 +1,17 @@
 <template>
+     <Modal v-if="showModal">
+        <template #message>Application successfuly sent</template>
+        <template #buttonAndText>
+            <RouterLink to="/jobs">
+                  <button class="cust-btn">Okay</button>
+            </RouterLink>
+        </template>
+    </Modal>
+
+
     <!-- add message toast to page -->
     <Toast ref="toast"></Toast>
+   
 
     <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
@@ -47,13 +58,6 @@
                                 {{ data[0].budget_type }} : (₦){{ formatBudgetAmount(data[0].budget) }}
                             </span>
                         </div>
-                        <!-- <div class="jdh-right">
-                            <span style="padding: 5px 10px;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
-                                    <path d="M0.485051 8.71692C-0.160649 8.50169 -0.166834 8.1541 0.497421 7.93268L24.1075 0.0630534C24.7619 -0.154654 25.1367 0.21149 24.9536 0.852243L18.2072 24.4611C18.0216 25.1155 17.6444 25.1378 17.3673 24.5168L12.9216 14.5121L20.3434 4.61635L10.4476 12.0382L0.485051 8.71692Z" fill="#4E79BC"/>
-                                </svg>
-                            </span>
-                        </div> -->
                     </div>
                     <div class="tz-job-content-description" >
                             <p class="tz-form-title">Job Description</p>
@@ -86,10 +90,10 @@
                 </div>
                 <div class="tz-form-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                     <span class="tz-form-title">Submit an application for this job</span>
-                    <form>
+                    <form @submit.prevent="applyForJob">
                         <div class="tz-form-content">
                             <span class="tz-form-title">Cover Letter</span>
-                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." required></textarea>
+                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." v-model="applicationForm.coverLetter" required></textarea>
                         </div>
                         <div class="tz-form-content">
                             <span class="tz-form-title">Attachment</span>
@@ -107,14 +111,14 @@
                                 <p>Requesting Fee</p>
                                 <div class="amount-input">
                                     <div class="currency">NGN</div>
-                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="counterOffer" @input="formatCurrency">
+                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="applicationForm.counterOffer">
                                 </div>
                                 
                                 <small>input the amount you want to get paid for this job</small>
                             </div>
                             <div class="form-sub">
                                 <p>Reason</p>
-                                <textarea type="textarea" class="tz-form-textarea" style="height: 70px;" placeholder="...."></textarea>
+                                <textarea type="textarea" class="tz-form-textarea" style="height: 70px;" placeholder="...." v-model="applicationForm.reasonForCounterOffer"></textarea>
                                 <small>give a detailed reason for countering the offer</small>
                             </div>
                         </div>
@@ -152,7 +156,7 @@
       import Toast from '@/components/Toast.vue';
       import themeStore from '@/theme/theme';
       import SkeletonLoader from '../components/pageSkeleton.vue'
-
+      import Modal from '../components/modal.vue'
     //   const api_url = 'https://techzoneapp.herokuapp.com/api/jobs/';
       const api_url = "http://127.0.0.1:5000/api/jobs/"
 
@@ -171,6 +175,7 @@
             DotLoader,
             Toast,
             SkeletonLoader,
+            Modal,
         },
         setup() {
             const toggleTheme = themeStore.toggleTheme;
@@ -207,6 +212,17 @@
             data: [],
             isLoading: true,
             shareLink: window.location.href,
+            job_id: '',
+            showModal: false,
+
+            // variables for contrgolling job application....
+            applicationForm:{
+                coverLetter: '',
+                attachment: '',
+                counterOffer: '',
+                reasonForCounterOffer: '',
+            },
+            
             };
         },
         methods: {
@@ -222,6 +238,7 @@
                 },
             fetchJobListings() {
             const jobId = this.$route.params.job_id;
+            this.job_id = this.$route.params.job_id;
             // console.log(this.$route.params.job_id);
             
 
@@ -262,9 +279,36 @@
                     const formattedValue = new Intl.NumberFormat('en-US').format(value);
                     return formattedValue;
                 },
+                async applyForJob() {
+                    const token = localStorage.getItem('token'); // Get the user's JWT token from localStorage
+                    const applying_jobId = this.job_id; // Replace with the actual job ID you want to apply for
 
-            counterOffer(){
-        },
+                    const applicationData = {
+                    jobId: applying_jobId,
+                    coverLetter: this.applicationForm.coverLetter, // Replace with the user's cover letter
+                    attachment: this.applicationForm.attachment, // Replace with the user's attachment (file data or file path)
+                    counterOffer: this.applicationForm.counterOffer, // Replace with the user's counter offer value
+                    reasonForCounterOffer: this.applicationForm.reasonForCounterOffer, // Replace with the user's reason for the counter offer
+                    };
+
+                    const config = {
+                    headers: {
+                        Authorization: `JWT ${token}`,
+                    },
+                    };
+
+                    try {
+                    const response = await axios.post(`http://127.0.0.1:5000/api/apply`, applicationData, config);
+                    console.log('Job application successful:', response.data);
+                    this.showModal = true;
+
+                    // Optionally, you can show a success message or perform other actions here.
+                    } catch (error) {
+                    console.error('Error applying for job:', error);
+
+                    // Handle errors, e.g., show an error message to the user.
+                    }
+            },
         },
         created() {
             this.fetchJobListings();

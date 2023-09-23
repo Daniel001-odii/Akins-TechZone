@@ -132,7 +132,7 @@
                         <!--Logged in user credential display-->
                         <div class="user-menu-toggle" style="width: 150px; display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; margin-right: 10px;">
                             <div @click="userMenuIsShown=!userMenuIsShown" class="tz-user-thumbnail"></div>
-                            <span  style="font-size: 12px;">Youre signed in! <br/><button class="logout"> {{ userDetails.user.email }}</button> <br/></span>
+                            <span  style="font-size: 12px;">Hi {{ userDetails.user.firstname }} Youre signed in! <br/><button class="logout"> {{ userDetails.user.email }}</button> <br/></span>
                         
                             <div class="tz-user-menu tz-user-menu-sw">
                                 <RouterLink to="/user/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
