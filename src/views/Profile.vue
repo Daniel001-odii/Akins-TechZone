@@ -168,7 +168,7 @@ const api_url = "http://127.0.0.1:5000/api"
           },
           data(){
             return{
-                userDetails:[],
+                userDetails:'',
             }
           },
           methods:{
@@ -194,9 +194,41 @@ const api_url = "http://127.0.0.1:5000/api"
                 console.error(error);
                 });
             },
+    getClientProfileView() {
+            const user_id = this.$route.params.job_id;
+            axios.get(`http://127.0.0.1:5000/api/jobs/${jobId}`)
+                .then(response => {
+                    this.data.push(response.data.job);
+                    console.log(this.data[0]);
+                })
+                .catch(error => {
+                console.error(error);
+                })
+                .finally(() => {
+                this.isLoading = false;
+                });
+            },
+            getUserById(id) {
+                            axios.get(`${api_url}/get-info/${id}`)
+                            .then(response => {
+                                this.userDetails = response.data.user;
+                                // const firstname = response.data.user.firstname;
+                                // const lastname = response.data.user.lastname;
+                                // return response.data.user;
+                                console.log("user detail: ", response.data.user);
+                            })
+                            .catch(error => {
+                                console.error('Error fetching user or employer details:', error);
+                                // Handle errors
+                            });
+                        },
           },
+
+
+          
           mounted() {
             this.getUserDetails();
+            this.getUserById(this.$route.params.user_id)
         },
     }
 </script>

@@ -18,8 +18,9 @@
     
                     <!-------- show login errors here-------->
                     <!-- <p v-for="error in errors" :key="error">{{ error }}</p> -->
-                    <div v-for="error in errors" :key="error">
-                      <p class="alert alert-danger" v-for="lines in error" :key="lines" role="alert">{{ lines }}</p>
+                    <div class="tz_alert_box" v-if="show_errors">
+                        <span>{{ errors.message }}</span>
+                        <span class="tz_alert_box_closeBtn" @click="show_errors = !show_errors">&times;</span>
                     </div>
                     <form @submit.prevent="signup">
     
@@ -52,11 +53,10 @@
                         <input class="form-input" placeholder="Enter your password" type="password" v-model="user.password" name="password" required>
                     </div>
     
-                    <div class="form-section">
-                        <!-- <li class="error-msg" v-if="msg" v-for="error in msg" :key="error">{{ error.password_confirmation[0] }}</li> -->
+                    <!-- <div class="form-section">
                         <label for="password_confirmation">Confirm Password</label>
-                        <input class="form-input" placeholder="Enter your password" type="password" v-model="user.password_confirmation" name="password_confirmation" required>
-                    </div>
+                        <input class="form-input" placeholder="Enter your password" type="password" name="password_confirmation" required>
+                    </div> -->
     
                     <div class="form-section">
                         <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }">
@@ -81,9 +81,7 @@
       
       <script>
       import axios from 'axios';
-      // const api_url = "https://techzoneapp.herokuapp.com/api/register";
       const api_url = "http://127.0.0.1:5000/api/register";
-      // const form_error = [];
       
       export default {
   data() {
@@ -92,20 +90,19 @@
         firstname: '',
         lastname: '',
         email: '',
-        role: 'user', // Set the default role here (user or employer)
         password: '',
       },
       isLoading: false,
-      errors: {},
+      errors: '',
+      // 
+      show_errors: false,
     };
   },
   methods: {
     async signup() {
       this.isLoading = true;
       try {
-        const response = await axios.post(api_url, this.user, {
-          headers: { 'Content-Type': 'application/json' },
-        });
+        const response = await axios.post(api_url, this.user);
         console.log(response.data);
         this.isLoading = false;
 
@@ -113,14 +110,37 @@
         // Redirect the user to the login page or do something else
         this.$router.push('/login');
       } catch (error) {
+        this.errors = JSON.parse(error.request.response);
+        this.show_errors = true;
         this.isLoading = false;
-        if (error.response && error.response.data && error.response.data.errors) {
-          this.errors = error.response.data.errors;
-        }
+        console.log(error.request.response);
+        
       }
     },
   },
 };
 
       </script>
+
+<style>
+
+.tz_alert_box{
+    display: flex;
+    flex-direction: row;
+    max-width: 300px;
+    justify-content: space-between;
+    padding: 10px;
+    background: #f8d7da;
+    color: #721c24;
+    align-items: center;
+    border-radius: 5px;
+    margin: 20px 0px;
+    border: 1px solid #f5c6cb;
+    transition: 1s;
+   }
+
+   .tz_alert_box_closeBtn{
+    cursor: pointer;
+   }
+</style>
       

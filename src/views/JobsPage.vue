@@ -1,10 +1,14 @@
 <template>
 
+<Alert ref="toast">
+    {{ authErrors.message }} please login
+</Alert>
+
 <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
       <div class="Navigation" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
           <NavBar/>
       </div>
-    <div class="Left-Nav" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+    <div class="Left-Nav">
          <LeftNav/>
     </div>
     <div class="Page-header">
@@ -184,9 +188,9 @@
   </div>
   
   </div>
-  </template>
+</template>
   
-  <script>
+<script>
   import { RouterLink, useRouter } from 'vue-router';
   import Footer from '../components/Footer.vue';
   import JobCard from '../components/JobCard.vue';
@@ -199,6 +203,7 @@
   import Loader from '../components/loader.vue'
   import Skeleton from '../components/pageSkeleton.vue'
   import DotLoader from '../components/DotLoader.vue'
+  import Alert from '../components/Alert.vue'
   import themeStore from '@/theme/theme';
 
 //   const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
@@ -214,7 +219,7 @@ const api_url = "http://127.0.0.1:5000/api"
                     toggleTheme,
                 };
         },
-          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, useRouter, LeftNav, PageFilter, Loader, Skeleton, DotLoader },
+          components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, useRouter, LeftNav, PageFilter, Loader, Skeleton, DotLoader, Alert },
             data() {
                 return {
                 selectedJob: 0, // index of currently selected job
@@ -229,6 +234,8 @@ const api_url = "http://127.0.0.1:5000/api"
                 userDetails:'',
                 userSavedJobs:[],
                 jobIsSaving: false,
+
+                authErrors: false,
 
                 // 
                 applied_jobs:'',
@@ -310,8 +317,10 @@ const api_url = "http://127.0.0.1:5000/api"
                     console.log(response);
 
                 } catch (error) {
-                    console.error('Error saving job:', error);
+                    console.error('Error saving job:', error.response.data);
                     this.jobIsSaving = false;
+                    this.authErrors = error.response.data;
+                    this.$refs.toast.showToast(error.response.data.message, 5000);
                 }
                 },
 
@@ -409,8 +418,7 @@ const api_url = "http://127.0.0.1:5000/api"
                 this.getUserDetails();
             },
 }
-
-  </script>       
+</script>       
   
   
   <style>

@@ -7,8 +7,12 @@
  <div class="page-container">
 <div class="page-sub">
   <form @submit.prevent="submitForm">
+                <div class="tz_alert_box" v-if="showError">
+                    <span>{{ formErrors }}</span>
+                    <span class="tz_alert_box_closeBtn" @click="showError = !showError">&times;</span>
+                </div>
     <div class="form-container">
-    <Transition name="formSlide">
+  <Transition name="formSlide">
     <div v-if="currentIndex === 0" class="form-content">
           <div class="section">
               <div class="section-title">Job Title</div>
@@ -23,7 +27,7 @@
           <div class="section">
               <div class="section-title">Write a name for your job posting</div>
               <div class="section-content">
-                  <textarea class="job-description" placeholder="Enter a descriptive name for your job post here..." v-model="formData.job_tag" required></textarea>
+                  <textarea class="job-description" placeholder="Enter a descriptive name for your job post here..." v-model="formData.job_title" required></textarea>
               </div>
               <div class="section-last">
                   Examples: Product Designer, Web Designer, Flutter Developer
@@ -78,7 +82,7 @@
                 </div>
             </div>
               <div>
-                <input style="display:none" type="text" id="skillSet" v-model="skill_set" disabled="true" required>
+                <input style="display:none" type="text" id="skillSet" v-model="skills" disabled="true" required>
               </div>
             
           </div>
@@ -101,21 +105,21 @@
           <div class="section">
             <div class="sub-section">
             <label class="radio-selection">
-              <input type="radio" name="project-type" v-model="formData.work_period" value="Small: Usually quick and straightforward, Project has a life span of 1 to 3 Months">
+              <input type="radio" name="project-type" v-model="formData.period" value="Small: Usually quick and straightforward, Project has a life span of 1 to 3 Months">
               <div class="radio-items">
                 <p style="font-weight: bold;">Small</p>
                 <p>Usually quick and straightforward, Project has a life span of 1 to 3 Months</p>
               </div>
             </label>
             <label class="radio-selection">
-              <input type="radio" name="project-type" v-model="formData.work_period" value="Medium: Project has a life span of about 6 months">
+              <input type="radio" name="project-type" v-model="formData.period" value="Medium: Project has a life span of about 6 months">
               <div class="radio-items">
                 <p style="font-weight: bold;">Medium</p>
                 <p>Project has a life span of about 6 months</p>
               </div>
             </label>
             <label class="radio-selection">
-              <input type="radio" name="project-type" v-model="formData.work_period" value="Large: Project has a life span of greater than 6 months">
+              <input type="radio" name="project-type" v-model="formData.period" value="Large: Project has a life span of greater than 6 months">
               <div class="radio-items">
                 <p style="font-weight: bold;">Large</p>
                 <p>Project has a life span of greater than 6 months</p>
@@ -145,7 +149,7 @@
 
                 <div class="row-budgets">
                   <label class="budget-select">
-                      <input type="radio" name="project-budget" v-model="formData.budget_des" value="Fixed price">
+                      <input type="radio" name="project-budget" v-model="formData.budget_type" value="Fixed price">
                       <div class="radio-items">
                         <p style="font-weight: bold;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
@@ -159,7 +163,7 @@
                   </label>
 
                   <label class="budget-select">
-                      <input type="radio" name="project-budget"  v-model="formData.budget_des" value="Hourly">
+                      <input type="radio" name="project-budget"  v-model="formData.budget_type" value="Hourly">
                       <div class="radio-items">
                         <p style="font-weight: bold;">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
@@ -204,7 +208,7 @@
           <div class="section">
               <div class="section-title">Describe your job.</div>
               <div class="section-content">
-                  <textarea class="job-description" placeholder="Enter your job description here..." v-model="formData.job_des" required></textarea>
+                  <textarea class="job-description" placeholder="Enter your job description here..." v-model="formData.job_description" required></textarea>
               </div>
               <!-- <input type="submit" value="Review Job" class="cust-btn" style="width: 100%; background: green"/> -->
 
@@ -267,17 +271,20 @@ export default {
 
     currentIndex: 0,
     formData: {
-        job_tag: '',
-        skill_set: '',
-        work_period: '',
-        budget_des: '',
+        job_title: '',
+        skills: '',
+        period: '',
+        budget_type: '',
         budget: '',
-        job_des: '',
+        job_description: '',
       },
       tags:[],
-      skill_set:[],
+      skills:[],
       isLoading: false,
       showModal: false,
+
+      showError: false,
+      formErrors: '',
   }
 },
 methods: {
@@ -336,12 +343,16 @@ methods: {
     this.currentIndex++;
   },
   async submitForm(){
+    // Set up headers with the token
+    const token = localStorage.getItem('token');
+    const headers = {Authorization: `JWT ${token}`,};
+
     this.isLoading = true;
     //clean the form description data content
-    this.formData.job_des.replace(/[\n-]/g, '');
+    // this.formData.job_description.replace(/[\n-]/g, '');
     console.log(this.formData);
     try{
-      const response = await axios.post("https://techzoneapp.herokuapp.com/api/jobs", this.formData);
+      const response = await axios.post("http://127.0.0.1:5000/api/jobs", this.formData, {headers});
       if(response.status === 200){
         console.log("job posted successfully!");
         this.isLoading = false;
@@ -350,8 +361,10 @@ methods: {
       }
       else{console.error("error submitting form!!!")} 
     }catch (error){
+      this.showError = true;
+      this.formErrors = error.response.data.message;
       this.isLoading = false;
-      console.error("network error: ", error);}
+      console.error("form submission error: ", error.response.data.message);}
   },
 
 
@@ -360,18 +373,18 @@ methods: {
   addTag(){
       if (this.inputValue.trim() !== '') {
         this.tags.push(this.inputValue.trim());
-        this.skill_set.push(" " + this.inputValue.trim());
-        this.formData.skill_set = this.skill_set.toString();
-        // this.formData.skill_set.push(this.inputValue.trim()).toString();
+        this.skills.push(" " + this.inputValue.trim());
+        this.formData.skills = this.skills.toString();
+        // this.formData.skills.push(this.inputValue.trim()).toString();
         // this.skillSet.push(this.inputValue.trim());
-        console.log(this.skill_set)
+        console.log(this.skills)
         this.inputValue = '';
       }
     },
     removeTag(index){
       this.tags.splice(index, 1)
-      this.skill_set.splice(index, 1);
-      console.log(this.skill_set)
+      this.skills.splice(index, 1);
+      console.log(this.skills)
     }
   },
   dontsubmitForm(){
@@ -384,6 +397,10 @@ methods: {
 
 
 <style scoped>
+form{
+  display: flex;
+  flex-direction: column;
+}
 .row-budgets{
   display: flex;
   flex-wrap: wrap;
@@ -626,7 +643,28 @@ textarea{
       font-size: 0.9em;
   }
 
+  .tz_alert_box{
+    position: absolute;
+    top: 50px;
+    /* left: 0; */
+    right: 10px;
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    justify-content: space-between;
+    padding: 10px;
+    background: #f8d7da;
+    color: #721c24;
+    align-items: center;
+    border-radius: 5px;
+    margin: 20px 0px;
+    border: 1px solid #f5c6cb;
+    transition: 1s;
+   }
 
+   .tz_alert_box_closeBtn{
+    cursor: pointer;
+   }
 
 
   @media only screen and (max-width: 600px) {

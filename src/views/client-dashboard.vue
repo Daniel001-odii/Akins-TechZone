@@ -1,10 +1,10 @@
 <template>
     <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
-            <Navbar>
+            <!-- <Navbar>
                 <template #action-1><RouterLink to="/client/post-job">Post Job</RouterLink></template>
                 <template #action-2><RouterLink to="/client/post-job">Direct Route</RouterLink></template>
-            </Navbar>
+            </Navbar> -->
         </div>
         <div class="Left-Nav">
             <LeftNav/>
@@ -15,7 +15,7 @@
         <div class="Page-contents">
                <div class="container">
                     <div class="tz-client-header">
-                        <h4 class="tz-client-title" :class="['theme-transition', { 'dark': themeStore.darkMode }]">Welcome back, Charles</h4>
+                    <h4 class="tz-client-title" :class="['theme-transition', { 'dark': themeStore.darkMode }]">Hello {{ userDetails.firstname }}, Welcome</h4>
                         <RouterLink to="/client/post-job">
                             <button class="post-job-btn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
@@ -31,56 +31,102 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active activity" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >
                             <i class="bi bi-activity"></i>
-                            Activity</button>
+                           Jobs Activity</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link activity" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
                             <i class="bi bi-three-dots"></i>
-                            Job Details</button>
+                           Notifications</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                     <div class="cards-container">
-                        <div class="collapsible-card">
-                        <div class="card-header" @click="toggleCard" :class="['theme-transition', { 'dark': themeStore.darkMode }]"> 
-                            <span>
-                                <span class="switch" :class="{'rotate': isCollapsed}">+</span>
-                                <slot name="header">Job Created by Bob Charlie</slot>
-                            </span>
+                        <div class="tz_accordion">
+                            
+                        <div class="zero-job" v-if="jobs.length == 0">you havent posted any jobs yet... <RouterLink to="/client/post-job"><span> Post a job</span></RouterLink></div>
+
+                        <div class="tz_accordion-item" v-for="(job, index) in jobs" :key="index">
+                        <div class="tz_accordion-header" @click="toggleItem(index)">
+                             <b>Job Created by {{ userDetails.firstname }} {{ userDetails.lastname }}  - {{ getHoursTillDate(job.created_at) }} ago</b>
+                            <i :class="['arrow', { 'arrow-down': job.open, 'arrow-right': !job.open }]"></i>
                         </div>
-                        <!-- <div class="card-body" v-show="!isCollapsed"> -->
-                            <div class="card-body" v-show="isCollapsed" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                            <slot>
-                                Senior Software Developer (Java)<br/>
-                                We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. The successful candidate will have a proven track... 
-                            </slot>
+                        <transition name="fade">
+                            <div v-if="job.open" class="tz_accordion-body">
+                                <div class="accordion_body_first">
+                                    <b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,200) }}... <br/>
+                                    <div class="job_effect_btns">
+                                        <button class="job-btn edit-btn"><i class="bi bi-pencil-square"></i> Edit</button>
+                                        <button class="job-btn delete-btn"  @click="deleteJob(job._id)"><i class="bi bi-trash-fill"></i> Delete</button>
+                                    </div>
+                                </div>
+                                <button class="accordion_applicants" @click="toggleFullDetails(index)"> 
+                                    <span v-if="!job.showDetails" class="spinner-grow spinner-grow-sm" role="status">
+                                        <!-- <span class="sr-only">Loading...</span> -->
+                                    </span>
+                                    Applicants: {{ job.applications.length }}</button>
+                                
+                            </div>
+                        </transition>
+                         <transition name="fade">
+                            
+                            <div v-if="job.showDetails" class="tz_accordion-bodylg">
+                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active activity" id="pills-applicants-tab" data-bs-toggle="pill" data-bs-target="#pills-applicants" type="button" role="tab" aria-controls="pills-applicants" aria-selected="true">All Applicants</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link activity" id="pills-shortlisted-tab" data-bs-toggle="pill" data-bs-target="#pills-shortlisted" type="button" role="tab" aria-controls="pills-shortlisted" aria-selected="false">Shortlisted</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link activity" id="pills-hired-tab" data-bs-toggle="pill" data-bs-target="#pills-hired" type="button" role="tab" aria-controls="pills-hired" aria-selected="false">Hired</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-applicants" role="tabpanel" aria-labelledby="pills-applicants-tab">
+                                <div class="accordion_body_firs" v-for="(applicant, index) in getJobApplications(index)" :key="index">
+                                    <div class="applicants_card"> 
+                                        <!-- {{ getJobApplications(index) }} -->
+                                        <!-- <b>User Profile:</b> <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ applicant.user }}</span><br/> -->
+                                        <b>User:</b> <span style="color: var(--app-blue); text-decoration: underline;"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
+                                       <b>Cover letter: </b> {{ applicant.coverLetter }} <br/> 
+                                       <b>Attachment: </b> {{  applicant.attachment }} <br/>
+                                       <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
+                                       <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
+                                       <button class="cust-btn" style="border-radius: 5px;">Shortlist</button>
+                                       <!-- {{ applicant }} -->
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-shortlisted" role="tabpanel" aria-labelledby="pills-shortlisted-tab">...</div>
+                                <div class="tab-pane fade" id="pills-hired" role="tabpanel" aria-labelledby="pills-hired-tab">...</div>
+                            </div>
+
+
+                                
+                            
+                            </div>
+                        </transition>
+                            
+                            
                         </div>
+                       
                         </div>
-                        <!-- <div class="collapsible-card">
-                        <div class="card-header" @click="toggleCard">
-                            <span>
-                                <span class="switch" :class="{'rotate': isCollapsed}">+</span>
-                                <slot name="header">Job Created by Bob Charlie</slot>
-                            </span>
-                        </div>
-                        <div class="card-body" v-show="!isCollapsed">
-                            <slot>
-                                Senior Software Developer (Java)<br/>
-                                We are seeking a highly experienced and skilled Senior Software Developer to join our dynamic team. The successful candidate will have a proven track... 
-                            </slot>
-                        </div>
-                        </div> -->
+
+
+
                     </div>
+
+                    
                 </div>
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                    <div class="cards-container">
+                    <!-- <div class="cards-container">
                         <div class="sub-card-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                             <div class="cols">All applicants</div>
                             <div class="cols">Shortlisted</div>
                             <div class="cols">Hired</div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 </div>
                </div>
@@ -104,10 +150,10 @@
       import { ref } from 'vue';
       import themeStore from '@/theme/theme';
 
-      const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
+      const api_url = " http://127.0.0.1:5000/api";
     
       
-          export default {
+          export default {  
             setup(){
                 const toggleTheme = themeStore.toggleTheme;
                 return{
@@ -119,13 +165,177 @@
               data() {
                     return {
                     isCollapsed: true,
+                    userDetails: '',
+                    applicantDetailsMap: {},
+                    jobs:'',
+                    // 
+                    applicantDetails: {},
                     };
                 },
                 methods: {
-                    toggleCard() {
-                    this.isCollapsed = !this.isCollapsed;
+                    toggleItem(index) {
+                    this.jobs[index].open = !this.jobs[index].open;
                     },
+                    toggleFullDetails(index) {
+                    this.jobs[index].showDetails = !this.jobs[index].showDetails;
+                    },
+
+                    getJobApplications(index){
+                        return this.jobs[index].applications;
+                    },
+
+                    // the function below is responsible for getting the currently signed in employer...
+                    getUserDetails() {
+                        const token = localStorage.getItem('token'); // Get the token from localStorage
+                        const user_url = `${api_url}/employer-info`; // Assuming user-info is the endpoint for user details
+
+                        // Set up headers with the token
+                        const headers = {
+                            Authorization: `JWT ${token}`, // Assuming it's a JWT token
+                        };
+
+                        axios.get(user_url, { headers })
+                            .then((response) => {
+                            // Handle the response here
+                            // For example, you can set user details in your component's data
+                            this.userDetails = response.data.employer;
+                            console.log(response.data) // Assuming userDetails is a data property
+                            this.isLoading = false;
+                            this.getJobsByEmployer();
+                            })
+                            .catch((error) => {
+                            // Handle errors
+                            console.error(error);
+                            });
+                        },
+
+                    getJobsByEmployer() {
+                            const employer_id = this.userDetails.id;
+                            // console.log(employer_id)
+                            axios.get(`${api_url}/employer/${employer_id}/jobs`)
+                            .then(response => {
+                                this.jobs = response.data.jobs;
+                                this.jobs.forEach(job => {
+                                    job.open = false;
+                                    job.showDetails = false;
+                                    // this.applicantDetails = job.applications;
+                                });
+                                if(this.jobs.length > 0){
+                                    if(this.job[0]){this.jobs[0].open = true};
+                                    if(this.job[1]){this.jobs[1].open = true};
+                                }
+                               
+                                
+                                console.log("client jobs: ", this.jobs)
+                                // console.log("job applicants: ", this.applicantDetails)
+                                // Handle the list of jobs as needed
+                            })
+                            .catch(error => {
+                                console.error('Error fetching jobs by employer:', error);
+                                // Handle errors
+                            });
+                        },
+                    getHoursTillDate(dateString) {
+                        const date = new Date(dateString)
+                        const now = new Date()
+                        const diff = now.getTime() - date.getTime()
+                        const diffInHours = Math.floor(diff / (1000 * 60 * 60))
+                        const diffInMins = Math.floor(diff / (1000 * 60))
+                        const diffInSecs = Math.floor(diff / (1000))
+
+                        const timeInSeconds = Math.floor(date.getTime() / 1000); // Convert to seconds
+                            // console.log("time in minutes is: " + diffInMins)
+                        //calculate respectively......
+                        if (diffInMins < 60) {
+                            return `${diffInMins} minutes`
+                        }
+                        else if (diffInHours < 24) {
+                            if(diffInHours <= 1){return `${diffInHours} hour`}
+                            else{return `${diffInHours} hours`}
+
+                        } else if (diffInHours < 720) {
+                            const diffInDays = Math.floor(diffInHours / 24)
+                            if(diffInDays <= 1){ return `${diffInDays} day`}
+                            else{return `${diffInDays} days`}
+                            
+                        } else {
+                            const diffInMonths = Math.floor(diffInHours / 720)
+                            if(diffInMonths <= 1){ return `${diffInMonths} month`}
+                            else{return `${diffInMonths} months`;}
+                        }
+                    },
+
+
+                    getUserById(id) {
+                        if (!this.applicantDetails[id]) {
+                            axios.get(`${api_url}/get-info/${id}`)
+                            .then(response => {
+                                this.applicantDetails[id] = response.data.user;
+                                console.log("user detail: ", response.data.user);
+                            })
+                            .catch(error => {
+                                console.error('Error fetching user or employer details:', error);
+                                // Handle errors
+                            });
+                        }
+                            return this.applicantDetails[id];
+                        },
+
+
+                    // Fetch and store applicant details if not already stored
+                    async getApplicantDetails(userId) {
+                    if (!this.applicantDetailsMap[userId]) {
+                        try {
+                        const response = await axios.get(`${api_url}/get-info/${userId}`);
+                        this.applicantDetailsMap[userId] = response.data.user;
+                        console.log(this.applicantDetailsMap)
+                        } catch (error) {
+                        console.error('Error fetching user or employer details:', error);
+                        // Handle errors
+                        }
+                    }
+                    return this.applicantDetailsMap.userId;
+                    },
+                    //this function opens up in a new page the details of any job clicked...
+                    navigateToUserprofile(user_id) {
+                    const route = this.$router.resolve({ name: "Techzone - profile-view", params: { user_id: user_id } });
+                    window.open(route.href, '_blank');
+                    },
+
+                    showUserProfile(user_id){
+                        
+                    },
+
+                    async deleteJob(job_id){
+                        // Set up headers with the token
+                        const token = localStorage.getItem('token');
+                        const headers = {
+                            Authorization: `JWT ${token}`, // Assuming it's a JWT token
+                        };
+
+                        try{
+                        const response = await axios.delete(`http://127.0.0.1:5000/api/jobs/${job_id}`, {headers});
+                        if(response.status === 200){
+                            console.log("job deleted successfully!");
+                            console.log(response.data);
+
+                            // after job is deleted successfully refresh job list...
+                            this.getJobsByEmployer();
+                        }
+                        else{console.error("error deleting job")} 
+                        }catch (error){
+                        console.error("network error: ", error);}
+                    },
+
+
+   
+
                 },
+                mounted() {
+                        this.getUserDetails();
+                        // this.getUserById("6511b6ab1e8c3c1c68d7ae69")
+                        // this.getHoursTillDate();
+                    },
                 
     }
     
@@ -133,7 +343,19 @@
       
       
       <style scoped>
-      .dark .card-header, .card-body, .tz-client-tab, .cols{
+      .dark .card-header{
+        background: var(--accent-dark) !important;
+        color: #fff !important;
+      }
+      .dark .card-body{
+        background: var(--accent-dark) !important;
+        color: #fff !important;
+      }
+      .dark .tz-client-tab{
+        background: var(--accent-dark) !important;
+        color: #fff !important;
+      }
+      .dark .cols{
         background: var(--accent-dark) !important;
         color: #fff !important;
       }
@@ -142,7 +364,13 @@
       }
       .dark .active{
         background: var(--app-blue) !important;
-
+      }
+      .dark .zero-job{
+        background: none !important;
+        color: #000;
+      }
+      .dark .cards-container{
+        background: none !important;
       }
 
 
@@ -206,6 +434,8 @@ small{font-size: 12px;}
 
 .cards-container{
     margin-top: 10px;
+    height: 80vh;
+    overflow-y: scroll;
 }
 .sub-card-container{
     width: 100%;
@@ -275,8 +505,131 @@ small{font-size: 12px;}
 }
 
 
+.tz_accordion {
+  width: 100%;
+}
+
+.tz_accordion-item {
+  /* border: 1px solid #ccc; */
+  margin-bottom: 8px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.tz_accordion-header {
+  background-color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 15px 15px 0px 0px;
+  border-bottom: 1px solid #efefef;
+}
+
+.tz_accordion-body{
+  padding: 20px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  justify-content: space-between;
+  border-radius: 0px 0px 15px 15px;
+}
+
+.tz_accordion-bodylg{
+  padding: 20px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+.applicants_card{
+    margin: 10px 0px;
+    border-bottom: 1px solid #efefef;
+    padding: 10px;
+}
+.accordion_applicants{
+    background: var(--app-blue);
+    border: none;
+    color: #fff;
+    height: 50px;
+    padding: 10px;
+    border-radius: 5px;
+    /* animation: glowing 1300ms infinite; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+@keyframes glowing {
+        0% {
+          background-color: var(--app-blue);
+          box-shadow: 0 0 2px var(--app-blue);
+        }
+        50% {
+          background-color: var(--app-blue);
+          box-shadow: 0 0 10px var(--app-blue);
+        }
+        100% {
+          background-color: var(--app-blue);
+          box-shadow: 0 0 2px var(--app-blue);
+        }
+      }
+.accordion_body_first{
+    max-width: 400px;
+}
+
+.arrow {
+  width: 12px;
+  height: 12px;
+  border-style: solid;
+  border-width: 1px 1px 0 0;
+  display: inline-block;
+  transform: rotate(-45deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.arrow-down {
+  transform: rotate(132deg);
+}
+
+.job_effect_btns{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 20px 0px 0px 5px;
+}
+
+.job-btn{
+padding: 5px 10px;
+border: 1px solid #efefef;
+border-radius: 5px;
+color: #fff !important;
+}
+
+.edit-btn{
+background: green;
+}
+
+.delete-btn{
+background: red;
+}
 
 
+.zero-job{
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: none !important;
+}
 
 @media screen and (max-width: 600px) {
     .container{

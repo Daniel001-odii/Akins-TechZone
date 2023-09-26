@@ -43,6 +43,7 @@ import client_payment from '../views/Payment.vue'
 const routes = [
   {path: '/', component: HomePage, name: "Techzone"},
   {path: '/user/profile', component: UserProfile, name: "Techzone - profile"},
+  {path: '/user/:user_id/public', component: UserProfile, name: "Techzone - profile-view"},
   {path: '/jobs', name:'Techzone - jobs', component: NewPage},
   {path: '/login', name: 'Login', component: Login},
   {path: '/employer/login', name: 'Employer - login', component: ClientLogin},
@@ -97,6 +98,11 @@ router.beforeEach((to, from, next) => {
     } else {
       next(); // Proceed to the requested route
     }
+
+    if(to.meta.requiresAuth && !isAuthenticated){
+      const intendedRoute = '/';
+      next('/jobs');
+    };
   });
   
 

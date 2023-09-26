@@ -18,16 +18,9 @@
   
                   <!-------- show login errors here-------->
                   <!-- <p v-for="error in errors" :key="error">{{ error }}</p> -->
-                  <div v-for="error in errors" :key="error">
-                    <!-- <p class="alert alert-danger" v-for="lines in error" :key="lines" role="alert">{{ lines }}</p> -->
-                  
-
-                    <div class="alert alert-danger alert-dismissible fade show" v-for="lines in error" :key="lines" role="alert">
-                      <strong>Holy guacamole!</strong> {{ lines }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
+                  <div class="tz_alert_box" v-if="show_errors">
+                      <span>{{ errors.message }}</span>
+                      <span class="tz_alert_box_closeBtn" @click="show_errors = !show_errors">&times;</span>
                   </div>
                   <form @submit.prevent="signup">
   
@@ -60,11 +53,10 @@
                       <input class="form-input" placeholder="Enter your password" type="password" v-model="user.password" name="password" required>
                   </div>
   
-                  <div class="form-section">
-                      <!-- <li class="error-msg" v-if="msg" v-for="error in msg" :key="error">{{ error.password_confirmation[0] }}</li> -->
+                  <!-- <div class="form-section">
                       <label for="password_confirmation">Confirm Password</label>
-                      <input class="form-input" placeholder="Enter your password" type="password" v-model="user.password_confirmation" name="password_confirmation" required>
-                  </div>
+                      <input class="form-input" placeholder="Enter your password" type="password" name="password_confirmation" required>
+                  </div> -->
   
                   <div class="form-section">
                       <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }">
@@ -85,52 +77,70 @@
               <div class="ima"><img style="width: 250px;" src="../components/Logos_icons/techZoneVertical.png"></div>
           </div>
       </div>
-    </template>
+</template>
     
     <script>
     import axios from 'axios';
-    const Api_url = "https://techzoneapp.herokuapp.com/api/employer/register";
-    // const form_error = [];
+    const api_url = "http://127.0.0.1:5000/api/register-employer";
     
     export default {
-      data() {
-        return {
-          user:{
-                  firstname: '',
-                  lastname: '',
-                  email: '',
-                  password: '',
-                  password_confirmation: ''},
-                  errors: {},
-                  isLoading: false,
-                  
-          // passwordConfirmation: '',
-        };
-        
-      },
-      methods: {
-        async signup() {
-          this.isLoading = true;
-          try {
-            const response = await axios.post(Api_url, this.user);
-            console.log(response.data);
-            this.isLoading = true;
-                      //handle successful signup
-                      this.$router.push('/login');
-                      console.log(response.data);
-          } catch (error) {
-            this.isLoading = false;
-            // console.error(error);
-            // this.form_error = error.request.response
-            // console.log(JSON.stringify(this.form_error))
-            // this.buttonDisabled = false
-            if (error.response && error.response.data && error.response.data.errors) {
-              this.errors = error.response.data.errors;
-            }
-          } 
-        },
-        
-      },
-    };
+data() {
+  return {
+    user: {
+      firstname: '',
+      lastname: '',
+      email: '',
+      password: '',
+    },
+    isLoading: false,
+    errors: '',
+    // 
+    show_errors: false,
+  };
+},
+methods: {
+  async signup() {
+    this.isLoading = true;
+    try {
+      const response = await axios.post(api_url, this.user);
+      console.log(response.data);
+      this.isLoading = false;
+
+      // Handle successful signup
+      // Redirect the user to the login page or do something else
+      this.$router.push('/employer/login');
+    } catch (error) {
+      this.errors = JSON.parse(error.request.response);
+      this.show_errors = true;
+      this.isLoading = false;
+      console.log(error.request.response);
+      
+    }
+  },
+},
+};
+
     </script>
+
+<style>
+
+.tz_alert_box{
+  display: flex;
+  flex-direction: row;
+  max-width: 300px;
+  justify-content: space-between;
+  padding: 10px;
+  background: #f8d7da;
+  color: #721c24;
+  align-items: center;
+  border-radius: 5px;
+  margin: 20px 0px;
+  border: 1px solid #f5c6cb;
+  transition: 1s;
+ }
+
+ .tz_alert_box_closeBtn{
+  cursor: pointer;
+ }
+</style>
     

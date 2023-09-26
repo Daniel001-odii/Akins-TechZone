@@ -1,5 +1,5 @@
 <template>
-    <div :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+    <div>
         <div class="spacer"></div>
         <RouterLink to="/jobs">
         <div class="jobs"  :class="{ 'active-nav': isJobs }">
@@ -70,9 +70,10 @@ import themeStore from '@/theme/theme';
 
 <style scoped>
 
-path:hover{
-    fill: red;
+*{
+    font-size: 0.85rem !important;
 }
+
   .Left-Nav {
         background: #fff; 
         grid-area: Left-Nav;

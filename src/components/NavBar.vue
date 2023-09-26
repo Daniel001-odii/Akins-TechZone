@@ -24,7 +24,14 @@
                     </div>
             </div>
 
-            <div class="search"><Search/></div>
+            <div class="search">
+                <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
+                    <div class="filter-search">
+                            <i class="bi bi-search"></i>
+                            <input type="search" class="ft-search" v-model="keywords" placeholder="Search all types of jobs">
+                    </div>
+                </form>
+            </div>
         
                 <div class="nav-auth-buttons">
                     <button class="cust-btn login" style="background: none; color: #000000; border: 1px solid var(--app-blue);">
@@ -96,9 +103,9 @@
                 <!-- <span v-if="!userIsLoggedIn">
                     <RouterLink to="/jobs"  class="navbar-brand"><img class="nav-img" src="../components/Logos_icons/techzone.png"></RouterLink>
                 </span> -->
-                <span v-if="userIsLoggedIn">
-                    <RouterLink to="/"  class="navbar-brand"><img class="nav-img" src="../components/Logos_icons/techzone.png"></RouterLink>
-                </span>
+                <!-- <span v-if="userIsLoggedIn"> -->
+                    <RouterLink to="/jobs"  class="navbar-brand"><img class="nav-img" src="../components/Logos_icons/techzone.png"></RouterLink>
+                <!-- </span> -->
                 <div class="nav-contents">
                     <div class="Tz-nav-links">
                             <span><slot name="action-1"><RouterLink to="/jobs">Find Work</RouterLink></slot></span>
@@ -108,7 +115,14 @@
         </div>
 
 
-        <div class="search"><Search/></div>
+        <div class="search">
+            <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
+                <div class="filter-search">
+                        <i class="bi bi-search"></i>
+                        <input type="search" class="ft-search" v-model="keywords" placeholder="Search all types of jobs">
+                </div>
+            </form>
+        </div>
                     <div class="Tz-nav-actions">
                             <span class="notifications">
                                 <i class="bi bi-bell"></i>
@@ -132,7 +146,7 @@
                         <!--Logged in user credential display-->
                         <div class="user-menu-toggle" style="width: 150px; display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; margin-right: 10px;">
                             <div @click="userMenuIsShown=!userMenuIsShown" class="tz-user-thumbnail"></div>
-                            <span  style="font-size: 12px;">Hi {{ userDetails.user.firstname }} Youre signed in! <br/><button class="logout"> {{ userDetails.user.email }}</button> <br/></span>
+                            <span  style="font-size: 12px;">{{ userDetails.user.firstname }} {{ userDetails.user.lastname }}<br/><button class="logout"> {{ userDetails.user.email }}</button> <br/></span>
                         
                             <div class="tz-user-menu tz-user-menu-sw">
                                 <RouterLink to="/user/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -160,8 +174,7 @@
                                     <label class="switch"> 
                                     <input type="checkbox" @click="themeStore.toggleTheme">
                                     <span class="slider round"></span>
-                                    </label></i>
-                                    Switch modes
+                                    </label></i>theme
                                     
                                     <!-- <button class="tz_mode_switch" @click="themeStore.toggleTheme">Toggle Theme {{ darkMode }}</button> -->
                                 </div>
@@ -337,26 +350,26 @@ export default {
             },
             /// this function gets the users details via api route
             getUserDetails() {
-        const token = localStorage.getItem('token'); // Get the token from localStorage
-        const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
+                const token = localStorage.getItem('token'); // Get the token from localStorage
+                const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
 
-        // Set up headers with the token
-        const headers = {
-            Authorization: `JWT ${token}`, // Assuming it's a JWT token
-        };
+                // Set up headers with the token
+                const headers = {
+                    Authorization: `JWT ${token}`, // Assuming it's a JWT token
+                };
 
-        axios.get(user_url, { headers })
-            .then((response) => {
-            // Handle the response here
-            // For example, you can set user details in your component's data
-            this.userDetails = response.data;
-            // console.log(response.data) // Assuming userDetails is a data property
-            this.isLoading = false;
-            })
-            .catch((error) => {
-            // Handle errors
-            console.error(error);
-            });
+                axios.get(user_url, { headers })
+                    .then((response) => {
+                    // Handle the response here
+                    // For example, you can set user details in your component's data
+                    this.userDetails = response.data;
+                    // console.log(response.data) // Assuming userDetails is a data property
+                    this.isLoading = false;
+                    })
+                    .catch((error) => {
+                    // Handle errors
+                    console.error(error);
+                    });
         },
         },
         beforeDestroy() {
@@ -375,6 +388,10 @@ export default {
 
 
 <style scoped>
+
+*{
+    font-size: 0.85rem !important;
+}
 
 .dark .tz-user-menu{
     border-radius: 6px;
