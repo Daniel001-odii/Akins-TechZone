@@ -105,21 +105,21 @@
           <div class="section">
             <div class="sub-section">
             <label class="radio-selection">
-              <input type="radio" name="project-type" v-model="formData.period" value="Small: Usually quick and straightforward, Project has a life span of 1 to 3 Months">
+              <input type="radio" name="project-type" v-model="formData.period" value="small">
               <div class="radio-items">
                 <p style="font-weight: bold;">Small</p>
                 <p>Usually quick and straightforward, Project has a life span of 1 to 3 Months</p>
               </div>
             </label>
             <label class="radio-selection">
-              <input type="radio" name="project-type" v-model="formData.period" value="Medium: Project has a life span of about 6 months">
+              <input type="radio" name="project-type" v-model="formData.period" value="medium">
               <div class="radio-items">
                 <p style="font-weight: bold;">Medium</p>
                 <p>Project has a life span of about 6 months</p>
               </div>
             </label>
             <label class="radio-selection">
-              <input type="radio" name="project-type" v-model="formData.period" value="Large: Project has a life span of greater than 6 months">
+              <input type="radio" name="project-type" v-model="formData.period" value="large">
               <div class="radio-items">
                 <p style="font-weight: bold;">Large</p>
                 <p>Project has a life span of greater than 6 months</p>
@@ -353,18 +353,18 @@ methods: {
     console.log(this.formData);
     try{
       const response = await axios.post("http://127.0.0.1:5000/api/jobs", this.formData, {headers});
-      if(response.status === 200){
+      // if(response.status === 200){
         console.log("job posted successfully!");
         this.isLoading = false;
         this.showModal = true;
         // this.$router.push('/client/successful');
-      }
-      else{console.error("error submitting form!!!")} 
+      // }
+      // else{console.error("error submitting form!!!")} 
     }catch (error){
       this.showError = true;
       this.formErrors = error.response.data.message;
       this.isLoading = false;
-      console.error("form submission error: ", error.response.data.message);}
+      console.error("form submission error: ", error);}
   },
 
 

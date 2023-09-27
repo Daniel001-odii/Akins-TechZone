@@ -2,7 +2,7 @@
     <NavBar/>
 
     <div class="body" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-    <!-- <RouterLink to="/jobs">
+    <RouterLink to="/client/dashboard">
         <div class="back-btn" style="">
             <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
             <circle cx="11.75" cy="11.25" r="11.25" fill="#F6F9FF"/>
@@ -10,7 +10,7 @@
             </svg>
             Back
         </div>
-    </RouterLink> -->
+    </RouterLink>
     
     <div class="tz-profile-card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-profile-left">
@@ -21,8 +21,7 @@
                     <div class="tz-user-skill">{{ userDetails.email }}</div>
                     <div class="tz-user-bio">Here, user gives a brief description about his/herself, more like a brief introduction.</div>
                     <div class="tz-btn-array">
-                        <button class="cust-btn">Edit Profile</button>
-                        <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">View Resume</button>
+                        <button class="cust-btn">View full Profile</button>
                     </div>
                 </div>
             </div>
@@ -45,7 +44,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="tz-user-socials">
+                <!-- <div class="tz-user-socials">
                     <div class="tz-social">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="34" viewBox="0 0 35 34" fill="none">
                         <circle cx="17.5008" cy="16.6102" r="16.6102" fill="#F6F9FF"/>
@@ -77,59 +76,42 @@
                         </svg>
                         <span>LinkedIn</span>
                     </div>
-                    
-                </div>
-                <!-- <div class="tz-availablity">Availability</div>
-                <div class="tz-location">Location</div>
-                <div class="tz-yrs-exp">Years of Experience</div>
-                <div class="tz-socials"></div> -->
+                </div> -->
             </div>
     </div>
 
     <div class="tz-profile-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M12.1197 12.78C12.0497 12.77 11.9597 12.77 11.8797 12.78C10.1197 12.72 8.71973 11.28 8.71973 9.50998C8.71973 7.69998 10.1797 6.22998 11.9997 6.22998C13.8097 6.22998 15.2797 7.69998 15.2797 9.50998C15.2697 11.28 13.8797 12.72 12.1197 12.78Z" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <b>Profile</b>
+        <div class="yky-first">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12.1197 12.78C12.0497 12.77 11.9597 12.77 11.8797 12.78C10.1197 12.72 8.71973 11.28 8.71973 9.50998C8.71973 7.69998 10.1797 6.22998 11.9997 6.22998C13.8097 6.22998 15.2797 7.69998 15.2797 9.50998C15.2697 11.28 13.8797 12.72 12.1197 12.78Z" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18.7398 19.3801C16.9598 21.0101 14.5998 22.0001 11.9998 22.0001C9.39977 22.0001 7.03977 21.0101 5.25977 19.3801C5.35977 18.4401 5.95977 17.5201 7.02977 16.8001C9.76977 14.9801 14.2498 14.9801 16.9698 16.8001C18.0398 17.5201 18.6398 18.4401 18.7398 19.3801Z" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <b>Application Details</b>
+        </div>
+        <div class="yky-first">
+            <button class="cust-btn">Hire Candidate</button>
+        </div>
     </div>
     <div class="tz-profile-last" >
+        <div class="about-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+            <div class="tz-user-about">
+                <div class="about-header">Cover letter</div>
+            </div>
+        </div>
         <div class="bio-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-emphasis">
-                <b>Phone Number</b>
-                <span v-if="userDetails.isverified" style="color: greenyellow"> &#xF4B5; {{ userDetails.email }}</span>
-                <span v-else>user not verified</span>
+                <b>Attached files</b>
+                <span>attached files here ...</span>
             </div>
             <div class="tz-emphasis">
-                <b>Email Adrress</b>
-                <span>{{ userDetails.email }}</span>
-            </div>
-            <div class="tz-emphasis">
-                <b>Portfolio</b>
-                <span>Link to Portfolio profile goes here</span>
+                <b>Counter offer</b>
+                <span>counter offer value...</span>
             </div>
 
             <div class="tz-emphasis">
-                <b>Phone Number</b>
-                <span v-if="userDetails.isverified" style="color: greenyellow"> &#xF4B5; {{ userDetails.email }}</span>
-                <span v-else>user not verified</span>
-            </div>
-        </div>
-        <div class="about-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-            <div class="tz-user-about">
-                <div class="about-header">About</div>
-                <div class="user-about" v-if="userDetails.isverified">
-                    Meet our dummy user, John Doe! John is a fictional character created to help demonstrate the features and functionality of our website. Although not a real person, John embodies the qualities of an average user, making him relatable and easy to understand. With his diverse background and interests, John represents a wide range of users who can benefit from our platform. Whether it's exploring new features, engaging with the community, or simply enjoying the user-friendly interface, John is always enthusiastic about discovering what our website has to offer. So, join John on this exciting journey as we showcase the capabilities and possibilities that await you on our platform!
-                </div>
-                <span v-else>user not verified</span>
-                <div class="about-header">
-                    Skills
-                </div>
-                <div class="user-about" v-if="userDetails.isverified">
-                    Meet our dummy user, John Doe! John is a fictional character created to help demonstrate the features and functionality of our website. Although not a real person, John embodies the qualities of an average user, making him relatable and easy to understand. With his diverse background and interests, John represents a wide range of users who can benefit from our platform. Whether it's exploring new features, engaging with the community, or simply enjoying the user-friendly interface, John is always enthusiastic about discovering what our website has to offer. So, join John on this exciting journey as we showcase the capabilities and possibilities that await you on our platform!
-                </div>
-                <span v-else>user not verified</span>
+                <b>Reason for counter Offer</b>
+                <span> Reason counter offer value...</span>
             </div>
         </div>
     </div>
@@ -174,7 +156,7 @@ const api_url = "http://127.0.0.1:5000/api"
           },
           methods:{
     /// this function gets the users details via api route
-    getUserDetails() {
+            getUserDetails() {
             const token = localStorage.getItem('token'); // Get the token from localStorage
             const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
             // Set up headers with the token
@@ -195,28 +177,11 @@ const api_url = "http://127.0.0.1:5000/api"
                 console.error(error);
                 });
             },
-    getClientProfileView() {
-            const user_id = this.$route.params.job_id;
-            axios.get(`http://127.0.0.1:5000/api/jobs/${jobId}`)
-                .then(response => {
-                    this.data.push(response.data.job);
-                    console.log(this.data[0]);
-                })
-                .catch(error => {
-                console.error(error);
-                })
-                .finally(() => {
-                this.isLoading = false;
-                });
-            },
             getUserById(id) {
                             axios.get(`${api_url}/get-info/${id}`)
                             .then(response => {
                                 this.userDetails = response.data.user;
-                                // const firstname = response.data.user.firstname;
-                                // const lastname = response.data.user.lastname;
-                                // return response.data.user;
-                                console.log("user detail: ", response.data.user);
+                                console.log("user detail: ",this.userDetails);
                             })
                             .catch(error => {
                                 console.error('Error fetching user or employer details:', error);
@@ -236,7 +201,7 @@ const api_url = "http://127.0.0.1:5000/api"
 
           
           mounted() {
-            this.getUserDetails();
+            // this.getUserDetails();
             this.getUserById(this.$route.params.user_id)
         },
     }
@@ -362,6 +327,9 @@ th, td{
         margin-top: 20px;
         gap: 5px;
         display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
     .tz-profile-last{
         width: 80%;
@@ -381,12 +349,12 @@ th, td{
     }
 
     .bio-area{
-        width: 35%;
+        width: 40%;
         background: #fff;
         padding: 10px;
     }
     .about-area{
-        width: 100%;
+        width: 65%;
         background: #ffffff;
         padding: 10px;
     }

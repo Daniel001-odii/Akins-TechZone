@@ -23,7 +23,7 @@
         </div>
     
     <div class="Page-contents">
-        <div class="page-content-sub" v-if="jobs.length > 1" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+        <div class="page-content-sub" v-if="jobs.length >= 1" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="job-cards-area">
                     <slot name="job-cards">
                     <div v-for="(job, index) in jobs" :key="index">

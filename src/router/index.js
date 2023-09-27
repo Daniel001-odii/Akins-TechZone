@@ -10,6 +10,7 @@ import Messages from '../views/MessagesPage.vue'
 import SavedJobs from '../views/SavedJobs.vue'
 import Notifications from '../views/notifications.vue'
 import UserProfile from '../views/Profile.vue'
+import PublicUserProfile from '../views/Profile_public.vue'
 //views based on job category......
 import requestedJobs from '../views/RequestedJobs.vue'
 import assignedJobs from '../views/AssignedJobs.vue'
@@ -36,14 +37,15 @@ import JobSuccess from '../views/JobSuccess.vue' ///page is deprecated and has b
 import client_jobs from '../views/Client_Jobs.vue'
 import client_messages from '../views/Client_MessagesPage.vue'
 import client_payment from '../views/Payment.vue'
-
+import Client_Profile from '../views/Client_Profile.vue'
 // import 
 
 
 const routes = [
   {path: '/', component: HomePage, name: "Techzone"},
   {path: '/user/profile', component: UserProfile, name: "Techzone - profile"},
-  {path: '/user/:user_id/public', component: UserProfile, name: "Techzone - profile-view"},
+  {path: '/client/profile', component: Client_Profile, name: "Techzone - client profile"},
+  {path: '/user/:user_id/public', component: PublicUserProfile, name: "Techzone - profile-view"},
   {path: '/jobs', name:'Techzone - jobs', component: NewPage},
   {path: '/login', name: 'Login', component: Login},
   {path: '/employer/login', name: 'Employer - login', component: ClientLogin},
@@ -52,25 +54,25 @@ const routes = [
   // {path: '/insights', component: Insight, name: "Techzone - insights"},
   {path: "/404", name: "PageNotFound", component: PageNotFound},
   {path: "/:catchAll(.*)", redirect: "/404"},
-  {path: "/savedJobs", name: 'Techzone - Saved jobs', component: SavedJobs, meta: { requiresAuth: true }},
-  {path: "/messages", name: 'Techzone - Messages', component: Messages, meta: { requiresAuth: true }},
+  {path: "/savedJobs", name: 'Techzone - Saved jobs', component: SavedJobs, meta: { requiresAuth: true, role: 'user' }},
+  {path: "/messages", name: 'Techzone - Messages', component: Messages, meta: { requiresAuth: true, role: 'user' }},
   {path: "/talent/customize-profile", component: customize},
   {path: "/employer/customize-profile", component: customize_client},
-  {path: "/jobs/:job_id/application", name: 'Techzone - Application', component: JobDetail, meta: { requiresAuth: true }},
+  {path: "/jobs/:job_id/application", name: 'Techzone - Application', component: JobDetail, meta: { requiresAuth: true, role: 'user' }},
   {path: "/notifications", name:  "Techzone - Notifications", component: Notifications, meta: { requiresAuth: true }},
   {path: "/reset-password", name: "Password - reset", component: ResetPassword},
 
   //job categories.......
-  {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true }},
-  {path: "/jobs/assigned-jobs", component: assignedJobs, meta: { requiresAuth: true }},
-  {path: "/jobs/completed-jobs", component: completedJobs, meta: { requiresAuth: true }},
-  {path: "/jobs/declined-jobs", component: declinedJobs, meta: { requiresAuth: true }},
+  {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true, role: 'user' }},
+  {path: "/jobs/assigned-jobs", component: assignedJobs, meta: { requiresAuth: true, role: 'user' }},
+  {path: "/jobs/completed-jobs", component: completedJobs, meta: { requiresAuth: true, role: 'user' }},
+  {path: "/jobs/declined-jobs", component: declinedJobs, meta: { requiresAuth: true, role: 'user' }},
 
   //client based views
-  {path: "/client/dashboard", name: "Techzone - dashboard", component: client_dashboard, meta: { requiresAuth: true }},
-  {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true }},
-  {path: "/client/post-job", name: "Techzone - Post", component: post_job, meta: { requiresAuth: true }},
-  {path: "/client/messages", name: "Techzone - Client Messages", component: client_messages, meta: { requiresAuth: true }},
+  {path: "/client/dashboard", name: "Techzone - dashboard", component: client_dashboard, meta: { requiresAuth: true, role: 'employer' }},
+  {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true, role: 'user' }},
+  {path: "/client/post-job", name: "Techzone - Post", component: post_job, meta: { requiresAuth: true, role: 'employer' }},
+  {path: "/client/messages", name: "Techzone - Client Messages", component: client_messages, meta: { requiresAuth: true, role: 'employer' }},
   {path: "/client/payment", name: "Techzone - Client payment", component: client_payment, meta: { requiresAuth: true }},
   {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
   {path: "/support", name: "Techzone - support", component: SupportPage},
@@ -88,22 +90,22 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    const isAuthenticated = localStorage.getItem('token') !== null;
-    
-    if (to.meta.requiresAuth && !isAuthenticated) {
-      const intendedRoute = to.path;
-      const loginUrl = `/login?redirect=${encodeURIComponent(intendedRoute)}`;
-      next(loginUrl); // Redirect to the login page with the intended route as a query parameter
-    } else {
-      next(); // Proceed to the requested route
-    }
 
-    if(to.meta.requiresAuth && !isAuthenticated){
-      const intendedRoute = '/';
-      next('/jobs');
-    };
-  });
   
+
+// Global navigation guard
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  const userRole = token ? JSON.parse(atob(token.split('.')[1])).role : null;
+
+  // Check if the route has a "requiresAuth" meta field and matches the user's role
+  if (to.meta.requiresAuth && to.meta.role !== userRole) {
+    // Redirect to a suitable route or show an error message
+    next('/login'); // Redirect to login for unauthorized access
+  } else {
+    next(); // Proceed to the route
+  }
+});
+
 
 export default router

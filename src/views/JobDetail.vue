@@ -123,7 +123,8 @@
                             </div>
                         </div>
                         <div class="tz-form-content">
-                            <button class="tz-form-submit-btn cust-btn" type="submit">Submit Application</button>
+                            <button class="tz-form-submit-btn cust-btn" type="submit" :disabled="isSubmitting" ><span v-if="isSubmitting">processing...</span><span v-else>Submit Application</span></button>
+
                         </div>
                     </form>
                 </div>
@@ -222,6 +223,8 @@
                 counterOffer: '',
                 reasonForCounterOffer: '',
             },
+
+            isSubmitting: false,
             
             };
         },
@@ -280,6 +283,7 @@
                     return formattedValue;
                 },
                 async applyForJob() {
+                    this.isSubmitting = true;
                     const token = localStorage.getItem('token'); // Get the user's JWT token from localStorage
                     const applying_jobId = this.job_id; // Replace with the actual job ID you want to apply for
 
@@ -301,11 +305,12 @@
                     const response = await axios.post(`http://127.0.0.1:5000/api/apply`, applicationData, config);
                     console.log('Job application successful:', response.data);
                     this.showModal = true;
+                    this.isSubmitting = false;
 
                     // Optionally, you can show a success message or perform other actions here.
                     } catch (error) {
                     console.error('Error applying for job:', error);
-
+                    this.isSubmitting = false;
                     // Handle errors, e.g., show an error message to the user.
                     }
             },

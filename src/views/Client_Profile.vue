@@ -1,16 +1,9 @@
 <template>
-    <NavBar/>
+    <div class="Navigation">
+            <NavBar/>
+        </div>
 
     <div class="body" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-    <!-- <RouterLink to="/jobs">
-        <div class="back-btn" style="">
-            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
-            <circle cx="11.75" cy="11.25" r="11.25" fill="#F6F9FF"/>
-            <path d="M8.621 10.3335L12.644 6.3105L11.5835 5.25L5.75 11.0835L11.5835 16.917L12.644 15.8565L8.621 11.8335H17.75V10.3335H8.621Z" fill="#4E79BC"/>
-            </svg>
-            Back
-        </div>
-    </RouterLink> -->
     
     <div class="tz-profile-card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-profile-left">
@@ -19,10 +12,9 @@
                     <p  class="tz-user-name">{{ userDetails.firstname }} {{ userDetails.lastname }}</p>
                     <!-- <div class="tz-user-skill">UI/UX Designer</div> -->
                     <div class="tz-user-skill">{{ userDetails.email }}</div>
-                    <div class="tz-user-bio">Here, user gives a brief description about his/herself, more like a brief introduction.</div>
+                    <div class="tz-user-bio">{{ userDetails.id }}</div>
                     <div class="tz-btn-array">
                         <button class="cust-btn">Edit Profile</button>
-                        <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">View Resume</button>
                     </div>
                 </div>
             </div>
@@ -33,7 +25,6 @@
                     <tr>
                         <td>verification:</td>
                         <td v-if="userDetails.isVerified" style="color: green">Verified <i class="bi bi-check-circle-fill"></i></td>
-                        <td v-else>not verified <i class="bi bi-check-circle-fill"></i></td>
                     </tr>
                     <tr>
                         <td>joined:</td>
@@ -98,7 +89,7 @@
         <div class="bio-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-emphasis">
                 <b>Phone Number</b>
-                <span v-if="userDetails.isverified" style="color: greenyellow"> &#xF4B5; {{ userDetails.email }}</span>
+                <span v-if="userDetails.isVerified" style="color: greenyellow"> &#xF4B5; {{ userDetails.email }}</span>
                 <span v-else>user not verified</span>
             </div>
             <div class="tz-emphasis">
@@ -112,21 +103,21 @@
 
             <div class="tz-emphasis">
                 <b>Phone Number</b>
-                <span v-if="userDetails.isverified" style="color: greenyellow"> &#xF4B5; {{ userDetails.email }}</span>
+                <span v-if="userDetails.isVerified" style="color: greenyellow"> &#xF4B5; {{ userDetails.email }}</span>
                 <span v-else>user not verified</span>
             </div>
         </div>
         <div class="about-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-user-about">
                 <div class="about-header">About</div>
-                <div class="user-about" v-if="userDetails.isverified">
+                <div class="user-about" v-if="userDetails.isVerified">
                     Meet our dummy user, John Doe! John is a fictional character created to help demonstrate the features and functionality of our website. Although not a real person, John embodies the qualities of an average user, making him relatable and easy to understand. With his diverse background and interests, John represents a wide range of users who can benefit from our platform. Whether it's exploring new features, engaging with the community, or simply enjoying the user-friendly interface, John is always enthusiastic about discovering what our website has to offer. So, join John on this exciting journey as we showcase the capabilities and possibilities that await you on our platform!
                 </div>
                 <span v-else>user not verified</span>
                 <div class="about-header">
                     Skills
                 </div>
-                <div class="user-about" v-if="userDetails.isverified">
+                <div class="user-about" v-if="userDetails.isVerified">
                     Meet our dummy user, John Doe! John is a fictional character created to help demonstrate the features and functionality of our website. Although not a real person, John embodies the qualities of an average user, making him relatable and easy to understand. With his diverse background and interests, John represents a wide range of users who can benefit from our platform. Whether it's exploring new features, engaging with the community, or simply enjoying the user-friendly interface, John is always enthusiastic about discovering what our website has to offer. So, join John on this exciting journey as we showcase the capabilities and possibilities that await you on our platform!
                 </div>
                 <span v-else>user not verified</span>
@@ -176,7 +167,7 @@ const api_url = "http://127.0.0.1:5000/api"
     /// this function gets the users details via api route
     getUserDetails() {
             const token = localStorage.getItem('token'); // Get the token from localStorage
-            const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
+            const user_url = `${api_url}/employer-info`; // Assuming user-info is the endpoint for user details
             // Set up headers with the token
             const headers = {
                 Authorization: `JWT ${token}`, // Assuming it's a JWT token
@@ -186,8 +177,8 @@ const api_url = "http://127.0.0.1:5000/api"
                 .then((response) => {
                 // Handle the response here
                 // For example, you can set user details in your component's data
-                this.userDetails = response.data.user;
-                console.log(response.data) // Assuming userDetails is a data property
+                this.userDetails = response.data.employer;
+                console.log(this.userDetails) // Assuming userDetails is a data property
                 this.isLoading = false;
                 })
                 .catch((error) => {
@@ -209,7 +200,7 @@ const api_url = "http://127.0.0.1:5000/api"
                 this.isLoading = false;
                 });
             },
-            getUserById(id) {
+    getUserById(id) {
                             axios.get(`${api_url}/get-info/${id}`)
                             .then(response => {
                                 this.userDetails = response.data.user;
@@ -222,16 +213,14 @@ const api_url = "http://127.0.0.1:5000/api"
                                 console.error('Error fetching user or employer details:', error);
                                 // Handle errors
                             });
-                        },
-            formatTimestamp(timestamp) {
-                const date = new Date(timestamp);
-                const options = { year: "numeric", month: "long", day: "numeric" };
-                return date.toLocaleDateString(undefined, options);
-                },
-
-                
+            },
+    formatTimestamp(timestamp) {
+            const date = new Date(timestamp);
+            const options = { year: "numeric", month: "long", day: "numeric" };
+            return date.toLocaleDateString(undefined, options);
+            },
           },
-          
+         
 
 
           

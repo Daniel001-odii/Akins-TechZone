@@ -1,10 +1,9 @@
 <template>
     <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
-            <!-- <Navbar>
+            <Navbar>
                 <template #action-1><RouterLink to="/client/post-job">Post Job</RouterLink></template>
-                <template #action-2><RouterLink to="/client/post-job">Direct Route</RouterLink></template>
-            </Navbar> -->
+            </Navbar>
         </div>
         <div class="Left-Nav">
             <LeftNav/>
@@ -29,7 +28,7 @@
                     <!-- <div class="tz-client-tab"> -->
                 <ul class="nav nav-pills mb-3 tz-client-tab" id="pills-tab" role="tablist" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active activity" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true" >
+                        <button class="nav-link active activity" id="pills-jobsActivity-tab" data-bs-toggle="pill" data-bs-target="#pills-jobsActivity" type="button" role="tab" aria-controls="pills-jobsActivity" aria-selected="true" >
                             <i class="bi bi-activity"></i>
                            Jobs Activity</button>
                     </li>
@@ -40,75 +39,66 @@
                     </li>
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="tab-pane fade show active" id="pills-jobsActivity" role="tabpanel" aria-labelledby="pills-home-tab">
                     <div class="cards-container">
                         <div class="tz_accordion">
                             
                         <div class="zero-job" v-if="jobs.length == 0">you havent posted any jobs yet... <RouterLink to="/client/post-job"><span> Post a job</span></RouterLink></div>
 
-                        <div class="tz_accordion-item" v-for="(job, index) in jobs" :key="index">
-                        <div class="tz_accordion-header" @click="toggleItem(index)">
-                             <b>Job Created by {{ userDetails.firstname }} {{ userDetails.lastname }}  - {{ getHoursTillDate(job.created_at) }} ago</b>
-                            <i :class="['arrow', { 'arrow-down': job.open, 'arrow-right': !job.open }]"></i>
-                        </div>
-                        <transition name="fade">
-                            <div v-if="job.open" class="tz_accordion-body">
-                                <div class="accordion_body_first">
-                                    <b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,200) }}... <br/>
-                                    <div class="job_effect_btns">
-                                        <button class="job-btn edit-btn"><i class="bi bi-pencil-square"></i> Edit</button>
-                                        <button class="job-btn delete-btn"  @click="deleteJob(job._id)"><i class="bi bi-trash-fill"></i> Delete</button>
+                        <div class="tz_accordion-item" v-for="(job, index) in jobs" :key="index" >
+                            <div class="tz_accordion-header" @click="toggleItem(index)" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                <b>Job Created by {{ userDetails.firstname }} {{ userDetails.lastname }}  - {{ getHoursTillDate(job.created_at) }} ago</b>
+                                <i :class="['arrow', { 'arrow-down': job.open, 'arrow-right': !job.open }]"></i>
+                            </div>
+                            <transition name="fade">
+                                <div v-if="job.open" class="tz_accordion-body" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                    <div class="accordion_body_first">
+                                        <b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,200) }}... <br/>
+                                        <div class="job_effect_btns">
+                                            <button class="job-btn edit-btn"><i class="bi bi-pencil-square"></i> Edit</button>
+                                            <button class="job-btn delete-btn"  @click="deleteJob(job._id)"><i class="bi bi-trash-fill"></i> Delete</button>
+                                        </div>
                                     </div>
+                                    <button v-if="job.applications.length > 0" class="accordion_applicants" @click="toggleFullDetails(index)"> 
+                                        <span v-if="!job.showDetails" class="spinner-grow spinner-grow-sm" role="status">
+                                            <!-- <span class="sr-only">Loading...</span> -->
+                                        </span>
+                                        Applicants: {{ job.applications.length }}
+                                    </button>
+                                    <button v-else class="accordion_applicants"> Applicants: {{ job.applications.length }} </button>
+                                    
                                 </div>
-                                <button class="accordion_applicants" @click="toggleFullDetails(index)"> 
-                                    <span v-if="!job.showDetails" class="spinner-grow spinner-grow-sm" role="status">
-                                        <!-- <span class="sr-only">Loading...</span> -->
-                                    </span>
-                                    Applicants: {{ job.applications.length }}</button>
+                            </transition>
+                            <transition name="fade">
                                 
-                            </div>
-                        </transition>
-                         <transition name="fade">
-                            
-                            <div v-if="job.showDetails" class="tz_accordion-bodylg">
-                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active activity" id="pills-applicants-tab" data-bs-toggle="pill" data-bs-target="#pills-applicants" type="button" role="tab" aria-controls="pills-applicants" aria-selected="true">All Applicants</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link activity" id="pills-shortlisted-tab" data-bs-toggle="pill" data-bs-target="#pills-shortlisted" type="button" role="tab" aria-controls="pills-shortlisted" aria-selected="false">Shortlisted</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link activity" id="pills-hired-tab" data-bs-toggle="pill" data-bs-target="#pills-hired" type="button" role="tab" aria-controls="pills-hired" aria-selected="false">Hired</button>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="pills-tabContent">
-                                <div class="tab-pane fade show active" id="pills-applicants" role="tabpanel" aria-labelledby="pills-applicants-tab">
-                                <div class="accordion_body_firs" v-for="(applicant, index) in getJobApplications(index)" :key="index">
-                                    <div class="applicants_card"> 
-                                        <!-- {{ getJobApplications(index) }} -->
-                                        <!-- <b>User Profile:</b> <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ applicant.user }}</span><br/> -->
-                                        <b>User:</b> <span style="color: var(--app-blue); text-decoration: underline;"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
-                                       <b>Cover letter: </b> {{ applicant.coverLetter }} <br/> 
-                                       <b>Attachment: </b> {{  applicant.attachment }} <br/>
-                                       <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
-                                       <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
-                                       <button class="cust-btn" style="border-radius: 5px;">Shortlist</button>
-                                       <!-- {{ applicant }} -->
+                                <div v-if="job.showDetails" class="tz_accordion-bodylg" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+
+                                    <div class="tab-content" id="pills-tabContent">
+                                        <b>All Applicants</b>
+                                        <!-- <div class="tab-pane fade show active" id="pills-applicants" role="tabpanel" aria-labelledby="pills-applicants-tab"> -->
+                                        <div class="accordion_body_firs" v-for="(applicant, index) in getJobApplications(index)" :key="index">
+                                            <div class="applicants_card">
+                                                <!-- {{ getJobApplications(index) }} -->
+                                            <!-- <b>User:</b> <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/> -->
+                                            <b>User:</b> <span style="color: var(--app-blue); text-decoration: underline;"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
+                                            <b>Cover letter: </b> {{ applicant.coverLetter }} <br/> 
+                                            <b>Attachment: </b> {{  applicant.attachment }} <br/>
+                                            <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
+                                            <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
+                                            <div class="job-effect-btns" style="padding: 15px 0px;">
+                                                <button class="cust-btn" style="border-radius: 5px;">Message</button>
+                                                <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;">Hire</button>
+                                            </div>
+                                            <!-- {{ applicant }} -->
+                                            </div>
+                                        </div>
+                                        <!-- </div> -->
+                                        <!-- <div class="tab-pane fade" id="pills-shortlisted" role="tabpanel" aria-labelledby="pills-shortlisted-tab">...</div>
+                                        <div class="tab-pane fade" id="pills-hired" role="tabpanel" aria-labelledby="pills-hired-tab">...</div> -->
                                     </div>
-                                </div>
-                                </div>
-                                <div class="tab-pane fade" id="pills-shortlisted" role="tabpanel" aria-labelledby="pills-shortlisted-tab">...</div>
-                                <div class="tab-pane fade" id="pills-hired" role="tabpanel" aria-labelledby="pills-hired-tab">...</div>
-                            </div>
 
-
-                                
-                            
-                            </div>
-                        </transition>
-                            
-                            
+                                </div>
+                            </transition>
                         </div>
                        
                         </div>
@@ -120,13 +110,6 @@
                     
                 </div>
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                    <!-- <div class="cards-container">
-                        <div class="sub-card-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                            <div class="cols">All applicants</div>
-                            <div class="cols">Shortlisted</div>
-                            <div class="cols">Hired</div>
-                        </div>
-                    </div> -->
                 </div>
                 </div>
                </div>
@@ -181,6 +164,7 @@
                     },
 
                     getJobApplications(index){
+                        localStorage.setIte
                         return this.jobs[index].applications;
                     },
 
@@ -215,14 +199,15 @@
                             axios.get(`${api_url}/employer/${employer_id}/jobs`)
                             .then(response => {
                                 this.jobs = response.data.jobs;
+                                this.jobs.reverse();
                                 this.jobs.forEach(job => {
                                     job.open = false;
                                     job.showDetails = false;
                                     // this.applicantDetails = job.applications;
                                 });
                                 if(this.jobs.length > 0){
-                                    if(this.job[0]){this.jobs[0].open = true};
-                                    if(this.job[1]){this.jobs[1].open = true};
+                                    this.jobs[0].open = true;
+                                    if(this.jobs.length > 1){this.jobs[1].open = true};
                                 }
                                
                                 
@@ -359,12 +344,26 @@
         background: var(--accent-dark) !important;
         color: #fff !important;
       }
+
+      .dark .tz_accordion-header{
+        background: var(--accent-dark) !important;
+        color: #fff !important;
+      }
+      .dark .tz_accordion-bodylg{
+        background: var(--accent-dark) !important;
+        color: #fff !important;
+      }
+
+      .dark .tz_accordion-body{
+        background: var(--accent-dark) !important;
+        color: #fff !important;
+      }
       .dark .activity{
         color: #fff !important;
       }
-      .dark .active{
+      /* .dark .active{
         background: var(--app-blue) !important;
-      }
+      } */
       .dark .zero-job{
         background: none !important;
         color: #000;
