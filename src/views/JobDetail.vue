@@ -158,8 +158,6 @@
       import themeStore from '@/theme/theme';
       import SkeletonLoader from '../components/pageSkeleton.vue'
       import Modal from '../components/modal.vue'
-    //   const api_url = 'https://techzoneapp.herokuapp.com/api/jobs/';
-      const api_url = "http://127.0.0.1:5000/api/jobs/"
 
 
       export default {
@@ -245,7 +243,7 @@
             // console.log(this.$route.params.job_id);
             
 
-            axios.get(`http://127.0.0.1:5000/api/jobs/${jobId}`)
+            axios.get(`${this.api_url}/jobs/${jobId}`)
                 .then(response => {
                     this.data.push(response.data.job);
                     console.log(this.data[0]);
