@@ -91,10 +91,6 @@
   //make sure loader is set to invisible .....
   const loading = ref(false);
   
-  
-  // const Api_url = "https://techzoneapp.herokuapp.com";
-  const Api_url = "http://127.0.0.1:5000";
-  
       export default {
           components:{Loader},
           setup(){
@@ -116,7 +112,7 @@
   async login() {
     this.isLoading = true;
     try {
-      const response = await axios.post(`${Api_url}/api/login`, {
+      const response = await axios.post(`${this.api_url}/api/login`, {
         email: this.email,
         password: this.password
       });

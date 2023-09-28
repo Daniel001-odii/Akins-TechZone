@@ -81,7 +81,6 @@
     
     <script>
     import axios from 'axios';
-    const api_url = "http://127.0.0.1:5000/api/register-employer";
     
     export default {
 data() {
@@ -102,7 +101,7 @@ methods: {
   async signup() {
     this.isLoading = true;
     try {
-      const response = await axios.post(api_url, this.user);
+      const response = await axios.post(`${this.api_url}/register-employer`, this.user);
       console.log(response.data);
       this.isLoading = false;
 
