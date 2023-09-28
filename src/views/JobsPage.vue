@@ -178,6 +178,7 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                height: 50vh;
                 padding: 50px;">
         <i class="bi bi-search" style="font-size: 50px; padding: 0; margin: 0;"></i><br/>
                 <b>Sorry, No jobs found</b>

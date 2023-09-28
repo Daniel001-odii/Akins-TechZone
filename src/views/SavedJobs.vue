@@ -127,15 +127,16 @@
         <DotLoader v-if="isLoading"/>
         <!-- <Skeleton v-if="isLoading"/> -->
     
-            <span v-if=" jobs.length < 1  && isLoading != true" 
-                    style="display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    padding: 50px;">
-            <i class="bi bi-search" style="font-size: 50px; padding: 0; margin: 0;"></i><br/>
-                    <b>Sorry, No jobs found</b>
-                </span>
+        <span v-if="jobs.length === 0 && isLoading != true" 
+                style="display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 60vh;
+                padding: 50px;">
+        <i class="bi bi-search" style="font-size: 20px; padding: 0; margin: 0;"></i><br/>
+                <b>Sorry, No jobs found</b>
+        </span>
             
     
     </div>

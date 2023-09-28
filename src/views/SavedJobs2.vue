@@ -35,7 +35,7 @@
 <!-- <div> -->
 <Transition name="fade">
     
-    <div class="page-content-sub" v-if="filteredJobs.length > 0">
+    <div class="page-content-sub" v-if="jobs.length > 0">
             <div class="job-cards-area">
                 <slot name="job-cards">
                 <div v-for="(job, index) in filteredJobs" :key="index">
@@ -122,7 +122,7 @@
             
         </div>
         
-        <div v-else-if="filteredJobs.length === 0" 
+        <div v-else-if="jobs.length === 0" 
         style="display: flex;
                 justify-content: center;
                 align-items: center;

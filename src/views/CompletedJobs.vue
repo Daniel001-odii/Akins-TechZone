@@ -48,7 +48,7 @@
     
     <div class="Page-contents" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     
-        <div class="page-content-sub" v-if="filteredJobs.length > 0" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+        <div class="page-content-sub" v-if="jobs.length > 0" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="job-cards-area">
                     <slot name="job-cards">
                     <div v-for="(job, index) in filteredJobs" :key="index">
@@ -150,15 +150,16 @@
             
     
         <DotLoader v-if="isLoading"/>
-        <span v-if="filteredJobs.length === 0 && isLoading != true" 
+        <span v-if="jobs.length === 0 && isLoading != true" 
                 style="display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                height: 60vh;
                 padding: 50px;">
-        <i class="bi bi-search" style="font-size: 50px; padding: 0; margin: 0;"></i><br/>
+        <i class="bi bi-search" style="font-size: 20px; padding: 0; margin: 0;"></i><br/>
                 <b>Sorry, No jobs found</b>
-            </span>
+        </span>
             
     
     </div>
