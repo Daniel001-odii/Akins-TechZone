@@ -9,7 +9,7 @@ const app = createApp(App);
 
 // Declare a global variable
 // app.config.globalProperties.api_url = 'http://127.0.0.1:5000/api';
-app.config.globalProperties.api_url = 'https://techzone-node-backend-6145f41de2d6.herokuapp.com/api';
+app.config.globalProperties.api_url = 'http://techzone-node-backend-6145f41de2d6.herokuapp.com/api';
 
 
 
