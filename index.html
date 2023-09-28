@@ -40,25 +40,26 @@
     padding: 0;
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background: url('/src/assets/imgs/bg_image.png');
+    
+    /* background: url('/src/assets/imgs/bg_image.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    backface-visibility: 10;
+    backface-visibility: 10; */
   }
   *{
     box-sizing: border-box;
   }
 
 
-  .dark {
+  .dark body{
   /* Dark mode styles */
-  background-color: var(--background-dark);
+  background: var(--background-dark);
   color: var(--text-light);
   }
 
   /* Light mode styles */
-  body {
+  body{
     background-color: var(--background-light);
     color: var(--text-dark);
   }

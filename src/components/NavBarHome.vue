@@ -87,7 +87,6 @@ import { inject } from 'vue';
 import { reactive } from 'vue';
 import { RouterLink } from 'vue-router';
 
-const api_url = "https://techzoneapp.herokuapp.com/api/";
 
 export default {
     components:{

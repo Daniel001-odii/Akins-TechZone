@@ -52,13 +52,13 @@ data(){
 methods:{
     fetchJobListings(){
                     this.isLoading = true;
-                    axios.get(`${api_url}/jobs`).then(response => {
-                        this.jobs = response.data;
-                        this.jobs.reverse();
+                    axios.get(`${this.api_url}/jobs`).then(response => {
+                        this.jobs = response;
+                        // this.jobs.reverse();
 
                         //get all developer jobs...
-                        this.top4devJobs = this.jobs.filter((job) =>job.job_tag.toLowerCase().includes('developer') || job.job_des.toLowerCase().includes('developer'));
-                        console.log(this.top4devJobs);
+                        this.top4devJobs = this.jobs.filter((job) =>job.job_title.toLowerCase().includes('developer') || job.job_description.toLowerCase().includes('developer'));
+                        console.log( response);
 
                         // console.log(response.data); //logs all jobs to the console to test for data type....
                         // this.indemandTags();
@@ -108,7 +108,7 @@ computed: {
     
   },
 mounted(){
-            this.fetchJobListings();
+            // this.fetchJobListings();
             this.getHoursTillDate();
             var title = this.$route.name
     console.log(title)
@@ -457,6 +457,7 @@ mounted(){
     line-height: 65px;
     margin-top: 100px;
     margin-bottom: 50px;
+    padding: 20px;
 }
 .tz-hero-title{
     font-size: 3em;

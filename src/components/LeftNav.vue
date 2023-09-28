@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="userIsUser">
         <div class="spacer"></div>
         <RouterLink to="/jobs">
         <div class="jobs"  :class="{ 'active-nav': isJobs }">
@@ -8,14 +8,14 @@
             </div>
         </RouterLink>
 
-        <RouterLink v-if="userIsLoggedIn" to="/messages">
+        <RouterLink to="/messages">
         <div class="message"  :class="{ 'active-nav': isPayments }">
             <i class="bi bi-chat-left-text-fill"></i>
             <span class="navtext">Messages</span>
         </div>
         </RouterLink>
         
-        <RouterLink v-if="userIsLoggedIn" to="/savedJobs">
+        <RouterLink to="/savedJobs">
         <div class="saved-jobs" :class="{ 'active-nav': isSaveJobs }">
             <i class="bi bi-archive"></i>
             <span class="navtext">Saved Jobs</span>
@@ -23,6 +23,38 @@
         </RouterLink>
     </div>
 
+    <div v-if="userIsEmployer" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+        <div class="spacer"></div>
+        <RouterLink to="/client/dashboard">
+        <div class="jobs"  :class="{ 'active-nav': isDashboard }">
+            <i class="bi bi-soundwave"></i>
+            <span class="navtext">Dashboard</span>
+        </div>
+        </RouterLink>
+
+        <RouterLink to="/client/messages">
+        <div class="message"  :class="{ 'active-nav': ismessages }">
+            <i class="bi bi-chat-left-text-fill"></i>
+            <span class="navtext">Messages</span>
+        </div>
+        </RouterLink>
+
+        <RouterLink to="/client/saved-jobs">
+        <div class="message"  :class="{ 'active-nav': isJobs }">
+            <i class="bi bi-briefcase-fill" ></i>
+            <span class="navtext">My Jobs</span>
+        </div>
+        </RouterLink>
+    </div>
+    <div v-if="userNotLoggedIn">
+        <div class="spacer"></div>
+        <RouterLink to="/jobs">
+        <div class="jobs"  :class="{ 'active-nav': isJobs }">
+            <i class="bi bi-briefcase-fill" ></i>
+            <span class="navtext">Work Explorer</span>
+            </div>
+        </RouterLink>
+    </div>
 
 </template>
 
@@ -42,7 +74,9 @@ import themeStore from '@/theme/theme';
     components: { RouterLink },
     data(){
         return{
-            userIsLoggedIn: true,
+            userNotLoggedIn: false,
+            userIsUser: false,
+            userIsEmployer: false,
         }
     },
     computed: {
@@ -50,13 +84,26 @@ import themeStore from '@/theme/theme';
         isSaveJobs() { return this.$route.path.startsWith("/savedJobs"); },
         isJobs() { return this.$route.path.startsWith("/jobs"); },
         isInsights() { return this.$route.path.startsWith("/insights"); },
+        isDashboard() { return this.$route.path.startsWith("/client/dashboard"); },
+        isJobs() { return this.$route.path.startsWith("/client/saved-jobs"); },
+        ismessages() { return this.$route.path.startsWith("/client/messages"); },
     },
     methods:{
-    checkLoginStatus(){
+        checkLoginStatus(){
             const token = localStorage.getItem('token');
-            this.userIsLoggedIn = !!token; 
-            // Set isLoggedIn to true if a token exists, otherwise false
-            console.log("user is logged in? " + this.userIsLoggedIn);
+            const userRole = token ? JSON.parse(atob(token.split('.')[1])).role : null;
+
+            if (userRole === 'user') {
+            this.userIsUser = true;
+            this.userIsEmployer = false; // Corrected variable name
+            } else if (userRole === 'employer') {
+            this.userIsUser = false;
+            this.userIsEmployer = true;
+            } else {
+            this.userNotLoggedIn = true;
+            }
+
+            console.log("logged in as", userRole);
             },
         },
     mounted() {

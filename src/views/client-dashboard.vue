@@ -42,8 +42,9 @@
                 <div class="tab-pane fade show active" id="pills-jobsActivity" role="tabpanel" aria-labelledby="pills-home-tab">
                     <div class="cards-container">
                         <div class="tz_accordion">
-                            
-                        <div class="zero-job" v-if="jobs.length == 0">you havent posted any jobs yet... <RouterLink to="/client/post-job"><span> Post a job</span></RouterLink></div>
+                        <!-- <div class="zero-job" v-if="jobsLoading">Loading...</div> -->
+                        <DotLoader v-if="jobsLoading"/>
+                        <div class="zero-job" v-if="hasFinishedLoad && jobs.length == 0">you havent posted any jobs yet... <RouterLink to="/client/post-job"><span> Post a job</span></RouterLink></div>
 
                         <div class="tz_accordion-item" v-for="(job, index) in jobs" :key="index" >
                             <div class="tz_accordion-header" @click="toggleItem(index)" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -53,10 +54,20 @@
                             <transition name="fade">
                                 <div v-if="job.open" class="tz_accordion-body" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="accordion_body_first">
-                                        <b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,200) }}... <br/>
+                                        <b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,200) }}... 
+                                        
+                                        <br/> <span style="color: var(--app-blue)">hires: {{ job.hiredUsers.length }}</span>
+                                        <br/> <span style="color: var(--app-blue)">Status: <span v-if="job.isCompleted">Completed</span><span v-else>Open</span></span>
+
                                         <div class="job_effect_btns">
                                             <button class="job-btn edit-btn"><i class="bi bi-pencil-square"></i> Edit</button>
-                                            <button class="job-btn delete-btn"  @click="deleteJob(job._id)"><i class="bi bi-trash-fill"></i> Delete</button>
+                                            <!-- <button class="job-btn delete-btn"  @click="deleteJob(job._id)" ><i class="bi bi-trash-fill"></i> Delete</button> -->
+                                            <span class="job-btn delete-btn"  @click="deleteJobOptions = !deleteJobOptions">
+                                                <span v-if="!deleteJobOptions"><i class="bi bi-trash-fill"></i> Delete</span>
+                                                <!-- <transition name="fade"> -->
+                                                    <div v-if="deleteJobOptions" class="deleteOptions">Are you sure? <span  @click="deleteJob(job._id)"> Yes</span> | No</div>
+                                                <!-- </transition> -->
+                                            </span>
                                         </div>
                                     </div>
                                     <button v-if="job.applications.length > 0" class="accordion_applicants" @click="toggleFullDetails(index)"> 
@@ -80,7 +91,7 @@
                                             <div class="applicants_card">
                                                 <!-- {{ getJobApplications(index) }} -->
                                             <!-- <b>User:</b> <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/> -->
-                                            <b>User:</b> <span style="color: var(--app-blue); text-decoration: underline;"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
+                                            <b>User:</b> <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
                                             <b>Cover letter: </b> {{ applicant.coverLetter }} <br/> 
                                             <b>Attachment: </b> {{  applicant.attachment }} <br/>
                                             <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
@@ -126,12 +137,13 @@
       import Navbar from '../components/NavBar.vue';
       import ProfileNavBar from '../components/ProfileNavBar.vue';
       import { reactive } from 'vue';
-      import LeftNav from '../components/Client_LeftNav.vue'
+      import LeftNav from '../components/LeftNav.vue'
       import PageFilter from '../components/PageFilter.vue';
       import axios from 'axios';
       import jobsData from '@/views/JobLists.json';
       import { ref } from 'vue';
       import themeStore from '@/theme/theme';
+      import DotLoader from '../components/DotLoader.vue'
 
       const api_url = " http://127.0.0.1:5000/api";
     
@@ -144,7 +156,7 @@
                     toggleTheme,
                 }
             },
-              components:{ JobCard, Navbar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter },
+              components:{ JobCard, Navbar, ProfileNavBar, Footer, RouterLink, LeftNav, PageFilter, DotLoader },
               data() {
                     return {
                     isCollapsed: true,
@@ -153,6 +165,10 @@
                     jobs:'',
                     // 
                     applicantDetails: {},
+                    jobsLoading: false,
+                    hasFinishedLoad: false,
+                    // 
+                    deleteJobOptions: false,
                     };
                 },
                 methods: {
@@ -171,7 +187,7 @@
                     // the function below is responsible for getting the currently signed in employer...
                     getUserDetails() {
                         const token = localStorage.getItem('token'); // Get the token from localStorage
-                        const user_url = `${api_url}/employer-info`; // Assuming user-info is the endpoint for user details
+                        const user_url = `${this.api_url}/employer-info`; // Assuming user-info is the endpoint for user details
 
                         // Set up headers with the token
                         const headers = {
@@ -194,10 +210,15 @@
                         },
 
                     getJobsByEmployer() {
+                            
+                            this.jobsLoading = true;
+
                             const employer_id = this.userDetails.id;
                             // console.log(employer_id)
-                            axios.get(`${api_url}/employer/${employer_id}/jobs`)
+                            axios.get(`${this.api_url}/employer/${employer_id}/jobs`)
                             .then(response => {
+                                this.jobsLoading = false;
+                                this.hasFinishedLoad = true;
                                 this.jobs = response.data.jobs;
                                 this.jobs.reverse();
                                 this.jobs.forEach(job => {
@@ -217,6 +238,7 @@
                             })
                             .catch(error => {
                                 console.error('Error fetching jobs by employer:', error);
+                                this.jobsLoading = false;
                                 // Handle errors
                             });
                         },
@@ -253,7 +275,7 @@
 
                     getUserById(id) {
                         if (!this.applicantDetails[id]) {
-                            axios.get(`${api_url}/get-info/${id}`)
+                            axios.get(`${this.api_url}/get-info/${id}`)
                             .then(response => {
                                 this.applicantDetails[id] = response.data.user;
                                 console.log("user detail: ", response.data.user);
@@ -271,7 +293,7 @@
                     async getApplicantDetails(userId) {
                     if (!this.applicantDetailsMap[userId]) {
                         try {
-                        const response = await axios.get(`${api_url}/get-info/${userId}`);
+                        const response = await axios.get(`${this.api_url}/get-info/${userId}`);
                         this.applicantDetailsMap[userId] = response.data.user;
                         console.log(this.applicantDetailsMap)
                         } catch (error) {
@@ -283,7 +305,7 @@
                     },
                     //this function opens up in a new page the details of any job clicked...
                     navigateToUserprofile(user_id) {
-                    const route = this.$router.resolve({ name: "Techzone - profile-view", params: { user_id: user_id } });
+                    const route = this.$router.resolve({ name: "Techzone - profile", params: { user_id: user_id } });
                     window.open(route.href, '_blank');
                     },
 
@@ -619,6 +641,10 @@ background: green;
 background: red;
 }
 
+.deleteOptions > span{
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 .zero-job{
     display: flex;

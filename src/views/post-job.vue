@@ -4,249 +4,257 @@
     <template #action-1><RouterLink to="/client/post-job">Post Job</RouterLink></template>
     <template #action-2><RouterLink to="/client/post-job"></RouterLink></template>
   </Navbar>
- <div class="page-container">
+  <div class="tz_alert_box" v-if="showError">
+        <span>{{ formErrors }}</span>
+        <span class="tz_alert_box_closeBtn" @click="showError = !showError">&times;</span>
+  </div>
+<div class="page-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
 <div class="page-sub">
   <form @submit.prevent="submitForm">
-                <div class="tz_alert_box" v-if="showError">
-                    <span>{{ formErrors }}</span>
-                    <span class="tz_alert_box_closeBtn" @click="showError = !showError">&times;</span>
+  <div class="form-container">
+    <Transition name="formSlide">
+      <div v-if="currentIndex === 0" class="form-content">
+            <div class="section">
+                <div class="section-title">Job Title</div>
+                <div class="section-content">
+                    Give Your Job a very descriptive Name
                 </div>
-    <div class="form-container">
-  <Transition name="formSlide">
-    <div v-if="currentIndex === 0" class="form-content">
-          <div class="section">
-              <div class="section-title">Job Title</div>
-              <div class="section-content">
-                  Give Your Job a very descriptive Name
-              </div>
-              <div class="section-last">
-                  Giving a descriptive name helps attract the right talent and save you time.
-              </div>
-          </div>
-          <div class="section-divider"></div>
-          <div class="section">
-              <div class="section-title">Write a name for your job posting</div>
-              <div class="section-content">
-                  <textarea class="job-description" placeholder="Enter a descriptive name for your job post here..." v-model="formData.job_title" required></textarea>
-              </div>
-              <div class="section-last">
-                  Examples: Product Designer, Web Designer, Flutter Developer
-              </div>
-          </div>
-    </div>
-  </Transition>
-
-  <Transition name="formSlide">
-    <div v-if="currentIndex === 1" class="form-content">
-          <div class="section">
-              <div class="section-title">Skills</div>
-              <div class="section-content">
-                  Give a list of skills required for your job.
-              </div>
-              <div class="section-last">
-                Skills, qualifications, necessary tools required should be listed here,  For more reach and better result, input 3 or more skills..
-              </div>
-          </div>
-          <div class="section-divider"></div>
-          <div class="section">
-              <div class="section-sub">
-            <div>
-                <div class="section-title">Search Skill here or Manually add your own</div>
-                <div class="sch">
-                  <div class="filter-search">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 25 26" fill="none">
-                          <path d="M11.1311 0.727295C17.1339 0.727295 22.0058 5.59917 22.0058 11.602C22.0058 17.6049 17.1339 22.4767 11.1311 22.4767C5.12822 22.4767 0.256348 17.6049 0.256348 11.602C0.256348 5.59917 5.12822 0.727295 11.1311 0.727295ZM11.1311 20.0601C15.8036 20.0601 19.5892 16.2745 19.5892 11.602C19.5892 6.9283 15.8036 3.1439 11.1311 3.1439C6.45736 3.1439 2.67295 6.9283 2.67295 11.602C2.67295 16.2745 6.45736 20.0601 11.1311 20.0601ZM21.3835 20.1459L24.8018 23.563L23.0921 25.2727L19.675 21.8545L21.3835 20.1459V20.1459Z" fill="#45494F"/>
-                      </svg>
-                        <input type="search" class="ft-search" placeholder="Search a types of jobs"  v-model="inputValue" @keyup.enter="addTag" @input="generateSuggestions">
-                  </div>
-                  <div class="suggestions">
-                      <span class="suggest" v-for="(suggestion, index) in suggestions" :key="index" @click="selectSuggestion(suggestion)">
-                            {{ suggestion }}
-                      </span>
-                  </div>
-                </div>
-                <div class="section-title">Selected skills:</div>
-                <div class="tags-container">
-                    <div v-for="(tag, index) in tags" :key="index" class="tag">
-                      {{ tag }}<span class="close" @click="removeTag(index)">&times;</span>
-                    </div>
-                </div>
-                <!-----------sample skills tags-------------->
-                <div class="section-title">Example skills:</div>
-                <div class="tags-container">
-                    <div class="tag">HTML<span>&plus;</span></div>
-                    <div class="tag">CSS<span>&plus;</span></div>
-                    <div class="tag">Python<span>&plus;</span></div>
-                    <div class="tag">Javascript<span>&plus;</span></div>
-                    <div class="tag">C++<span>&plus;</span></div>
+                <div class="section-last">
+                    Giving a descriptive name helps attract the right talent and save you time.
                 </div>
             </div>
-              <div>
-                <input style="display:none" type="text" id="skillSet" v-model="skills" disabled="true" required>
-              </div>
-            
-          </div>
-
-
-
-          </div>
-    </div>
-  </Transition>
-
-  <Transition name="formSlide">
-    <div v-if="currentIndex === 2" class="form-content">
-          <div class="section">
-              <div class="section-title">Duration/Skill Level</div>
-              <div class="section-content">
-                Estimate the period the work will last for.
-              </div>
-          </div>
-          <div class="section-divider"></div>
-          <div class="section">
-            <div class="sub-section">
-            <label class="radio-selection">
-              <input type="radio" name="project-type" v-model="formData.period" value="small">
-              <div class="radio-items">
-                <p style="font-weight: bold;">Small</p>
-                <p>Usually quick and straightforward, Project has a life span of 1 to 3 Months</p>
-              </div>
-            </label>
-            <label class="radio-selection">
-              <input type="radio" name="project-type" v-model="formData.period" value="medium">
-              <div class="radio-items">
-                <p style="font-weight: bold;">Medium</p>
-                <p>Project has a life span of about 6 months</p>
-              </div>
-            </label>
-            <label class="radio-selection">
-              <input type="radio" name="project-type" v-model="formData.period" value="large">
-              <div class="radio-items">
-                <p style="font-weight: bold;">Large</p>
-                <p>Project has a life span of greater than 6 months</p>
-              </div>
-            </label>
-          </div>
-          </div>
-    </div>
-  </Transition>
-
-  <Transition name="formSlide">
-    <div v-if="currentIndex === 3" class="form-content">
-          <div class="section">
-              <div class="section-title">Budget</div>
-              <div class="section-content">
-                  What is your budget for the Job?
-              </div>
-              <div class="section-last">
-                  Giving a descriptive name helps attract the right talent and save you time.
-              </div>
-          </div>
-
-          <div class="section-divider"></div>
-
-          <div class="section">
-              <div class="sub-section">
-
-                <div class="row-budgets">
-                  <label class="budget-select">
-                      <input type="radio" name="project-budget" v-model="formData.budget_type" value="Fixed price">
-                      <div class="radio-items">
-                        <p style="font-weight: bold;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
-                          <path d="M8.4125 24.625C9.4375 23.525 11 23.6125 11.9 24.8125L13.1625 26.5C14.175 27.8375 15.8125 27.8375 16.825 26.5L18.0875 24.8125C18.9875 23.6125 20.55 23.525 21.575 24.625C23.8 27 25.6125 26.2125 25.6125 22.8875V8.8C25.625 3.7625 24.45 2.5 19.725 2.5H10.275C5.55 2.5 4.375 3.7625 4.375 8.8V22.875C4.375 26.2125 6.2 26.9875 8.4125 24.625Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M10 8.75H20" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M11.25 13.75H18.75" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
-                          Fixed Price</p>
-                        <!-- <p>Project Based</p> -->
-                      </div>
-                  </label>
-
-                  <label class="budget-select">
-                      <input type="radio" name="project-budget"  v-model="formData.budget_type" value="Hourly">
-                      <div class="radio-items">
-                        <p style="font-weight: bold;">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
-                          <path d="M27.5 15C27.5 21.9 21.9 27.5 15 27.5C8.1 27.5 2.5 21.9 2.5 15C2.5 8.1 8.1 2.5 15 2.5C21.9 2.5 27.5 8.1 27.5 15Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          <path d="M19.6371 18.975L15.7621 16.6625C15.0871 16.2625 14.5371 15.3 14.5371 14.5125V9.3875" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                          </svg>
-                          Hourly rate</p>
-                        <!-- <p>Hourly rate</p> -->
-                      </div>
-                  </label>
-                  <label class="budget-select">
-                    <p style="font-weight: bold;">Project Budget (₦)</p>
-                      <input type="number" name="project-budget" style="width:50%" v-model="formData.budget" required>
-                  </label>
+            <div class="section-divider"></div>
+            <div class="section">
+                <div class="section-title">Write a name for your job posting</div>
+                <div class="section-content">
+                    <textarea class="job-description" placeholder="Enter a descriptive name for your job post here..." v-model="formData.job_title" required></textarea>
                 </div>
+                <div class="section-last">
+                    Examples: Product Designer, Web Designer, Flutter Developer
+                </div>
+            </div>
+      </div>
+    </Transition>
 
-                  <!-- <label class="radio-selection">
-                      <input type="number" name="project-budget" style="width:50%" v-model="formData.budget" required>
-                      <div class="radio-items">
-                        <p style="font-weight: bold;">(₦) Total Budget</p>
+    <Transition name="formSlide">
+      <div v-if="currentIndex === 1" class="form-content">
+            <div class="section">
+                <div class="section-title">Skills</div>
+                <div class="section-content">
+                    Give a list of skills required for your job.
+                </div>
+                <div class="section-last">
+                  Skills, qualifications, necessary tools required should be listed here,  For more reach and better result, input 3 or more skills..
+                </div>
+            </div>
+            <div class="section-divider"></div>
+            <div class="section">
+                <div class="section-sub">
+              <div>
+                  <div class="section-title">Search Skill here or Manually add your own</div>
+                  <div class="sch">
+                    <div class="filter-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 25 26" fill="none">
+                            <path d="M11.1311 0.727295C17.1339 0.727295 22.0058 5.59917 22.0058 11.602C22.0058 17.6049 17.1339 22.4767 11.1311 22.4767C5.12822 22.4767 0.256348 17.6049 0.256348 11.602C0.256348 5.59917 5.12822 0.727295 11.1311 0.727295ZM11.1311 20.0601C15.8036 20.0601 19.5892 16.2745 19.5892 11.602C19.5892 6.9283 15.8036 3.1439 11.1311 3.1439C6.45736 3.1439 2.67295 6.9283 2.67295 11.602C2.67295 16.2745 6.45736 20.0601 11.1311 20.0601ZM21.3835 20.1459L24.8018 23.563L23.0921 25.2727L19.675 21.8545L21.3835 20.1459V20.1459Z" fill="#45494F"/>
+                        </svg>
+                          <input type="search" class="ft-search" placeholder="Search a types of jobs"  v-model="inputValue" @keyup.enter="addTag" @input="generateSuggestions">
+                    </div>
+                    <div class="suggestions">
+                        <span class="suggest" v-for="(suggestion, index) in suggestions" :key="index" @click="selectSuggestion(suggestion)">
+                              {{ suggestion }}
+                        </span>
+                    </div>
+                  </div>
+                  <div class="section-title">Selected skills:</div>
+                  <div class="tags-container">
+                      <div v-for="(tag, index) in tags" :key="index" class="tag">
+                        {{ tag }}<span class="close" @click="removeTag(index)">&times;</span>
                       </div>
-                  </label> -->
+                  </div>
+                  <!-----------sample skills tags-------------->
+                  <div class="section-title">Example skills:</div>
+                  <div class="tags-container">
+                      <div class="tag">HTML<span>&plus;</span></div>
+                      <div class="tag">CSS<span>&plus;</span></div>
+                      <div class="tag">Python<span>&plus;</span></div>
+                      <div class="tag">Javascript<span>&plus;</span></div>
+                      <div class="tag">C++<span>&plus;</span></div>
+                  </div>
               </div>
-              <div class="section-last">
-                After Project is completed  and satisfied, payment will be released to Freelancer.
-              </div>
-          </div>
-    </div>
-  </Transition>
+                <div>
+                  <input style="display:none" type="text" id="skillSet" v-model="skills" disabled="true" required>
+                </div>
+              
+            </div>
 
-  <Transition name="formSlide">
-    <div v-if="currentIndex === 4" class="form-content">
-          <div class="section">
-              <div class="section-title">Job Description</div>
-              <div class="section-content">
-                Final Step, Write a clear description of the job, including deliverables, skills, experience and other necessary details.
-              </div>
-          </div>
 
-          <div class="section-divider"></div>
 
-          <div class="section">
-              <div class="section-title">Describe your job.</div>
-              <div class="section-content">
-                  <textarea class="job-description" placeholder="Enter your job description here..." v-model="formData.job_description" required></textarea>
-              </div>
-              <!-- <input type="submit" value="Review Job" class="cust-btn" style="width: 100%; background: green"/> -->
+            </div>
+      </div>
+    </Transition>
 
-              <!-------forms submit button-------------->
-                    <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }">
-                        <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span v-if="isLoading === true">processing...</span>
-                        <span v-else>Post Job</span>
-                    </button>
-          </div>
-    </div>
-  </Transition>
-</div>
+    <Transition name="formSlide">
+      <div v-if="currentIndex === 2" class="form-content">
+            <div class="section">
+                <div class="section-title">Duration/Skill Level</div>
+                <div class="section-content">
+                  Estimate the period the work will last for.
+                </div>
+            </div>
+            <div class="section-divider"></div>
+            <div class="section">
+              <div class="sub-section">
+              <label class="radio-selection">
+                <input type="radio" name="project-type" v-model="formData.period" value="small">
+                <div class="radio-items">
+                  <p style="font-weight: bold;">Small</p>
+                  <p>Usually quick and straightforward, Project has a life span of 1 to 3 Months</p>
+                </div>
+              </label>
+              <label class="radio-selection">
+                <input type="radio" name="project-type" v-model="formData.period" value="medium">
+                <div class="radio-items">
+                  <p style="font-weight: bold;">Medium</p>
+                  <p>Project has a life span of about 6 months</p>
+                </div>
+              </label>
+              <label class="radio-selection">
+                <input type="radio" name="project-type" v-model="formData.period" value="large">
+                <div class="radio-items">
+                  <p style="font-weight: bold;">Large</p>
+                  <p>Project has a life span of greater than 6 months</p>
+                </div>
+              </label>
+            </div>
+            </div>
+      </div>
+    </Transition>
+
+    <Transition name="formSlide">
+      <div v-if="currentIndex === 3" class="form-content">
+            <div class="section">
+                <div class="section-title">Budget</div>
+                <div class="section-content">
+                    What is your budget for the Job?
+                </div>
+                <div class="section-last">
+                    Giving a descriptive name helps attract the right talent and save you time.
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="section">
+                <div class="sub-section">
+
+                  <div class="row-budgets">
+                    <label class="budget-select">
+                        <input type="radio" name="project-budget" v-model="formData.budget_type" value="Fixed price">
+                        <div class="radio-items">
+                          <p style="font-weight: bold;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
+                            <path d="M8.4125 24.625C9.4375 23.525 11 23.6125 11.9 24.8125L13.1625 26.5C14.175 27.8375 15.8125 27.8375 16.825 26.5L18.0875 24.8125C18.9875 23.6125 20.55 23.525 21.575 24.625C23.8 27 25.6125 26.2125 25.6125 22.8875V8.8C25.625 3.7625 24.45 2.5 19.725 2.5H10.275C5.55 2.5 4.375 3.7625 4.375 8.8V22.875C4.375 26.2125 6.2 26.9875 8.4125 24.625Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 8.75H20" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11.25 13.75H18.75" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Fixed Price</p>
+                          <!-- <p>Project Based</p> -->
+                        </div>
+                    </label>
+
+                    <label class="budget-select">
+                        <input type="radio" name="project-budget"  v-model="formData.budget_type" value="Hourly">
+                        <div class="radio-items">
+                          <p style="font-weight: bold;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 30 30" fill="none">
+                            <path d="M27.5 15C27.5 21.9 21.9 27.5 15 27.5C8.1 27.5 2.5 21.9 2.5 15C2.5 8.1 8.1 2.5 15 2.5C21.9 2.5 27.5 8.1 27.5 15Z" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19.6371 18.975L15.7621 16.6625C15.0871 16.2625 14.5371 15.3 14.5371 14.5125V9.3875" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Hourly rate</p>
+                          <!-- <p>Hourly rate</p> -->
+                        </div>
+                    </label>
+                    <label class="budget-select">
+                      <p style="font-weight: bold;">Project Budget (₦)</p>
+                        <input type="number" name="project-budget" style="width:50%" v-model="formData.budget" required>
+                    </label>
+                  </div>
+                </div>
+                <div class="section-last">
+                  After Project is completed  and satisfied, payment will be released to Freelancer.
+                </div>
+            </div>
+      </div>
+    </Transition>
+
+    <Transition name="formSlide">
+      <div v-if="currentIndex === 4" class="form-content">
+            <div class="section">
+                <div class="section-title">Location</div>
+                <div class="section-content">
+                    Where is the location for this job?
+                </div>
+                <div class="section-last">
+                    write a correct and exisitng location, dont stress the talents...
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="section">
+              <div class="section-title">Describe the job location</div>
+                <div class="section-content">
+                    <textarea class="job-description" placeholder="Enter job location and address here..." v-model="formData.job_description" required></textarea>
+                </div>
+                <div class="section-last">
+                  bit info about the job location from techzone...
+                </div>
+            </div>
+      </div>
+    </Transition>
+
+    <Transition name="formSlide">
+      <div v-if="currentIndex === 5" class="form-content">
+            <div class="section">
+                <div class="section-title">Job Description</div>
+                <div class="section-content">
+                  Final Step, Write a clear description of the job, including deliverables, skills, experience and other necessary details.
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="section">
+                <div class="section-title">Describe your job.</div>
+                <div class="section-content">
+                    <textarea class="job-description" placeholder="Enter your job description here..." v-model="formData.job_description" required></textarea>
+                </div>
+                <!-- <input type="submit" value="Review Job" class="cust-btn" style="width: 100%; background: green"/> -->
+
+                <!-------forms submit button-------------->
+                      <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }">
+                          <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                          <span v-if="isLoading === true">processing...</span>
+                          <span v-else>Post Job</span>
+                      </button>
+            </div>
+      </div>
+    </Transition>
+  </div>
   </form>
 
-<div>
-  <div class="slider-form-buttons">
-    <button  class="cust-btn control" @click="prev" :disabled="currentIndex === 0" v-if="currentIndex != 0">Previous</button>
-                <!-- <div class="form-progress-btn" @click="prev" :disabled="currentIndex === 0" v-if="currentIndex != 0">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 47" fill="none">
-                          <path d="M11.484 20.334L27.576 4.24197L23.334 -3.05176e-05L0 23.334L23.334 46.668L27.576 42.426L11.484 26.334H48V20.334H11.484Z" fill="#4E79BC"/>
-                      </svg>
-                </div>
-
-                <div class="form-progress-btn"  @click="next" :disabled="currentIndex === 4" v-if="currentIndex != 4">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 47" fill="none">
-                  <path d="M36.516 20.334L20.424 4.242L24.666 0L48 23.334L24.666 46.668L20.424 42.426L36.516 26.334H0V20.334H36.516Z" fill="#4E79BC"/>
-                  </svg>
-                </div> -->
-    <!--  -->
-    <button class="cust-btn control" @click="next" :disabled="currentIndex === 4" v-if="currentIndex != 4">Next</button>
-  </div>
-
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" :style="{ width: (currentIndex + 1) * 20 + '%' }" :aria-valuenow="(currentIndex + 1) * 25" aria-valuemin="0" aria-valuemax="100"></div>
-  </div>
+  
 </div>
-</div>
+<div class="page_last">
+    <div class="slider-form-buttons">
+      <button  class="cust-btn control" @click="prev" :disabled="currentIndex === 0" v-if="currentIndex != 0">Previous</button>
+      <button class="cust-btn control" @click="next" :disabled="currentIndex === 5" v-if="currentIndex != 5">Next</button>
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" :style="{ width: (currentIndex + 1) * 20 + '%' }" :aria-valuenow="(currentIndex + 1) * 25" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </div>
  </div>
 </template>
 
@@ -259,10 +267,18 @@ import CheckBox from '../components/CheckBox.vue'
 import Search from '../components/Search.vue';
 import Modal from '../components/modal.vue'
 import axios from 'axios';
-import Navbar from '../components/NavBar.vue' 
+import Navbar from '../components/NavBar.vue'
+import themeStore from '@/theme/theme'; 
 
 export default {
   components: { Navbar, CheckBox, Search, Modal },
+  setup(){
+                const toggleTheme = themeStore.toggleTheme;
+                return{
+                    themeStore,
+                    toggleTheme,
+                }
+            },
   data() {
   return {
     inputValue: '',
@@ -277,6 +293,7 @@ export default {
         budget_type: '',
         budget: '',
         job_description: '',
+        location: '',
       },
       tags:[],
       skills:[],
@@ -352,7 +369,7 @@ methods: {
     // this.formData.job_description.replace(/[\n-]/g, '');
     console.log(this.formData);
     try{
-      const response = await axios.post("http://127.0.0.1:5000/api/jobs", this.formData, {headers});
+      const response = await axios.post(`${this.api_url}/jobs`, this.formData, {headers});
       // if(response.status === 200){
         console.log("job posted successfully!");
         this.isLoading = false;
@@ -478,13 +495,16 @@ margin-bottom: 10px;
   flex-direction: column;
 }
 
+
 .page-sub{
 display: flex;
 flex-direction: column;
 justify-content: space-between;
+position: relative;
 width: 70%;
-height: 60vh;
+/* height: 60vh; */
 }
+
 .form-container{
 display: flex;
 flex-direction: row;
@@ -497,7 +517,7 @@ min-height: 300px;
 
 
 .form-content{
-width: 100%;
+/* width: 100%; */
 min-width: 100%;
 display: flex;
 flex-direction: row;
@@ -521,7 +541,6 @@ justify-content: space-between;
 align-items: center;
 width: 100%;
 margin: 0 auto;
-margin-bottom: 20px;
 }
 .progress{
 width: 50%;
@@ -578,13 +597,13 @@ textarea{
 }
 
 
-  .page-container{
-      background: #ffffff;
+.page-container{
+      /* background: #ffffff; */
       height: 90vh;
       width: 100%;
       display: flex;
       justify-content: center;
-      padding-top: 100px;
+      padding-top: 50px;
       align-items: flex-start;
       flex-direction: row;
   }
@@ -664,6 +683,19 @@ textarea{
 
    .tz_alert_box_closeBtn{
     cursor: pointer;
+   }
+
+   .page_last{
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 20px;
+    /* height: 80px; */
+    width: 100%;
+    margin: 0 auto;
+    /* border: 1px solid red; */
+    position: absolute;
+    bottom: 10px;
+    padding: 20px;
    }
 
 

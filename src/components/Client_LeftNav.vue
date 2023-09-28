@@ -21,8 +21,6 @@
             <span class="navtext">My Jobs</span>
         </div>
         </RouterLink>
-
-       
     </div>
 </template>
 

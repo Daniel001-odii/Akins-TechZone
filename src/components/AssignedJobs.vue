@@ -1,6 +1,6 @@
 <template>
 
-<div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+    <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
           <div class="Navigation" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
               <NavBar/>
           </div>
@@ -8,34 +8,56 @@
              <LeftNav/>
         </div>
         <div class="Page-header">
-              <div class="page-title"><slot name="page-title">Saved Jobs ( <span v-if="jobs.length == null">0</span><span v-else> {{ jobs.length }}</span>)</slot></div>
+              <div class="page-title"><slot name="page-title">Work Explorer</slot></div>
               <div class="page-filters">
                  <PageFilter>
                <div class="filter-search">
                     <i class="bi bi-search"></i>
                     <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search all types of jobs">
                </div>
+               
+               <select class="filter-menu">
+            <option>Full-time</option>
+            <option>Part time</option>
+            <option>Contract</option>
+           </select>
+           <select class="filter-menu">
+            <option>Remote</option>
+            <option>On site</option>
+            <option>Hybrid</option>
+           </select>
+           <select class="filter-menu">
+            <option>Last 1 hour</option>
+            <option>Last 2 hours</option>
+            <option>Last 3 hours</option>
+           </select>
                  </PageFilter>
               </div>
               <div class="page-tabs">
-                    
+                    <RouterLink to="/jobs"><div class="job-category">Available Jobs</div></RouterLink>
+                      <!-- <RouterLink to="/jobs/requested-jobs"><div class="job-category">Requested</div></RouterLink> -->
+                      <RouterLink to="/jobs/assigned-jobs"><div class="job-category  job-category-active">Assigned</div></RouterLink>
+                      <RouterLink to="/jobs/completed-jobs"><div class="job-category">Completed</div></RouterLink>
+                      <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined</div></RouterLink>
               </div>
         </div>
     
-    <div class="Page-contents">
-        <div class="page-content-sub" v-if="jobs.length >= 1" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+    
+    <div class="Page-contents" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+    
+        <div class="page-content-sub" v-if="filteredJobs.length > 0" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="job-cards-area">
                     <slot name="job-cards">
-                    <div v-for="(job, index) in jobs" :key="index">
+                    <div v-for="(job, index) in filteredJobs" :key="index">
                         <JobCard  @click="showFullJob(index)" :style="{ background: selectedJob === index ? '#F7F9FF' : '' }" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                             <template #job-title>
-                                <span class="mobile-link" @click="navigateToJobDetails(jobs[selectedJob]._id)">{{ job.job_title }} <i class="bi bi-box-arrow-up-right"></i></span>
-                                <span class="desktop-link">{{ job.job_title }}</span>
+                                <span class="mobile-link" @click="navigateToJobDetails(filteredJobs[selectedJob].id)">{{ job.job_tag }}</span>
+                                <span class="desktop-link">{{ job.job_tag }}</span>
                             </template>
                             <template #job-post-company></template>
                             <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
-                            <template #job-duration> {{ job.period }}</template>
-                            <template #job-description>{{ job.job_description.substring(0,120) }}...</template>
+                            <template #job-duration> {{ job.work_period.substring(0,5) }}...</template>
+                            <template #job-description>{{ job.job_des.substring(0,120) }}...</template>
                             <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                         </JobCard>
                         
@@ -49,7 +71,7 @@
                 <slot name="job-details">
                     <div class="job-detail-header">
                         <div class="jdh-left">
-                            <!-- <span><b>{{ jobs[selectedJob].job_title }}</b></span> -->
+                            <span><b>{{ filteredJobs[selectedJob].job_tag }}</b></span>
                             <small>microsot Imc. <i>Stars</i></small>
                                 <!---------------clock icon-------------->
                             <span class="jdh-detail">
@@ -65,42 +87,43 @@
                                     <path d="M18.75 12.25C18.75 17.08 14.83 21 10 21C5.17 21 1.25 17.08 1.25 12.25C1.25 7.42 5.17 3.5 10 3.5C14.83 3.5 18.75 7.42 18.75 12.25Z" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M10 7V12" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>Posted {{ getHoursTillDate(jobs[selectedJob].created_at) }} ago
+                                </svg>Posted {{ getHoursTillDate(filteredJobs[selectedJob].created_at) }} ago
                             </span>
                             <span class="jdh-detail">
                                 <!------------wallet icon-------------->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
                                     <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
-                                </svg>
-                                (₦){{ formatBudgetAmount(jobs[selectedJob].budget) }} {{ jobs[selectedJob].budget_des }}
+                                </svg>(₦){{ formatBudgetAmount(filteredJobs[selectedJob].budget) }} {{ filteredJobs[selectedJob].budget_des }}
                             </span>
                         </div>
                         <div class="jdh-right">
-                                <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">Apply Here</button>
-                                <!-- <button class="save-btn" style="border-radius: 5px; margin-left: 10px;" @click="saveJob" :style="{ color:  checkSavedJobs(jobs[selectedJob]._id) ? 'var(--app-blue)' : 'var(--app-grey)' }">
-                                    <i class="bi bi-send-fill"></i>
-                                </button> -->
+                                <button @click="navigateToJobDetails(filteredJobs[selectedJob].id)" class="cust-btn" style="border-radius: 5px;">Apply Here</button>
+                            <!-- <span style="padding: 5px 10px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
+                                    <path d="M0.485051 8.71692C-0.160649 8.50169 -0.166834 8.1541 0.497421 7.93268L24.1075 0.0630534C24.7619 -0.154654 25.1367 0.21149 24.9536 0.852243L18.2072 24.4611C18.0216 25.1155 17.6444 25.1378 17.3673 24.5168L12.9216 14.5121L20.3434 4.61635L10.4476 12.0382L0.485051 8.71692Z" fill="#4E79BC"/>
+                                </svg>
+                            </span> -->
                         </div>
                     </div>
                     <!--------- job details header ends here------------->
                     <div class="job-detail-content">
                         <div class="jd-section">
                             <span class="jdh-title">Job Description</span>
-                            <p style="width:100%;">{{ jobs[selectedJob].job_description }}</p>
+                            <span style="width:100%;">{{ filteredJobs[selectedJob].job_des }}</span>
                         </div>
                         <div class="jd-section">
                             <span class="jdh-title">Payment type</span>
-                           {{ jobs[selectedJob].budget_type }}
+                           {{ filteredJobs[selectedJob].budget_des }}
                         </div>
                         <div class="jd-section">
                             <span class="jdh-title">Project type</span>
-                                {{ jobs[selectedJob].period }}
+                                {{ filteredJobs[selectedJob].work_period }}
                         </div>
                         
                         <div class="jd-section">
                             <span class="jdh-title">Skills Required</span>
                             <div class="skill_set">
-                                <div v-for="(skills,index) in jobs[selectedJob].skills.split(', ')" :key="index">
+                                <div v-for="(skills,index) in filteredJobs[selectedJob].skill_set.split(', ')" :key="index">
                                     <div class="skills">{{ skills }}</div>
                                 </div>
                             </div>
@@ -108,12 +131,11 @@
                                 
                         <div class="jd-section">
                             <span class="jdh-title">About the recruiter</span>
-                            <!-- <p style="color: red;">this job id = {{navigateToJobDetails(filteredJobs[selectedJob].id)}}</p> -->
-                            {{ jobs[selectedJob].job_title }} recruiter is recruiting for {{ jobs[selectedJob].budget_type }} payment
+                            {{ filteredJobs[selectedJob].job_tag }} recruiter is recruiting for {{ filteredJobs[selectedJob].budget_des }} payment
                         </div>
                         <div class="jd-section">
                             <span>
-                                <span @click="navigateToJobDetails(jobs[selectedJob]._id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
+                                <span @click="navigateToJobDetails(filteredJobs[selectedJob].id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                             </span>
                         </div>
                     </div>
@@ -125,17 +147,15 @@
             
     
         <DotLoader v-if="isLoading"/>
-        <!-- <Skeleton v-if="isLoading"/> -->
-    
-            <span v-if=" jobs.length < 1  && isLoading != true" 
-                    style="display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    padding: 50px;">
-            <i class="bi bi-search" style="font-size: 50px; padding: 0; margin: 0;"></i><br/>
-                    <b>Sorry, No jobs found</b>
-                </span>
+        <span v-if="filteredJobs.length === 0 && isLoading != true" 
+                style="display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 50px;">
+        <i class="bi bi-search" style="font-size: 50px; padding: 0; margin: 0;"></i><br/>
+                <b>Sorry, No jobs found</b>
+            </span>
             
     
     </div>
@@ -144,7 +164,7 @@
           <Footer/>
       </div>
       
-</div>
+      </div>
       </template>
       
       <script>
@@ -162,8 +182,7 @@
       import DotLoader from '../components/DotLoader.vue'
       import themeStore from '@/theme/theme';
     
-    //   const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
-    const api_url = "http://127.0.0.1:5000/api"
+      const views = "https://techzoneapp.herokuapp.com/api";
     
       
           export default {
@@ -187,14 +206,7 @@
                     timeInSeconds: 0,
                     timeInMinutes: 0,
                     isLoading: false,
-                    userDetails:[],
-                    userSavedJobs:[],
-                    // variables for search functionalities.....
-                    keywords: '',
-                    budgetMin: '',
-                    budgetMax: '',
-                    jobType: '',
-                    location: '',
+                    
                     }
                 },
                 methods: {
@@ -207,34 +219,23 @@
                         },
     
     
-                        fetchJobListings() {
-                            const token = localStorage.getItem('token');
-
-                            this.isLoading = true;
-
-                            // Set the headers with the authorization token
-                            const config = {
-                                headers: {
-                                Authorization: `JWT ${token}`,
-                                },
-                            };
-
-                            axios.get(`${this.api_url}/savedJobs`, config)
-                                .then((response) => {
-                                this.jobs = response.data.savedJobs;
-                                this.jobs.reverse();
-                                console.log(this.jobs) //this line is used for debugging reponse from request...
-                                this.isLoading = false;
-                                })
-                                .catch((error) => {
-                                this.isLoading = false;
-                                console.error(error);
-                                });
-                            },
+                    fetchJobListings(){
+                        this.isLoading = true;
+                        axios.get(`${views}/jobs`).then(response => {
+                            this.jobs = response.data;
+                            this.jobs.reverse();
+                            // console.log(response.data); logs all jobs to the console to test for data type....
+                            this.isLoading = false;
+                        }).catch(error => {
+                            this.isLoading = false;
+                            console.error(error);
+                        })
+                    },
+    
     
                     //this function opens up in a new page the details of any job clicked...
-                    navigateToJobDetails(job_id) {
-                    const route = this.$router.resolve({ name: 'Techzone - Application', params: { job_id: job_id } });
+                    navigateToJobDetails(jobId) {
+                    const route = this.$router.resolve({ name: 'Application', params: { id: jobId } });
                     window.open(route.href, '_blank');
                     },
     
@@ -269,98 +270,23 @@
                         else{return `${diffInMonths} months`;}
                     }
                     },
-    
-                async searchJobs() {
-                    // Define your search criteria here
-                    const keywords = this.keywords; // Assuming you have a data property named 'keywords'
-                    const budgetMin = this.budgetMin; // Assuming you have a data property named 'budgetMin'
-                    const budgetMax = this.budgetMax; // Assuming you have a data property named 'budgetMax'
-                    const jobType = this.jobType; // Assuming you have a data property named 'jobType'
-                    const location = this.location; // Assuming you have a data property named 'location'
-    
-                    try {
-                    // Make an Axios GET request to your search endpoint
-                    const response = await axios.get(`${this.api_url}/search`, {
-                        params: {
-                        keywords,
-                        budgetMin,
-                        budgetMax,
-                        jobType,
-                        location,
-                        },
-                    });
-    
-                    // Handle the response data (jobs) as needed
-                    this.jobs = response.data.jobs.reverse(); // Assuming you have a data property named 'jobs'
-                    } catch (error) {
-                    console.error('Error searching jobs:', error);
-                    // Handle errors, e.g., show an error message to the user
-                    }
-                },
-                getUserDetails() {
-                    const token = localStorage.getItem('token'); // Get the token from localStorage
-                    const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
-
-                    // Set up headers with the token
-                    const headers = {
-                        Authorization: `JWT ${token}`, // Assuming it's a JWT token
-                    };
-
-                    axios.get(user_url, { headers })
-                        .then((response) => {
-                        // Handle the response here
-                        // For example, you can set user details in your component's data
-                        this.userDetails = response.data.user;
-                        this.userSavedJobs = this.userDetails.saved_jobs;
-                        console.log('user details: ', this.userSavedJobs) // Assuming userDetails is a data property
-                        this.isLoading = false;
-                        })
-                        .catch((error) => {
-                        // Handle errors
-                        console.error(error);
-                        });
-                },
-
-                // Function to check if a job ID is saved
-                checkSavedJobs(jobId) {
-                return this.userSavedJobs.includes(jobId);
-                },
-                
-                async saveJob() {
-                // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
-                const token = localStorage.getItem('token');
-                try {
-                    const config = {
-                    headers: {
-                        Authorization: `JWT ${token}`,
-                    },
-                    };
-                    const jobId = this.jobs[this.selectedJob]._id;
-                    const response = await axios.post(`${this.api_url}/jobs/save/${jobId}`, {}, config);
-                    this.getUserDetails();
-                    console.log(response);
-
-                } catch (error) {
-                    console.error('Error saving job:', error);
-                }
-                },
                 },
                 
                 computed: {
-        //             filteredJobs() {
-        //             if (!this.searchTerm) {
-        //                 return this.jobs;
-        //             }
-        //             return this.jobs.filter((job) => {
-        //                 return (
-        //                 job.job_title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        //                 job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        //                 job.budget.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        //                 job.budget_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        //                 job.work_period.toLowerCase().includes(this.searchTerm.toLowerCase())
-        //                 );
-        //             });
-        // },
+                    filteredJobs() {
+                    if (!this.searchTerm) {
+                        return this.jobs;
+                    }
+                    return this.jobs.filter((job) => {
+                        return (
+                        job.job_tag.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                        job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                        job.budget.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                        job.budget_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+                        job.work_period.toLowerCase().includes(this.searchTerm.toLowerCase())
+                        );
+                    });
+        },
                 },
     
                 mounted(){
@@ -373,25 +299,5 @@
       
       
       <style>
-        @media screen and (max-width: 650px) {}
-        
-    #user-top-navigation-container .nav-tooltip {
-        position: absolute;
-        top: 50px;
-        left: 50%;
-        transform: translate(-50%);
-        padding: 10px;
-        text-transform: none;
-        background-color: var(--nav-tooltip-bg);
-        color: var(--nav-tooltip-text);
-        border-radius: var(--nav-tooltip-radius);
-        box-shadow: var(--nav-tooltip-shadow);
-        white-space: nowrap;
-        z-index: var(--nav-tooltip-zindex);
-        cursor: default;
-        visibility: hidden;
-        opacity: 0;
-        transition: opacity .1s ease-in-out;
-        transition-delay: .5s;
-    }
+        /* @media screen and (max-width: 650px) {} */
       </style>

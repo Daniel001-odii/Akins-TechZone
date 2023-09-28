@@ -43,9 +43,9 @@ import Client_Profile from '../views/Client_Profile.vue'
 
 const routes = [
   {path: '/', component: HomePage, name: "Techzone"},
-  {path: '/user/profile', component: UserProfile, name: "Techzone - profile"},
+  {path: '/user/:user_id', component: UserProfile, name: "Techzone - profile"},
   {path: '/client/profile', component: Client_Profile, name: "Techzone - client profile"},
-  {path: '/user/:user_id/public', component: PublicUserProfile, name: "Techzone - profile-view"},
+  // {path: '/user/:user_id/', component: PublicUserProfile, name: "Techzone - profile"},
   {path: '/jobs', name:'Techzone - jobs', component: NewPage},
   {path: '/login', name: 'Login', component: Login},
   {path: '/employer/login', name: 'Employer - login', component: ClientLogin},
@@ -105,6 +105,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next(); // Proceed to the route
   }
+  
 });
 
 

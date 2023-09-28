@@ -1,8 +1,8 @@
 <template>
 
-<Alert ref="toast">
+<!-- <p>
     {{ authErrors.message }} please login
-</Alert>
+</p> -->
 
 <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
       <div class="Navigation" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -27,17 +27,20 @@
                 <option value="medium">medium</option>
                 <option value="large">large</option>
            </select>
-           <select class="filter-menu" disabled>
+           <!-- <select class="filter-menu" disabled>
                 <option>Remote</option>
                 <option>On site</option>
                 <option>Hybrid</option>
-           </select>
-           <select class="filter-menu" disabled>
+           </select> -->
+           <select class="filter-menu">
                 <option>All time</option>
-                <option>Last 2 hours</option>
-                <option>Last 3 hours</option>
+                <option>under 24 hrs</option>
+                <option>under a week </option>
+                <option>under a month </option>
+                <option>over a month </option>
            </select>
-           
+
+ 
     </form>
           </div>
           <div class="page-tabs">
@@ -207,7 +210,7 @@
   import themeStore from '@/theme/theme';
 
 //   const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
-const api_url = "http://127.0.0.1:5000/api"
+// const api_url = "http://127.0.0.1:5000/api"
 
   
       export default {
@@ -243,8 +246,9 @@ const api_url = "http://127.0.0.1:5000/api"
                 keywords: '',
                 budgetMin: '',
                 budgetMax: '',
-                jobType: '',
+                postedAt: '',
                 location: '',
+                jobType: '',
                 }
             },
             methods: {
@@ -259,7 +263,7 @@ const api_url = "http://127.0.0.1:5000/api"
 
                 fetchJobListings(){
                     this.isLoading = true;
-                    axios.get(`${api_url}/jobs`).then(response => {
+                    axios.get(`${this.api_url}/jobs`).then(response => {
                         this.jobs = response.data.jobs.reverse();
                         this.applied_jobs = this.jobs.values().applications
                         // console.log("applications received: ", response.data.jobs[0].applications); //logs all jobs to the console to test for data type....
@@ -273,7 +277,7 @@ const api_url = "http://127.0.0.1:5000/api"
 
                 getUserDetails() {
                     const token = localStorage.getItem('token'); // Get the token from localStorage
-                    const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
+                    const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
 
                     // Set up headers with the token
                     const headers = {
@@ -311,7 +315,7 @@ const api_url = "http://127.0.0.1:5000/api"
                     },
                     };
                     const jobId = this.jobs[this.selectedJob]._id;
-                    const response = await axios.post(`${api_url}/jobs/save/${jobId}`, {}, config);
+                    const response = await axios.post(`${this.api_url}/jobs/save/${jobId}`, {}, config);
                     this.getUserDetails();
                     this.jobIsSaving = false;
                     console.log(response);
@@ -369,17 +373,19 @@ const api_url = "http://127.0.0.1:5000/api"
                 const budgetMin = this.budgetMin; // Assuming you have a data property named 'budgetMin'
                 const budgetMax = this.budgetMax; // Assuming you have a data property named 'budgetMax'
                 const jobType = this.jobType; // Assuming you have a data property named 'jobType'
-                const location = this.location; // Assuming you have a data property named 'location'
+                const period = this.postedAt;
+                // const location = this.location; // Assuming you have a data property named 'location'
 
                 try {
                 // Make an Axios GET request to your search endpoint
-                const response = await axios.get(`${api_url}/search`, {
+                const response = await axios.get(`${this.api_url}/search`, {
                     params: {
                     keywords,
                     budgetMin,
                     budgetMax,
+                    postedAt,
                     jobType,
-                    location,
+                    // location,
                     },
                 });
 
@@ -395,27 +401,13 @@ const api_url = "http://127.0.0.1:5000/api"
             },
             
             computed: {
-    //             filteredJobs() {
-    //             if (!this.searchTerm) {
-    //                 return this.jobs;
-    //             }
-    //             return this.jobs.filter((job) => {
-    //                 return (
-    //                 job.job_title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-    //                 job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-    //                 job.budget.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-    //                 job.budget_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-    //                 job.work_period.toLowerCase().includes(this.searchTerm.toLowerCase())
-    //                 );
-    //             });
-    // },
             },
 
             mounted(){
                 this.fetchJobListings();
                 this.getHoursTillDate();
                 this.checkSavedJobs();
-                this.getUserDetails();
+                // this.getUserDetails();
             },
 }
 </script>       

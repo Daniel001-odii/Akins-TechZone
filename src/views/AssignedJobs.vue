@@ -182,8 +182,6 @@
       import DotLoader from '../components/DotLoader.vue'
       import themeStore from '@/theme/theme';
     
-      const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
-    
       
           export default {
             setup(){
@@ -221,7 +219,7 @@
     
                     fetchJobListings(){
                         this.isLoading = true;
-                        axios.get(api_url).then(response => {
+                        axios.get(`${this.api_url}/jobs`).then(response => {
                             this.jobs = response.data;
                             this.jobs.reverse();
                             // console.log(response.data); logs all jobs to the console to test for data type....

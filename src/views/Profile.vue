@@ -176,7 +176,7 @@ const api_url = "http://127.0.0.1:5000/api"
     /// this function gets the users details via api route
     getUserDetails() {
             const token = localStorage.getItem('token'); // Get the token from localStorage
-            const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
+            const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
             // Set up headers with the token
             const headers = {
                 Authorization: `JWT ${token}`, // Assuming it's a JWT token
@@ -210,7 +210,7 @@ const api_url = "http://127.0.0.1:5000/api"
                 });
             },
             getUserById(id) {
-                            axios.get(`${api_url}/get-info/${id}`)
+                            axios.get(`${this.api_url}/get-info/${id}`)
                             .then(response => {
                                 this.userDetails = response.data.user;
                                 // const firstname = response.data.user.firstname;

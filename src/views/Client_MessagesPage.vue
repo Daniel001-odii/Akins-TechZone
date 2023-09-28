@@ -44,7 +44,7 @@
   import Navbar from '../components/NavBar.vue';
   import ProfileNavBar from '../components/ProfileNavBar.vue';
   import { reactive } from 'vue';
-  import LeftNav from '../components/Client_LeftNav.vue';
+  import LeftNav from '../components/LeftNav.vue';
   import themeStore from '@/theme/theme';
   
   const Api_url = "https://techzoneapp.herokuapp.com/api";

@@ -152,7 +152,7 @@
       import Navbar from '../components/NavBar.vue';
       import ProfileNavBar from '../components/ProfileNavBar.vue';
       import { reactive } from 'vue';
-      import LeftNav from '../components/Client_LeftNav.vue'
+      import LeftNav from '../components/LeftNav.vue'
       import PageFilter from '../components/PageFilter.vue';
       import axios from 'axios';
       import Loader from '../components/loader.vue'
@@ -160,7 +160,7 @@
       import DotLoader from '../components/DotLoader.vue'
       import themeStore from '@/theme/theme';
     
-      const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
+      const api_url = "https://techzoneapp.herokuapp.com/api";
     
       
           export default {
@@ -199,7 +199,7 @@
     
                     fetchJobListings(){
                         this.isLoading = true;
-                        axios.get(api_url).then(response => {
+                        axios.get(`${this.api_url}/jobs`).then(response => {
                             this.jobs = response.data;
                             this.jobs.reverse();
                             // console.log(response.data); logs all jobs to the console to test for data type....

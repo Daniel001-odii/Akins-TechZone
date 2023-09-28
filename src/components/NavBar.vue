@@ -272,6 +272,7 @@
                 <div class="nav-contents">
                     <div class="Tz-nav-links">
                         <RouterLink to="/client/post-job">Post Job</RouterLink>
+                        <RouterLink to="/client/dashboard">Dashboard</RouterLink>
                     </div>
                 </div>
         </div>
@@ -436,7 +437,7 @@ import { ref } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import themeStore from '@/theme/theme';
 
-// const api_url = "https://techzoneapp.herokuapp.com/api/logout";
+
 const api_url = "http://127.0.0.1:5000/api"
 
 const token = localStorage.getItem('token');
@@ -479,6 +480,7 @@ export default {
 
             userIsUser: false,
             userIsEmployer: false,
+            keywords: '',
 
         };
     },
@@ -518,7 +520,7 @@ export default {
             /// this function gets the users details via api route
             getUserDetails() {
                 const token = localStorage.getItem('token'); // Get the token from localStorage
-                const user_url = `${api_url}/user-info`; // Assuming user-info is the endpoint for user details
+                const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
 
                 // Set up headers with the token
                 const headers = {
@@ -541,7 +543,7 @@ export default {
         // this function gets the employer details via api route
         getEmployerDetails() {
                 const token = localStorage.getItem('token'); // Get the token from localStorage
-                const user_url = `${api_url}/employer-info`; // Assuming user-info is the endpoint for user details
+                const user_url = `${this.api_url}/employer-info`; // Assuming user-info is the endpoint for user details
 
                 // Set up headers with the token
                 const headers = {
