@@ -300,7 +300,7 @@
                     };
 
                     try {
-                    const response = await axios.post(`http://127.0.0.1:5000/api/apply`, applicationData, config);
+                    const response = await axios.post(`${this.api_url}/apply`, applicationData, config);
                     console.log('Job application successful:', response.data);
                     this.showModal = true;
                     this.isSubmitting = false;
