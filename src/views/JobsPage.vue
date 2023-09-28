@@ -373,7 +373,7 @@
                 const budgetMin = this.budgetMin; // Assuming you have a data property named 'budgetMin'
                 const budgetMax = this.budgetMax; // Assuming you have a data property named 'budgetMax'
                 const jobType = this.jobType; // Assuming you have a data property named 'jobType'
-                const period = this.postedAt;
+                const postedAt = this.postedAt;
                 // const location = this.location; // Assuming you have a data property named 'location'
 
                 try {
