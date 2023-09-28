@@ -112,7 +112,7 @@
   async login() {
     this.isLoading = true;
     try {
-      const response = await axios.post(`${this.api_url}/api/login`, {
+      const response = await axios.post(`${this.api_url}/login`, {
         email: this.email,
         password: this.password
       });
