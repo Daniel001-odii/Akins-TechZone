@@ -204,7 +204,7 @@
             <div class="section">
               <div class="section-title">Describe the job location</div>
                 <div class="section-content">
-                    <textarea class="job-description" placeholder="Enter job location and address here..." v-model="formData.job_description" required></textarea>
+                    <textarea class="job-description" placeholder="Enter job location and address here..." v-model="formData.location" required></textarea>
                 </div>
                 <div class="section-last">
                   bit info about the job location from techzone...

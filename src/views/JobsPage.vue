@@ -70,6 +70,17 @@
                         <template #job-duration> {{ job.period }}</template>
                         <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
                         <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
+                        <template #save-button>
+                            <button class="save-btn" style="" @click="NewSaveJob(index)">
+                                <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <div v-else>
+                                    <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
+                                    <i v-else class="bi bi-heart"></i>
+                                </div>
+                            </button>
+                        </template>
                     </JobCard>
                     
                 </div>
@@ -91,7 +102,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 15 20" fill="none">
                                 <path d="M7.5 19.0532L2.19667 13.7499C1.14779 12.701 0.433489 11.3646 0.144107 9.90979C-0.145275 8.45494 0.0032557 6.94695 0.570915 5.57651C1.13858 4.20607 2.09987 3.03473 3.33323 2.21063C4.5666 1.38652 6.01664 0.946655 7.5 0.946655C8.98336 0.946655 10.4334 1.38652 11.6668 2.21063C12.9001 3.03473 13.8614 4.20607 14.4291 5.57651C14.9967 6.94695 15.1453 8.45494 14.8559 9.90979C14.5665 11.3646 13.8522 12.701 12.8033 13.7499L7.5 19.0532ZM11.625 12.5716C12.4407 11.7558 12.9963 10.7164 13.2213 9.58482C13.4463 8.45328 13.3308 7.28042 12.8892 6.21455C12.4477 5.14868 11.7 4.23768 10.7408 3.59673C9.78149 2.95578 8.6537 2.61368 7.5 2.61368C6.3463 2.61368 5.21851 2.95578 4.25924 3.59673C3.29996 4.23768 2.55229 5.14868 2.11076 6.21455C1.66923 7.28042 1.55368 8.45328 1.77871 9.58482C2.00374 10.7164 2.55926 11.7558 3.375 12.5716L7.5 16.6966L11.625 12.5716ZM7.5 10.1133C7.05797 10.1133 6.63405 9.93766 6.32149 9.6251C6.00893 9.31254 5.83333 8.88861 5.83333 8.44659C5.83333 8.00456 6.00893 7.58064 6.32149 7.26808C6.63405 6.95552 7.05797 6.77992 7.5 6.77992C7.94203 6.77992 8.36595 6.95552 8.67851 7.26808C8.99107 7.58064 9.16667 8.00456 9.16667 8.44659C9.16667 8.88861 8.99107 9.31254 8.67851 9.6251C8.36595 9.93766 7.94203 10.1133 7.5 10.1133Z" fill="#4E79BC"/>
                             </svg>
-                            Lekki Phase 1, Lagos State
+                            {{ jobs[selectedJob].location }}
                         <!-- </span> -->
                         <!-- <span> -->
                             <!---------------clock icon-------------->
@@ -116,15 +127,15 @@
                            
                                 
                            
-                                <button class="save-btn" style="border-radius: 5px; margin-left: 2px;" @click="saveJob">
-                                <div v-if="jobIsSaving" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
+                            <!-- <button class="save-btn" style="border-radius: 5px; margin-left: 2px;" @click="saveJob">
+                                <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                                 <div v-else>
                                     <i v-if="checkSavedJobs(jobs[selectedJob]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
                                     <i v-else class="bi bi-heart"></i>
                                 </div>
-                            </button>
+                            </button> -->
                     </div>
                 </div>
                 <!--------- job details header ends here------------->
@@ -242,6 +253,8 @@
                 userSavedJobs:[],
                 jobIsSaving: false,
 
+                isSaving: [],
+
                 authErrors: false,
 
                 // 
@@ -269,7 +282,8 @@
                     this.isLoading = true;
                     axios.get(`${this.api_url}/jobs`).then(response => {
                         this.jobs = response.data.jobs.reverse();
-                        this.applied_jobs = this.jobs.values().applications
+                        this.applied_jobs = this.jobs.values().applications;
+                        this.isSaving.length = this.jobs.length;
                         // console.log("applications received: ", response.data.jobs[0].applications); //logs all jobs to the console to test for data type....
                         console.log("applied jobs: ", this.applied_jobs)
                         this.isLoading = false;
@@ -329,6 +343,31 @@
                     this.jobIsSaving = false;
                     this.authErrors = error.response.data;
                     this.$refs.toast.showToast(error.response.data.message, 5000);
+                }
+                },
+
+                async NewSaveJob(index) {
+                // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
+                const token = localStorage.getItem('token');
+                this.isSaving[index] = true;
+                try {
+                    const config = {
+                    headers: {
+                        Authorization: `JWT ${token}`,
+                    },
+                    };
+                    const jobId = this.jobs[index]._id;
+                    const response = await axios.post(`${this.api_url}/jobs/save/${jobId}`, {}, config);
+                    this.getUserDetails();
+                    this.isSaving[index] = false;
+                    console.log(response);
+
+                } catch (error) {
+                    console.error('Error saving job:', error.response.data);
+                    this.jobIsSaving = false;
+                    this.authErrors = error.response.data;
+                    this.$refs.toast.showToast(error.response.data.message, 5000);
+                    this.isSaving[index] = false;
                 }
                 },
 
@@ -442,13 +481,13 @@
 
 
 .save-btn{
-    /* height: 20px; */
-    /* width: 20px; */
-    background: none;
+    height: 20px;
+    width: 20px;
+    background: red;
     padding: 0px 10px;
     font-size: 20px;
     outline: none;
-    /* border-radius: 50% !important; */
+    border-radius: 50% !important;
     border: none;
 }
   </style>
