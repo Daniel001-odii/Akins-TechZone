@@ -27,20 +27,13 @@
                 <option value="medium">medium</option>
                 <option value="large">large</option>
            </select>
-           <!-- <select class="filter-menu" disabled>
-                <option>Remote</option>
-                <option>On site</option>
-                <option>Hybrid</option>
-           </select> -->
-           <select class="filter-menu">
-                <option>All time</option>
-                <option>under 24 hrs</option>
-                <option>under a week </option>
-                <option>under a month </option>
-                <option>over a month </option>
+           <select class="filter-menu" v-model="posted">
+                <option value="">All time</option>
+                <option value="under 24 hrs">under 24 hrs</option>
+                <option value="under a week">under a week </option>
+                <option value="under a month">under a month </option>
+                <option value="over a month">over a month </option>
            </select>
-
- 
     </form>
           </div>
           <div class="page-tabs">
@@ -71,11 +64,17 @@
                         <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
                         <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                         <template #save-button>
-                            <button class="save-btn" style="" @click="NewSaveJob(index)">
+                            <!-- <button class="save-btn" style="" @click="NewSaveJob(index)">
                                 <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                                 <div v-else>
+                                    <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
+                                    <i v-else class="bi bi-heart"></i>
+                                </div>
+                            </button> -->
+                            <button class="save-btn" style="" @click="NewSaveJob(index)">
+                                <div>
                                     <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
                                     <i v-else class="bi bi-heart"></i>
                                 </div>
@@ -124,18 +123,6 @@
                     <div class="jdh-right">
                         
                             <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">Apply Here</button>
-                           
-                                
-                           
-                            <!-- <button class="save-btn" style="border-radius: 5px; margin-left: 2px;" @click="saveJob">
-                                <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div v-else>
-                                    <i v-if="checkSavedJobs(jobs[selectedJob]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
-                                    <i v-else class="bi bi-heart"></i>
-                                </div>
-                            </button> -->
                     </div>
                 </div>
                 <!--------- job details header ends here------------->
@@ -182,21 +169,7 @@
         
 
     <DotLoader v-if="isLoading"/>
-    <!-- <Skeleton v-if="isLoading"/> -->
-
-        <span v-if="jobs.length === 0 && isLoading != true" 
-                style="
-                display: flex;
-                flex-direction: column;
-                text-align: center;
-                justify-content: flex-start;
-                align-items: center;
-                height: 80vh;
-                padding: 50px 50px 50px 20px;
-                ">
-        <img src="../assets/imgs/non.svg" class="non-img">
-                <p>No job Available</p>
-            </span>
+    <span  v-if="jobs.length == undefined" class="no-job-screen"><p>No assigned job Available</p></span>
         
 
 </div>
@@ -263,7 +236,7 @@
                 keywords: '',
                 budgetMin: '',
                 budgetMax: '',
-                postedAt: '',
+                posted: '',
                 location: '',
                 jobType: '',
                 }
@@ -308,7 +281,6 @@
                         // For example, you can set user details in your component's data
                         this.userDetails = response.data.user;
                         this.userSavedJobs = this.userDetails.saved_jobs;
-                        // console.log('user details: ', this.userSavedJobs) // Assuming userDetails is a data property
                         this.isLoading = false;
                         })
                         .catch((error) => {
@@ -322,30 +294,6 @@
                 return this.userSavedJobs.includes(jobId);
                 },
                 
-                async saveJob() {
-                // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
-                const token = localStorage.getItem('token');
-                this.jobIsSaving = true;
-                try {
-                    const config = {
-                    headers: {
-                        Authorization: `JWT ${token}`,
-                    },
-                    };
-                    const jobId = this.jobs[this.selectedJob]._id;
-                    const response = await axios.post(`${this.api_url}/jobs/save/${jobId}`, {}, config);
-                    this.getUserDetails();
-                    this.jobIsSaving = false;
-                    console.log(response);
-
-                } catch (error) {
-                    console.error('Error saving job:', error.response.data);
-                    this.jobIsSaving = false;
-                    this.authErrors = error.response.data;
-                    this.$refs.toast.showToast(error.response.data.message, 5000);
-                }
-                },
-
                 async NewSaveJob(index) {
                 // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
                 const token = localStorage.getItem('token');
@@ -416,7 +364,7 @@
                 const budgetMin = this.budgetMin; // Assuming you have a data property named 'budgetMin'
                 const budgetMax = this.budgetMax; // Assuming you have a data property named 'budgetMax'
                 const jobType = this.jobType; // Assuming you have a data property named 'jobType'
-                const postedAt = this.postedAt;
+                const posted = this.posted;
                 // const location = this.location; // Assuming you have a data property named 'location'
 
                 try {
@@ -426,7 +374,7 @@
                     keywords,
                     budgetMin,
                     budgetMax,
-                    postedAt,
+                    posted,
                     jobType,
                     // location,
                     },

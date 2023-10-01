@@ -65,15 +65,12 @@
                             <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
                             <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                             <template #save-button>
-                                <button class="save-btn" style="" @click="NewSaveJob(index)">
-                                    <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
-                                        <span class="visually-hidden">Loading...</span>
-                                    </div>
-                                    <div v-else>
-                                        <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
-                                        <i v-else class="bi bi-heart"></i>
-                                    </div>
-                                </button>
+                            <button class="save-btn" style="" @click="NewSaveJob(index)">
+                                <div>
+                                    <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
+                                    <i v-else class="bi bi-heart"></i>
+                                </div>
+                            </button>
                             </template>
                         </JobCard>
                         

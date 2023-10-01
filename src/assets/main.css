@@ -758,6 +758,23 @@ opacity: 0;
  }
 
 
+ .desktop-link{
+  width: 80%;
+  display: block;
+}
+
+.no-job-screen{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: flex-start;
+  align-items: center;
+  height: 80vh;
+  padding: 50px;
+}
+
+
+
 @media screen and (max-width: 500px) {
   .page-grid-container {
       display: grid;
@@ -780,7 +797,7 @@ opacity: 0;
 @media screen and (max-width: 650px) {
   .mobile-link{
    display: block;
-   width: 80%;     
+   width: 60%;     
   }
   .desktop-link{
     display: none;

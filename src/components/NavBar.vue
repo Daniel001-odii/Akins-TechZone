@@ -118,7 +118,7 @@
             </form>
         </div>
                     <div class="Tz-nav-actions">
-                            <span class="notifications">
+                            <div class="notifications">
                                 <i class="bi bi-bell"></i>
                                 <!---notifications modal-->
                                 <div class="notification-modal notification-modal-sw" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -133,12 +133,12 @@
                                     
                                     <div class="notifications-footer"><RouterLink to="/notifications"> See all Notifications</RouterLink></div>
                                 </div>
-                            </span>
+                            </div>
                            
                             <i class="bi bi-three-dots-vertical" style="margin-right: 8px"></i>
                         
                         <!--Logged in user credential display-->
-                        <div class="user-menu-toggle" style="width: 150px; display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 5px; margin-right: 10px;">
+                        <div class="user-menu-toggle">
                             <!-- <div class="tz-user-thumbnail" :style="setUser"></div> -->
                             <div v-if="userDetails.profile">
                                 <img  :src="userDetails.profile.profileImage" class="tz-user-thumbnail">
@@ -294,7 +294,7 @@
                             <i class="bi bi-three-dots-vertical"></i>
                         
                         <!--Logged in user credential display-->
-                        <div class="user-menu-toggle" style="width: 150px; display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; margin-right: 10px;">
+                        <div class="user-menu-toggle">
                             <div @click="userMenuIsShown=!userMenuIsShown" class="tz-user-thumbnail"></div>
                             <span  style="font-size: 12px;">{{ employerDetails.firstname }} {{ employerDetails.lastname }}<br/><button class="logout"> {{ employerDetails.email }}</button> <br/></span>
                         
@@ -629,12 +629,21 @@ export default {
     width: 300px;
     background: #fff;
     border: 1px solid #00000023;
-    /* box-shadow: 0px 12px 12px #F1F4F4; */
-    top: 50px;
-    right: 80px;
+    box-shadow: 0px 12px 12px #F1F4F4;
+    top: 42px;
+    left: -139px;
     font-size: 0.8em;
     z-index: 999999;
+    border-radius: 5px;
 }
+
+.notifications{
+    position: relative;
+    display: flex;
+    /* background: red; */
+}
+
+
 
 .notification-modal-sw:before {
     left: auto;
@@ -644,7 +653,7 @@ export default {
 
 .notification-modal:before {
     border: 7px solid #00000000;
-    border-bottom: 7px solid #3C464E;
+    border-bottom: 7px solid #efefef;
 }
 
 .notification-modal:before {
@@ -778,13 +787,13 @@ export default {
 }
 
 .Tz-nav-actions{
-    gap: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: center;
     padding: 2px 10px;
 }
+
 
 .menu-toggle{
     margin: 0px 10px 0px 10px;
@@ -880,11 +889,12 @@ export default {
     border: 1px solid #00000023;
     width: 180px;
     position: absolute;
-    top: 50px;
-    right: 20px;
+    top: 55px;
+    right: 70px;
     z-index: 999999;
     font-size: 0.8em;
     overflow-x: hidden;
+    border-radius: 5px;
 }
 .tz-user-menu:after {
     content: "";
@@ -906,9 +916,13 @@ export default {
 }
 
 
-
-
-
+.user-menu-toggle {
+display:flex; 
+flex-direction: row; 
+justify-content: center; 
+align-items: center; 
+margin-right: 10px; gap: 5px;
+}
 
 
 .login-options{
