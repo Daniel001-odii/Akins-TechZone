@@ -12,31 +12,25 @@
                 
                 <div class="left-content">
                 <h2 style="font-weight: bolder;">Reset Your Password</h2>
-                <p>Please enter your Email Address.</p> <small>If your email address appears, we'll slide into your inbox like a ninja and drop a password reset link like it's hot, so you can regain access to your account.</small>
+                <p>Please enter your New password.</p> <small>becareful this time so you dont forget it again.</small>
 
                 <!--form starts here ------------------------------->
-                <form  style="margin-top: 10px"  @submit.prevent="sendResetLink">
+                <form  style="margin-top: 10px"  @submit.prevent="resetPassword">
+                    <span v-for="error in msg" :key="error"  >
+                        <ul class="error-msg fade-out"  style="z-index:999999;">
+                            <li class="" v-if="show">{{ error }}</li>
+                        </ul>
+                    </span>
                 <div class="form-section">
-
-                    <div class="tz_alert_box" v-if="showErrors">
-                            <span>{{ errors }}</span>
-                            <span class="tz_alert_box_closeBtn" @click="showErrors = !showErrors">&times;</span>
-                    </div>
-                    <div class="tz_alert_box_green" v-if="showErrors" style="background: lightgreen;">
-                            <span>{{ messages }}</span>
-                            <span class="tz_alert_box_closeBtn" @click="showErrors = !showErrors">&times;</span>
-                    </div>
-
-
-                    <label for="email">Email Address</label>
-                    <input class="form-input" name="email" placeholder="email address" v-model="email" type="email" required>
+                    <label for="email">New Password</label>
+                    <input class="form-input" name="password" placeholder="input your new password" v-model="password" type="password" required>
                 </div>
 
 
                 <button style="margin-top: 10px" class="form-btn" type="submit">
                     <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <span v-if="isLoading === true">Loading...</span>
-                            <span v-else>Send Reset Link</span>
+                            <span v-else>Reset password</span>
                 </button>
                 </form>
                 <!-------form ends here----------------->
@@ -81,12 +75,10 @@ const Api_url = "https://techzoneapp.herokuapp.com/api/login";
         data(){
             return{
                 show: true,
-                email: '',
                 password: '',
                 errors: [],
-                messages: '',
+                msg: [],
                 isLoading: false,
-                showErrors: false,
             }
         },
         mounted(){
@@ -95,36 +87,43 @@ const Api_url = "https://techzoneapp.herokuapp.com/api/login";
             }, 30000);
         },
         methods:{
-            async sendResetLink() {
+
+
+            async resetPassword() {
+                this.isLoading = true;
+                const resetToken = this.$route.params.token;
+                console.log("the reset token from the url: ", resetToken);
                 try {
-                    const response = await fetch(`${this.api_url}/sendpassreset`, {
+                    const response = await fetch(`${this.api_url}/reset-password`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ email: this.email }),
+                    body: JSON.stringify({ newPassword: this.password, resetToken: resetToken }),
                     });
 
-                    if (response.status === 200) {
-                        alert("Password reset email sent successfully.");
-                        console.log('Password reset email sent successfully.');
-                    } else {
+                    if (response.ok) {
+                    this.isLoading = false;
                     const data = await response.json();
                     console.log(data);
-                    this.errors = data.message;
+                    // Redirect the user to the login page or do something else
+                    this.$router.push('/login');
+
+                    // Clear the form inputs or redirect to a login page
+                    } else {
+                    const data = await response.json();
+                    this.message = data.message;
                     }
                 } catch (error) {
-
-                    this.showErrors = true;
-
-                    this.errors = error;
-                    console.error('Error sending reset email:', error);
-                    
-                    this.message = 'An error occurred while sending the reset email.';
+                    console.error('Error resetting password:', error);
+                    this.message = 'Internal server error';
                 }
-                },
-                }
-    }
+    },
+
+
+
+    },
+}
 </script>
 
 <style>

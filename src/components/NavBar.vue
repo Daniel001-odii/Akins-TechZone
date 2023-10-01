@@ -97,7 +97,7 @@
 </div>
 
 <div v-if="userIsUser" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-<nav class="Tz-navbar" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+    <nav class="Tz-navbar" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Tz-brand-area">
                     <RouterLink to="/jobs"  class="navbar-brand"><img class="nav-img" src="../components/Logos_icons/techzone.png"></RouterLink>
                 <div class="nav-contents">
@@ -135,19 +135,23 @@
                                 </div>
                             </span>
                            
-                            <i class="bi bi-three-dots-vertical"></i>
+                            <i class="bi bi-three-dots-vertical" style="margin-right: 8px"></i>
                         
                         <!--Logged in user credential display-->
-                        <div class="user-menu-toggle" style="width: 150px; display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 8px; margin-right: 10px;">
-                            <div @click="userMenuIsShown=!userMenuIsShown" class="tz-user-thumbnail"></div>
+                        <div class="user-menu-toggle" style="width: 150px; display:flex; flex-direction: row; justify-content: center; align-items: center; gap: 5px; margin-right: 10px;">
+                            <!-- <div class="tz-user-thumbnail" :style="setUser"></div> -->
+                            <div v-if="userDetails.profile">
+                                <img  :src="userDetails.profile.profileImage" class="tz-user-thumbnail">
+                            </div>
+                            
                             <span  style="font-size: 12px;">{{ userDetails.firstname }} {{ userDetails.lastname }}<br/><button class="logout"> {{ userDetails.email }}</button> <br/></span>
                         
                             <div class="tz-user-menu tz-user-menu-sw">
-                                <RouterLink to="/user/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                                    <div class="tz-menu-content">
+                                <!-- <RouterLink to="/user/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]"> -->
+                                    <div class="tz-menu-content" @click="navigateToUserprofile(userDetails.id)">
                                         <i class="bi bi-person-circle"></i>
                                     View profile</div>
-                                </RouterLink>
+                                <!-- </RouterLink> -->
                                 <div class="tz-menu-content">
                                     <i class="bi bi-gear-fill"></i>
                                     Settings</div>
@@ -175,12 +179,6 @@
                             </div>
                         </div>
                     </div>
-        <!-- </div> -->
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 33 20" fill="none"  class="menu-toggle"  @click="showMenu = !showMenu">
-                    <path d="M1.94727 1.75464H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
-                    <path d="M1.94727 10.0001H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
-                    <path d="M1.94727 18.2455H31.6308" stroke="#292D32" stroke-width="1.9789" stroke-linecap="round"/>
-                </svg> -->
                 <i class="bi bi-list menu-toggle"  @click="showMenu = !showMenu"></i>
     </nav>
 
@@ -195,61 +193,43 @@
             <span class="closeBtn" @click="showMenu=false">&times;</span>
        </div>
 
-       <RouterLink to="/jobs" class="menu-item">
+        <RouterLink to="/jobs" class="menu-item">
         <div>
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 25 26" fill="none">
-            <path d="M6.25 5.5V1.75C6.25 1.41848 6.3817 1.10054 6.61612 0.866116C6.85054 0.631696 7.16848 0.5 7.5 0.5H17.5C17.8315 0.5 18.1495 0.631696 18.3839 0.866116C18.6183 1.10054 18.75 1.41848 18.75 1.75V5.5H23.75C24.0815 5.5 24.3995 5.6317 24.6339 5.86612C24.8683 6.10054 25 6.41848 25 6.75V24.25C25 24.5815 24.8683 24.8995 24.6339 25.1339C24.3995 25.3683 24.0815 25.5 23.75 25.5H1.25C0.918479 25.5 0.600537 25.3683 0.366116 25.1339C0.131696 24.8995 0 24.5815 0 24.25V6.75C0 6.41848 0.131696 6.10054 0.366116 5.86612C0.600537 5.6317 0.918479 5.5 1.25 5.5H6.25ZM2.5 19.25V23H22.5V19.25H2.5ZM2.5 16.75H22.5V8H2.5V16.75ZM8.75 3V5.5H16.25V3H8.75ZM11.25 13H13.75V15.5H11.25V13Z" fill="#4E79BC"/>
-            </svg> -->
             <span class="menu-item-label">Work Explorer</span>
             </div>
         </RouterLink>
 
         <RouterLink to="/messages" class="menu-item">
         <div>
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 22" fill="none">
-            <path d="M0.767317 8.00682C0.257317 7.80182 0.263317 7.49682 0.801317 7.31782L19.8873 0.95582C20.4163 0.77982 20.7193 1.07582 20.5713 1.59382L15.1173 20.6798C14.9673 21.2088 14.6423 21.2328 14.4003 20.7498L9.84432 11.6368L0.767317 8.00682ZM5.65732 7.80682L11.2933 10.0618L14.3333 16.1438L17.8793 3.73382L5.65632 7.80682H5.65732Z" fill="#45494F"/>
-            </svg> -->
             <span class="menu-item-label">Messages</span>
         </div>
         </RouterLink>
 
+        <span class="menu-item"  @click="navigateToUserprofile(userDetails.id)">
+        <div>
+            <span class="menu-item-label">Profile Settings</span>
+        </div>
+        </span>
+
         <RouterLink to="/savedJobs" class="menu-item">
         <div>
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 22" fill="none">
-            <path d="M0.767317 8.00682C0.257317 7.80182 0.263317 7.49682 0.801317 7.31782L19.8873 0.95582C20.4163 0.77982 20.7193 1.07582 20.5713 1.59382L15.1173 20.6798C14.9673 21.2088 14.6423 21.2328 14.4003 20.7498L9.84432 11.6368L0.767317 8.00682ZM5.65732 7.80682L11.2933 10.0618L14.3333 16.1438L17.8793 3.73382L5.65632 7.80682H5.65732Z" fill="#45494F"/>
-            </svg> -->
             <span class="menu-item-label">Saved Jobs</span>
         </div>
         </RouterLink>
        
         <RouterLink to="/notifications" class="menu-item">
         <div>
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 40 40" fill="none">
-                            <circle cx="20.0459" cy="20" r="17.5375" stroke="#4E79BC" stroke-width="3.05"/>
-                            <path d="M27.7264 24.3451H29.5765V26.1953H11.0747V24.3451H12.9249V17.8695C12.9249 15.9067 13.7046 14.0243 15.0925 12.6364C16.4804 11.2485 18.3628 10.4688 20.3256 10.4688C22.2884 10.4688 24.1708 11.2485 25.5587 12.6364C26.9466 14.0243 27.7264 15.9067 27.7264 17.8695V24.3451ZM25.8762 24.3451V17.8695C25.8762 16.3974 25.2914 14.9856 24.2505 13.9447C23.2095 12.9037 21.7977 12.3189 20.3256 12.3189C18.8535 12.3189 17.4417 12.9037 16.4008 13.9447C15.3599 14.9856 14.7751 16.3974 14.7751 17.8695V24.3451H25.8762ZM17.5504 28.0455H23.1009V29.8957H17.5504V28.0455Z" fill="#4E79BC"/>
-                        </svg> -->
             <span class="menu-item-label">Notifications</span>
         </div>
         </RouterLink>
 
         <RouterLink to="/support" class="menu-item">
         <div>
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 39 40" fill="none">
-                            <path d="M19.1709 39.0625C8.64268 39.0625 0.108398 30.5282 0.108398 20C0.108398 9.47178 8.64268 0.9375 19.1709 0.9375C29.6991 0.9375 38.2334 9.47178 38.2334 20C38.2334 30.5282 29.6991 39.0625 19.1709 39.0625ZM19.1709 35.25C23.2155 35.25 27.0943 33.6433 29.9543 30.7834C32.8142 27.9234 34.4209 24.0446 34.4209 20C34.4209 15.9554 32.8142 12.0766 29.9543 9.21662C27.0943 6.35669 23.2155 4.75 19.1709 4.75C15.1263 4.75 11.2474 6.35669 8.38752 9.21662C5.52759 12.0766 3.9209 15.9554 3.9209 20C3.9209 24.0446 5.52759 27.9234 8.38752 30.7834C11.2474 33.6433 15.1263 35.25 19.1709 35.25V35.25ZM17.2646 25.7188H21.0771V29.5312H17.2646V25.7188ZM21.0771 22.583V23.8125H17.2646V20.9531C17.2646 20.4476 17.4655 19.9627 17.823 19.6052C18.1805 19.2477 18.6653 19.0469 19.1709 19.0469C19.7124 19.0468 20.2428 18.893 20.7003 18.6033C21.1579 18.3137 21.5237 17.9 21.7553 17.4105C21.987 16.921 22.0748 16.3758 22.0087 15.8384C21.9426 15.3009 21.7252 14.7932 21.3818 14.3745C21.0385 13.9557 20.5833 13.6431 20.0692 13.4729C19.5551 13.3028 19.0032 13.2821 18.4778 13.4133C17.9524 13.5446 17.4751 13.8223 17.1014 14.2142C16.7277 14.6061 16.4729 15.096 16.3668 15.6271L12.6267 14.8779C12.8586 13.7191 13.394 12.6426 14.1783 11.7585C14.9625 10.8744 15.9675 10.2144 17.0904 9.84602C18.2133 9.47761 19.4139 9.414 20.5695 9.66167C21.725 9.90935 22.7941 10.4594 23.6674 11.2557C24.5407 12.052 25.1869 13.0658 25.5399 14.1937C25.8929 15.3215 25.9401 16.5229 25.6767 17.675C25.4132 18.827 24.8486 19.8885 24.0405 20.7508C23.2323 21.6131 22.2097 22.2454 21.0771 22.583V22.583Z" fill="#45494F"/>
-                        </svg> -->
             <span class="menu-item-label">Help & Support</span>
         </div>
         </RouterLink>
 
-        <RouterLink to="/user/profile" class="menu-item">
-        <div>
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 51 50" fill="none">
-                            <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
-                            <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
-                        </svg> -->
-            <span class="menu-item-label">Profile Settings</span>
-        </div>
-        </RouterLink>
+        
 
         <span class="menu-item">
         <div>
@@ -319,11 +299,11 @@
                             <span  style="font-size: 12px;">{{ employerDetails.firstname }} {{ employerDetails.lastname }}<br/><button class="logout"> {{ employerDetails.email }}</button> <br/></span>
                         
                             <div class="tz-user-menu tz-user-menu-sw">
-                                <RouterLink to="/client/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                                    <div class="tz-menu-content">
+                                <!-- <RouterLink to="/client/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]"> -->
+                                    <div class="tz-menu-content" @click="navigateToClientprofile(employerDetails.id)">
                                         <i class="bi bi-person-circle"></i>
                                     View profile</div>
-                                </RouterLink>
+                                <!-- </RouterLink> -->
                                 <div class="tz-menu-content">
                                     <i class="bi bi-gear-fill"></i>
                                     billings & hires</div>
@@ -345,8 +325,6 @@
                                     <input type="checkbox" @click="themeStore.toggleTheme">
                                     <span class="slider round"></span>
                                     </label></i>theme
-                                    
-                                    <!-- <button class="tz_mode_switch" @click="themeStore.toggleTheme">Toggle Theme {{ darkMode }}</button> -->
                                 </div>
                             </div>
                         </div>
@@ -367,12 +345,14 @@
 
         <RouterLink to="/client/dashboard" class="menu-item">
             <div>
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 25 26" fill="none">
-                <path d="M6.25 5.5V1.75C6.25 1.41848 6.3817 1.10054 6.61612 0.866116C6.85054 0.631696 7.16848 0.5 7.5 0.5H17.5C17.8315 0.5 18.1495 0.631696 18.3839 0.866116C18.6183 1.10054 18.75 1.41848 18.75 1.75V5.5H23.75C24.0815 5.5 24.3995 5.6317 24.6339 5.86612C24.8683 6.10054 25 6.41848 25 6.75V24.25C25 24.5815 24.8683 24.8995 24.6339 25.1339C24.3995 25.3683 24.0815 25.5 23.75 25.5H1.25C0.918479 25.5 0.600537 25.3683 0.366116 25.1339C0.131696 24.8995 0 24.5815 0 24.25V6.75C0 6.41848 0.131696 6.10054 0.366116 5.86612C0.600537 5.6317 0.918479 5.5 1.25 5.5H6.25ZM2.5 19.25V23H22.5V19.25H2.5ZM2.5 16.75H22.5V8H2.5V16.75ZM8.75 3V5.5H16.25V3H8.75ZM11.25 13H13.75V15.5H11.25V13Z" fill="#4E79BC"/>
-                </svg> -->
                 <span class="menu-item-label">My Jobs</span>
             </div>
         </RouterLink>
+        <span class="menu-item"  @click="navigateToClientprofile(employerDetails.id)">
+            <div>
+                <span class="menu-item-label">Profile</span>
+            </div>
+        </span>
 
         <RouterLink to="/client/messages" class="menu-item">
             <div>
@@ -401,23 +381,8 @@
                 <span class="menu-item-label">Help & Support</span>
             </div>
         </RouterLink>
-
-        <RouterLink to="/client/profile" class="menu-item">
-            <div>
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 51 50" fill="none">
-                                <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
-                                <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
-                            </svg> -->
-                <span class="menu-item-label">Profile Settings</span>
-            </div>
-        </RouterLink>
-
         <span class="menu-item">
             <div>
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 51 50" fill="none">
-                                <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
-                                <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
-                            </svg> -->
                 <span class="menu-item-label" @click="logout">Logout</span>
             </div>
         </span>
@@ -527,7 +492,7 @@ export default {
             // 
             },
             /// this function gets the users details via api route
-            getUserDetails() {
+        getUserDetails() {
                 const token = localStorage.getItem('token'); // Get the token from localStorage
                 const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
 
@@ -564,7 +529,7 @@ export default {
                     // Handle the response here
                     // For example, you can set user details in your component's data
                     this.employerDetails = response.data.employer;
-                    console.log("emplyer details: ", this.employerDetails) // Assuming userDetails is a data property
+                    // console.log("emplyer details: ", this.employerDetails) // Assuming userDetails is a data property
                     this.isLoading = false;
                     })
                     .catch((error) => {
@@ -572,8 +537,24 @@ export default {
                     console.error(error);
                     });
         },
+        navigateToUserprofile(user_id) {
+                    const route = this.$router.resolve({ name: "Techzone - profile", params: { user_id: user_id } });
+                    window.open(route.href, '_blank');
+        },
+        navigateToClientprofile(user_id) {
+                    const route = this.$router.resolve({ name: "Techzone - client", params: { user_id: user_id } });
+                    window.open(route.href, '_blank');
+        },
         
         },
+    // computed:{
+    //     setUser(){
+    //         return{
+    //             backgroundImage: this.userDetails.profile.profileImage
+    //         }
+
+    //     },
+    // },
         beforeDestroy() {
             window.removeEventListener('online', this.updateOnlineStatus);
             window.removeEventListener('offline', this.updateOnlineStatus);
@@ -722,7 +703,7 @@ export default {
 }
 .closeBtn{
     /* color: var(--app-blue); */
-    font-size: 30px;
+    font-size: 25px !important;
     position: absolute; 
     right: 20px;
     top:2px;
@@ -761,7 +742,7 @@ export default {
 }
 .menu-item{
     height: 50px;
-    border-bottom: 2px solid var(--app-hover);
+    border-bottom: 1px solid var(--app-hover);
     width: 100%;
     display: flex;
     align-items: center;
@@ -797,11 +778,12 @@ export default {
 }
 
 .Tz-nav-actions{
-    gap: 10px;
+    gap: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: center;
+    padding: 2px 10px;
 }
 
 .menu-toggle{
@@ -943,7 +925,6 @@ export default {
     height: 35px;
     width: 35px;
     border-radius: 50%;
-    background: url("./Logos_icons/dummy_user.png");
 }
 .tz-user-thumbnail:hover .tz-user-menu{
     /* background: red; */

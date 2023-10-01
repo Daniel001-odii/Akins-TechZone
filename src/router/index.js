@@ -24,6 +24,8 @@ import customize_client from '../views/clientCustomize.vue'
 //Authentication views.........
 // import EmployerSignup from '../views/SignUp_2.vue'
 import ResetPassword from '../views/PassReset.vue'
+import ResetPassword2 from '../views/PassReset2.vue'
+
 import Login from '../views/login.vue'
 import ClientLogin from '../views/ClientLogin.vue'
 import SignUp from '../views/SignUp.vue'
@@ -37,14 +39,15 @@ import JobSuccess from '../views/JobSuccess.vue' ///page is deprecated and has b
 import client_jobs from '../views/Client_Jobs.vue'
 import client_messages from '../views/Client_MessagesPage.vue'
 import client_payment from '../views/Payment.vue'
-import Client_Profile from '../views/Client_Profile.vue'
+import Client_Profile from '../views/Profile_public.vue'
 // import 
 
 
 const routes = [
   {path: '/', component: HomePage, name: "Techzone"},
-  {path: '/user/:user_id', component: UserProfile, name: "Techzone - profile"},
-  {path: '/client/profile', component: Client_Profile, name: "Techzone - client profile"},
+  {path: '/user/:user_id', component: UserProfile, name: "Techzone - profile", },
+  // the profile_public actually belongs to the client ...
+  {path: '/client/:user_id', component: Client_Profile, name: "Techzone - client", meta: { requiresAuth: true, role: 'employer' }},
   // {path: '/user/:user_id/', component: PublicUserProfile, name: "Techzone - profile"},
   {path: '/jobs', name:'Techzone - jobs', component: NewPage},
   {path: '/login', name: 'Login', component: Login},
@@ -61,6 +64,7 @@ const routes = [
   {path: "/jobs/:job_id/application", name: 'Techzone - Application', component: JobDetail, meta: { requiresAuth: true, role: 'user' }},
   {path: "/notifications", name:  "Techzone - Notifications", component: Notifications, meta: { requiresAuth: true }},
   {path: "/reset-password", name: "Password - reset", component: ResetPassword},
+  {path: "/reset-password/:token", name: "Password - reset2", component: ResetPassword2},
 
   //job categories.......
   {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true, role: 'user' }},

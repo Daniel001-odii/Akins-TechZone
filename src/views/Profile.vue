@@ -1,27 +1,76 @@
 <template>
+
+
+<div v-if="editProfileMenu" class="editProfile" style="
+height: 100dvh;
+width: 100%;
+background: #efefef;
+position: absolute;
+z-index: 99999;
+">
+
+
+    <form @submit.prevent="updateuserProfile" id="userProfile.profile">
+        <span >close</span>
+        <div class="bio">
+            <input type="text" :value="userDetails.firstname" disabled>
+            <input type="text" :value="userDetails.lastname" disabled>
+        </div>
+        <div class="bio">
+            <input type="text" placeholder="say something about yourself" v-model="userProfile.profile.bio">
+        </div>
+        <div class="location">
+            <input type="text" placeholder="your location goes here..." v-model="userProfile.profile.location">
+        </div>
+        <div class="phone">
+            <input type="number" placeholder="your phone goes here..." v-model="userProfile.profile.phone">
+        </div>
+        <div class="skillTitle">
+            <input type="text" placeholder="write what best describes you" v-model="userProfile.profile.skillTitle">
+        </div>
+        <div class="skills">
+            <input type="text" placeholder="list your skills here" v-model="userProfile.profile.skillsList">
+        </div>
+        <div class="social">
+            <input type="text" placeholder="link to you fav social account" v-model="userProfile.profile.socialAccount">
+        </div>
+        <button type="submit">save and exit</button>
+    </form>
+    
+</div>
+
     <NavBar/>
 
-    <div class="body" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-    <!-- <RouterLink to="/jobs">
-        <div class="back-btn" style="">
-            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
-            <circle cx="11.75" cy="11.25" r="11.25" fill="#F6F9FF"/>
-            <path d="M8.621 10.3335L12.644 6.3105L11.5835 5.25L5.75 11.0835L11.5835 16.917L12.644 15.8565L8.621 11.8335H17.75V10.3335H8.621Z" fill="#4E79BC"/>
-            </svg>
-            Back
-        </div>
-    </RouterLink> -->
-    
+    <!-- <div class="tz_alert_box" v-if="showError">
+        <span>{{ formErrors }}</span>
+        <span class="tz_alert_box_closeBtn" @click="showError = !showError">&times;</span>
+    </div> -->
+
+    <DotLoader v-if="isLoading"/>
+
+
+    <div>
+    <h1>Upload Profile Image</h1>
+    <input type="file" @change="handleFileUpload" accept="image/*" />
+    <button @click="uploadProfileImage">Upload</button>
+</div>
+
+
+
+<div class="body" :class="['theme-transition', { 'dark': themeStore.darkMode }]" v-if="!isLoading">
+
+
+
+
     <div class="tz-profile-card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-profile-left">
-                <div class="tz-user-thumbnail"></div>
+                <img :src="userDetails.profile.profileImage" class="tz-user-thumbnail">
                 <div class="tz-user-details">
                     <p  class="tz-user-name">{{ userDetails.firstname }} {{ userDetails.lastname }}</p>
-                    <!-- <div class="tz-user-skill">UI/UX Designer</div> -->
+                    <div class="tz-user-skill">{{ userDetails.profile.skillTitle }}</div>
                     <div class="tz-user-skill">{{ userDetails.email }}</div>
-                    <div class="tz-user-bio">Here, user gives a brief description about his/herself, more like a brief introduction.</div>
                     <div class="tz-btn-array">
-                        <button class="cust-btn">Edit Profile</button>
+                        <button class="cust-btn" @click="editProfileMenu = !editProfileMenu">Edit Profile</button>
                         <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">View Resume</button>
                     </div>
                 </div>
@@ -41,7 +90,7 @@
                     </tr>
                     <tr>
                         <td>Location</td>
-                        <td>Lagos, Nigeria</td>
+                        <td>{{ userDetails.profile.location }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -64,18 +113,8 @@
                         <span>Email</span>
                     </div>
                     <div class="tz-social">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
-                        <circle cx="17.2215" cy="16.6102" r="16.6102" fill="#E0EAFF"/>
-                        <g clip-path="url(#clip0_907_6705)">
-                        <path d="M10.5766 9.13562H23.8647C24.085 9.13562 24.2962 9.22312 24.452 9.37887C24.6077 9.53462 24.6952 9.74586 24.6952 9.96613V23.2543C24.6952 23.4745 24.6077 23.6858 24.452 23.8415C24.2962 23.9973 24.085 24.0848 23.8647 24.0848H10.5766C10.3563 24.0848 10.1451 23.9973 9.98934 23.8415C9.83359 23.6858 9.74609 23.4745 9.74609 23.2543V9.96613C9.74609 9.74586 9.83359 9.53462 9.98934 9.37887C10.1451 9.22312 10.3563 9.13562 10.5766 9.13562ZM11.4071 10.7966V22.4238H23.0342V10.7966H11.4071ZM13.4834 14.1187C13.153 14.1187 12.8361 13.9874 12.6025 13.7538C12.3689 13.5202 12.2376 13.2033 12.2376 12.8729C12.2376 12.5425 12.3689 12.2256 12.6025 11.992C12.8361 11.7584 13.153 11.6271 13.4834 11.6271C13.8138 11.6271 14.1306 11.7584 14.3643 11.992C14.5979 12.2256 14.7291 12.5425 14.7291 12.8729C14.7291 13.2033 14.5979 13.5202 14.3643 13.7538C14.1306 13.9874 13.8138 14.1187 13.4834 14.1187ZM12.6529 14.9492H14.3139V21.178H12.6529V14.9492ZM17.2207 15.3063C17.7057 14.8371 18.2721 14.5339 18.8817 14.5339C20.6017 14.5339 21.7885 15.9283 21.7885 17.6483V21.178H20.1274V17.6483C20.1274 17.2629 19.9743 16.8932 19.7018 16.6206C19.4292 16.3481 19.0595 16.1949 18.6741 16.1949C18.2886 16.1949 17.9189 16.3481 17.6464 16.6206C17.3738 16.8932 17.2207 17.2629 17.2207 17.6483V21.178H15.5597V14.9492H17.2207V15.3063Z" fill="#2A3D59"/>
-                        </g>
-                        <defs>
-                        <clipPath id="clip0_907_6705">
-                        <rect width="19.9322" height="19.9322" fill="white" transform="translate(7.25586 6.64417)"/>
-                        </clipPath>
-                        </defs>
-                        </svg>
-                        <span>LinkedIn</span>
+                        <i class="bi bi-github"></i>
+                        <span>Github</span>
                     </div>
                     
                 </div>
@@ -95,43 +134,44 @@
         <b>Profile</b>
     </div>
     <div class="tz-profile-last" >
+        <div class="about-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+            <div class="tz-user-about">
+                <div class="about-header">About</div>
+                <div class="user-about">
+                    <!-- <div class="user-about" v-if="userDetails.isverified"> -->
+                    <span>{{ userDetails.profile.bio }}</span>
+                </div>
+                <!-- <span v-else>user not verified</span> -->
+                <div class="about-header">
+                    Skills
+                </div>
+                <!-- <div class="user-about" v-if="userDetails.isverified">
+                    Meet our dummy user, John Doe! John is a fictional character created to help demonstrate the features and functionality of our website. Although not a real person, John embodies the qualities of an average user, making him relatable and easy to understand. With his diverse background and interests, John represents a wide range of users who can benefit from our platform. Whether it's exploring new features, engaging with the community, or simply enjoying the user-friendly interface, John is always enthusiastic about discovering what our website has to offer. So, join John on this exciting journey as we showcase the capabilities and possibilities that await you on our platform!
+                </div> -->
+                <span>{{ userDetails.profile.skillsList }}</span>
+            </div>
+        </div>
+
         <div class="bio-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-emphasis">
                 <b>Phone Number</b>
-                <span v-if="userDetails.isverified" style="color: greenyellow"> &#xF4B5; {{ userDetails.email }}</span>
-                <span v-else>user not verified</span>
+                <span> {{ userDetails.profile.phone }} </span>
             </div>
             <div class="tz-emphasis">
                 <b>Email Adrress</b>
                 <span>{{ userDetails.email }}</span>
             </div>
             <div class="tz-emphasis">
-                <b>Portfolio</b>
-                <span>Link to Portfolio profile goes here</span>
+                <b>Connected accounts</b>
+                <span>{{ userDetails.profile.socialAccount }}</span>
+            </div>
+            <div class="tz-emphasis">
+                <b>Date joined</b>
+                <span>{{ formatTimestamp(userDetails.created) }}</span>
             </div>
 
-            <div class="tz-emphasis">
-                <b>Phone Number</b>
-                <span v-if="userDetails.isverified" style="color: greenyellow"> &#xF4B5; {{ userDetails.email }}</span>
-                <span v-else>user not verified</span>
-            </div>
         </div>
-        <div class="about-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-            <div class="tz-user-about">
-                <div class="about-header">About</div>
-                <div class="user-about" v-if="userDetails.isverified">
-                    Meet our dummy user, John Doe! John is a fictional character created to help demonstrate the features and functionality of our website. Although not a real person, John embodies the qualities of an average user, making him relatable and easy to understand. With his diverse background and interests, John represents a wide range of users who can benefit from our platform. Whether it's exploring new features, engaging with the community, or simply enjoying the user-friendly interface, John is always enthusiastic about discovering what our website has to offer. So, join John on this exciting journey as we showcase the capabilities and possibilities that await you on our platform!
-                </div>
-                <span v-else>user not verified</span>
-                <div class="about-header">
-                    Skills
-                </div>
-                <div class="user-about" v-if="userDetails.isverified">
-                    Meet our dummy user, John Doe! John is a fictional character created to help demonstrate the features and functionality of our website. Although not a real person, John embodies the qualities of an average user, making him relatable and easy to understand. With his diverse background and interests, John represents a wide range of users who can benefit from our platform. Whether it's exploring new features, engaging with the community, or simply enjoying the user-friendly interface, John is always enthusiastic about discovering what our website has to offer. So, join John on this exciting journey as we showcase the capabilities and possibilities that await you on our platform!
-                </div>
-                <span v-else>user not verified</span>
-            </div>
-        </div>
+       
     </div>
 
 </div>
@@ -153,12 +193,10 @@ import Footer from '../components/Footer.vue';
 import 'bootstrap/dist/js/bootstrap.js';
 import axios from 'axios';
 import themeStore from '@/theme/theme';
-
-
-const api_url = "http://127.0.0.1:5000/api"
+import DotLoader from '../components/DotLoader.vue';
 
     export default {
-        components:{NavBar, Footer},
+        components:{NavBar, Footer, DotLoader},
         setup(){
                 // Accessing themeStore properties and methods
                   const toggleTheme = themeStore.toggleTheme;
@@ -170,11 +208,28 @@ const api_url = "http://127.0.0.1:5000/api"
           data(){
             return{
                 userDetails:'',
+                isLoading: true,
+                editProfileMenu: false,
+                showError: false,
+
+
+            userProfile: {
+                profile:{
+                    bio: '',
+                    location: '',
+                    phone: '',
+                    profilePicture: '',
+                    skillTitle: '',
+                    skillsList: '',
+                    socialAccount: '',
+                    },
+                }
             }
           },
           methods:{
     /// this function gets the users details via api route
     getUserDetails() {
+        this.isLoading = true;
             const token = localStorage.getItem('token'); // Get the token from localStorage
             const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
             // Set up headers with the token
@@ -187,11 +242,15 @@ const api_url = "http://127.0.0.1:5000/api"
                 // Handle the response here
                 // For example, you can set user details in your component's data
                 this.userDetails = response.data.user;
-                console.log(response.data) // Assuming userDetails is a data property
+                console.log("the user ", this.userDetails.profile) // Assuming userDetails is a data property
                 this.isLoading = false;
+
+                //auto populate user form...
+                this.autoFill();
                 })
                 .catch((error) => {
                 // Handle errors
+                this.isLoading = false;
                 console.error(error);
                 });
             },
@@ -209,25 +268,104 @@ const api_url = "http://127.0.0.1:5000/api"
                 this.isLoading = false;
                 });
             },
-            getUserById(id) {
-                            axios.get(`${this.api_url}/get-info/${id}`)
-                            .then(response => {
-                                this.userDetails = response.data.user;
+    getUserById(id) {
+        this.isLoading = true;
+            axios.get(`${this.api_url}/get-info/${id}`)
+                .then(response => {
+                    if(response.data.user){
+                        this.userDetails = response.data.user;
+                        this.userProfile = this.userDetails;
+                    }
+                    else if(response.data.employer){
+                        this.userDetails = response.data.employer 
+                    }
                                 // const firstname = response.data.user.firstname;
                                 // const lastname = response.data.user.lastname;
                                 // return response.data.user;
-                                console.log("user detail: ", response.data.user);
-                            })
-                            .catch(error => {
-                                console.error('Error fetching user or employer details:', error);
+                    console.log("user detail: ", response.data.user);
+                    this.userDetails = response.data.user;
+                    
+                    this.employerDetails = response.data.employer;
+                    this.isLoading = false;
+                    })
+                    .catch(error => {
+                    console.error('Error fetching user or employer details:', error);
+                    this.isLoading = false;
                                 // Handle errors
-                            });
-                        },
-            formatTimestamp(timestamp) {
+                });
+            },
+    formatTimestamp(timestamp) {
                 const date = new Date(timestamp);
                 const options = { year: "numeric", month: "long", day: "numeric" };
                 return date.toLocaleDateString(undefined, options);
-                },
+            },
+    async updateuserProfile(){
+            const token = localStorage.getItem('token'); // Get the token from localStorage
+    
+            // Set up headers with the token
+            const headers = {
+                Authorization: `JWT ${token}`, // Assuming it's a JWT token
+            };
+                try {
+            const response = await axios.put(`${this.api_url}/user`, this.userProfile, {headers});
+            console.log(response.data);
+            this.editProfileMenu = !this.editProfileMenu;
+            this.showError = true;
+
+        } catch (error) {
+            console.log(error);
+            
+        }
+            },
+    autoFill(){
+            this.userProfile.profile = this.userDetails.profile;
+            },
+    showMessage(message, type){
+
+    },
+    handleFileUpload(event) {
+      // Store the selected file in the component's data
+      this.selectedFile = event.target.files[0];
+    },
+    async uploadProfileImage() {
+  if (!this.selectedFile) {
+    return;
+  }
+
+  try {
+    const formData = new FormData();
+    formData.append('profileImage', this.selectedFile);
+
+    // Retrieve the JWT token from local storage
+    const token = localStorage.getItem('token');
+
+    // Check if the token exists
+    if (!token) {
+      console.error('JWT token not found in local storage');
+      return;
+    }
+
+    const headers = {
+      Authorization: `JWT ${token}`, // Add the JWT token to the authorization header
+    };
+
+    const response = await fetch(`${this.api_url}/upload-profile-image`, {
+      method: 'POST',
+      body: formData,
+      headers: headers, // Pass the headers with the JWT token
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data.message);
+      // Optionally, update the user's profile with the image URL received from the server
+    } else {
+      console.error('Error uploading profile image');
+    }
+  } catch (error) {
+    console.error('Error uploading profile image', error);
+  }
+},
 
                 
           },
@@ -236,8 +374,8 @@ const api_url = "http://127.0.0.1:5000/api"
 
           
           mounted() {
-            this.getUserDetails();
-            this.getUserById(this.$route.params.user_id)
+            // this.getUserDetails();
+            this.getUserById(this.$route.params.user_id);
         },
     }
 </script>
@@ -431,7 +569,7 @@ th, td{
             padding: 0px;
         }
         .about-area{
-            height: 400px;
+            /* height: 400px; */
         }
         .tz-profile-header, .tz-profile-last, .about-area{
             width: 100%;

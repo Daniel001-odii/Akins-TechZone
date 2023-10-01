@@ -90,15 +90,18 @@
                                         <div class="accordion_body_firs" v-for="(applicant, index) in getJobApplications(index)" :key="index">
                                             <div class="applicants_card">
                                                 <!-- {{ getJobApplications(index) }} -->
-                                            <!-- <b>User:</b> <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/> -->
-                                            <b>User:</b> <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
-                                            <b>Cover letter: </b> {{ applicant.coverLetter }} <br/> 
-                                            <b>Attachment: </b> {{  applicant.attachment }} <br/>
-                                            <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
-                                            <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
-                                            <div class="job-effect-btns" style="padding: 15px 0px;">
-                                                <button class="cust-btn" style="border-radius: 5px;">Message</button>
-                                                <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;">Hire</button>
+                                            <div v-if="getUserById(applicant.user)">
+                                                <img class="tz-user-thumbnail-big" :src="getUserById(applicant.user).profile.profileImage">
+                                                <br/>
+                                                <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
+                                                <b>Cover letter: </b> {{ applicant.coverLetter }} <br/> 
+                                                <b>Attachment: </b> {{  applicant.attachment }} <br/>
+                                                <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
+                                                <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
+                                                <div class="job-effect-btns" style="padding: 15px 0px;">
+                                                    <button class="cust-btn" style="border-radius: 5px;">Message</button>
+                                                    <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;">Hire</button>
+                                                </div>
                                             </div>
                                             <!-- {{ applicant }} -->
                                             </div>
@@ -180,7 +183,6 @@
                     },
 
                     getJobApplications(index){
-                        localStorage.setIte
                         return this.jobs[index].applications;
                     },
 

@@ -227,6 +227,18 @@ a{
   border: 3px solid transparent;
 }
 
+.tz-user-thumbnail{
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+}
+
+.tz-user-thumbnail-big{
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+
 .tz-nav-block:hover{
   background: var(--app-hover) !important;
   border-bottom: 3px solid var(--app-blue);
@@ -431,6 +443,14 @@ p{
   }
 }
 
+
+.save-btn{
+  background: none;
+  font-size: 20px;
+  outline: none;
+  border-radius: 50% !important;
+  border: none;
+}
 
 
 /*------------------- customize profile page ---------------*/
@@ -759,7 +779,8 @@ opacity: 0;
 
 @media screen and (max-width: 650px) {
   .mobile-link{
-   display: block;     
+   display: block;
+   width: 80%;     
   }
   .desktop-link{
     display: none;

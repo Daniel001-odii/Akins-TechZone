@@ -450,13 +450,13 @@
                 this.fetchJobListings();
                 this.getHoursTillDate();
                 this.checkSavedJobs();
-                // this.getUserDetails();
+                this.getUserDetails();
             },
 }
 </script>       
   
   
-  <style>
+  <style scoped>
     @media screen and (max-width: 650px) {}
     
 #user-top-navigation-container .nav-tooltip {
@@ -479,15 +479,4 @@
     transition-delay: .5s;
 }
 
-
-.save-btn{
-    height: 20px;
-    width: 20px;
-    background: red;
-    padding: 0px 10px;
-    font-size: 20px;
-    outline: none;
-    border-radius: 50% !important;
-    border: none;
-}
   </style>

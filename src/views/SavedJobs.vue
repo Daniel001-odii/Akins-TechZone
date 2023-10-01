@@ -1,29 +1,56 @@
 <template>
 
-<div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+    <!-- <p>
+        {{ authErrors.message }} please login
+    </p> -->
+    
+    <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
           <div class="Navigation" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
               <NavBar/>
           </div>
-        <div class="Left-Nav" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+        <div class="Left-Nav">
              <LeftNav/>
         </div>
         <div class="Page-header">
-              <div class="page-title"><slot name="page-title">Saved Jobs ( <span v-if="jobs.length == null">0</span><span v-else> {{ jobs.length }}</span>)</slot></div>
+              <div class="page-title"><slot name="page-title">Work Explorer</slot></div>
               <div class="page-filters">
-                 <PageFilter>
+                     <!-- Search input fields and form -->
+        <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
                <div class="filter-search">
                     <i class="bi bi-search"></i>
-                    <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search all types of jobs">
+                    <input type="search" class="ft-search" v-model="keywords" placeholder="Search all types of jobs">
                </div>
-                 </PageFilter>
+               <button class="filter-menu" style="background: rgb(4, 197, 4) !important; border: none; color: #fff;" type="submit">Search</button>
+               <select class="filter-menu" v-model="jobType">
+                    <option value="">All type</option>
+                    <option value="small">small</option>
+                    <option value="medium">medium</option>
+                    <option value="large">large</option>
+               </select>
+               <!-- <select class="filter-menu" disabled>
+                    <option>Remote</option>
+                    <option>On site</option>
+                    <option>Hybrid</option>
+               </select> -->
+               <select class="filter-menu">
+                    <option>All time</option>
+                    <option>under 24 hrs</option>
+                    <option>under a week </option>
+                    <option>under a month </option>
+                    <option>over a month </option>
+               </select>
+    
+     
+        </form>
               </div>
               <div class="page-tabs">
-                    
+                 
               </div>
         </div>
     
+    
     <div class="Page-contents">
-        <div class="page-content-sub" v-if="jobs.length >= 1" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+        <div class="page-content-sub" v-if="jobs.length > 0" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="job-cards-area">
                     <slot name="job-cards">
                     <div v-for="(job, index) in jobs" :key="index">
@@ -35,8 +62,19 @@
                             <template #job-post-company></template>
                             <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
                             <template #job-duration> {{ job.period }}</template>
-                            <template #job-description>{{ job.job_description.substring(0,120) }}...</template>
+                            <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
                             <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
+                            <template #save-button>
+                                <button class="save-btn" style="" @click="NewSaveJob(index)">
+                                    <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div v-else>
+                                        <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
+                                        <i v-else class="bi bi-heart"></i>
+                                    </div>
+                                </button>
+                            </template>
                         </JobCard>
                         
                     </div>
@@ -49,15 +87,16 @@
                 <slot name="job-details">
                     <div class="job-detail-header">
                         <div class="jdh-left">
-                            <!-- <span><b>{{ jobs[selectedJob].job_title }}</b></span> -->
+                            <span><b>{{ jobs[selectedJob].job_title }}</b></span>
                             <small>microsot Imc. <i>Stars</i></small>
+                            <!-- <span>Job is saved: {{ checkSavedJobs(jobs[selectedJob]._id) }}</span> -->
                                 <!---------------clock icon-------------->
                             <span class="jdh-detail">
                                 <!---------------location icon-------------->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 15 20" fill="none">
                                     <path d="M7.5 19.0532L2.19667 13.7499C1.14779 12.701 0.433489 11.3646 0.144107 9.90979C-0.145275 8.45494 0.0032557 6.94695 0.570915 5.57651C1.13858 4.20607 2.09987 3.03473 3.33323 2.21063C4.5666 1.38652 6.01664 0.946655 7.5 0.946655C8.98336 0.946655 10.4334 1.38652 11.6668 2.21063C12.9001 3.03473 13.8614 4.20607 14.4291 5.57651C14.9967 6.94695 15.1453 8.45494 14.8559 9.90979C14.5665 11.3646 13.8522 12.701 12.8033 13.7499L7.5 19.0532ZM11.625 12.5716C12.4407 11.7558 12.9963 10.7164 13.2213 9.58482C13.4463 8.45328 13.3308 7.28042 12.8892 6.21455C12.4477 5.14868 11.7 4.23768 10.7408 3.59673C9.78149 2.95578 8.6537 2.61368 7.5 2.61368C6.3463 2.61368 5.21851 2.95578 4.25924 3.59673C3.29996 4.23768 2.55229 5.14868 2.11076 6.21455C1.66923 7.28042 1.55368 8.45328 1.77871 9.58482C2.00374 10.7164 2.55926 11.7558 3.375 12.5716L7.5 16.6966L11.625 12.5716ZM7.5 10.1133C7.05797 10.1133 6.63405 9.93766 6.32149 9.6251C6.00893 9.31254 5.83333 8.88861 5.83333 8.44659C5.83333 8.00456 6.00893 7.58064 6.32149 7.26808C6.63405 6.95552 7.05797 6.77992 7.5 6.77992C7.94203 6.77992 8.36595 6.95552 8.67851 7.26808C8.99107 7.58064 9.16667 8.00456 9.16667 8.44659C9.16667 8.88861 8.99107 9.31254 8.67851 9.6251C8.36595 9.93766 7.94203 10.1133 7.5 10.1133Z" fill="#4E79BC"/>
                                 </svg>
-                                Lekki Phase 1, Lagos State
+                                {{ jobs[selectedJob].location }}
                             <!-- </span> -->
                             <!-- <span> -->
                                 <!---------------clock icon-------------->
@@ -67,18 +106,29 @@
                                     <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>Posted {{ getHoursTillDate(jobs[selectedJob].created_at) }} ago
                             </span>
+                            
                             <span class="jdh-detail">
                                 <!------------wallet icon-------------->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
                                     <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
-                                </svg>
-                                (₦){{ formatBudgetAmount(jobs[selectedJob].budget) }} {{ jobs[selectedJob].budget_des }}
+                                </svg>(₦){{ formatBudgetAmount(jobs[selectedJob].budget) }} {{ jobs[selectedJob].budget_des }}
                             </span>
                         </div>
+                        
                         <div class="jdh-right">
+                            
                                 <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">Apply Here</button>
-                                <!-- <button class="save-btn" style="border-radius: 5px; margin-left: 10px;" @click="saveJob" :style="{ color:  checkSavedJobs(jobs[selectedJob]._id) ? 'var(--app-blue)' : 'var(--app-grey)' }">
-                                    <i class="bi bi-send-fill"></i>
+                               
+                                    
+                               
+                                <!-- <button class="save-btn" style="border-radius: 5px; margin-left: 2px;" @click="saveJob">
+                                    <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div v-else>
+                                        <i v-if="checkSavedJobs(jobs[selectedJob]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
+                                        <i v-else class="bi bi-heart"></i>
+                                    </div>
                                 </button> -->
                         </div>
                     </div>
@@ -115,6 +165,7 @@
                             <span>
                                 <span @click="navigateToJobDetails(jobs[selectedJob]._id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                             </span>
+                            
                         </div>
                     </div>
                 </slot>
@@ -127,19 +178,19 @@
         <DotLoader v-if="isLoading"/>
         <!-- <Skeleton v-if="isLoading"/> -->
     
-        <span v-if="jobs.length === 0 && isLoading != true" 
-                style="
-                display: flex;
-                flex-direction: column;
-                text-align: center;
-                justify-content: flex-start;
-                align-items: center;
-                height: 80vh;
-                padding: 50px 50px 50px 20px;
-                ">
-        <img src="../assets/imgs/non.svg" class="non-img">
-                <p>you have no saved jobs</p>
-            </span>
+            <span v-if="jobs.length === 0 && isLoading != true" 
+                    style="
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    justify-content: flex-start;
+                    align-items: center;
+                    height: 80vh;
+                    padding: 50px 50px 50px 20px;
+                    ">
+            <img src="../assets/imgs/non.svg" class="non-img">
+                    <p>No job Available</p>
+                </span>
             
     
     </div>
@@ -148,10 +199,10 @@
           <Footer/>
       </div>
       
-</div>
-      </template>
+      </div>
+    </template>
       
-      <script>
+    <script>
       import { RouterLink, useRouter } from 'vue-router';
       import Footer from '../components/Footer.vue';
       import JobCard from '../components/JobCard.vue';
@@ -164,10 +215,11 @@
       import Loader from '../components/loader.vue'
       import Skeleton from '../components/pageSkeleton.vue'
       import DotLoader from '../components/DotLoader.vue'
+      import Alert from '../components/Alert.vue'
       import themeStore from '@/theme/theme';
     
     //   const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
-    const api_url = "http://127.0.0.1:5000/api"
+    // const api_url = "http://127.0.0.1:5000/api"
     
       
           export default {
@@ -179,26 +231,35 @@
                         toggleTheme,
                     };
             },
-              components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, useRouter, LeftNav, PageFilter, Loader, Skeleton, DotLoader },
+              components:{ JobCard, NavBar, ProfileNavBar, Footer, RouterLink, useRouter, LeftNav, PageFilter, Loader, Skeleton, DotLoader, Alert },
                 data() {
                     return {
                     selectedJob: 0, // index of currently selected job
     
                     /*------ the area below ensures the search filter works, pls dont touch-----*/
                     searchTerm: '',
-                    jobs:[],
+                    jobs:'',
                     hoursDifference: null,
                     timeInSeconds: 0,
                     timeInMinutes: 0,
                     isLoading: false,
-                    userDetails:[],
+                    userDetails:'',
                     userSavedJobs:[],
+                    jobIsSaving: false,
+    
+                    isSaving: [],
+    
+                    authErrors: false,
+    
+                    // 
+                    applied_jobs:'',
                     // variables for search functionalities.....
                     keywords: '',
                     budgetMin: '',
                     budgetMax: '',
-                    jobType: '',
+                    postedAt: '',
                     location: '',
+                    jobType: '',
                     }
                 },
                 methods: {
@@ -211,8 +272,8 @@
                         },
     
     
-                        fetchJobListings() {
-                            const token = localStorage.getItem('token');
+                    fetchJobListings(){
+                        const token = localStorage.getItem('token');
 
                             this.isLoading = true;
 
@@ -223,18 +284,100 @@
                                 },
                             };
 
-                            axios.get(`${this.api_url}/savedJobs`, config)
-                                .then((response) => {
-                                this.jobs = response.data.savedJobs;
-                                this.jobs.reverse();
-                                console.log(this.jobs) //this line is used for debugging reponse from request...
-                                this.isLoading = false;
-                                })
-                                .catch((error) => {
-                                this.isLoading = false;
-                                console.error(error);
-                                });
-                            },
+                        this.isLoading = true;
+                        axios.get(`${this.api_url}/savedJobs`, config).then(response => {
+                            this.jobs = response.data.savedJobs.reverse();
+                            this.applied_jobs = this.jobs.values().applications;
+                            this.isSaving.length = this.jobs.length;
+                            // console.log("applications received: ", response.data.jobs[0].applications); //logs all jobs to the console to test for data type....
+                            console.log("applied jobs: ", this.applied_jobs)
+                            this.isLoading = false;
+                        }).catch(error => {
+                            this.isLoading = false;
+                            console.error(error);
+                        })
+                    },
+    
+                    getUserDetails() {
+                        const token = localStorage.getItem('token'); // Get the token from localStorage
+                        const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
+    
+                        // Set up headers with the token
+                        const headers = {
+                            Authorization: `JWT ${token}`, // Assuming it's a JWT token
+                        };
+    
+                        axios.get(user_url, { headers })
+                            .then((response) => {
+                            // Handle the response here
+                            // For example, you can set user details in your component's data
+                            this.userDetails = response.data.user;
+                            this.userSavedJobs = this.userDetails.saved_jobs;
+                            // console.log('user details: ', this.userSavedJobs) // Assuming userDetails is a data property
+                            this.isLoading = false;
+                            })
+                            .catch((error) => {
+                            // Handle errors
+                            console.error(error);
+                            });
+                    },
+    
+                    // Function to check if a job ID is saved
+                    checkSavedJobs(jobId) {
+                    return this.userSavedJobs.includes(jobId);
+                    },
+                    
+                    async saveJob() {
+                    // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
+                    const token = localStorage.getItem('token');
+                    this.jobIsSaving = true;
+                    try {
+                        const config = {
+                        headers: {
+                            Authorization: `JWT ${token}`,
+                        },
+                        };
+                        const jobId = this.jobs[this.selectedJob]._id;
+                        const response = await axios.post(`${this.api_url}/jobs/save/${jobId}`, {}, config);
+                        // fetch user details and referesh fetched jobs array....
+                        this.getUserDetails();
+                        this.fetchJobListings();
+
+                        this.jobIsSaving = false;
+                        console.log(response);
+    
+                    } catch (error) {
+                        console.error('Error saving job:', error.response.data);
+                        this.jobIsSaving = false;
+                        this.authErrors = error.response.data;
+                        this.$refs.toast.showToast(error.response.data.message, 5000);
+                    }
+                    },
+    
+                    async NewSaveJob(index) {
+                    // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
+                    const token = localStorage.getItem('token');
+                    this.isSaving[index] = true;
+                    try {
+                        const config = {
+                        headers: {
+                            Authorization: `JWT ${token}`,
+                        },
+                        };
+                        const jobId = this.jobs[index]._id;
+                        const response = await axios.post(`${this.api_url}/jobs/save/${jobId}`, {}, config);
+                        this.getUserDetails();
+                        this.isSaving[index] = false;
+                        console.log(response);
+    
+                    } catch (error) {
+                        console.error('Error saving job:', error.response.data);
+                        this.jobIsSaving = false;
+                        this.authErrors = error.response.data;
+                        this.$refs.toast.showToast(error.response.data.message, 5000);
+                        this.isSaving[index] = false;
+                    }
+                    },
     
                     //this function opens up in a new page the details of any job clicked...
                     navigateToJobDetails(job_id) {
@@ -275,12 +418,14 @@
                     },
     
                 async searchJobs() {
+                    this.isLoading = true;
                     // Define your search criteria here
                     const keywords = this.keywords; // Assuming you have a data property named 'keywords'
                     const budgetMin = this.budgetMin; // Assuming you have a data property named 'budgetMin'
                     const budgetMax = this.budgetMax; // Assuming you have a data property named 'budgetMax'
                     const jobType = this.jobType; // Assuming you have a data property named 'jobType'
-                    const location = this.location; // Assuming you have a data property named 'location'
+                    const postedAt = this.postedAt;
+                    // const location = this.location; // Assuming you have a data property named 'location'
     
                     try {
                     // Make an Axios GET request to your search endpoint
@@ -289,91 +434,34 @@
                         keywords,
                         budgetMin,
                         budgetMax,
+                        postedAt,
                         jobType,
-                        location,
+                        // location,
                         },
                     });
     
                     // Handle the response data (jobs) as needed
+                    this.isLoading = false;
                     this.jobs = response.data.jobs.reverse(); // Assuming you have a data property named 'jobs'
                     } catch (error) {
+                    this.isLoading = false;
                     console.error('Error searching jobs:', error);
                     // Handle errors, e.g., show an error message to the user
                     }
                 },
-                getUserDetails() {
-                    const token = localStorage.getItem('token'); // Get the token from localStorage
-                    const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
-
-                    // Set up headers with the token
-                    const headers = {
-                        Authorization: `JWT ${token}`, // Assuming it's a JWT token
-                    };
-
-                    axios.get(user_url, { headers })
-                        .then((response) => {
-                        // Handle the response here
-                        // For example, you can set user details in your component's data
-                        this.userDetails = response.data.user;
-                        this.userSavedJobs = this.userDetails.saved_jobs;
-                        console.log('user details: ', this.userSavedJobs) // Assuming userDetails is a data property
-                        this.isLoading = false;
-                        })
-                        .catch((error) => {
-                        // Handle errors
-                        console.error(error);
-                        });
-                },
-
-                // Function to check if a job ID is saved
-                checkSavedJobs(jobId) {
-                return this.userSavedJobs.includes(jobId);
-                },
-                
-                async saveJob() {
-                // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
-                const token = localStorage.getItem('token');
-                try {
-                    const config = {
-                    headers: {
-                        Authorization: `JWT ${token}`,
-                    },
-                    };
-                    const jobId = this.jobs[this.selectedJob]._id;
-                    const response = await axios.post(`${this.api_url}/jobs/save/${jobId}`, {}, config);
-                    this.getUserDetails();
-                    console.log(response);
-
-                } catch (error) {
-                    console.error('Error saving job:', error);
-                }
-                },
                 },
                 
                 computed: {
-        //             filteredJobs() {
-        //             if (!this.searchTerm) {
-        //                 return this.jobs;
-        //             }
-        //             return this.jobs.filter((job) => {
-        //                 return (
-        //                 job.job_title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        //                 job.job_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        //                 job.budget.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        //                 job.budget_des.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        //                 job.work_period.toLowerCase().includes(this.searchTerm.toLowerCase())
-        //                 );
-        //             });
-        // },
                 },
     
                 mounted(){
                     this.fetchJobListings();
                     this.getHoursTillDate();
+                    this.checkSavedJobs();
+                    this.getUserDetails();
                 },
     }
-    
-      </script>       
+    </script>       
       
       
       <style>
@@ -398,4 +486,6 @@
         transition: opacity .1s ease-in-out;
         transition-delay: .5s;
     }
+    
+    
       </style>

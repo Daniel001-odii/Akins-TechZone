@@ -1,7 +1,8 @@
 
 <template>
         <div class="card job-card">
-           <slot name="save-button">
+            <div class="save-button">
+                <slot name="save-button">
                 <!-- <button class="plane">
                     <span style="padding: 5px 10px;" data-toggle="tooltip" data-placement="bottom" title="save job">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 25 25" fill="none">
@@ -12,6 +13,8 @@
                 </button> -->
             </slot> 
             
+            </div>
+           
             <p class="job-title"><slot name="job-title">Senior Software  Developer</slot></p>
             <small><slot name="job-post-company">Microsoft Inc.</slot></small>
             
@@ -139,6 +142,11 @@ import VerificationBadge from './micro_components/verificationBadge.vue';
     color: var(--app-blue);
 }
 
+.save-button{
+    position: absolute;
+    right: 5px;
+}
+.
  /*--meida queries-------*/
 @media only screen and (max-width: 1150px) {
 
