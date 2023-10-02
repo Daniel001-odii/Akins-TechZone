@@ -255,7 +255,7 @@
                     this.isLoading = true;
                     axios.get(`${this.api_url}/jobs`).then(response => {
                         this.jobs = response.data.jobs.reverse();
-                        this.applied_jobs = this.jobs.values().applications;
+                        this.applied_jobs = this.jobs;
                         this.isSaving.length = this.jobs.length;
                         // console.log("applications received: ", response.data.jobs[0].applications); //logs all jobs to the console to test for data type....
                         console.log("applied jobs: ", this.applied_jobs)
@@ -293,7 +293,7 @@
                 checkSavedJobs(jobId) {
                 return this.userSavedJobs.includes(jobId);
                 },
-                
+
                 async NewSaveJob(index) {
                 // console.log("jobid you are trying to save:", this.jobs[this.selectedJob]._id);
                 const token = localStorage.getItem('token');

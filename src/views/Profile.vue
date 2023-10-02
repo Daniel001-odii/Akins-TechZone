@@ -1,45 +1,60 @@
 <template>
 
+<!--  this is the modal displayed when a user tries changing profile image...... -->
+<div class="logout-modal" v-if="showImageModal">
+    <div class="modal-content">
+        <span>Upload a new image for your profile</span>
+        <input type="file" @change="handleFileUpload" accept="image/*" />
+        <!-- <button @click="uploadProfileImage">Upload</button> -->
+        <div class="modal-options">
+            <span class="yes" @click="uploadProfileImage">Upload</span>
+            <span class="no" @click="showImageModal = !showImageModal">Cancel</span>
+        </div>
+    </div>
+</div>
 
-<div v-if="editProfileMenu" class="editProfile" style="
-height: 100dvh;
-width: 100%;
-background: #efefef;
-position: absolute;
-z-index: 99999;
-">
 
 
+<div v-if="editProfileMenu" class="editProfileModal" style="">
+<!-- <div class="editProfileModal" style=""> -->
     <form @submit.prevent="updateuserProfile" id="userProfile.profile">
-        <span >close</span>
-        <div class="bio">
-            <input type="text" :value="userDetails.firstname" disabled>
-            <input type="text" :value="userDetails.lastname" disabled>
+        <span @click="this.editProfileMenu = !this.editProfileMenu;" class="closeBtn">&times; close</span>
+        <div class="bio profile-field">
+            <input class="profile-input" type="text" :value="userDetails.firstname" disabled>
+            <input class="profile-input" type="text" :value="userDetails.lastname" disabled>
         </div>
-        <div class="bio">
-            <input type="text" placeholder="say something about yourself" v-model="userProfile.profile.bio">
+        <div class="bio profile-field">
+            <input class="profile-input" type="text" placeholder="say something about yourself" v-model="userProfile.profile.bio">
         </div>
-        <div class="location">
-            <input type="text" placeholder="your location goes here..." v-model="userProfile.profile.location">
+        <div class="location profile-field">
+            <input class="profile-input" type="text" placeholder="your location goes here..." v-model="userProfile.profile.location">
         </div>
-        <div class="phone">
-            <input type="number" placeholder="your phone goes here..." v-model="userProfile.profile.phone">
+        <div class="phone profile-field">
+            <input class="profile-input" type="number" placeholder="your phone goes here..." v-model="userProfile.profile.phone">
         </div>
-        <div class="skillTitle">
-            <input type="text" placeholder="write what best describes you" v-model="userProfile.profile.skillTitle">
+        <div class="skillTitle profile-field">
+            <input class="profile-input" type="text" placeholder="write what best describes you" v-model="userProfile.profile.skillTitle">
         </div>
-        <div class="skills">
-            <input type="text" placeholder="list your skills here" v-model="userProfile.profile.skillsList">
+        <div class="skills profile-field">
+            <input class="profile-input" type="text" placeholder="list your skills here" v-model="userProfile.profile.skillsList">
         </div>
-        <div class="social">
-            <input type="text" placeholder="link to you fav social account" v-model="userProfile.profile.socialAccount">
+        <div class="social profile-field">
+            <input class="profile-input" type="text" placeholder="link to you fav social account" v-model="userProfile.profile.socialAccount">
         </div>
-        <button type="submit">save and exit</button>
+        <button type="submit" class="cust-btn">save and exit</button>
     </form>
     
 </div>
 
-    <NavBar/>
+<NavBar/>
+
+
+<!-- this particular banner is only actve when the current user hasnt verified their account,..... -->
+<div class="verifyEmailAlert" v-if="!userDetails.isVerified">
+    your email is not verified yet, click here to verify your email
+</div>
+
+
 
     <!-- <div class="tz_alert_box" v-if="showError">
         <span>{{ formErrors }}</span>
@@ -49,11 +64,11 @@ z-index: 99999;
     <DotLoader v-if="isLoading"/>
 
 
-    <div>
+<!-- <div>
     <h1>Upload Profile Image</h1>
     <input type="file" @change="handleFileUpload" accept="image/*" />
     <button @click="uploadProfileImage">Upload</button>
-</div>
+</div> -->
 
 
 
@@ -64,7 +79,10 @@ z-index: 99999;
 
     <div class="tz-profile-card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-profile-left">
-                <img :src="userDetails.profile.profileImage" class="tz-user-thumbnail">
+                <div class="profileImgSwitch">
+                    <div class="icon"><i class="bi bi-camera-fill" @click="showImageModal = !showImageModal"></i></div>
+                    <img :src="userDetails.profile.profileImage" class="tz-user-thumbnail">
+                </div>
                 <div class="tz-user-details">
                     <p  class="tz-user-name">{{ userDetails.firstname }} {{ userDetails.lastname }}</p>
                     <div class="tz-user-skill">{{ userDetails.profile.skillTitle }}</div>
@@ -145,10 +163,12 @@ z-index: 99999;
                 <div class="about-header">
                     Skills
                 </div>
-                <!-- <div class="user-about" v-if="userDetails.isverified">
-                    Meet our dummy user, John Doe! John is a fictional character created to help demonstrate the features and functionality of our website. Although not a real person, John embodies the qualities of an average user, making him relatable and easy to understand. With his diverse background and interests, John represents a wide range of users who can benefit from our platform. Whether it's exploring new features, engaging with the community, or simply enjoying the user-friendly interface, John is always enthusiastic about discovering what our website has to offer. So, join John on this exciting journey as we showcase the capabilities and possibilities that await you on our platform!
-                </div> -->
-                <span>{{ userDetails.profile.skillsList }}</span>
+                <!-- <span>{{ userDetails.profile.skillsList }}</span> -->
+                <div class="skill_set">
+                            <div v-for="(skills,index) in  userDetails.profile.skillsList.split(', ')" :key="index">
+                                <div class="skills">{{ skills }}</div>
+                            </div>
+                        </div>
             </div>
         </div>
 
@@ -211,6 +231,7 @@ import DotLoader from '../components/DotLoader.vue';
                 isLoading: true,
                 editProfileMenu: false,
                 showError: false,
+                showImageModal: false,
 
 
             userProfile: {
@@ -359,6 +380,11 @@ import DotLoader from '../components/DotLoader.vue';
       const data = await response.json();
       console.log(data.message);
       // Optionally, update the user's profile with the image URL received from the server
+        // reload pg to show new upload
+        this.getUserById(this.$route.params.user_id);
+
+        // automatically close the image upload modal upon upload success
+        this.showImageModal = !this.showImageModal
     } else {
       console.error('Error uploading profile image');
     }
@@ -539,7 +565,134 @@ th, td{
         margin-left: 110px;
         padding: 20px;
     }
-   
+
+
+    .verifyEmailAlert{
+        flex-direction: row;
+        text-align: center;
+        padding: 10px;
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        transition: 1s;
+    }
+    
+    .editProfileModal{
+        /* display: flex; */
+        gap: 50px;
+        position: absolute;
+        z-index: 99999;
+        height: 100dvh;
+        background: #efefef;
+        width: 80%;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .profile-field{
+        width: 100%;
+        /* border: 1px solid red; */
+    }
+
+
+    .profile-input{
+        padding: 20px;
+        border: none;
+        border-bottom: 1px solid #b8b5b5;
+        /* border-radius: 5px; */
+    }
+
+
+
+
+
+
+
+
+    .profileImgSwitch{
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+    }
+    .icon{
+        position: absolute;
+        color: #fff;
+        z-index: 999;
+        margin: 0 auto;
+        display: none;
+        transition-duration: 2s;
+        animation-duration: 2s;
+    }
+    .icon > i{
+        font-size: 1.5rem !important;
+    }
+   .profileImgSwitch:hover .icon{
+    display: block;
+   }
+
+
+   .logout-modal{
+    height: 100dvh;
+    width: 100%;
+    background: #000000d3;
+    position: fixed;
+    z-index: 999999;
+    display: flex;
+    flex: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.modal-content{
+    height: 200px;
+    background: #fff;
+    width: 350px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 25px;
+}
+.modal-content > span{
+    font-size: 1.5em !important;
+}
+.modal-options{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.modal-options > span{
+    border: 1px solid var(--app-blue);
+    padding: 10px;
+    border-radius: 5px;
+    color: var(--app-blue);
+    font-size: 1rem !important;
+    width: 40%;
+    cursor: pointer;
+}
+.no{
+    background: var(--app-blue);
+    color: #fff !important;
+}
+
+
+
+
+
+
+
+
+
+
+
     @media only screen and (max-width: 720px) {
         .tz-profile-card{
             flex-direction: column;

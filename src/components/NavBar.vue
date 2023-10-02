@@ -1,4 +1,18 @@
-<template>    
+<template> 
+
+<!--  this is the modal displayed when a user tries logging out....... -->
+<div class="logout-modal" v-if="showModal">
+    <div class="modal-content">
+        <span>Are you sure you want to logout?</span>
+        <div class="modal-options">
+            <span class="yes" @click="realLogout">Yes</span>
+            <span class="no" @click="showModal = !showModal">No</span>
+        </div>
+    </div>
+</div>
+
+
+
 <div v-if="showStatus" id="status" class="popup" :class="{ online: isOnline, 'offline': !isOnline }">
     <span v-if="isOnline" class="online">You're online!</span>
     <span v-else class="offline">You're offline.</span>
@@ -144,7 +158,10 @@
                                 <img  :src="userDetails.profile.profileImage" class="tz-user-thumbnail">
                             </div>
                             
-                            <span  style="font-size: 12px;">{{ userDetails.firstname }} {{ userDetails.lastname }}<br/><button class="logout"> {{ userDetails.email }}</button> <br/></span>
+                            <div  style="font-size: 12px;">
+                                <div class="">{{ userDetails.firstname }} {{ userDetails.lastname }}</div>
+                                <div class="logout"> {{ userDetails.email }}</div> 
+                            </div>
                         
                             <div class="tz-user-menu tz-user-menu-sw">
                                 <!-- <RouterLink to="/user/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]"> -->
@@ -233,10 +250,6 @@
 
         <span class="menu-item">
         <div>
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 51 50" fill="none">
-                            <circle cx="25.8086" cy="25" r="25" fill="#4E79BC"/>
-                            <path d="M18.0367 34L24.4173 16.3588H26.9671L33.3477 34H31.0419L29.3095 29.1688H22.0993L20.3303 34H18.0367ZM22.6727 27.0948H28.7117L25.7105 18.5914L22.6727 27.0948Z" fill="white"/>
-                        </svg> -->
             <span class="menu-item-label" @click="logout">Logout</span>
         </div>
         </span>
@@ -410,6 +423,7 @@ import axios from 'axios';
 import { ref } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import themeStore from '@/theme/theme';
+import Modal from './modal.vue';
 
 
 const api_url = "http://127.0.0.1:5000/api"
@@ -437,7 +451,7 @@ export default {
     };
   },
   
-    components:{ Search, LeftNav, RouterLink },
+    components:{ Search, LeftNav, RouterLink, Modal },
     data(){
         return{
             userDetails:[],
@@ -456,6 +470,8 @@ export default {
             userIsEmployer: false,
             keywords: '',
 
+            showModal: false,
+
         };
     },
     created() {
@@ -466,8 +482,12 @@ export default {
 
     methods: {
         logout(){
-        localStorage.removeItem('token');
-        this.$router.push('/');
+        this.showModal = true;
+        },
+
+        realLogout(){
+            localStorage.removeItem('token');
+            this.$router.push('/');
         },
 
         checkLoginStatus(){
@@ -632,6 +652,7 @@ export default {
     box-shadow: 0px 12px 12px #F1F4F4;
     top: 42px;
     left: -139px;
+    right: 0;
     font-size: 0.8em;
     z-index: 999999;
     border-radius: 5px;
@@ -889,8 +910,8 @@ export default {
     border: 1px solid #00000023;
     width: 180px;
     position: absolute;
-    top: 55px;
-    right: 70px;
+    top: 50px;
+    right: 40px;
     z-index: 999999;
     font-size: 0.8em;
     overflow-x: hidden;
@@ -1001,6 +1022,59 @@ margin-right: 10px; gap: 5px;
   /* opacity: 0; */
   margin-top: -100vh;
 }
+
+
+
+
+
+
+/*  the logout modal styles............ */
+.logout-modal{
+    height: 100dvh;
+    width: 100%;
+    background: #000000d3;
+    position: fixed;
+    z-index: 999999;
+    display: flex;
+    flex: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.modal-content{
+    height: 200px;
+    background: #fff;
+    width: 350px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 25px;
+}
+.modal-content > span{
+    font-size: 1.5em !important;
+}
+.modal-options{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.modal-options > span{
+    border: 1px solid var(--app-blue);
+    padding: 15px 50px;
+    border-radius: 5px;
+    color: var(--app-blue);
+    font-size: 1rem !important;
+    width: 40%;
+}
+.no{
+    background: var(--app-blue);
+    color: #fff !important;
+}
+
+
 
  /*--meida queries-------*/
  @media only screen and (max-width: 720px) {

@@ -15,33 +15,26 @@
               <div class="page-title"><slot name="page-title">Work Explorer</slot></div>
               <div class="page-filters">
                      <!-- Search input fields and form -->
-        <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
-               <div class="filter-search">
-                    <i class="bi bi-search"></i>
-                    <input type="search" class="ft-search" v-model="keywords" placeholder="Search all types of jobs">
-               </div>
-               <button class="filter-menu" style="background: rgb(4, 197, 4) !important; border: none; color: #fff;" type="submit">Search</button>
-               <select class="filter-menu" v-model="jobType">
-                    <option value="">All type</option>
-                    <option value="small">small</option>
-                    <option value="medium">medium</option>
-                    <option value="large">large</option>
-               </select>
-               <!-- <select class="filter-menu" disabled>
-                    <option>Remote</option>
-                    <option>On site</option>
-                    <option>Hybrid</option>
-               </select> -->
-               <select class="filter-menu">
-                    <option>All time</option>
-                    <option>under 24 hrs</option>
-                    <option>under a week </option>
-                    <option>under a month </option>
-                    <option>over a month </option>
-               </select>
-    
-     
-        </form>
+                <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
+                    <div class="filter-search">
+                            <i class="bi bi-search"></i>
+                            <input type="search" class="ft-search" v-model="keywords" placeholder="Search all types of jobs" disabled>
+                    </div>
+                    <button class="filter-menu" style="background: rgb(4, 197, 4) !important; border: none; color: #fff;" type="submit" disabled>Search</button>
+                    <select class="filter-menu" v-model="jobType" disabled>
+                            <option value="">All type</option>
+                            <option value="small">small</option>
+                            <option value="medium">medium</option>
+                            <option value="large">large</option>
+                    </select>
+                    <select class="filter-menu" v-model="posted" disabled>
+                            <option value="">All time</option>
+                            <option value="under 24 hrs">under 24 hrs</option>
+                            <option value="under a week">under a week </option>
+                            <option value="under a month">under a month </option>
+                            <option value="over a month">over a month </option>
+                    </select>
+                </form>
               </div>
               <div class="page-tabs">
                  
@@ -243,6 +236,7 @@
                     userDetails:'',
                     userSavedJobs:[],
                     jobIsSaving: false,
+                    posted: '',
     
                     isSaving: [],
     

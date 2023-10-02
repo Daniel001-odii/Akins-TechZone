@@ -13,16 +13,16 @@
                 <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
                     <div class="filter-search">
                             <i class="bi bi-search"></i>
-                            <input type="search" class="ft-search" v-model="keywords" placeholder="Search all types of jobs">
+                            <input type="search" class="ft-search" v-model="keywords" placeholder="Search all types of jobs" disabled>
                     </div>
-                    <button class="filter-menu" style="background: rgb(4, 197, 4) !important; border: none; color: #fff;" type="submit">Search</button>
-                    <select class="filter-menu" v-model="jobType">
+                    <button class="filter-menu" style="background: rgb(4, 197, 4) !important; border: none; color: #fff;" type="submit" disabled>Search</button>
+                    <select class="filter-menu" v-model="jobType" disabled>
                             <option value="">All type</option>
                             <option value="small">small</option>
                             <option value="medium">medium</option>
                             <option value="large">large</option>
-                    </select>
-                    <select class="filter-menu" v-model="posted">
+                    </select> 
+                    <select class="filter-menu" v-model="posted" disabled>
                             <option value="">All time</option>
                             <option value="under 24 hrs">under 24 hrs</option>
                             <option value="under a week">under a week </option>
@@ -57,15 +57,6 @@
                         <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
                         <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                         <template #save-button>
-                            <!-- <button class="save-btn" style="" @click="NewSaveJob(index)">
-                                <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div v-else>
-                                    <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
-                                    <i v-else class="bi bi-heart"></i>
-                                </div>
-                            </button> -->
                             <button class="save-btn" style="" @click="NewSaveJob(index)">
                                 <div>
                                     <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
@@ -116,18 +107,6 @@
                     <div class="jdh-right">
                         
                             <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">Apply Here</button>
-                           
-                                
-                           
-                            <!-- <button class="save-btn" style="border-radius: 5px; margin-left: 2px;" @click="saveJob">
-                                <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div v-else>
-                                    <i v-if="checkSavedJobs(jobs[selectedJob]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
-                                    <i v-else class="bi bi-heart"></i>
-                                </div>
-                            </button> -->
                     </div>
                 </div>
                 <!--------- job details header ends here------------->
@@ -174,7 +153,7 @@
             
     
         <DotLoader v-if="isLoading"/>
-        <!-- <span  v-if="jobs.length == undefined" class="no-job-screen"><p>You have no assigned jobs</p></span> -->
+        <span  v-if="jobs.length == 0" class="no-job-screen"><p>You have no assigned jobs</p></span>
             
     
     </div>
@@ -416,6 +395,7 @@
                 mounted(){
                     this.fetchJobListings();
                     this.getHoursTillDate();
+                    this.getUserDetails();
                 },
     }
     
