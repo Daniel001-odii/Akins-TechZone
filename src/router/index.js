@@ -36,6 +36,7 @@ import SignUpClient from '../views/SignUpClient.vue'
 //clients based views
 import client_dashboard from '../views/client-dashboard.vue'
 import post_job from '../views/post-job.vue'
+import edit_job from '../views/edit-job.vue'
 import JobSuccess from '../views/JobSuccess.vue' ///page is deprecated and has been replaced with a moda instead..
 import client_jobs from '../views/Client_Jobs.vue'
 import client_messages from '../views/Client_MessagesPage.vue'
@@ -78,6 +79,7 @@ const routes = [
   {path: "/client/dashboard", name: "Techzone - dashboard", component: client_dashboard, meta: { requiresAuth: true, role: 'employer' }},
   {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true, role: 'user' }},
   {path: "/client/post-job", name: "Techzone - Post", component: post_job, meta: { requiresAuth: true, role: 'employer' }},
+  {path: "/client/edit-job/:job_id", name: "Techzone - Edit Job", component: edit_job, meta: { requiresAuth: true, role: 'employer' }},
   {path: "/client/messages", name: "Techzone - Client Messages", component: client_messages, meta: { requiresAuth: true, role: 'employer' }},
   {path: "/client/payment", name: "Techzone - Client payment", component: client_payment, meta: { requiresAuth: true }},
   {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},

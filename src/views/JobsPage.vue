@@ -61,7 +61,7 @@
                         <template #job-post-company><span v-if="employerDetails.profile">{{ employerDetails.profile.company_name }}</span></template>
                         <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
                         <template #job-duration> {{ job.period }}</template>
-                        <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
+                        <template #job-description>{{ job.job_description.substring(0,200) }}...</template>
                         <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                         <template #save-button>
                             <button class="save-btn" style="" @click="NewSaveJob(index)">
@@ -152,7 +152,7 @@
                         <div v-if="employerDetails.profile" class="little-employer" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                             <img style="height: 40px; width: 40px; border-radius: 20%" :src="employerDetails.profile.profileImage">
                             <div>
-                                {{ employerDetails.profile.company_name }} | {{ employerDetails.profile.city }}
+                                <b>{{ employerDetails.profile.company_name }}</b> | {{ employerDetails.profile.city }}
                                 <br/>{{ employerDetails.profile.tagline }}
                                 <br/>web: {{ employerDetails.profile.website }}
                             </div>

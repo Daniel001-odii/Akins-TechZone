@@ -63,7 +63,7 @@
                                         <br/> <span style="color: var(--app-blue)">Status: <span v-if="job.isCompleted">Completed</span><span v-else>Open</span></span>
 
                                         <div class="job_effect_btns">
-                                            <button class="job-btn edit-btn"><i class="bi bi-pencil-square"></i> Edit</button>
+                                            <button class="job-btn edit-btn" @click="editJobPost(job._id)"><i class="bi bi-pencil-square"></i> Edit</button>
                                             <!-- <button class="job-btn delete-btn"  @click="deleteJob(job._id)" ><i class="bi bi-trash-fill"></i> Delete</button> -->
                                             <span class="job-btn delete-btn"  @click="deleteJobOptions = !deleteJobOptions">
                                                 <span v-if="!deleteJobOptions"><i class="bi bi-trash-fill"></i> Delete</span>
@@ -150,8 +150,6 @@
       import { ref } from 'vue';
       import themeStore from '@/theme/theme';
       import DotLoader from '../components/DotLoader.vue'
-
-      const api_url = " http://127.0.0.1:5000/api";
     
       
           export default {  
@@ -337,6 +335,12 @@
                         else{console.error("error deleting job")} 
                         }catch (error){
                         console.error("network error: ", error);}
+                    },
+
+                     //this function opens up in a new page the details of any job clicked...
+                    editJobPost(job_id) {
+                        const route = this.$router.resolve({name: "Techzone - Edit Job", params: { job_id: job_id } });
+                        window.open(route.href, '_blank');
                     },
 
 
