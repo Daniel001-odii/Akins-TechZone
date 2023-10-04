@@ -207,11 +207,11 @@
 <transition name="slide" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     <div class="menu-from-nav" :class="{ 'navActive': showMenu }" v-if="showMenu">
        <div class="menu-header">
-        <!-- <RouterLink to="/"  class="navbar-brand">
+        <RouterLink to="/"  class="navbar-brand">
             <img class="nav-img" src="../components/Logos_icons/techzone.png">
-        </RouterLink> -->
+        </RouterLink>
         <!--now you have to decide which item is preffered to appear at the top of the menu-->
-        <Search/>
+        <!-- <Search/> -->
             <span class="closeBtn" @click="showMenu=false">&times;</span>
        </div>
 
@@ -238,6 +238,12 @@
             <span class="menu-item-label">Saved Jobs</span>
         </div>
         </RouterLink>
+
+        <RouterLink to="/myjobs" class="menu-item">
+        <div>
+            <span class="menu-item-label">My Applications</span>
+        </div>
+        </RouterLink>
        
         <RouterLink to="/notifications" class="menu-item">
         <div>
@@ -245,11 +251,7 @@
         </div>
         </RouterLink>
 
-        <RouterLink to="/support" class="menu-item">
-        <div>
-            <span class="menu-item-label">Help & Support</span>
-        </div>
-        </RouterLink>
+        
 
         
 
@@ -637,6 +639,9 @@ export default {
 }
 
 
+.bi-list{
+    font-size: 1.5em !important;
+}
 .logout{
     color: blue;
     cursor: pointer;

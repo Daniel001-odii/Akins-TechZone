@@ -164,7 +164,7 @@
                     Skills
                 </div>
                 <!-- <span>{{ userDetails.profile.skillsList }}</span> -->
-                <div class="skill_set">
+                <div v-if="userDetails.profile.skillsList" class="skill_set">
                             <div v-for="(skills,index) in  userDetails.profile.skillsList.split(', ')" :key="index">
                                 <div class="skills">{{ skills }}</div>
                             </div>
@@ -396,13 +396,9 @@ import DotLoader from '../components/DotLoader.vue';
                 
           },
           
-
-
-          
-          mounted() {
-            // this.getUserDetails();
+        created(){
             this.getUserById(this.$route.params.user_id);
-        },
+        }
     }
 </script>
 
