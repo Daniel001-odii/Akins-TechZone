@@ -623,6 +623,19 @@ p{
   }
 }
 
+.little-employer{
+  display: flex;
+  flex-direction: row;
+  font-size: 10px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  width: 250px;
+  /* border: 1px solid red; */
+  padding: 10px;
+  border-radius: 10px;
+  background: #efefef;
+}
 
 
   .jdh-left{
@@ -642,6 +655,7 @@ p{
       font-size: 15px;
       display: block;
       font-weight: bold;
+      padding-bottom: 8px;
   }
   .jdh-detail{
       font-weight: 1px !important;
@@ -724,7 +738,8 @@ opacity: 0;
 
 .jd-section{
     margin-bottom: 25px;
-    display: flex;
+    /* display: flex; */
+    ex; */
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;

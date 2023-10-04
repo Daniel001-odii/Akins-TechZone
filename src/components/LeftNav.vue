@@ -39,12 +39,6 @@
         </div>
         </RouterLink>
 
-        <RouterLink to="/client/saved-jobs">
-        <div class="message"  :class="{ 'active-nav': isJobs }">
-            <i class="bi bi-briefcase-fill" ></i>
-            <span class="navtext">My Jobs</span>
-        </div>
-        </RouterLink>
     </div>
     <div v-if="userNotLoggedIn">
         <div class="spacer"></div>

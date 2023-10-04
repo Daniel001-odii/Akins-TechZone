@@ -361,7 +361,7 @@
             height: 100px;
             width: 100px;
             border-radius: 50%;
-            background: url("../components/Logos_icons/dummy_user.png");
+            /* background: url("../components/Logos_icons/dummy_user.png"); */
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;

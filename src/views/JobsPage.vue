@@ -58,21 +58,12 @@
                             <span class="mobile-link" @click="navigateToJobDetails(jobs[selectedJob]._id)">{{ job.job_title }} <i class="bi bi-box-arrow-up-right"></i></span>
                             <span class="desktop-link">{{ job.job_title }}</span>
                         </template>
-                        <template #job-post-company></template>
+                        <template #job-post-company><span v-if="employerDetails.profile">{{ employerDetails.profile.company_name }}</span></template>
                         <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
                         <template #job-duration> {{ job.period }}</template>
                         <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
                         <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                         <template #save-button>
-                            <!-- <button class="save-btn" style="" @click="NewSaveJob(index)">
-                                <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div v-else>
-                                    <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
-                                    <i v-else class="bi bi-heart"></i>
-                                </div>
-                            </button> -->
                             <button class="save-btn" style="" @click="NewSaveJob(index)">
                                 <div>
                                     <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
@@ -93,7 +84,13 @@
                 <div class="job-detail-header">
                     <div class="jdh-left">
                         <span><b>{{ jobs[selectedJob].job_title }}</b></span>
-                        <small>microsot Imc. <i>Stars</i></small>
+                        <small>
+                            <span v-if="employerDetails.profile">{{ employerDetails.profile.company_name }} |</span>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                        </small>
                         <!-- <span>Job is saved: {{ checkSavedJobs(jobs[selectedJob]._id) }}</span> -->
                             <!---------------clock icon-------------->
                         <span class="jdh-detail">
@@ -150,9 +147,20 @@
                     </div>
                             
                     <div class="jd-section">
-                        <span class="jdh-title">About the recruiter</span>
-                        <!-- <p style="color: red;">this job id = {{navigateToJobDetails(filteredJobs[selectedJob].id)}}</p> -->
-                        {{ jobs[selectedJob].job_title }} recruiter is recruiting for {{ jobs[selectedJob].budget_type }} payment
+                        <span class="jdh-title">About the recruiter</span>                        
+                        {{  getUserById(jobs[selectedJob].employer) }} 
+                        <div v-if="employerDetails.profile" class="little-employer" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                            <img style="height: 40px; width: 40px; border-radius: 20%" :src="employerDetails.profile.profileImage">
+                            <div>
+                                {{ employerDetails.profile.company_name }} | {{ employerDetails.profile.city }}
+                                <br/>{{ employerDetails.profile.tagline }}
+                                <br/>web: {{ employerDetails.profile.website }}
+                            </div>
+                        </div>
+                        <!-- {{ employerDetails }}  -->
+                        
+                        
+
                     </div>
                     <div class="jd-section">
                         <span>
@@ -166,6 +174,8 @@
                   
         </div>
     </div>
+
+   
         
 
     <DotLoader v-if="isLoading"/>
@@ -196,10 +206,6 @@
   import DotLoader from '../components/DotLoader.vue'
   import Alert from '../components/Alert.vue'
   import themeStore from '@/theme/theme';
-
-//   const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
-// const api_url = "http://127.0.0.1:5000/api"
-
   
       export default {
         setup(){
@@ -225,12 +231,15 @@
                 userDetails:'',
                 userSavedJobs:[],
 
+                jobEmployers:[],
+
                 userAppliedJobs: '',
                 jobIsSaving: false,
 
                 isSaving: [],
 
                 authErrors: false,
+                employerDetails: '',
 
                 // 
                 applied_jobs:'',
@@ -257,10 +266,7 @@
                     this.isLoading = true;
                     axios.get(`${this.api_url}/jobs`).then(response => {
                         this.jobs = response.data.jobs.reverse();
-                        // this.applied_jobs = this.jobs;
                         this.isSaving.length = this.jobs.length;
-                        // console.log("applications received: ", response.data.jobs[0].applications); //logs all jobs to the console to test for data type....
-                        // console.log("applied jobs: ", this.applied_jobs)
                         this.isLoading = false;
                     }).catch(error => {
                         this.isLoading = false;
@@ -283,6 +289,7 @@
                         // For example, you can set user details in your component's data
                         this.userDetails = response.data.user;
                         this.userSavedJobs = this.userDetails.saved_jobs;
+                        
                         this.isLoading = false;
                         })
                         .catch((error) => {
@@ -372,7 +379,7 @@
 
                     this.userAppliedJobs = response.data.jobs;
                     this.isLoading = false;
-                    console.log("user appied jobs: ", this.userAppliedJobs);
+                    // console.log("user appied jobs: ", this.userAppliedJobs);
                 } catch (error) {
                     this.isLoading = false;
                     console.error(error);
@@ -383,8 +390,6 @@
                 // Use the forEach method to iterate through the userAppliedJobs array
                 // and check if any item matches the given jobId
                 if(this.userAppliedJobs){
-
-                
                 const foundJob = this.userAppliedJobs.find(job => job._id === jobId);
                 // If a matching job is found, return "View Application"
                 if (foundJob) {
@@ -393,6 +398,20 @@
                 // If no match is found or the array is empty, return "Apply here"
                 return "Apply here";
                 },
+
+                getEmployerDetails(employerId){
+                // Use the forEach method to iterate through the jobEmployers array
+                // and check if any item matches the given employerId
+                if(this.jobEmployers){
+                const foundEmployer = this.jobEmployers.find(employer => employer._id === employerId);
+                // If a matching employer is found, return "View Application"
+                if (foundEmployer) {
+                    return "View Employer";
+                }};
+                // If no match is found or the array is empty, return "Apply here"
+                return "Apply here";
+                },
+
 
                 async searchJobs() {
                     this.isLoading = true;
@@ -426,23 +445,50 @@
                     // Handle errors, e.g., show an error message to the user
                     }
                 },
-            },
+
+                // now we try to get the employer's details ......
+                async getUserByI(id) {
+                    try {
+                        const response = await axios.get(`${this.api_url}/get-info/${id}`);
+                        this.employerDetails = response.data.employer;
+                        
+                        console.log("employer: ", this.employerDetails);
+                        
+                    } catch (error) {
+                        console.error('Error fetching user or employer details:', error);
+                        throw error; // You can choose to rethrow the error or handle it differently
+                    }
+                },
+
+                getUserById(id) {
+                    axios.get(`${this.api_url}/get-info/${id}`)
+                        .then(response => {
+                            this.isLoading = false;
+                            this.employerDetails = response.data.employer;
+                            
+                            })
+                            .catch(error => {
+                            console.error('Error fetching user or employer details:', error);
+                            this.isLoading = false;
+                                        // Handle errors
+                        });
+                    },
+                },
             
             computed: {
             },
 
             mounted(){
-                this.fetchJobListings();
-                // this.getHoursTillDate();
-                // this.checkSavedJobs();
-                this.getUserDetails();
-               
+                
             },
             beforeMount(){
                 const token = localStorage.getItem('token');
                 if(token){
                     this.fetchUserAppliedJobs();
                 }
+                this.fetchJobListings();
+                this.getUserDetails();
+               
                 
             },
 }

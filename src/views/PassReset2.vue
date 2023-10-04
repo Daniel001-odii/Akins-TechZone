@@ -12,7 +12,8 @@
                 
                 <div class="left-content">
                 <h2 style="font-weight: bolder;">Reset Your Password</h2>
-                <p>Please enter your New password.</p> <small>becareful this time so you dont forget it again.</small>
+                <p>Please enter the OTP sent to your email to continue.</p> 
+                <!-- <small>becareful this time so you dont forget it again.</small> -->
 
                 <!--form starts here ------------------------------->
                 <form  style="margin-top: 10px"  @submit.prevent="resetPassword">
@@ -22,8 +23,18 @@
                         </ul>
                     </span>
                 <div class="form-section">
-                    <label for="email">New Password</label>
-                    <input class="form-input" name="password" placeholder="input your new password" v-model="password" type="password" required>
+                    <label for="OTP">OTP</label>
+                    <input class="form-input" name="OTP" placeholder="enter your OTP here.." v-model="OTP" type="text" required>
+                </div>
+
+                <div class="form-section">
+                    <label for="password">New Password</label>
+                    <input class="form-input" name="password" placeholder="enter new password" v-model="password" type="password" required>
+                </div>
+
+                <div class="form-section">
+                    <label for="password_conf">Confirm Password</label>
+                    <input class="form-input" name="password_conf" placeholder="confirm new password"  type="password" required>
                 </div>
 
 
@@ -76,6 +87,7 @@ const Api_url = "https://techzoneapp.herokuapp.com/api/login";
             return{
                 show: true,
                 password: '',
+                OTP: '',
                 errors: [],
                 msg: [],
                 isLoading: false,
@@ -91,15 +103,15 @@ const Api_url = "https://techzoneapp.herokuapp.com/api/login";
 
             async resetPassword() {
                 this.isLoading = true;
-                const resetToken = this.$route.params.token;
-                console.log("the reset token from the url: ", resetToken);
+                // const resetToken = this.$route.params.token;
+                // console.log("the reset token from the url: ", resetToken);
                 try {
                     const response = await fetch(`${this.api_url}/reset-password`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ newPassword: this.password, resetToken: resetToken }),
+                    body: JSON.stringify({ newPassword: this.password, resetToken: this.OTP }),
                     });
 
                     if (response.ok) {

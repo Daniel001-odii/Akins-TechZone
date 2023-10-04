@@ -167,20 +167,7 @@
     
         <DotLoader v-if="isLoading"/>
         <!-- <Skeleton v-if="isLoading"/> -->
-    
-            <span v-if="jobs.length === 0 && isLoading != true" 
-                    style="
-                    display: flex;
-                    flex-direction: column;
-                    text-align: center;
-                    justify-content: flex-start;
-                    align-items: center;
-                    height: 80vh;
-                    padding: 50px 50px 50px 20px;
-                    ">
-            <img src="../assets/imgs/non.svg" class="non-img">
-                    <p>No job Available</p>
-                </span>
+                <span  v-if="jobs.length == undefined || jobs.length == 0" class="no-job-screen"><p>You have no saved jobs</p></span>
             
     
     </div>

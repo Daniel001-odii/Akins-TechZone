@@ -34,19 +34,19 @@
               
                   <div class="form-section">
                       <label for="password">Password</label>
-                      <input class="form-input" placeholder="password" v-model="password" type="password" required>
+                      <input class="form-input" placeholder="password" v-model="password" :type="showPassword ? 'text' : 'password'" required>
                   </div>
   
   
                   <div class="form-issues">
                       <div class="check-container">
                           <div class="checkbox-wrapper-46">
-                              <input class="inp-cbx" id="rememberDetails" type="checkbox"/>
+                              <input class="inp-cbx" id="rememberDetails" v-model="showPassword" type="checkbox"/>
                               <label class="cbx" for="rememberDetails">
                               <span>
                                   <svg width="12px" height="10px" viewbox="0 0 12 10"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg>
                               </span>
-                              <span>Remember Details</span>
+                              <span>show password</span>
                               </label>
                           </div>
                       </div>
@@ -104,6 +104,7 @@
                   signup_options: false,
                   errors: '',
                   isLoading: false,
+                  showPassword: false,
                 //   ...................
                   show_errors: false,
               }
@@ -131,7 +132,8 @@
       this.show_errors = true;
       this.isLoading = false;
     }
-  }
+  },
+
   
   
   

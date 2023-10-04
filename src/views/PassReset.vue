@@ -108,6 +108,8 @@ const Api_url = "https://techzoneapp.herokuapp.com/api/login";
                     if (response.status === 200) {
                         alert("Password reset email sent successfully.");
                         console.log('Password reset email sent successfully.');
+                        // send to the main password reset page...
+                        this.$router.push('/reset-password-main');
                     } else {
                     const data = await response.json();
                     console.log(data);

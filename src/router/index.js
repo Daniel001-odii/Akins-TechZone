@@ -40,7 +40,7 @@ import JobSuccess from '../views/JobSuccess.vue' ///page is deprecated and has b
 import client_jobs from '../views/Client_Jobs.vue'
 import client_messages from '../views/Client_MessagesPage.vue'
 import client_payment from '../views/Payment.vue'
-import Client_Profile from '../views/Profile_public.vue'
+import Client_Profile from '../views/Client_Profile.vue'
 // import 
 
 
@@ -66,7 +66,7 @@ const routes = [
   {path: "/jobs/:job_id/application", name: 'Techzone - Application', component: JobDetail, meta: { requiresAuth: true, role: 'user' }},
   {path: "/notifications", name:  "Techzone - Notifications", component: Notifications, meta: { requiresAuth: true }},
   {path: "/reset-password", name: "Password - reset", component: ResetPassword},
-  {path: "/reset-password/:token", name: "Password - reset2", component: ResetPassword2},
+  {path: "/reset-password-main", name: "Password - reset2", component: ResetPassword2},
 
   //job categories.......
   {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true, role: 'user' }},
@@ -100,18 +100,21 @@ const router = createRouter({
   
 
 // Global navigation guard
+let redirectToLogin = false; // Initialize a flag to redirect to login after authentication
+let requestedRoute = null; // Initialize a variable to store the requested route
+
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
   const userRole = token ? JSON.parse(atob(token.split('.')[1])).role : null;
 
   // Check if the route has a "requiresAuth" meta field and matches the user's role
   if (to.meta.requiresAuth && to.meta.role !== userRole) {
-    // Redirect to a suitable route or show an error message
+    redirectToLogin = true; // Set the flag to true
+    requestedRoute = to.fullPath; // Store the requested route
     next('/login'); // Redirect to login for unauthorized access
   } else {
     next(); // Proceed to the route
   }
-  
 });
 
 

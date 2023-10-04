@@ -315,7 +315,9 @@
                         
                         <!--Logged in user credential display-->
                         <div class="user-menu-toggle">
-                            <div @click="userMenuIsShown=!userMenuIsShown" class="tz-user-thumbnail"></div>
+                            <div v-if="employerDetails.profile">
+                                <img  :src="employerDetails.profile.profileImage" class="tz-user-thumbnail">
+                            </div>
                             <span  style="font-size: 12px;">{{ employerDetails.firstname }} {{ employerDetails.lastname }}<br/><button class="logout"> {{ employerDetails.email }}</button> <br/></span>
                         
                             <div class="tz-user-menu tz-user-menu-sw">
@@ -533,7 +535,7 @@ export default {
                     // Handle the response here
                     // For example, you can set user details in your component's data
                     this.userDetails = response.data.user;
-                    // console.log(response.data) // Assuming userDetails is a data property
+                    console.log(this.userDetails) // Assuming userDetails is a data property
                     this.isLoading = false;
                     })
                     .catch((error) => {

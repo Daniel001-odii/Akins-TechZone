@@ -34,7 +34,7 @@
               
                   <div class="form-section">
                       <label for="password">Password</label>
-                      <input class="form-input" placeholder="password" v-model="password" type="password" required>
+                      <input class="form-input" placeholder="password" v-model="password" type="password" :type="showPassword ? 'text' : 'password'" required>
                   </div>
   
   
@@ -106,6 +106,7 @@
                   isLoading: false,
                 //  
                   show_errors: false,
+                  showPassword: false,
               }
           },
           methods: {

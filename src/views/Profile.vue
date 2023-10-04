@@ -50,16 +50,9 @@
 
 
 <!-- this particular banner is only actve when the current user hasnt verified their account,..... -->
-<div class="verifyEmailAlert" v-if="!userDetails.isVerified">
+<div class="verifyEmailAlert" v-if="!userDetails.isVerified && isAllowed">
     your email is not verified yet, click here to verify your email
 </div>
-
-
-
-    <!-- <div class="tz_alert_box" v-if="showError">
-        <span>{{ formErrors }}</span>
-        <span class="tz_alert_box_closeBtn" @click="showError = !showError">&times;</span>
-    </div> -->
 
     <DotLoader v-if="isLoading"/>
 
@@ -80,38 +73,40 @@
     <div class="tz-profile-card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-profile-left">
                 <div class="profileImgSwitch">
-                    <div class="icon"><i class="bi bi-camera-fill" @click="showImageModal = !showImageModal"></i></div>
+                    <div class="icon" v-if="isAllowed">
+                        <span @click="showImageModal = !showImageModal">
+                            <i class="bi bi-pencil"></i>
+                        </span>
+                       </div>
                     <img :src="userDetails.profile.profileImage" class="tz-user-thumbnail">
                 </div>
                 <div class="tz-user-details">
                     <p  class="tz-user-name">{{ userDetails.firstname }} {{ userDetails.lastname }}</p>
                     <div class="tz-user-skill">{{ userDetails.profile.skillTitle }}</div>
                     <div class="tz-user-skill">{{ userDetails.email }}</div>
-                    <div class="tz-btn-array">
+                    <div class="tz-btn-array" v-if="isAllowed">
                         <button class="cust-btn" @click="editProfileMenu = !editProfileMenu">Edit Profile</button>
                         <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">View Resume</button>
+                    </div>
+                    <div class="tz-btn-array" v-else>
+                        <button class="cust-btn">Message</button>
+                        <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">Hire</button>
                     </div>
                 </div>
             </div>
             <!-- <div class="section-divider"></div> -->
             <div class="tz-profile-right">
-                <table style="text-align: center;">
-                    <tbody>
-                    <tr>
-                        <td>verification:</td>
-                        <td v-if="userDetails.isVerified" style="color: green">Verified <i class="bi bi-check-circle-fill"></i></td>
-                        <td v-else>not verified <i class="bi bi-check-circle-fill"></i></td>
-                    </tr>
-                    <tr>
-                        <td>joined:</td>
-                        <td>{{ formatTimestamp(userDetails.created) }}</td>
-                    </tr>
-                    <tr>
-                        <td>Location</td>
-                        <td>{{ userDetails.profile.location }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="profile-item">verification: 
+                    <span  v-if="userDetails.isVerified" style="color: green">Verified <i class="bi bi-check-circle-fill"></i></span>
+                    <span v-else>not verified <i class="bi bi-check-circle-fill"></i></span> 
+                </div>
+                <div class="profile-item">joined: 
+                    <span>{{ formatTimestamp(userDetails.created) }}</span>
+                </div>
+                <div class="profile-item">location: 
+                    <span>{{ userDetails.profile.location }}</span>
+                </div>
+               
                 <div class="tz-user-socials">
                     <div class="tz-social">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="34" viewBox="0 0 35 34" fill="none">
@@ -131,15 +126,10 @@
                         <span>Email</span>
                     </div>
                     <div class="tz-social">
-                        <i class="bi bi-github"></i>
-                        <span>Github</span>
+                        <!-- <i class="bi bi-github"></i>
+                        <span>Github</span> -->
                     </div>
-                    
                 </div>
-                <!-- <div class="tz-availablity">Availability</div>
-                <div class="tz-location">Location</div>
-                <div class="tz-yrs-exp">Years of Experience</div>
-                <div class="tz-socials"></div> -->
             </div>
     </div>
 
@@ -175,7 +165,7 @@
         <div class="bio-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-emphasis">
                 <b>Phone Number</b>
-                <span> {{ userDetails.profile.phone }} </span>
+                <span>+{{ userDetails.profile.phone }} </span>
             </div>
             <div class="tz-emphasis">
                 <b>Email Adrress</b>
@@ -232,6 +222,7 @@ import DotLoader from '../components/DotLoader.vue';
                 editProfileMenu: false,
                 showError: false,
                 showImageModal: false,
+                isAllowed: null,
 
 
             userProfile: {
@@ -349,55 +340,66 @@ import DotLoader from '../components/DotLoader.vue';
       this.selectedFile = event.target.files[0];
     },
     async uploadProfileImage() {
-  if (!this.selectedFile) {
-    return;
-  }
+        if (!this.selectedFile) {
+            return;
+        }
 
-  try {
-    const formData = new FormData();
-    formData.append('profileImage', this.selectedFile);
+        try {
+            const formData = new FormData();
+            formData.append('profileImage', this.selectedFile);
 
-    // Retrieve the JWT token from local storage
-    const token = localStorage.getItem('token');
+            // Retrieve the JWT token from local storage
+            const token = localStorage.getItem('token');
 
-    // Check if the token exists
-    if (!token) {
-      console.error('JWT token not found in local storage');
-      return;
-    }
+            // Check if the token exists
+            if (!token) {
+            console.error('JWT token not found in local storage');
+            return;
+            }
 
-    const headers = {
-      Authorization: `JWT ${token}`, // Add the JWT token to the authorization header
-    };
+            const headers = {
+            Authorization: `JWT ${token}`, // Add the JWT token to the authorization header
+            };
 
-    const response = await fetch(`${this.api_url}/upload-profile-image`, {
-      method: 'POST',
-      body: formData,
-      headers: headers, // Pass the headers with the JWT token
-    });
+            const response = await fetch(`${this.api_url}/upload-profile-image`, {
+            method: 'POST',
+            body: formData,
+            headers: headers, // Pass the headers with the JWT token
+            });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data.message);
-      // Optionally, update the user's profile with the image URL received from the server
-        // reload pg to show new upload
-        this.getUserById(this.$route.params.user_id);
+            if (response.ok) {
+            const data = await response.json();
+            console.log(data.message);
+            // Optionally, update the user's profile with the image URL received from the server
+                // reload pg to show new upload
+                this.getUserById(this.$route.params.user_id);
 
-        // automatically close the image upload modal upon upload success
-        this.showImageModal = !this.showImageModal
-    } else {
-      console.error('Error uploading profile image');
-    }
-  } catch (error) {
-    console.error('Error uploading profile image', error);
-  }
-},
+                // automatically close the image upload modal upon upload success
+                this.showImageModal = !this.showImageModal
+            } else {
+            console.error('Error uploading profile image');
+            }
+        } catch (error) {
+            console.error('Error uploading profile image', error);
+        }
+    },
+
+    checkCurrentViewer(){
+        const token = localStorage.getItem('token');
+        const userRole = token ? JSON.parse(atob(token.split('.')[1])).id : null;
+        console.log(userRole);
+        if(userRole == this.$route.params.user_id){
+            this.isAllowed = true;
+        }
+        else{this.isAllowed = false};
+    },
 
                 
           },
           
         created(){
             this.getUserById(this.$route.params.user_id);
+            this.checkCurrentViewer()
         }
     }
 </script>
@@ -428,7 +430,7 @@ th, td{
         margin: 0 auto;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
         flex-wrap: wrap;
         gap: 20px;
@@ -437,19 +439,70 @@ th, td{
     .tz-profile-card > *{
         /* border: 1px solid red; */
     }
+
+
+
+
     .tz-user-thumbnail{
         display: flex;
         align-self: flex-start;
         height: 100px;
         width: 100px;
         border-radius: 50%;
-        background: url("../components/Logos_icons/dummy_user.png");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
         outline: 4px solid var(--app-blue);
         outline-offset: 5px;
     }
+    .profileImgSwitch{
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+    }
+    .icon{
+        position: absolute;
+        color: #ffffff;
+        /* background: #ff0000; */
+        /* opacity: 0.5; */
+        z-index: 999;
+        margin: 0 auto;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        transition-duration: 2s;
+        animation-duration: 2s;
+    }
+
+    .icon > span{
+        font-size: 0.2rem !important;
+        color: #000000;
+        border: 1px solid #000;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+        height: 25px;
+        width: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .icon:hover .icon{
+        display: flex;
+    }
+
+
+
+
+
+   
+   
     .tz-profile-left{
         display: flex;
         flex-direction: row;
@@ -467,7 +520,7 @@ th, td{
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
     }
     .tz-profile-left, .tz-profile-right{
         /* justify-content: center; */
@@ -602,35 +655,7 @@ th, td{
     }
 
 
-
-
-
-
-
-
-    .profileImgSwitch{
-        border-radius: 50%;
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        
-    }
-    .icon{
-        position: absolute;
-        color: #fff;
-        z-index: 999;
-        margin: 0 auto;
-        display: none;
-        transition-duration: 2s;
-        animation-duration: 2s;
-    }
-    .icon > i{
-        font-size: 1.5rem !important;
-    }
-   .profileImgSwitch:hover .icon{
-    display: block;
-   }
+ 
 
 
    .logout-modal{
@@ -695,11 +720,12 @@ th, td{
             width: 100%;
         }
         .tz-profile-left{
-            flex-direction: column;
-            /* align-items: flex-start; */
+            /* flex-direction: column; */
+            align-items: flex-start;
         }
         .tz-user-details{
         align-items: flex-start;
+        justify-content: flex-start;
         }
         .tz-user-thumbnail{
             align-items: flex-start !important;
@@ -714,6 +740,7 @@ th, td{
         }
         .tz-profile-right{
             align-content: center;
+            justify-items: center;
             width: 100%;
             padding: 0px;
         }
@@ -731,13 +758,13 @@ th, td{
 
     @media only screen and (max-width: 1000px) {
         .tz-profile-left{
-            flex-direction: column;
+            /* flex-direction: column; */
         }
         .tz-user-details{
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
     }
     .tz-user-thumbnail{
         align-self: center;

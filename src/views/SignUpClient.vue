@@ -50,16 +50,18 @@
                   <div class="form-section">
                       <label for="password">Password</label>
                       <!-- <li class="error-msg" v-if="msg" v-for="error in msg" :key="error">{{ error.password[0] }}</li> -->
-                      <input class="form-input" placeholder="Enter your password" type="password" v-model="user.password" name="password" required>
+                      <input class="form-input" placeholder="Enter your password" type="password" v-model="user.password" name="password" @input="checkPasswordsMatch" required>
                   </div>
   
-                  <!-- <div class="form-section">
+                  <div class="form-section">
                       <label for="password_confirmation">Confirm Password</label>
-                      <input class="form-input" placeholder="Enter your password" type="password" name="password_confirmation" required>
-                  </div> -->
+                      <input class="form-input" placeholder="confirm your password" type="password" v-model="password_confirmation" name="password_confirmation" @input="checkPasswordsMatch" required>
+                      <p style="color: green;"  v-if="passMatch">Passwords match!</p>
+                      <p style="color: red;" v-else>Passwords do not match.</p>
+                  </div>
   
                   <div class="form-section">
-                      <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }">
+                      <button class="form-btn" type="submit" :disabled="isLoading && passMatch"  :class="{ 'disabled-button': isLoading }">
                           <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                           <span v-if="isLoading === true">Loading...</span>
                           <span v-else>Sign Up</span>
@@ -91,6 +93,8 @@ data() {
       email: '',
       password: '',
     },
+    password_confirmation: '',
+    passMatch: false,
     isLoading: false,
     errors: '',
     // 
@@ -116,6 +120,13 @@ methods: {
       
     }
   },
+  checkPasswordsMatch() {
+      if (this.user.password === this.password_confirmation) {
+        this.passMatch = true;
+      } else {
+        this.passMatch = false;
+      }
+    },
 },
 };
 

@@ -78,6 +78,11 @@
                             {{ job.budget_type }}
                     </div>
                     <div class="tz-job-content-description">
+                            <p class="tz-form-title">About recruiter</p>
+                            {{  getUserById(job.employer) }}
+                    </div>
+                    
+                    <div class="tz-job-content-description">
                             <p class="tz-form-title">Share this job post</p>
                             <div class="tz-copy-link">
                                 <div id="contentToCopy" class="tz-disabled-link">{{ shareLink }}</div>
@@ -218,6 +223,7 @@
             showModal: false,
 
             userDetails: '',
+            employerDetails: '',
 
             userAppliedJobs: '',
             jobIsApplied: false,
@@ -377,11 +383,29 @@
                 console.error(error);
                 });
                 },
+
+                 // now we try to get the employer's details ......
+                 async getUserById(id) {
+                    try {
+                        const response = await axios.get(`${this.api_url}/get-info/${id}`);
+                        const employerDetails = response.data.employer;
+                        if (employerDetails) {
+                            return employerDetails.firstname;
+                        } else {
+                            throw new Error("Employer details not found");
+                        }
+                    } catch (error) {
+                        console.error('Error fetching user or employer details:', error);
+                        throw error; // You can choose to rethrow the error or handle it differently
+                    }
+                },
+
         },
         created() {
             this.getUserDetails();
             this.fetchJobListings();
             this.fetchUserAppliedJobs();
+            // this.getUserById("651d62b22d5495c4ca702289");
             
             
             

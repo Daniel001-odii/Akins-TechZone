@@ -13,15 +13,18 @@
         </div> 
         <div class="Page-contents">
                <div class="container">
-                    <div class="tz-client-header">
-                    <h4 class="tz-client-title" :class="['theme-transition', { 'dark': themeStore.darkMode }]">Hello {{ userDetails.firstname }}, Welcome</h4>
+                    <div class="tz-client-header"  :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                        <div style="color: #000">
+                            <span>Welcome back, </span> <br/>
+                            <span class="tz-client-title"> {{ userDetails.firstname }} {{ userDetails.lastname }}</span>
+                        </div>
                         <RouterLink to="/client/post-job">
                             <button class="post-job-btn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
                                     <path d="M6.06641 12H18.0664" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M12.0459 17.6558V5.65576" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                Post Job
+                                Post a Job
                             </button>
                         </RouterLink>
                     </div>
@@ -95,7 +98,7 @@
                                                 <br/>
                                                 <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
                                                 <b>Cover letter: </b> {{ applicant.coverLetter }} <br/> 
-                                                <b>Attachment: </b> {{  applicant.attachment }} <br/>
+                                                <b>Attached files: </b> {{  applicant.attachment }} <br/>
                                                 <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
                                                 <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
                                                 <div class="job-effect-btns" style="padding: 15px 0px;">
@@ -342,8 +345,6 @@
                 },
                 mounted() {
                         this.getUserDetails();
-                        // this.getUserById("6511b6ab1e8c3c1c68d7ae69")
-                        // this.getHoursTillDate();
                     },
                 
     }
@@ -352,6 +353,9 @@
       
       
       <style scoped>
+      *{
+        font-size: 0.99em !important;
+      }
       .dark .card-header{
         background: var(--accent-dark) !important;
         color: #fff !important;
@@ -414,20 +418,23 @@ small{font-size: 12px;}
     width: 80%;
 }
 .tz-client-header{
-    /* border: 2px solid red; */
     width: 100%;
-    height: 100px;
-    /* padding: 15px; */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+    padding: 30px !important;
+    background: url('../components/Logos_icons/dashboard.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
 }
 
 .tz-client-title{
-    font-weight: bolder;
-    color: var(--app-blue);
+    font-weight: bold;
+    font-size: 1.8em !important;
 }
 .post-job-btn{
     border: none;
@@ -451,6 +458,7 @@ small{font-size: 12px;}
     justify-content: flex-start;
     align-items: center;
     margin: 0 auto;
+    margin-top: 20px;
     /* height: 40px; */
 }
 
@@ -633,6 +641,7 @@ padding: 5px 10px;
 border: 1px solid #efefef;
 border-radius: 5px;
 color: #fff !important;
+font-size: 0.6em;
 }
 
 .edit-btn{

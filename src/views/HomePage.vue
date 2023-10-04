@@ -837,7 +837,7 @@ mounted(){
     height: 35px;
     width: 35px;
     border-radius: 50%;
-    background: url("./Logos_icons/dummy_user.png");
+    /* background: url("./Logos_icons/dummy_user.png"); */
 }
 .tz-user-thumbnail:hover .tz-user-menu{
     background: red;
