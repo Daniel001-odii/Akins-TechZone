@@ -172,6 +172,11 @@
                                 <div class="tz-menu-content">
                                     <i class="bi bi-gear-fill"></i>
                                     Settings</div>
+                                <RouterLink to="/myjobs" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                    <div class="tz-menu-content">
+                                        <i class="bi bi-send-check-fill"></i>
+                                    My Applications</div>
+                                </RouterLink>
                                 <RouterLink to="/support" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="tz-menu-content">
                                         <i class="bi bi-question-circle-fill"></i>
@@ -1063,11 +1068,12 @@ margin-right: 10px; gap: 5px;
 
 .modal-options > span{
     border: 1px solid var(--app-blue);
-    padding: 15px 50px;
+    padding: 10px;
     border-radius: 5px;
     color: var(--app-blue);
     font-size: 1rem !important;
     width: 40%;
+    cursor: pointer;
 }
 .no{
     background: var(--app-blue);

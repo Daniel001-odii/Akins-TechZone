@@ -32,13 +32,12 @@
                             <span><b>{{ job.job_title }}</b></span>
                             <small>microsot Imc. <i>Stars</i></small>
                                 <!---------------clock icon-------------->
-                            <span class="jdh-detail">
                                 <!---------------location icon-------------->
                                 <span class="jdh-detail">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 15 20" fill="none">
                                     <path d="M7.5 19.0532L2.19667 13.7499C1.14779 12.701 0.433489 11.3646 0.144107 9.90979C-0.145275 8.45494 0.0032557 6.94695 0.570915 5.57651C1.13858 4.20607 2.09987 3.03473 3.33323 2.21063C4.5666 1.38652 6.01664 0.946655 7.5 0.946655C8.98336 0.946655 10.4334 1.38652 11.6668 2.21063C12.9001 3.03473 13.8614 4.20607 14.4291 5.57651C14.9967 6.94695 15.1453 8.45494 14.8559 9.90979C14.5665 11.3646 13.8522 12.701 12.8033 13.7499L7.5 19.0532ZM11.625 12.5716C12.4407 11.7558 12.9963 10.7164 13.2213 9.58482C13.4463 8.45328 13.3308 7.28042 12.8892 6.21455C12.4477 5.14868 11.7 4.23768 10.7408 3.59673C9.78149 2.95578 8.6537 2.61368 7.5 2.61368C6.3463 2.61368 5.21851 2.95578 4.25924 3.59673C3.29996 4.23768 2.55229 5.14868 2.11076 6.21455C1.66923 7.28042 1.55368 8.45328 1.77871 9.58482C2.00374 10.7164 2.55926 11.7558 3.375 12.5716L7.5 16.6966L11.625 12.5716ZM7.5 10.1133C7.05797 10.1133 6.63405 9.93766 6.32149 9.6251C6.00893 9.31254 5.83333 8.88861 5.83333 8.44659C5.83333 8.00456 6.00893 7.58064 6.32149 7.26808C6.63405 6.95552 7.05797 6.77992 7.5 6.77992C7.94203 6.77992 8.36595 6.95552 8.67851 7.26808C8.99107 7.58064 9.16667 8.00456 9.16667 8.44659C9.16667 8.88861 8.99107 9.31254 8.67851 9.6251C8.36595 9.93766 7.94203 10.1133 7.5 10.1133Z" fill="#4E79BC"/>
                                 </svg>
-                                Lekki Phase 1, Lagos 
+                                {{ job.location }}
                                 </span>
                                 <!---------------clock icon-------------->
                                 <span class="jdh-detail">
@@ -49,14 +48,13 @@
                                 </svg>
                                 {{ getHoursTillDate( job.created_at) }} ago
                                 </span>
-                            </span>
-                            <span class="jdh-detail">
-                                <!------------wallet icon-------------->
-                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
-                                    <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
-                                </svg>
-                                {{ job.budget_type }} : (₦){{ formatBudgetAmount(job.budget) }}
-                            </span>
+                                <span class="jdh-detail">
+                                    <!------------wallet icon-------------->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
+                                        <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
+                                    </svg>
+                                    {{ job.budget_type }} : (₦){{ formatBudgetAmount(job.budget) }}
+                                </span>
                         </div>
                     </div>
                     <div class="tz-job-content-description" >
@@ -332,7 +330,7 @@
                     const applying_jobId = this.job_id; // Replace with the actual job ID you want to apply for
 
                     const applicationData = {
-                    jobId: applying_jobId,
+                    jobId: this.$route.params.job_id,
                     coverLetter: this.applicationForm.coverLetter, // Replace with the user's cover letter
                     attachment: this.applicationForm.attachment, // Replace with the user's attachment (file data or file path)
                     counterOffer: this.applicationForm.counterOffer, // Replace with the user's counter offer value
@@ -380,7 +378,7 @@
                 });
                 },
         },
-        mounted() {
+        created() {
             this.getUserDetails();
             this.fetchJobListings();
             this.fetchUserAppliedJobs();
@@ -432,7 +430,7 @@ small{font-size: 12px;}
     width: 50%;
     padding: 20px;
     overflow-y: scroll;
-    height: 90vh;
+    /* height: 90vh; */
 }
 
 .tz-form-content{

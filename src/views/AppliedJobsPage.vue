@@ -12,7 +12,7 @@
          <LeftNav/>
     </div>
     <div class="Page-header">
-          <div class="page-title"><slot name="page-title">Work Explorer</slot></div>
+          <div class="page-title"><slot name="page-title">My Applications</slot></div>
           <div class="page-filters">
                  <!-- Search input fields and form -->
     <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
@@ -64,15 +64,6 @@
                         <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
                         <template #job-post-time>{{ getHoursTillDate(job.created_at) }}</template>
                         <template #save-button>
-                            <!-- <button class="save-btn" style="" @click="NewSaveJob(index)">
-                                <div v-if="isSaving[index]" class="spinner-border" role="status" style="font-size: 10px; height: 20px; width: 20px; color: var(--app-grey)">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div v-else>
-                                    <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
-                                    <i v-else class="bi bi-heart"></i>
-                                </div>
-                            </button> -->
                             <button class="save-btn" style="" @click="NewSaveJob(index)">
                                 <div>
                                     <i v-if="checkSavedJobs(jobs[index]._id)" class="bi bi-heart-fill" style="color: var(--app-blue)"></i>
@@ -253,21 +244,6 @@
                     },
 
 
-                fetchJobListings(){
-                    this.isLoading = true;
-                    axios.get(`${this.api_url}/jobs`).then(response => {
-                        this.jobs = response.data.jobs.reverse();
-                        // this.applied_jobs = this.jobs;
-                        this.isSaving.length = this.jobs.length;
-                        // console.log("applications received: ", response.data.jobs[0].applications); //logs all jobs to the console to test for data type....
-                        // console.log("applied jobs: ", this.applied_jobs)
-                        this.isLoading = false;
-                    }).catch(error => {
-                        this.isLoading = false;
-                        console.error(error);
-                    })
-                },
-
                 getUserDetails() {
                     const token = localStorage.getItem('token'); // Get the token from localStorage
                     const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
@@ -369,10 +345,8 @@
                         Authorization: `JWT ${localStorage.getItem('token')}`, // Include the JWT token from localStorage
                     },
                     });
-
-                    this.userAppliedJobs = response.data.jobs;
+                    this.jobs = response.data.jobs;
                     this.isLoading = false;
-                    console.log("user appied jobs: ", this.userAppliedJobs);
                 } catch (error) {
                     this.isLoading = false;
                     console.error(error);
@@ -382,10 +356,8 @@
                 checkJobApplication(jobId) {
                 // Use the forEach method to iterate through the userAppliedJobs array
                 // and check if any item matches the given jobId
-                if(this.userAppliedJobs){
-
-                
-                const foundJob = this.userAppliedJobs.find(job => job._id === jobId);
+                if(this.jobs){
+                const foundJob = this.jobs.find(job => job._id === jobId);
                 // If a matching job is found, return "View Application"
                 if (foundJob) {
                     return "View Application";
@@ -432,9 +404,7 @@
             },
 
             mounted(){
-                this.fetchJobListings();
-                // this.getHoursTillDate();
-                // this.checkSavedJobs();
+                this.fetchUserAppliedJobs();
                 this.getUserDetails();
                
             },

@@ -647,8 +647,8 @@ p{
       font-weight: 1px !important;
       border-radius: 5px;
       display: flex;
-      justify-content: center;
-      align-items: center;
+      /* justify-content: center;
+      align-items: center; */
       gap: 10px;
       max-width: 500px;
       flex-wrap: wrap; 

@@ -17,6 +17,7 @@ import assignedJobs from '../views/AssignedJobs.vue'
 import completedJobs from '../views/CompletedJobs.vue'
 import declinedJobs from '../views/DeclinedJobs.vue'
 import JobDetail from '../views/JobDetail.vue'
+import AppliedJobsPage from '../views/AppliedJobsPage.vue'
 //Introduction views for both clients and talents...
 import customize from '../views/customizeProfile.vue'
 import customize_client from '../views/clientCustomize.vue'
@@ -50,6 +51,7 @@ const routes = [
   {path: '/client/:user_id', component: Client_Profile, name: "Techzone - client", meta: { requiresAuth: true, role: 'employer' }},
   // {path: '/user/:user_id/', component: PublicUserProfile, name: "Techzone - profile"},
   {path: '/jobs', name:'Techzone - jobs', component: NewPage},
+  {path: '/myjobs', name:'Techzone - My jobs', component: AppliedJobsPage},
   {path: '/login', name: 'Login', component: Login},
   {path: '/employer/login', name: 'Employer - login', component: ClientLogin},
   {path: '/talent-signUp', component: SignUp, name: "Signup"},
@@ -111,6 +113,24 @@ router.beforeEach((to, from, next) => {
   }
   
 });
+
+
+
+// Create a navigation guard
+router.beforeEach((to, from, next) => {
+  // Check if the user is logged in (you should replace this condition)
+  const token = localStorage.getItem('token');
+  const userRole = token ? JSON.parse(atob(token.split('.')[1])).role : null;
+
+  // If the user is logged in and is trying to visit the root URL
+  if (userRole && to.path === '/') {
+    // Redirect them to /jobs
+    next('/jobs')
+  } else {
+    // Otherwise, proceed with the navigation
+    next()
+  }
+})
 
 
 export default router
