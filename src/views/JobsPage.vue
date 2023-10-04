@@ -122,7 +122,7 @@
                     
                     <div class="jdh-right">
                         
-                            <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">Apply Here</button>
+                            <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">{{ checkJobApplication(jobs[selectedJob]._id) }} </button>
                     </div>
                 </div>
                 <!--------- job details header ends here------------->
@@ -224,6 +224,8 @@
                 isLoading: false,
                 userDetails:'',
                 userSavedJobs:[],
+
+                userAppliedJobs: '',
                 jobIsSaving: false,
 
                 isSaving: [],
@@ -327,7 +329,7 @@
 
 
             //converts the created_at property of the api to readable, hours, days, months, years text for display
-            getHoursTillDate(dateString) {
+                getHoursTillDate(dateString) {
                 const date = new Date(dateString)
                 const now = new Date()
                 const diff = now.getTime() - date.getTime()
@@ -357,38 +359,70 @@
                 }
                 },
 
-            async searchJobs() {
+                async fetchUserAppliedJobs() {
                 this.isLoading = true;
-                // Define your search criteria here
-                const keywords = this.keywords; // Assuming you have a data property named 'keywords'
-                const budgetMin = this.budgetMin; // Assuming you have a data property named 'budgetMin'
-                const budgetMax = this.budgetMax; // Assuming you have a data property named 'budgetMax'
-                const jobType = this.jobType; // Assuming you have a data property named 'jobType'
-                const posted = this.posted;
-                // const location = this.location; // Assuming you have a data property named 'location'
 
                 try {
-                // Make an Axios GET request to your search endpoint
-                const response = await axios.get(`${this.api_url}/search`, {
-                    params: {
-                    keywords,
-                    budgetMin,
-                    budgetMax,
-                    posted,
-                    jobType,
-                    // location,
+                    // Fetch user-applied jobs using the route you created
+                    const response = await axios.get(`${this.api_url}/user-applied-jobs`, {
+                    headers: {
+                        Authorization: `JWT ${localStorage.getItem('token')}`, // Include the JWT token from localStorage
                     },
-                });
+                    });
 
-                // Handle the response data (jobs) as needed
-                this.isLoading = false;
-                this.jobs = response.data.jobs.reverse(); // Assuming you have a data property named 'jobs'
+                    this.userAppliedJobs = response.data.jobs;
+                    this.isLoading = false;
+                    console.log("user appied jobs: ", this.userAppliedJobs);
                 } catch (error) {
-                this.isLoading = false;
-                console.error('Error searching jobs:', error);
-                // Handle errors, e.g., show an error message to the user
+                    this.isLoading = false;
+                    console.error(error);
                 }
-            },
+                },
+
+                checkJobApplication(jobId) {
+                // Use the forEach method to iterate through the userAppliedJobs array
+                // and check if any item matches the given jobId
+                const foundJob = this.userAppliedJobs.find(job => job._id === jobId);
+                // If a matching job is found, return "View Application"
+                if (foundJob) {
+                    return "View Application";
+                }
+                // If no match is found or the array is empty, return "Apply here"
+                return "Apply here";
+                },
+
+                async searchJobs() {
+                    this.isLoading = true;
+                    // Define your search criteria here
+                    const keywords = this.keywords; // Assuming you have a data property named 'keywords'
+                    const budgetMin = this.budgetMin; // Assuming you have a data property named 'budgetMin'
+                    const budgetMax = this.budgetMax; // Assuming you have a data property named 'budgetMax'
+                    const jobType = this.jobType; // Assuming you have a data property named 'jobType'
+                    const posted = this.posted;
+                    // const location = this.location; // Assuming you have a data property named 'location'
+
+                    try {
+                    // Make an Axios GET request to your search endpoint
+                    const response = await axios.get(`${this.api_url}/search`, {
+                        params: {
+                        keywords,
+                        budgetMin,
+                        budgetMax,
+                        posted,
+                        jobType,
+                        // location,
+                        },
+                    });
+
+                    // Handle the response data (jobs) as needed
+                    this.isLoading = false;
+                    this.jobs = response.data.jobs.reverse(); // Assuming you have a data property named 'jobs'
+                    } catch (error) {
+                    this.isLoading = false;
+                    console.error('Error searching jobs:', error);
+                    // Handle errors, e.g., show an error message to the user
+                    }
+                },
             },
             
             computed: {
@@ -396,9 +430,13 @@
 
             mounted(){
                 this.fetchJobListings();
-                this.getHoursTillDate();
-                this.checkSavedJobs();
+                // this.getHoursTillDate();
+                // this.checkSavedJobs();
                 this.getUserDetails();
+               
+            },
+            beforeMount(){
+                this.fetchUserAppliedJobs();
             },
 }
 </script>       

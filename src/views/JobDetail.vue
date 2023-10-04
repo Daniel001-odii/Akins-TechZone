@@ -29,7 +29,7 @@
                     <!-- <div class="tz-company-header-img"></div> -->
                     <div class="job-detail-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="jdh-left">
-                            <span><b>{{ data[0].job_title }}</b></span>
+                            <span><b>{{ job.job_title }}</b></span>
                             <small>microsot Imc. <i>Stars</i></small>
                                 <!---------------clock icon-------------->
                             <span class="jdh-detail">
@@ -47,7 +47,7 @@
                                     <path d="M10 7V12" stroke="#4E79BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                {{ getHoursTillDate( data[0].created_at) }} ago
+                                {{ getHoursTillDate( job.created_at) }} ago
                                 </span>
                             </span>
                             <span class="jdh-detail">
@@ -55,29 +55,29 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
                                     <path d="M16 4H19C19.2652 4 19.5196 4.10536 19.7071 4.29289C19.8946 4.48043 20 4.73478 20 5V17C20 17.2652 19.8946 17.5196 19.7071 17.7071C19.5196 17.8946 19.2652 18 19 18H1C0.734784 18 0.48043 17.8946 0.292893 17.7071C0.105357 17.5196 0 17.2652 0 17V1C0 0.734784 0.105357 0.48043 0.292893 0.292893C0.48043 0.105357 0.734784 0 1 0H16V4ZM2 6V16H18V6H2ZM2 2V4H14V2H2ZM13 10H16V12H13V10Z" fill="#4E79BC"/>
                                 </svg>
-                                {{ data[0].budget_type }} : (₦){{ formatBudgetAmount(data[0].budget) }}
+                                {{ job.budget_type }} : (₦){{ formatBudgetAmount(job.budget) }}
                             </span>
                         </div>
                     </div>
                     <div class="tz-job-content-description" >
                             <p class="tz-form-title">Job Description</p>
-                            {{ data[0].job_description }}
+                            {{ job.job_description }}
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Skills Required</p>
                             <div class="skill_set">
-                            <div v-for="(skills,index) in data[0].skills.split(', ')" :key="index">
+                            <div v-for="(skills,index) in job.skills.split(', ')" :key="index">
                                     <div class="skills">{{ skills }}</div>
                             </div>
                             </div>
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Project type</p>
-                            {{ data[0].period }}
+                            {{ job.period }}
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Payment type</p>
-                            {{ data[0].budget_type }}
+                            {{ job.budget_type }}
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Share this job post</p>
@@ -93,7 +93,7 @@
                     <form @submit.prevent="applyForJob">
                         <div class="tz-form-content">
                             <span class="tz-form-title">Cover Letter</span>
-                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." v-model="applicationForm.coverLetter" required></textarea>
+                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." v-model="applicationForm.coverLetter" required :disabled="jobIsApplied"></textarea>
                         </div>
                         <div class="tz-form-content">
                             <span class="tz-form-title">Attachment</span>
@@ -102,7 +102,7 @@
                                 <span v-if="!selectedFile">Drag and drop files or <i  @click="handleButtonClick" style="color:blue; cursor: pointer;">upload</i> project files here.</span>
                                 <span v-else>{{ selectedFile.name }}</span>
                             </div>
-                                <input type="file" ref="fileInput" @change="handleFileInputChange" style="display: none">
+                                <input type="file" ref="fileInput" @change="handleFileInputChange" style="display: none" :disabled="jobIsApplied">
                                 <span @click="handleButtonClick" style="color:blue; cursor: pointer;margin: 0;" class="cust-bt">Upload files</span>
                         </div>
                         <div class="tz-form-content row">
@@ -111,19 +111,24 @@
                                 <p>Requesting Fee</p>
                                 <div class="amount-input">
                                     <div class="currency">NGN</div>
-                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="applicationForm.counterOffer">
+                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="applicationForm.counterOffer" :disabled="jobIsApplied">
                                 </div>
                                 
                                 <small>input the amount you want to get paid for this job</small>
                             </div>
                             <div class="form-sub">
                                 <p>Reason</p>
-                                <textarea type="textarea" class="tz-form-textarea" style="height: 70px;" placeholder="...." v-model="applicationForm.reasonForCounterOffer"></textarea>
+                                <textarea type="textarea" class="tz-form-textarea" style="height: 70px;" placeholder="...." v-model="applicationForm.reasonForCounterOffer" :disabled="jobIsApplied"></textarea>
                                 <small>give a detailed reason for countering the offer</small>
                             </div>
                         </div>
                         <div class="tz-form-content">
-                            <button class="tz-form-submit-btn cust-btn" type="submit" :disabled="isSubmitting" ><span v-if="isSubmitting">processing...</span><span v-else>Submit Application</span></button>
+                            <span v-if="!jobIsApplied">
+                                <button class="tz-form-submit-btn cust-btn" type="submit" :disabled="isSubmitting" ><span v-if="isSubmitting">processing...</span><span v-else>Submit Application</span></button>
+                            </span>
+                            <span v-else>
+                                <button class="tz-form-submit-btn cust-btn" style="background: green;" type="submit" disabled>Application sent</button>
+                            </span>
 
                         </div>
                     </form>
@@ -208,11 +213,16 @@
                 },
         data() {
             return {
-            data: [],
+            job: '',
             isLoading: true,
             shareLink: window.location.href,
             job_id: '',
             showModal: false,
+
+            userDetails: '',
+
+            userAppliedJobs: '',
+            jobIsApplied: false,
 
             // variables for contrgolling job application....
             applicationForm:{
@@ -237,27 +247,61 @@
                     console.error('Error copying to clipboard:', error);
                     });
                 },
-            fetchJobListings() {
-            const jobId = this.$route.params.job_id;
-            this.job_id = this.$route.params.job_id;
-            // console.log(this.$route.params.job_id);
-            
 
-            axios.get(`${this.api_url}/jobs/${jobId}`)
-                .then(response => {
-                    this.data.push(response.data.job);
-                    console.log(this.data[0]);
-                })
-                .catch(error => {
-                console.error(error);
-                })
-                .finally(() => {
-                this.isLoading = false;
-                });
-            },
+                fetchJobListings() {
+                const jobId = this.$route.params.job_id;
+                // console.log(this.$route.params.job_id);
+                
 
+                axios.get(`${this.api_url}/jobs/${jobId}`)
+                    .then(response => {
+                        // this.data.push(response.data.job);
+                        this.job = response.data.job;
+                        console.log("currrent job in view: ", this.job);
+                    })
+                    .catch(error => {
+                    console.error(error);
+                    })
+                    .finally(() => {
+                    this.isLoading = false;
+                    });
+                },
 
-            getHoursTillDate(dateString) {
+                fetchUserAppliedJobs() {
+                    this.isLoading = true;
+                    // Fetch user-applied jobs using the route you created
+                    axios.get(`${this.api_url}/user-applied-jobs`, {
+                        headers: {
+                        Authorization: `JWT ${localStorage.getItem('token')}`, // Include the JWT token from localStorage
+                        },
+                    })
+                    .then(response => {
+                            this.userAppliedJobs = response.data.jobs;
+                            console.log("user applied jobs: ", this.userAppliedJobs);
+                            // Use the some method to check if any item in the userAppliedJobs array matches the given jobId
+                            const isJobApplied = this.userAppliedJobs.some(job => job._id === this.$route.params.job_id);
+                            if(isJobApplied){this.jobIsApplied = true}else{this.jobIsApplied = false};
+                            // Log the result to the console
+                            console.log(`Job ID ${this.$route.params.job_id} is${isJobApplied ? '' : ' not'} found in user-applied jobs`);
+
+                            // the code below checks if the user already applied for the job and prepopulates the form fields to avoid futher submission
+                            for(let i = 0; i < this.job.applications.length; i++){
+                               if(this.job.applications[i].user.includes(this.userDetails.id)){
+                                    console.log(this.applicationForm = this.job.applications[i]);
+                               }
+                            };
+                            // Return a message based on whether the job is applied or not
+                            // return isJobApplied ? "View Application" : "Apply here";
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
+                    });
+                },
+
+                getHoursTillDate(dateString) {
                 const date = new Date(dateString)
                 const now = new Date()
                 const diff = now.getTime() - date.getTime()
@@ -276,10 +320,12 @@
                     return `${diffInMonths} months`
                 }
                 },
+
                 formatBudgetAmount(value){
                     const formattedValue = new Intl.NumberFormat('en-US').format(value);
                     return formattedValue;
                 },
+
                 async applyForJob() {
                     this.isSubmitting = true;
                     const token = localStorage.getItem('token'); // Get the user's JWT token from localStorage
@@ -311,11 +357,45 @@
                     this.isSubmitting = false;
                     // Handle errors, e.g., show an error message to the user.
                     }
-            },
+                },
+
+                getUserDetails() {
+            this.isLoading = true;
+            const token = localStorage.getItem('token'); // Get the token from localStorage
+            const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
+            // Set up headers with the token
+            const headers = {
+                Authorization: `JWT ${token}`, // Assuming it's a JWT token
+            };
+            axios.get(user_url, { headers })
+                .then((response) => {
+                // Handle the response here
+                this.userDetails = response.data.user;
+                console.log("the user ", this.userDetails) 
+                })
+                .catch((error) => {
+                // Handle errors
+                this.isLoading = false;
+                console.error(error);
+                });
+                },
         },
-        created() {
+        mounted() {
+            this.getUserDetails();
             this.fetchJobListings();
+            this.fetchUserAppliedJobs();
+            
+            
+            
+            // this.checkJobApplication();
+            if(this.userAppliedJobs.length > 0){
+                console.log(this.userAppliedJobs);
+            }
+            
         },
+        // mounted(){
+           
+        // }
         };
 
 
@@ -323,12 +403,7 @@
       </script>       
       
       
-      <style scoped>
-
-
-
-
-
+<style scoped>
 small{font-size: 12px;}
 .Page-contents{
     display: flex;
@@ -457,4 +532,4 @@ butto {
         /* border: 2px solid red; */
     }
 }
-      </style>
+</style>
