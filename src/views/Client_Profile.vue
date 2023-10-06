@@ -1,17 +1,36 @@
 <template>
 
     <!--  this is the modal displayed when a user tries changing profile image...... -->
-    <div class="logout-modal" v-if="showImageModal">
-        <div class="modal-content">
-            <span>Upload a new image for your profile</span>
-            <input type="file" @change="handleFileUpload" accept="image/*" />
-            <!-- <button @click="uploadProfileImage">Upload</button> -->
-            <div class="modal-options">
-                <span class="yes" @click="uploadProfileImage">Upload</span>
-                <span class="no" @click="showImageModal = !showImageModal">Cancel</span>
+<!--  this is the modal displayed when a user tries changing profile image...... -->
+<div class="logout-modal" v-if="showImageModal">
+    <div class="modal-content">
+        <span>Upload a new image for your profile</span>
+
+
+        <div class="image-upload-modal">
+            <div class="image-container">
+            <div class="circle">
+                <img :src="imageUrl" :style="{ transform: `scale(${scale})` }" />
             </div>
+            <input
+                type="range"
+                min="1"
+                max="5"
+                step="0.5"
+                v-model="scale"
+                class="slider"
+            />
+            </div>
+            <!-- <button @click="uploadImage">Upload</button> -->
+        </div>
+        <input type="file" @change="handleImageSelect" accept="image/*" />
+        <!-- <button @click="uploadProfileImage">Upload</button> -->
+        <div class="modal-options">
+            <span class="yes" @click="uploadProfileImage">Upload</span>
+            <span class="no" @click="showImageModal = !showImageModal">Cancel</span>
         </div>
     </div>
+</div>
     
     
     
@@ -72,14 +91,7 @@
     
         <DotLoader v-if="isLoading"/>
     
-    
-    <!-- <div>
-        <h1>Upload Profile Image</h1>
-        <input type="file" @change="handleFileUpload" accept="image/*" />
-        <button @click="uploadProfileImage">Upload</button>
-    </div> -->
-    
-    
+
     
     <div class="body" :class="['theme-transition', { 'dark': themeStore.darkMode }]" v-if="!isLoading">
     
@@ -225,8 +237,8 @@
     import themeStore from '@/theme/theme';
     import DotLoader from '../components/DotLoader.vue';
     
-        export default {
-            components:{NavBar, Footer, DotLoader},
+export default {
+    components:{NavBar, Footer, DotLoader},
             setup(){
                     // Accessing themeStore properties and methods
                       const toggleTheme = themeStore.toggleTheme;
@@ -242,6 +254,10 @@
                     editProfileMenu: false,
                     showError: false,
                     showImageModal: false,
+
+                    imageUrl: '', // Bind to the selected image URL
+                    scale: 1, // Initial scale value
+
     
     
                 userProfile: {
@@ -259,8 +275,8 @@
                     }
                 }
               },
-              methods:{
-        getUserById(id) {
+    methods:{
+    getUserById(id) {
             this.isLoading = true;
                 axios.get(`${this.api_url}/get-info/${id}`)
                     .then(response => {
@@ -276,13 +292,13 @@
                         this.isLoading = false;
                                     // Handle errors
                     });
-                },
-        formatTimestamp(timestamp) {
+    },
+    formatTimestamp(timestamp) {
                     const date = new Date(timestamp);
                     const options = { year: "numeric", month: "long", day: "numeric" };
                     return date.toLocaleDateString(undefined, options);
-                },
-        async updateuserProfile(){
+    },
+    async updateuserProfile(){
                 const token = localStorage.getItem('token'); // Get the token from localStorage
         
                 // Set up headers with the token
@@ -299,72 +315,159 @@
                 console.log(error);
                 
             }
-                },
-        autoFill(){
-                this.userProfile.profile = this.userDetails.profile;
-                },
-        showMessage(message, type){
-    
-        },
-        handleFileUpload(event) {
-          // Store the selected file in the component's data
-          this.selectedFile = event.target.files[0];
-        },
-        async uploadProfileImage() {
-      if (!this.selectedFile) {
-        return;
-      }
-    
-      try {
-        const formData = new FormData();
-        formData.append('profileImage', this.selectedFile);
-    
-        // Retrieve the JWT token from local storage
-        const token = localStorage.getItem('token');
-    
-        // Check if the token exists
-        if (!token) {
-          console.error('JWT token not found in local storage');
-          return;
-        }
-    
-        const headers = {
-          Authorization: `JWT ${token}`, // Add the JWT token to the authorization header
+    },
+    autoFill(){
+        this.userProfile.profile = this.userDetails.profile;
+    },
+    showMessage(message, type){
+    },
+
+
+    handleImageSelect(event) {
+        this.selectedFile = event.target.files[0];
+      if (this.selectedFile) {
+        // Convert the selected image to a data URL
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageUrl = e.target.result;
         };
-    
-        const response = await fetch(`${this.api_url}/upload-client-image`, {
-          method: 'POST',
-          body: formData,
-          headers: headers, // Pass the headers with the JWT token
-        });
-    
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data.message);
-          // Optionally, update the user's profile with the image URL received from the server
-            // reload pg to show new upload
-            this.getUserById(this.$route.params.user_id);
-    
-            // automatically close the image upload modal upon upload success
-            this.showImageModal = !this.showImageModal
-        } else {
-          console.error('Error uploading profile image');
-        }
-      } catch (error) {
-        console.error('Error uploading profile image', error);
+        reader.readAsDataURL(this.selectedFile);
       }
     },
-    
-                    
-              },
-              
-            created(){
-                this.getUserById(this.$route.params.user_id);
-            }
+    handleFileUpload(event) {
+      // Store the selected file in the component's data
+      this.selectedFile = event.target.files[0];
+    },
+    scaleImage(imageUrl, scale) {
+        // Create a temporary image element
+        const img = new Image();
+        img.src = imageUrl;
+
+        // Create a canvas element
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size based on scaled dimensions
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+
+        // Draw the scaled image on the canvas
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Convert the canvas to a data URL
+        return canvas.toDataURL('image/jpeg'); // Adjust format as needed
+        },
+    // Function to convert data URL to Blob
+    dataURLtoBlob(dataURL) {
+      const parts = dataURL.split(',');
+      const contentType = parts[0].split(':')[1].split(';')[0];
+      const byteString = atob(parts[1]);
+      const arrayBuffer = new ArrayBuffer(byteString.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
+      }
+
+      return new Blob([arrayBuffer], { type: contentType });
+    },
+
+    async uploadProfileImage() {
+        // Scale the image using the this.scale value
+        const scaledImageUrl = this.scaleImage(this.imageUrl, this.scale);
+        // Convert the scaled image data URL to Blob
+        const scaledImageBlob = this.dataURLtoBlob(scaledImageUrl);
+        // Upload the scaled image Blob (send to server)
+      console.log('Uploading scaled image:', scaledImageBlob);
+
+
+        // console.log(scaledImageUrl)
+        if (!scaledImageBlob) {
+            return;
         }
+
+        try {
+            const formData = new FormData();
+            formData.append('profileImage', scaledImageBlob);
+
+            // Retrieve the JWT token from local storage
+            const token = localStorage.getItem('token');
+
+            // Check if the token exists
+            if (!token) {
+            console.error('JWT token not found in local storage');
+            return;
+            }
+
+            const headers = {
+            Authorization: `JWT ${token}`, // Add the JWT token to the authorization header
+            };
+
+            const response = await fetch(`${this.api_url}/upload-client-image`, {
+            method: 'POST',
+            body: formData,
+            headers: headers, // Pass the headers with the JWT token
+            });
+
+            if (response.ok) {
+            const data = await response;
+            console.log('Image upload successful:', data);
+            this.scale = 1;
+            this.imageUrl = '';
+
+            // Optionally, update the user's profile with the image URL received from the server
+            // ... (add code to update the user's profile)
+
+            // Reload page to show the new upload
+            this.getUserById(this.$route.params.user_id);
+
+            // Close the image upload modal upon upload success
+            this.showImageModal = false;
+            } else {
+            console.error('Error uploading profile image:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error uploading profile image:', error);
+        }
+        },
+    },
+              
+    created(){
+        this.getUserById(this.$route.params.user_id);
+        }
+}
     </script>
     
     <style scoped>
+    /* Style the circular frame */
+.circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  border: 3px dotted var(--app-blue);
+}
+
+/* Style the image within the circle */
+.circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
+}
+
+/* Style the slider */
+.slider {
+  width: 80%;
+  margin: 0 auto;
+  display: block;
+}
+
+
+
+
+
     *{
         font-size: 0.9rem !important;
          
@@ -631,9 +734,9 @@
         text-align: center;
     }
     .modal-content{
-        height: 200px;
+        /* height: 200px; */
         background: #fff;
-        width: 350px;
+        /* width: 350px; */
         border-radius: 10px;
         display: flex;
         justify-content: space-around;

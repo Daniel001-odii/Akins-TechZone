@@ -192,7 +192,7 @@
                                     </svg> -->
                                     <i>
                                     <label class="switch"> 
-                                    <input type="checkbox" @click="themeStore.toggleTheme">
+                                        <input v-model="isDarkMode" type="checkbox" @click="themeStore.toggleTheme">
                                     <span class="slider round"></span>
                                     </label></i>theme
                                     
@@ -262,7 +262,7 @@
         </span>
         <span class="menu-item">
             <label class="switch">
-                <input type="checkbox" @click="themeStore.toggleTheme">
+                <input v-model="isDarkMode" type="checkbox" @click="themeStore.toggleTheme">
                 <span class="slider round"></span>
             </label>
             <span class="menu-item-label" style="padding-left: 10px;">Switch theme</span>
@@ -344,7 +344,7 @@
                                     </svg> -->
                                     <i>
                                     <label class="switch"> 
-                                    <input type="checkbox" @click="themeStore.toggleTheme">
+                                    <input v-model="isDarkMode" type="checkbox" @click="themeStore.toggleTheme">
                                     <span class="slider round"></span>
                                     </label></i>theme
                                 </div>
@@ -440,6 +440,7 @@ const api_url = "http://127.0.0.1:5000/api"
 const token = localStorage.getItem('token');
 const isDropdownOpen = ref(false);
 
+
 export default {
     name: 'ConnectionStatus',
  
@@ -480,6 +481,7 @@ export default {
             keywords: '',
 
             showModal: false,
+            isDarkMode: true,
 
         };
     },
@@ -576,26 +578,22 @@ export default {
         },
         
         },
-    // computed:{
-    //     setUser(){
-    //         return{
-    //             backgroundImage: this.userDetails.profile.profileImage
-    //         }
-
-    //     },
-    // },
         beforeDestroy() {
             window.removeEventListener('online', this.updateOnlineStatus);
             window.removeEventListener('offline', this.updateOnlineStatus);
             this.showStatus = false;
         },
 
-    mounted() {
-            this.checkLoginStatus();
-            if(this.userIsUser == true){this.getUserDetails();}
-            if(this.userIsEmployer == true){this.getEmployerDetails();}
-            
-        },
+        created() {
+                this.checkLoginStatus();
+                if(this.userIsUser == true){this.getUserDetails();}
+                if(this.userIsEmployer == true){this.getEmployerDetails();}
+                // --------------- automatically set theme stuff --------------///
+                const isDark = localStorage.getItem('darkMode');
+                this.isDarkMode = isDark;
+
+                
+            },
   }
 
 </script>

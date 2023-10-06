@@ -20,11 +20,8 @@
                 class="slider"
             />
             </div>
-            <button @click="uploadImage">Upload</button>
+            <!-- <button @click="uploadImage">Upload</button> -->
         </div>
-
-
-
         <input type="file" @change="handleImageSelect" accept="image/*" />
         <!-- <button @click="uploadProfileImage">Upload</button> -->
         <div class="modal-options">
@@ -247,7 +244,7 @@ import DotLoader from '../components/DotLoader.vue';
                 showImageModal: false,
                 isAllowed: false,
                 imageUrl: '', // Bind to the selected image URL
-                scale: 2.5, // Initial scale value
+                scale: 1, // Initial scale value
 
 
             userProfile: {
@@ -512,6 +509,7 @@ import DotLoader from '../components/DotLoader.vue';
   border-radius: 50%;
   overflow: hidden;
   position: relative;
+  border: 3px dotted var(--app-blue);
 }
 
 /* Style the image within the circle */
