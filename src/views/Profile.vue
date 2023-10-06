@@ -245,7 +245,7 @@ import DotLoader from '../components/DotLoader.vue';
                 editProfileMenu: false,
                 showError: false,
                 showImageModal: false,
-                isAllowed: null,
+                isAllowed: false,
                 imageUrl: '', // Bind to the selected image URL
                 scale: 2.5, // Initial scale value
 
@@ -497,7 +497,7 @@ import DotLoader from '../components/DotLoader.vue';
                 
           },
           
-        created(){
+        beforeMount(){
             this.getUserById(this.$route.params.user_id);
             this.checkCurrentViewer()
         }
@@ -808,7 +808,7 @@ th, td{
 .modal-content{
     /* height: 200px; */
     background: #fff;
-    /* width: 350px; */
+    max-width: 400px;
     border-radius: 10px;
     display: flex;
     justify-content: space-around;
