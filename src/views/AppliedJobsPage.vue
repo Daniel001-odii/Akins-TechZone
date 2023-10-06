@@ -160,9 +160,8 @@
         
 
     <DotLoader v-if="isLoading"/>
-    <span  v-if="jobs.length == undefined" class="no-job-screen"><p>No assigned job Available</p></span>
-    <span  v-if="jobs.length == undefined" class="no-job-screen"><p>No assigned job Available</p></span>
-        
+    <span  v-if="jobs.length == undefined || jobs.length == 0" class="no-job-screen"><p>You have no Applied jobs</p></span>
+               
 
 </div>
   

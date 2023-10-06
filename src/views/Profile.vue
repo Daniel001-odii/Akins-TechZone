@@ -4,7 +4,28 @@
 <div class="logout-modal" v-if="showImageModal">
     <div class="modal-content">
         <span>Upload a new image for your profile</span>
-        <input type="file" @change="handleFileUpload" accept="image/*" />
+
+
+        <div class="image-upload-modal">
+            <div class="image-container">
+            <div class="circle">
+                <img :src="imageUrl" :style="{ transform: `scale(${scale})` }" />
+            </div>
+            <input
+                type="range"
+                min="1"
+                max="5"
+                step="0.5"
+                v-model="scale"
+                class="slider"
+            />
+            </div>
+            <button @click="uploadImage">Upload</button>
+        </div>
+
+
+
+        <input type="file" @change="handleImageSelect" accept="image/*" />
         <!-- <button @click="uploadProfileImage">Upload</button> -->
         <div class="modal-options">
             <span class="yes" @click="uploadProfileImage">Upload</span>
@@ -205,6 +226,8 @@ import axios from 'axios';
 import themeStore from '@/theme/theme';
 import DotLoader from '../components/DotLoader.vue';
 
+
+
     export default {
         components:{NavBar, Footer, DotLoader},
         setup(){
@@ -223,6 +246,8 @@ import DotLoader from '../components/DotLoader.vue';
                 showError: false,
                 showImageModal: false,
                 isAllowed: null,
+                imageUrl: '', // Bind to the selected image URL
+                scale: 2.5, // Initial scale value
 
 
             userProfile: {
@@ -287,6 +312,8 @@ import DotLoader from '../components/DotLoader.vue';
                     if(response.data.user){
                         this.userDetails = response.data.user;
                         this.userProfile = this.userDetails;
+                        // ----------------------
+                        this.imageUrl = this.userDetails.profile.profileImage;
                     }
                     else if(response.data.employer){
                         this.userDetails = response.data.employer 
@@ -311,6 +338,29 @@ import DotLoader from '../components/DotLoader.vue';
                 const options = { year: "numeric", month: "long", day: "numeric" };
                 return date.toLocaleDateString(undefined, options);
             },
+
+             // Function to handle image selection
+    handleImageSelect(event) {
+        this.selectedFile = event.target.files[0];
+      if (this.selectedFile) {
+        // Convert the selected image to a data URL
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imageUrl = e.target.result;
+        };
+        reader.readAsDataURL(this.selectedFile);
+      }
+    },
+    // Function to upload the scaled image
+    uploadImage() {
+      // Scale the image using the this.scale value
+      const scaledImageUrl = this.scaleImage(this.imageUrl, this.scale);
+        // Convert the scaled image data URL to Blob
+        const scaledImageBlob = this.dataURLtoBlob(scaledImageUrl);
+        document.write(scaledImageBlob)
+    },
+
+
     async updateuserProfile(){
             const token = localStorage.getItem('token'); // Get the token from localStorage
     
@@ -339,14 +389,58 @@ import DotLoader from '../components/DotLoader.vue';
       // Store the selected file in the component's data
       this.selectedFile = event.target.files[0];
     },
+    scaleImage(imageUrl, scale) {
+        // Create a temporary image element
+        const img = new Image();
+        img.src = imageUrl;
+
+        // Create a canvas element
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size based on scaled dimensions
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+
+        // Draw the scaled image on the canvas
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Convert the canvas to a data URL
+        return canvas.toDataURL('image/jpeg'); // Adjust format as needed
+        },
+    // Function to convert data URL to Blob
+    dataURLtoBlob(dataURL) {
+      const parts = dataURL.split(',');
+      const contentType = parts[0].split(':')[1].split(';')[0];
+      const byteString = atob(parts[1]);
+      const arrayBuffer = new ArrayBuffer(byteString.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+
+      for (let i = 0; i < byteString.length; i++) {
+        uint8Array[i] = byteString.charCodeAt(i);
+      }
+
+      return new Blob([arrayBuffer], { type: contentType });
+    },
+
+
     async uploadProfileImage() {
-        if (!this.selectedFile) {
+        // Scale the image using the this.scale value
+        const scaledImageUrl = this.scaleImage(this.imageUrl, this.scale);
+        // Convert the scaled image data URL to Blob
+        const scaledImageBlob = this.dataURLtoBlob(scaledImageUrl);
+        // Upload the scaled image Blob (send to server)
+      console.log('Uploading scaled image:', scaledImageBlob);
+
+
+        // console.log(scaledImageUrl)
+        if (!scaledImageBlob) {
             return;
         }
 
         try {
             const formData = new FormData();
-            formData.append('profileImage', this.selectedFile);
+            formData.append('profileImage', scaledImageBlob);
 
             // Retrieve the JWT token from local storage
             const token = localStorage.getItem('token');
@@ -361,29 +455,34 @@ import DotLoader from '../components/DotLoader.vue';
             Authorization: `JWT ${token}`, // Add the JWT token to the authorization header
             };
 
-            const response = await fetch(`${this.api_url}/upload-profile-image`, {
+            const response = await fetch(`${this.api_url}/upload-user-image`, {
             method: 'POST',
             body: formData,
             headers: headers, // Pass the headers with the JWT token
             });
 
             if (response.ok) {
-            const data = await response.json();
-            console.log(data.message);
-            // Optionally, update the user's profile with the image URL received from the server
-                // reload pg to show new upload
-                this.getUserById(this.$route.params.user_id);
+            const data = await response;
+            console.log('Image upload successful:', data);
+            this.scale = 1;
+            this.imageUrl = '';
 
-                // automatically close the image upload modal upon upload success
-                this.showImageModal = !this.showImageModal
+            // Optionally, update the user's profile with the image URL received from the server
+            // ... (add code to update the user's profile)
+
+            // Reload page to show the new upload
+            this.getUserById(this.$route.params.user_id);
+
+            // Close the image upload modal upon upload success
+            this.showImageModal = false;
             } else {
-            console.error('Error uploading profile image');
+            console.error('Error uploading profile image:', response.statusText);
             }
         } catch (error) {
-            console.error('Error uploading profile image', error);
+            console.error('Error uploading profile image:', error);
         }
-    },
-
+        },
+        
     checkCurrentViewer(){
         const token = localStorage.getItem('token');
         const userRole = token ? JSON.parse(atob(token.split('.')[1])).id : null;
@@ -393,7 +492,8 @@ import DotLoader from '../components/DotLoader.vue';
         }
         else{this.isAllowed = false};
     },
-
+// Function to scale the image
+  
                 
           },
           
@@ -405,6 +505,41 @@ import DotLoader from '../components/DotLoader.vue';
 </script>
 
 <style scoped>
+/* Style the circular frame */
+.circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Style the image within the circle */
+.circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
+}
+
+/* Style the slider */
+.slider {
+  width: 80%;
+  margin: 0 auto;
+  display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 *{
     font-size: 0.9rem !important;
      
@@ -671,9 +806,9 @@ th, td{
     text-align: center;
 }
 .modal-content{
-    height: 200px;
+    /* height: 200px; */
     background: #fff;
-    width: 350px;
+    /* width: 350px; */
     border-radius: 10px;
     display: flex;
     justify-content: space-around;
@@ -758,7 +893,7 @@ th, td{
 
     @media only screen and (max-width: 1000px) {
         .tz-profile-left{
-            /* flex-direction: column; */
+            flex-direction: column;
         }
         .tz-user-details{
         display: flex;
