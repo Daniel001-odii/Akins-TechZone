@@ -103,7 +103,9 @@
                                                 <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
                                                 <div class="job-effect-btns" style="padding: 15px 0px;">
                                                     <button class="cust-btn" style="border-radius: 5px;">Message</button>
-                                                    <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;">Hire</button>
+                                                    
+                                                    <button class="cust-btn" style="background: var(--app-grey); border-radius: 5px; margin-left: 10px;" v-if="job.hiredUsers.includes(applicant._id)">Hired</button>
+                                                    <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else @click="hireUser(job._id, applicant._id)">Hire</button>
                                                 </div>
                                             </div>
                                             <!-- {{ applicant }} -->
@@ -131,7 +133,7 @@
                 </div>
                </div>
         </div>
-        <div class="footer"><Footer/></div>
+        <!-- <div class="footer"><Footer/></div> -->
       
     </div>
       </template>
@@ -343,8 +345,30 @@
                         window.open(route.href, '_blank');
                     },
 
+                    async hireUser(jobId, userId) {
+                        try {
+                        // Retrieve the JWT token from local storage
+                        const token = localStorage.getItem('token');
+                        // Make a POST request to the API endpoint
+                        const response = await axios.post(
+                            `${this.api_url}/jobs/${jobId}/hire/${userId}`,
+                            {},
+                            {headers: {Authorization: `JWT ${token}`},}
+                        );
 
-   
+                        if (response.status === 200) {
+                            // Handle a successful hiring (e.g., show a success message)
+                            this.getUserDetails();
+                            alert('User hired successfully');
+                        } else {
+                            // Handle errors (e.g., display an error message)
+                            console.error('Error hiring user');
+                        }
+                        } catch (error) {
+                        console.error('Error hiring user:', error);
+                        }
+                },
+
 
                 },
                 mounted() {

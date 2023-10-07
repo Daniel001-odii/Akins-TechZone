@@ -139,9 +139,9 @@
     
     </div>
       
-      <div class="footer">
+      <!--<div class="footer">
           <Footer/>
-      </div>
+      </div>-->
       
       </div>
       </template>

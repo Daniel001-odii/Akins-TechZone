@@ -30,9 +30,9 @@
                                 </div>
                 </div>
       </div>
-      <div class="footer">
+      <!-- <div class="footer">
         <Footer/>
-      </div>
+      </div> -->
     </div>
     
     </template>
@@ -112,12 +112,13 @@
       display: flex;
       flex-direction: column;
     }
-    .insights-content, .Page-contents{
+    .Page-contents{
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         padding: 20px;
         width: 100%;
+        height: 80vh;
         font-size: 1.8em !important;
         text-align: center;
     }

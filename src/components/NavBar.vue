@@ -158,10 +158,13 @@
                                     <div class="notifications-header">Notifications</div>
                                     <div v-if="userNotifications" class="notify">
                                         <div class="notify-line" v-for="(notify, index) in userNotifications" :key="index">
-                                            <i class="bi bi-check-circle-fill"></i>
-                                            <span name="notification-item"> {{ notify.message }}
-                                                <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
-                                            </span>
+                                            <div @click="markNotificationAsRead(notify._id)">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                                <span name="notification-item"> 
+                                                    <div>{{ notify.message }}</div>
+                                                    <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="notify-line">No new or unread notifications</div>
                                     </div>
@@ -315,22 +318,42 @@
             </form>
         </div>
         <div class="Tz-nav-actions">
-                            <span class="notifications">
+                            <div class="notifications">
                                 <i class="bi bi-bell"></i>
+                                <div class="notification-dot" v-if="userNotifications && userNotifications.length > 0" style="
+                                    background: red;
+                                    height: 15px;
+                                    width: 15px;
+                                    color: #fff;
+                                    font-size: 0.7em !important;
+                                    border-radius: 50%;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    position: absolute;
+                                    left: 10px;
+                                    top: -3px;
+
+                                ">{{ userNotifications.length }}</div>
                                 <!---notifications modal-->
                                 <div class="notification-modal notification-modal-sw" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="notifications-header">Notifications</div>
-                                    <div class="notify">
-                                        <div>
-                                        <i class="bi bi-check-circle-fill"></i>
-                                        <slot name="notification-item"> New login detected</slot>
+                                    <div v-if="userNotifications" class="notify">
+                                        <div class="notify-line" v-for="(notify, index) in userNotifications" :key="index">
+                                            <div @click="markNotificationAsRead(notify._id)">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                                <span name="notification-item"> 
+                                                    <div>{{ notify.message }}</div>
+                                                    <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
+                                                </span>
+                                            </div>
                                         </div>
-                                        <span class="notify-time">Just now</span>
+                                        <div class="notify-line">No new or unread notifications</div>
                                     </div>
                                     
                                     <div class="notifications-footer"><RouterLink to="/notifications"> See all Notifications</RouterLink></div>
                                 </div>
-                            </span>
+                            </div>
                            
                             <i class="bi bi-three-dots-vertical"></i>
                         
@@ -642,6 +665,35 @@ export default {
         },
 
 
+        async markNotificationAsRead(notificationId) {
+        try {
+            const token = localStorage.getItem('token'); // Get the JWT token from local storage
+
+            const response = await axios.put(
+            `${this.api_url}/mark-notification/${notificationId}`,
+            null,
+            {
+                headers: {
+                Authorization: `JWT ${token}`,
+                },
+            }
+            );
+
+            console.log("the notify response: ", response);
+            if (response.status == 200) {
+            // Handle successful marking of the notification as read
+            console.log('Notification marked as read successfully');
+            this.getUserUnreadNotifications();
+            } else {
+            // Handle errors (e.g., display an error message)
+            console.error('Error marking notification as read');
+            }
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+        }
+        },
+
+
         
         },
         beforeDestroy() {
@@ -806,7 +858,7 @@ export default {
     max-height: 200px;
     overflow-y: scroll;
 }
-.notify-line{
+.notify-line > div{
     padding: 15px;
     border-bottom: 1px solid #efefef;
     display: flex;
@@ -814,6 +866,10 @@ export default {
     justify-content: center;
     align-items: center;
     gap: 8px;
+}
+.notify-line{
+    text-align: center;
+    padding: 5px;
 }
 .notify-line:hover{
     background: var(--app-hover);
