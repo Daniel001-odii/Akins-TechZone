@@ -8,8 +8,8 @@ import 'bootstrap/dist/js/bootstrap.js';
 const app = createApp(App);
 
 // Declare a global variable
-// app.config.globalProperties.api_url = 'http://127.0.0.1:5000/api';
-app.config.globalProperties.api_url = 'https://techzone-backend-c28bd32b1555.herokuapp.com/api';
+app.config.globalProperties.api_url = 'http://127.0.0.1:5000/api';
+// app.config.globalProperties.api_url = 'https://techzone-backend-c28bd32b1555.herokuapp.com/api';
 
 
 

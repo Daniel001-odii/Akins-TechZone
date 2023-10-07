@@ -65,7 +65,7 @@ const routes = [
   {path: "/talent/customize-profile", component: customize},
   {path: "/employer/customize-profile", component: customize_client},
   {path: "/jobs/:job_id/application", name: 'Techzone - Application', component: JobDetail, meta: { requiresAuth: true, role: 'user' }},
-  {path: "/notifications", name:  "Techzone - Notifications", component: Notifications, meta: { requiresAuth: true }},
+  {path: "/notifications", name:  "Techzone - Notifications", component: Notifications},
   {path: "/reset-password", name: "Password - reset", component: ResetPassword},
   {path: "/reset-password-main", name: "Password - reset2", component: ResetPassword2},
 

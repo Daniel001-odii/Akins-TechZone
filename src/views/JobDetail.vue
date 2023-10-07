@@ -93,19 +93,25 @@
                 </div>
                 <div class="tz-form-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                     <span class="tz-form-title">Submit an application for this job</span>
-                    <form @submit.prevent="applyForJob">
+                    <form @submit.prevent="submitApplication">
                         <div class="tz-form-content">
                             <span class="tz-form-title">Cover Letter</span>
-                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." v-model="applicationForm.coverLetter" required :disabled="jobIsApplied"></textarea>
+                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." v-model="coverLetter" required :disabled="jobIsApplied"></textarea>
                         </div>
                         <div class="tz-form-content">
                             <span class="tz-form-title">Attachment</span>
                             <div class="drop-zone" @drop="handleDrop" @dragover.prevent>
-                                <img @click="handleButtonClick" style="cursor: pointer;" src="../components/Logos_icons/cloud.png" class="cloud">
-                                <span v-if="!selectedFile">Drag and drop files or <i  @click="handleButtonClick" style="color:blue; cursor: pointer;">upload</i> project files here.</span>
-                                <span v-else>{{ selectedFile.name }}</span>
+                                <img v-if="selectedFiles.length == 0" @click="handleButtonClick" style="cursor: pointer;" src="../components/Logos_icons/cloud.png" class="cloud">
+                                <span v-if="selectedFiles.length == 0">Drag and drop files or upload project files here.</span>
+                                <!-- <span v-else>{{ selectedFiles.name }}</span> -->
+                                <!-- Display selected file names -->
+                                <ul>
+                                    <li v-for="(fileName, index) in selectedFiles" :key="index">{{ fileName }}</li>
+                                </ul>
                             </div>
-                                <input type="file" ref="fileInput" @change="handleFileInputChange" style="display: none" :disabled="jobIsApplied">
+                                <!-- <input type="file" ref="fileInput" @change="handleFileInputChange" style="display: none" :disabled="jobIsApplied"> -->
+                                <!-- File input for multiple attachments -->
+                                <input type="file" ref="fileInput" multiple @change="handleFileChange" style="display: none" :disabled="jobIsApplied"/>
                                 <span @click="handleButtonClick" style="color:blue; cursor: pointer;margin: 0;" class="cust-bt">Upload files</span>
                         </div>
                         <div class="tz-form-content row">
@@ -114,14 +120,14 @@
                                 <p>Requesting Fee</p>
                                 <div class="amount-input">
                                     <div class="currency">NGN</div>
-                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="applicationForm.counterOffer" :disabled="jobIsApplied">
+                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="counterOffer" :disabled="jobIsApplied">
                                 </div>
                                 
                                 <small>input the amount you want to get paid for this job</small>
                             </div>
                             <div class="form-sub">
                                 <p>Reason</p>
-                                <textarea type="textarea" class="tz-form-textarea" style="height: 70px;" placeholder="...." v-model="applicationForm.reasonForCounterOffer" :disabled="jobIsApplied"></textarea>
+                                <textarea type="textarea" class="tz-form-textarea" style="height: 70px;" placeholder="...." v-model="reasonForCounterOffer" :disabled="jobIsApplied"></textarea>
                                 <small>give a detailed reason for countering the offer</small>
                             </div>
                         </div>
@@ -148,7 +154,7 @@
     </div>
       </template>
       
-      <script>
+      <script> 
       import { RouterLink , useRoute  } from 'vue-router';
       import Footer from '../components/Footer.vue';
       import JobCard from '../components/JobCard.vue';
@@ -166,7 +172,10 @@
       import themeStore from '@/theme/theme';
       import SkeletonLoader from '../components/pageSkeleton.vue'
       import Modal from '../components/modal.vue'
+      
 
+      const toggleTheme = themeStore.toggleTheme;
+      const token = localStorage.getItem('token'); // Get the user's JWT token from localStorage
 
       export default {
         name: 'Application',
@@ -185,33 +194,10 @@
             Modal,
         },
         setup() {
-            const toggleTheme = themeStore.toggleTheme;
-
-                    const selectedFile = ref(null);
-                    const handleDrop = (event) => {
-                    event.preventDefault();
-                    const file = event.dataTransfer.files[0];
-                    selectedFile.value = file;
-                    };
-
-                    const handleFileInputChange = () => {
-                    const file = event.target.files[0];
-                    selectedFile.value = file;
-                    console.log(selectedFile.value)
-                    };
-
-                    const handleButtonClick = () => {
-                    const fileInput = document.querySelector('input[type="file"]');
-                    fileInput.click();
-                    };
-
                     return {
-                    selectedFile,
-                    handleDrop,
-                    handleFileInputChange,
-                    handleButtonClick,
                     themeStore,
                     toggleTheme,
+                    
                     };
                 },
         data() {
@@ -225,16 +211,16 @@
             userDetails: '',
             employerDetails: '',
 
+            selectedFiles: [],
+            filesToUpload: '',
+
             userAppliedJobs: '',
             jobIsApplied: false,
 
-            // variables for contrgolling job application....
-            applicationForm:{
-                coverLetter: '',
-                attachment: '',
-                counterOffer: '',
-                reasonForCounterOffer: '',
-            },
+            coverLetter: '',
+            counterOffer: '',
+            reasonForCounterOffer: '',
+            attachment: '',
 
             isSubmitting: false,
             
@@ -291,7 +277,11 @@
                             // the code below checks if the user already applied for the job and prepopulates the form fields to avoid futher submission
                             for(let i = 0; i < this.job.applications.length; i++){
                                if(this.job.applications[i].user.includes(this.userDetails.id)){
-                                    console.log(this.applicationForm = this.job.applications[i]);
+                                    // console.log(this.applicationForm = this.job.applications[i]);
+                                    this.applicationForm = this.job.applications[i]
+                                    this.coverLetter = this.job.applications[i].coverLetter;
+                                    this.counterOffer = this.job.applications[i].counterOffer;
+                                    this.reasonForCounterOffer = this.job.applications[i].reasonForCounterOffer;
                                }
                             };
                             // Return a message based on whether the job is applied or not
@@ -330,17 +320,16 @@
                     return formattedValue;
                 },
 
-                async applyForJob() {
+                async submitApplication() {
                     this.isSubmitting = true;
-                    const token = localStorage.getItem('token'); // Get the user's JWT token from localStorage
+                    
                     const applying_jobId = this.job_id; // Replace with the actual job ID you want to apply for
 
                     const applicationData = {
-                    jobId: this.$route.params.job_id,
-                    coverLetter: this.applicationForm.coverLetter, // Replace with the user's cover letter
-                    attachment: this.applicationForm.attachment, // Replace with the user's attachment (file data or file path)
-                    counterOffer: this.applicationForm.counterOffer, // Replace with the user's counter offer value
-                    reasonForCounterOffer: this.applicationForm.reasonForCounterOffer, // Replace with the user's reason for the counter offer
+                    coverLetter: this.coverLetter, // Replace with the user's cover letter
+                    attachment: this.attachment, // Replace with the user's attachment (file data or file path)
+                    counterOffer: this.counterOffer, // Replace with the user's counter offer value
+                    reasonForCounterOffer: this.reasonForCounterOffer, // Replace with the user's reason for the counter offer
                     };
 
                     const config = {
@@ -350,7 +339,7 @@
                     };
 
                     try {
-                    const response = await axios.post(`${this.api_url}/apply`, applicationData, config);
+                    const response = await axios.post(`${this.api_url}/apply/${this.$route.params.job_id}`, applicationData, config);
                     console.log('Job application successful:', response.data);
                     this.showModal = true;
                     this.isSubmitting = false;
@@ -361,6 +350,43 @@
                     this.isSubmitting = false;
                     // Handle errors, e.g., show an error message to the user.
                     }
+                },
+
+                async submitApplicatio() {
+                this.isSubmitting = true;
+
+                    const formData = new FormData();
+                    formData.append('coverLetter', this.coverLetter);
+                    formData.append('counterOffer', this.counterOffer);
+                    formData.append('reasonForCounterOffer', this.reasonForCounterOffer);
+                    for (const file of this.filesToUpload) {
+                    formData.append('attachment', file);
+                    }
+
+                    // for (const [key, value] of formData.entries()) {
+                    // console.log(`form data:  ${key}: ${value}`);
+                    // }
+
+                    const token = localStorage.getItem('token'); // Get the JWT token from local storage
+
+
+                try {
+                    const response = await axios.post(
+                    `${this.api_url}/apply/${this.$route.params.job_id}`,
+                    formData,
+                    {
+                        headers: {
+                        Authorization: `JWT ${token}`,
+                        'Content-Type': 'multipart/form-data'},
+                    }
+                    );
+
+                  
+                } catch (error) {
+                    console.error('Error submitting application:', error);
+                } finally {
+                    this.isSubmitting = false;
+                }
                 },
 
                 getUserDetails() {
@@ -399,6 +425,24 @@
                         throw error; // You can choose to rethrow the error or handle it differently
                     }
                 },
+
+                handleButtonClick(){
+                    const fileInput = document.querySelector('input[type="file"]');
+                    fileInput.click();
+                    },
+        
+                handleDrop(event){
+                    event.preventDefault();
+                    const file = event.dataTransfer.files[0];
+                    selectedFiles.value = file;
+                    },
+                handleFileChange(event) {
+                    // Get the selected files and update the selectedFiles array
+                    const files = event.target.files;
+                    this.selectedFiles = Array.from(files).map((file) => file.name);
+                    // Store the selected files in a data property or component state
+                    this.filesToUpload = files;
+                    },
 
         },
         created() {

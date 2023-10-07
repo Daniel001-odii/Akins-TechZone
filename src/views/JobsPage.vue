@@ -146,7 +146,7 @@
                         </div>
                     </div>
                             
-                    <div class="jd-section">
+                    <!-- <div class="jd-section">
                         <span class="jdh-title">About the recruiter</span>                        
                         {{  getUserById(jobs[selectedJob].employer) }} 
                         <div v-if="employerDetails.profile" class="little-employer" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -157,11 +157,7 @@
                                 <br/>web: {{ employerDetails.profile.website }}
                             </div>
                         </div>
-                        <!-- {{ employerDetails }}  -->
-                        
-                        
-
-                    </div>
+                    </div> -->
                     <div class="jd-section">
                         <span>
                             <span @click="navigateToJobDetails(jobs[selectedJob]._id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>

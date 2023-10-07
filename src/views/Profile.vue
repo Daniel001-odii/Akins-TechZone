@@ -4,8 +4,6 @@
 <div class="logout-modal" v-if="showImageModal">
     <div class="modal-content">
         <span>Upload a new image for your profile</span>
-
-
         <div class="image-upload-modal">
             <div class="image-container">
             <div class="circle">
@@ -67,20 +65,13 @@
 <NavBar/>
 
 
-<!-- this particular banner is only actve when the current user hasnt verified their account,..... -->
-<div class="verifyEmailAlert" v-if="!userDetails.isVerified && isAllowed">
-    your email is not verified yet, click here to verify your email
-</div>
+    <!-- this particular banner is only actve when the current user hasnt verified their account,..... -->
+    <div class="verifyEmailAlert" v-if="!userDetails.isVerified">
+        Please verify your email to update your profile.
+    </div>
+    
 
     <DotLoader v-if="isLoading"/>
-
-
-<!-- <div>
-    <h1>Upload Profile Image</h1>
-    <input type="file" @change="handleFileUpload" accept="image/*" />
-    <button @click="uploadProfileImage">Upload</button>
-</div> -->
-
 
 
 <div class="body" :class="['theme-transition', { 'dark': themeStore.darkMode }]" v-if="!isLoading">
@@ -103,7 +94,8 @@
                     <div class="tz-user-skill">{{ userDetails.profile.skillTitle }}</div>
                     <div class="tz-user-skill">{{ userDetails.email }}</div>
                     <div class="tz-btn-array" v-if="isAllowed">
-                        <button class="cust-btn" @click="editProfileMenu = !editProfileMenu">Edit Profile</button>
+                        <button v-if="userDetails.isVerified" class="cust-btn" @click="editProfileMenu = !editProfileMenu">Edit Profile</button>
+                        <button v-else class="cust-btn" @click="sendVerificationEmail">{{ verificationMessage }}</button>
                         <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">View Resume</button>
                     </div>
                     <div class="tz-btn-array" v-else>
@@ -243,6 +235,7 @@ import DotLoader from '../components/DotLoader.vue';
                 showError: false,
                 showImageModal: false,
                 isAllowed: false,
+                verificationMessage: "verify email",
                 imageUrl: '', // Bind to the selected image URL
                 scale: 1, // Initial scale value
 
@@ -489,7 +482,33 @@ import DotLoader from '../components/DotLoader.vue';
         }
         else{this.isAllowed = false};
     },
-// Function to scale the image
+
+    async sendVerificationEmail() {
+      try {
+        const email = this.userDetails.email; // Replace with the user's email
+        const userType = 'user'; // Replace with the user's type
+
+        // Make an HTTP POST request to your server's endpoint
+        const response = await fetch(`${this.api_url}/send-verification-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, userType }),
+        });
+
+        if (response.status === 200) {
+          this.verificationMessage = "email sent..."
+          const data = await response.json();
+          console.log(data.message); // Verification email sent successfully
+        } else {
+          const errorData = await response.json();
+          console.error(errorData.message); // Error sending verification email
+        }
+      } catch (error) {
+        console.error('Error sending verification email:', error);
+      }
+    },
   
                 
           },

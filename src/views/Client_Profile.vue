@@ -79,7 +79,7 @@
     
     <!-- this particular banner is only actve when the current user hasnt verified their account,..... -->
     <div class="verifyEmailAlert" v-if="!userDetails.isVerified">
-        your email is not verified yet, click here to verify your email
+        Please verify your email to update your profile.
     </div>
     
     
@@ -113,7 +113,8 @@
                         <div class="tz-user-skill">{{ userDetails.profile.company_name }}</div>
                         <div class="tz-user-skill">{{ userDetails.email }}</div>
                         <div class="tz-btn-array">
-                            <button class="cust-btn" @click="editProfileMenu = !editProfileMenu">Edit Profile</button>
+                            <button v-if="userDetails.isVerified" class="cust-btn" @click="editProfileMenu = !editProfileMenu">Edit Profile</button>
+                            <button v-else class="cust-btn" @click="sendVerificationEmail">{{ verificationMessage }}</button>
                         </div>
                     </div>
                 </div>
@@ -254,6 +255,7 @@ export default {
                     editProfileMenu: false,
                     showError: false,
                     showImageModal: false,
+                    verificationMessage: "verify email",
 
                     imageUrl: '', // Bind to the selected image URL
                     scale: 1, // Initial scale value
@@ -429,7 +431,36 @@ export default {
         } catch (error) {
             console.error('Error uploading profile image:', error);
         }
-        },
+    },
+    async sendVerificationEmail() {
+      try {
+        const email = this.userDetails.email; // Replace with the user's email
+        const userType = 'employer'; // Replace with the user's type
+
+        // Make an HTTP POST request to your server's endpoint
+        const response = await fetch(`${this.api_url}/send-verification-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, userType }),
+        });
+
+        if (response.status === 200) {
+          const data = await response.json();
+          this.verificationMessage = "email sent..."
+          console.log(data.message); // Verification email sent successfully
+        } else {
+          const errorData = await response.json();
+          console.error(errorData.message); // Error sending verification email
+        }
+      } catch (error) {
+        console.error('Error sending verification email:', error);
+      }
+    },
+
+
+
     },
               
     created(){

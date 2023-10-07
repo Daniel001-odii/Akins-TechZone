@@ -20,6 +20,10 @@
 </div>
 
 
+<div v-if="isOffline" class="offline-message">
+    Internet connection is lost. Please check your network.
+</div>
+
 <div v-if="userNotLoggedIn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
@@ -134,15 +138,32 @@
                     <div class="Tz-nav-actions">
                             <div class="notifications">
                                 <i class="bi bi-bell"></i>
+                                <div class="notification-dot" v-if="userNotifications && userNotifications.length > 0" style="
+                                    background: red;
+                                    height: 15px;
+                                    width: 15px;
+                                    color: #fff;
+                                    font-size: 0.7em !important;
+                                    border-radius: 50%;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    position: absolute;
+                                    left: 10px;
+                                    top: -3px;
+
+                                ">{{ userNotifications.length }}</div>
                                 <!---notifications modal-->
                                 <div class="notification-modal notification-modal-sw" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="notifications-header">Notifications</div>
-                                    <div class="notify">
-                                        <div>
-                                        <i class="bi bi-check-circle-fill"></i>
-                                        <slot name="notification-item"> New login detected</slot>
+                                    <div v-if="userNotifications" class="notify">
+                                        <div class="notify-line" v-for="(notify, index) in userNotifications" :key="index">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                            <span name="notification-item"> {{ notify.message }}
+                                                <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
+                                            </span>
                                         </div>
-                                        <span class="notify-time">Just now</span>
+                                        <div class="notify-line">No new or unread notifications</div>
                                     </div>
                                     
                                     <div class="notifications-footer"><RouterLink to="/notifications"> See all Notifications</RouterLink></div>
@@ -418,7 +439,8 @@
     </div>
 </transition>
 </div> 
-    
+
+
 </template>
 
 <script>
@@ -433,6 +455,7 @@ import { ref } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import themeStore from '@/theme/theme';
 import Modal from './modal.vue';
+import { formatTimestamp } from '@/myUtils.js';
 
 
 const api_url = "http://127.0.0.1:5000/api"
@@ -457,7 +480,8 @@ export default {
       isDropdownOpen,
       toggleDropdown,
       themeStore,
-      toggleTheme
+      toggleTheme,
+    //   dateFormatter,
     };
   },
   
@@ -473,7 +497,7 @@ export default {
             signin_options:false,
             userIsOffline: false,
             stateText: "You are offline",
-            isOnline: navigator.onLine,
+            isOffline: !navigator.onLine, // Check the initial online status
             showStatus: false,
 
             userIsUser: false,
@@ -482,6 +506,8 @@ export default {
 
             showModal: false,
             isDarkMode: true,
+
+            userNotifications: '',
 
         };
     },
@@ -518,9 +544,11 @@ export default {
             console.log("logged in as", userRole);
             },
 
-        updateOnlineStatus(event) {
-            this.isOnline = navigator.onLine;
-            // 
+            handleOnline() {
+            this.isOffline = false;
+            },
+            handleOffline() {
+            this.isOffline = true;
             },
             /// this function gets the users details via api route
         getUserDetails() {
@@ -537,7 +565,7 @@ export default {
                     // Handle the response here
                     // For example, you can set user details in your component's data
                     this.userDetails = response.data.user;
-                    console.log(this.userDetails) // Assuming userDetails is a data property
+                    // console.log(this.userDetails) // Assuming userDetails is a data property
                     this.isLoading = false;
                     })
                     .catch((error) => {
@@ -545,6 +573,30 @@ export default {
                     console.error(error);
                     });
         },
+
+
+        getUserUnreadNotifications() {
+                const token = localStorage.getItem('token'); // Get the token from localStorage
+                // Set up headers with the token
+                const headers = {
+                    Authorization: `JWT ${token}`, // Assuming it's a JWT token
+                };
+
+                axios.get(`${this.api_url}/getunread`, { headers })
+                    .then((response) => {
+                    // Handle the response here
+                    this.userNotifications = response.data;
+                    console.log(this.userNotifications) // Assuming userDetails is a data property
+                    // this.isLoading = false;
+                    })
+                    .catch((error) => {
+                    console.error(error);
+                    });
+        },
+
+
+
+
         // this function gets the employer details via api route
         getEmployerDetails() {
                 const token = localStorage.getItem('token'); // Get the token from localStorage
@@ -576,16 +628,35 @@ export default {
                     const route = this.$router.resolve({ name: "Techzone - client", params: { user_id: user_id } });
                     window.open(route.href, '_blank');
         },
+        formatTimestamp(timestamp) {
+        const date = new Date(timestamp);
+        const options = {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true, // Use 12-hour format
+        };
+            return date.toLocaleDateString(undefined, options);
+        },
+
+
         
         },
         beforeDestroy() {
-            window.removeEventListener('online', this.updateOnlineStatus);
-            window.removeEventListener('offline', this.updateOnlineStatus);
-            this.showStatus = false;
+            window.removeEventListener('online', this.handleOnline);
+            window.removeEventListener('offline', this.handleOffline);
+            // this.showStatus = false;
         },
 
         created() {
+            // Listen for the 'online' and 'offline' events
+                window.addEventListener('online', this.handleOnline);
+                window.addEventListener('offline', this.handleOffline);
+
                 this.checkLoginStatus();
+                this.getUserUnreadNotifications();
                 if(this.userIsUser == true){this.getUserDetails();}
                 if(this.userIsEmployer == true){this.getEmployerDetails();}
                 // --------------- automatically set theme stuff --------------///
@@ -600,6 +671,20 @@ export default {
 
 
 <style scoped>
+.offline-message {
+  background-color: #ffcccb;
+  color: #4b0707;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  margin: 0 auto;
+  max-width: 500px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
 
 *{
     font-size: 0.85rem !important;
@@ -714,12 +799,23 @@ export default {
 }
 .notify{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    padding: 15px;
+    /* padding: 15px; */
     width: 100% !important;
+    max-height: 200px;
+    overflow-y: scroll;
 }
-.notify:hover{
+.notify-line{
+    padding: 15px;
+    border-bottom: 1px solid #efefef;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+.notify-line:hover{
     background: var(--app-hover);
 }
 .notifications-footer{
