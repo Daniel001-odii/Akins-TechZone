@@ -196,9 +196,9 @@
 
 </div>
 
-    <footer>
+    <!-- <footer>
         <Footer/>
-    </footer>
+    </footer> -->
 </template>
 
 <script>

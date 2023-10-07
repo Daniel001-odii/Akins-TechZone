@@ -225,7 +225,23 @@
                             </div>
                         </div>
                     </div>
-                <i class="bi bi-list menu-toggle"  @click="showMenu = !showMenu"></i>
+                <i class="bi bi-list menu-toggle"  @click="showMenu = !showMenu">
+                    <div class="notification-dot" v-if="userNotifications && userNotifications.length > 0" style="
+                                    background: red;
+                                    height: 8px;
+                                    width: 8px;
+                                    color: #fff;
+                                    font-size: 0.7em !important;
+                                    border-radius: 50%;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    position: absolute;
+                                    right: 22px;
+                                    top: 18px;
+
+                                "></div>
+                </i>
     </nav>
 
 <transition name="slide" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -271,7 +287,7 @@
        
         <RouterLink to="/notifications" class="menu-item">
         <div>
-            <span class="menu-item-label">Notifications</span>
+            <span class="menu-item-label">Notifications <span class="badge badge-danger" v-if="userNotifications.length > 0">{{ userNotifications.length }}</span></span>
         </div>
         </RouterLink>
 
@@ -395,7 +411,9 @@
                             </div>
                         </div>
         </div>
-        <i class="bi bi-list menu-toggle"  @click="showMenu = !showMenu"></i>
+        <i class="bi bi-list menu-toggle"  @click="showMenu = !showMenu">
+
+        </i>
 </nav>
 
 <transition name="slide" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -431,11 +449,7 @@
        
         <RouterLink to="/notifications" class="menu-item">
             <div>
-                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 40 40" fill="none">
-                                <circle cx="20.0459" cy="20" r="17.5375" stroke="#4E79BC" stroke-width="3.05"/>
-                                <path d="M27.7264 24.3451H29.5765V26.1953H11.0747V24.3451H12.9249V17.8695C12.9249 15.9067 13.7046 14.0243 15.0925 12.6364C16.4804 11.2485 18.3628 10.4688 20.3256 10.4688C22.2884 10.4688 24.1708 11.2485 25.5587 12.6364C26.9466 14.0243 27.7264 15.9067 27.7264 17.8695V24.3451ZM25.8762 24.3451V17.8695C25.8762 16.3974 25.2914 14.9856 24.2505 13.9447C23.2095 12.9037 21.7977 12.3189 20.3256 12.3189C18.8535 12.3189 17.4417 12.9037 16.4008 13.9447C15.3599 14.9856 14.7751 16.3974 14.7751 17.8695V24.3451H25.8762ZM17.5504 28.0455H23.1009V29.8957H17.5504V28.0455Z" fill="#4E79BC"/>
-                            </svg> -->
-                <span class="menu-item-label">Notifications</span>
+                <span class="menu-item-label">Notifications <span class="badge badge-danger" v-if="userNotifications.length > 0">{{ userNotifications.length }}</span></span>
             </div>
         </RouterLink>
 
@@ -865,6 +879,7 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    text-align: left;
     gap: 8px;
 }
 .notify-line{
@@ -886,7 +901,12 @@ export default {
     cursor: pointer !important;
 }
 
-
+.badge{
+    background: red;
+    margin-left: 5px;
+    font-size: 0.9em !important;
+    border-radius: 50%;
+}
 
 .nav-links{
     display: flex;
