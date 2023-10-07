@@ -19,13 +19,17 @@
              <!---notifications modal-->
                 <div class="notification">
                                 <div class="notify" v-for="(notification, index) in userNotifications" :key="index">
-                                    <div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 20" fill="none">
-                                            <path d="M10.5 20C4.977 20 0.5 15.523 0.5 10C0.5 4.477 4.977 0 10.5 0C16.023 0 20.5 4.477 20.5 10C20.5 15.523 16.023 20 10.5 20ZM9.503 14L16.573 6.929L15.159 5.515L9.503 11.172L6.674 8.343L5.26 9.757L9.503 14Z" fill="#00632B"/>
-                                        </svg>
-                                        <span style="margin-left: 10px;">{{ notification.message }}</span>
+                                    <div @click="markNotificationAsRead(notification._id)">
+                                        <div>   
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 20" fill="none">
+                                                <path d="M10.5 20C4.977 20 0.5 15.523 0.5 10C0.5 4.477 4.977 0 10.5 0C16.023 0 20.5 4.477 20.5 10C20.5 15.523 16.023 20 10.5 20ZM9.503 14L16.573 6.929L15.159 5.515L9.503 11.172L6.674 8.343L5.26 9.757L9.503 14Z" 
+                                                :fill="notification.isRead ? 'green' : 'grey'"/>
+                                            </svg>
+                                            <span style="margin-left: 10px;">{{ notification.message }}</span>
+                                        </div>
+                                    
+                                        <span class="notify-time">{{ formatTimestamp(notification.createdAt) }}</span>
                                     </div>
-                                    <span class="notify-time">{{ formatTimestamp(notification.createdAt) }}</span>
                                     
                                 </div>
                 </div>
@@ -95,6 +99,34 @@
                     return date.toLocaleDateString(undefined, options);
                 },
 
+                async markNotificationAsRead(notificationId) {
+                try {
+                    const token = localStorage.getItem('token'); // Get the JWT token from local storage
+
+                    const response = await axios.put(
+                    `${this.api_url}/mark-notification/${notificationId}`,
+                    null,
+                    {
+                        headers: {
+                        Authorization: `JWT ${token}`,
+                        },
+                    }
+                    );
+
+                    console.log("the notify response: ", response);
+                    if (response.status == 200) {
+                    // Handle successful marking of the notification as read
+                    console.log('Notification marked as read successfully');
+                    this.getAllUserNotifications();
+                    } else {
+                    // Handle errors (e.g., display an error message)
+                    console.error('Error marking notification as read');
+                    }
+                } catch (error) {
+                    console.error('Error marking notification as read:', error);
+                }
+                },
+
 
             },
 
@@ -122,12 +154,13 @@
         font-size: 1.8em !important;
         text-align: center;
     }
-    .notify{
+    .notify > div{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 15px;
     width: 100%;
+    cursor: pointer;
 }
 
 .notify:hover{
