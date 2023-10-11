@@ -42,7 +42,7 @@ import client_jobs from '../views/Client_Jobs.vue'
 import client_messages from '../views/Client_MessagesPage.vue'
 import client_payment from '../views/Payment.vue'
 import Client_Profile from '../views/Client_Profile.vue'
-// import 
+// import
 
 
 const routes = [
@@ -80,7 +80,7 @@ const routes = [
   {path: "/client/saved-jobs", component: client_jobs, meta: { requiresAuth: true, role: 'user' }},
   {path: "/client/post-job", name: "Techzone - Post", component: post_job, meta: { requiresAuth: true, role: 'employer' }},
   {path: "/client/edit-job/:job_id", name: "Techzone - Edit Job", component: edit_job, meta: { requiresAuth: true, role: 'employer' }},
-  {path: "/client/messages", name: "Techzone - Client Messages", component: client_messages, meta: { requiresAuth: true, role: 'employer' }},
+  {path: "/client/messages", name: "Techzone - Client Messages", component: Messages, meta: { requiresAuth: true, role: 'employer' }},
   {path: "/client/payment", name: "Techzone - Client payment", component: client_payment, meta: { requiresAuth: true }},
   {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
   {path: "/support", name: "Techzone - support", component: SupportPage},
@@ -99,7 +99,7 @@ const router = createRouter({
 })
 
 
-  
+
 
 // Global navigation guard
 let redirectToLogin = false; // Initialize a flag to redirect to login after authentication

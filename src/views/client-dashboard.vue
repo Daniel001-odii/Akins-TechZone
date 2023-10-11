@@ -10,7 +10,7 @@
         </div>
         <div class="Page-header">
             <!-- <div class="page-title"><slot name="page-title">Dashboard</slot></div> -->
-        </div> 
+        </div>
         <div class="Page-contents">
                <div class="container">
                     <div class="tz-client-header"  :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -57,8 +57,8 @@
                             <transition name="fade">
                                 <div v-if="job.open" class="tz_accordion-body" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="accordion_body_first">
-                                        <b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,200) }}... 
-                                        
+                                        <b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,200) }}...
+
                                         <br/> <span style="color: var(--app-blue)">hires: {{ job.hiredUsers.length }}</span>
                                         <br/> <span style="color: var(--app-blue)">Status: <span v-if="job.isCompleted">Completed</span><span v-else>Open</span></span>
 
@@ -73,18 +73,18 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <button v-if="job.applications.length > 0" class="accordion_applicants" @click="toggleFullDetails(index)"> 
+                                    <button v-if="job.applications.length > 0" class="accordion_applicants" @click="toggleFullDetails(index)">
                                         <span v-if="!job.showDetails" class="spinner-grow spinner-grow-sm" role="status">
                                             <!-- <span class="sr-only">Loading...</span> -->
                                         </span>
                                         Applicants: {{ job.applications.length }}
                                     </button>
                                     <button v-else class="accordion_applicants"> Applicants: {{ job.applications.length }} </button>
-                                    
+
                                 </div>
                             </transition>
                             <transition name="fade">
-                                
+
                                 <div v-if="job.showDetails" class="tz_accordion-bodylg" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
 
                                     <div class="tab-content" id="pills-tabContent">
@@ -97,13 +97,13 @@
                                                 <img class="tz-user-thumbnail-big" :src="getUserById(applicant.user).profile.profileImage">
                                                 <br/>
                                                 <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
-                                                <b>Cover letter: </b> {{ applicant.coverLetter }} <br/> 
+                                                <b>Cover letter: </b> {{ applicant.coverLetter }} <br/>
                                                 <b>Attached files: </b> {{  applicant.attachment }} <br/>
                                                 <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
                                                 <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
                                                 <div class="job-effect-btns" style="padding: 15px 0px;">
-                                                    <button class="cust-btn" style="border-radius: 5px;">Message</button>
-                                                    
+                                                    <button class="cust-btn" style="border-radius: 5px;" @click="messageUser(job.job_title, applicant.user)">Message</button>
+
                                                     <button class="cust-btn" style="background: var(--app-grey); border-radius: 5px; margin-left: 10px;" v-if="job.hiredUsers.includes(applicant._id)">Hired</button>
                                                     <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else @click="hireUser(job._id, applicant._id)">Hire</button>
                                                 </div>
@@ -119,14 +119,14 @@
                                 </div>
                             </transition>
                         </div>
-                       
+
                         </div>
 
 
 
                     </div>
 
-                    
+
                 </div>
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                 </div>
@@ -134,10 +134,10 @@
                </div>
         </div>
         <!-- <div class="footer"><Footer/></div> -->
-      
+
     </div>
       </template>
-      
+
       <script>
       import { RouterLink } from 'vue-router';
       import Footer from '../components/Footer.vue';
@@ -148,13 +148,12 @@
       import LeftNav from '../components/LeftNav.vue'
       import PageFilter from '../components/PageFilter.vue';
       import axios from 'axios';
-      import jobsData from '@/views/JobLists.json';
       import { ref } from 'vue';
       import themeStore from '@/theme/theme';
       import DotLoader from '../components/DotLoader.vue'
-    
-      
-          export default {  
+
+
+          export default {
             setup(){
                 const toggleTheme = themeStore.toggleTheme;
                 return{
@@ -169,11 +168,11 @@
                     userDetails: '',
                     applicantDetailsMap: {},
                     jobs:'',
-                    // 
+                    //
                     applicantDetails: {},
                     jobsLoading: false,
                     hasFinishedLoad: false,
-                    // 
+                    //
                     deleteJobOptions: false,
                     };
                 },
@@ -215,7 +214,7 @@
                         },
 
                     getJobsByEmployer() {
-                            
+
                             this.jobsLoading = true;
 
                             const employer_id = this.userDetails.id;
@@ -235,8 +234,8 @@
                                     this.jobs[0].open = true;
                                     if(this.jobs.length > 1){this.jobs[1].open = true};
                                 }
-                               
-                                
+
+
                                 console.log("client jobs: ", this.jobs)
                                 // console.log("job applicants: ", this.applicantDetails)
                                 // Handle the list of jobs as needed
@@ -269,7 +268,7 @@
                             const diffInDays = Math.floor(diffInHours / 24)
                             if(diffInDays <= 1){ return `${diffInDays} day`}
                             else{return `${diffInDays} days`}
-                            
+
                         } else {
                             const diffInMonths = Math.floor(diffInHours / 720)
                             if(diffInMonths <= 1){ return `${diffInMonths} month`}
@@ -315,7 +314,7 @@
                     },
 
                     showUserProfile(user_id){
-                        
+
                     },
 
                     async deleteJob(job_id){
@@ -334,7 +333,7 @@
                             // after job is deleted successfully refresh job list...
                             this.getJobsByEmployer();
                         }
-                        else{console.error("error deleting job")} 
+                        else{console.error("error deleting job")}
                         }catch (error){
                         console.error("network error: ", error);}
                     },
@@ -367,19 +366,34 @@
                         } catch (error) {
                         console.error('Error hiring user:', error);
                         }
-                },
+                    },
+
+                    async messageUser(JobTitle, userId){
+                        const roomDetails = {
+                            name:JobTitle,
+                            employerId: this.userDetails.id,
+                            userId: userId
+                        }
+                        try{
+                            const response = await axios.post(`${this.message_api_url}/rooms`, roomDetails);
+                            console.log("message success...");
+                            this.$router.push('/client/messages');
+                        }catch (error){
+                            console.log("user mesage error: ", error);
+                        }
+                    },
 
 
                 },
                 mounted() {
                         this.getUserDetails();
                     },
-                
+
     }
-    
-      </script>       
-      
-      
+
+      </script>
+
+
       <style scoped>
       *{
         font-size: 0.99em !important;
