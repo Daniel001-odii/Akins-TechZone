@@ -129,7 +129,7 @@ export default {
   methods: {
     async fetchMessages(roomId) {
       // Fetch messages for the selected room using Axios
-      const newresponse = await axios.get(`${this.message_api_url}/messages/${roomId}`);
+      const newresponse = await axios.get(`${this.message_api_url}/api/messages/${roomId}`);
       this.messages = newresponse.data;
     },
 
@@ -141,7 +141,7 @@ export default {
         room: this.selectedRoom._id,
       };
 
-      await axios.post(`${this.message_api_url}/messages`, message);
+      await axios.post(`${this.message_api_url}/api/messages`, message);
       this.fetchMessages(this.selectRoom.id)
       this.newMessage = '';
     },
@@ -150,7 +150,7 @@ export default {
       this.selectedRoom = room;
       this.fetchMessages(room._id);
       // Initialize WebSocket connection for real-time updates
-      const socket = io('http://localhost:3000');
+      const socket = io(this.message_api_url);
       socket.emit('join', room._id);
       socket.on('message', (message) => {
         // Add received message to the messages array
@@ -203,7 +203,7 @@ export default {
 
     async fetchData(userId) {
       this.isLoading = true;
-      const response = await axios.get(`${this.message_api_url}/rooms/${userId}`);
+      const response = await axios.get(`${this.message_api_url}/api/rooms/${userId}`);
       this.rooms = response.data;
     },
 
