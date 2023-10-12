@@ -128,14 +128,20 @@ router.beforeEach((to, from, next) => {
   const userRole = token ? JSON.parse(atob(token.split('.')[1])).role : null;
 
   // If the user is logged in and is trying to visit the root URL
-  if (userRole && to.path === '/') {
-    // Redirect them to /jobs
+  if (userRole && userRole == 'user' && to.path === '/') {
+    // Redirect users to /jobs
     next('/jobs')
-  } else {
-    // Otherwise, proceed with the navigation
-    next()
+
+  } else if(userRole && userRole == 'employer' && to.path === '/') {
+    // redirect clients to their dashboard
+    next('/client/dashboard');
   }
-})
+    else{
+      // Otherwise, proceed with the navigation
+      next()
+    }
+
+  })
 
 
 export default router

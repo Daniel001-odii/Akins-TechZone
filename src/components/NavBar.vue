@@ -1,4 +1,4 @@
-<template> 
+<template>
 
 <!--  this is the modal displayed when a user tries logging out....... -->
 <div class="logout-modal" v-if="showModal">
@@ -27,13 +27,13 @@
 <div v-if="userNotLoggedIn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
-                    
+
                     <RouterLink to="/"  class="navbar-brand">
                         <img class="nav-img" src="../components/Logos_icons/techzone.png">
                     </RouterLink>
-            
 
-                    <div class="nav-contents"> 
+
+                    <div class="nav-contents">
                         <div class="Tz-nav-links">
                             <span><RouterLink to="/jobs" class="tz-page-link">Find Work</RouterLink></span>
                             <span><RouterLink to="/client/dashboard" class="tz-page-link">Hire Talent</RouterLink></span>
@@ -50,7 +50,7 @@
                     </div>
                 </form>
             </div>
-        
+
                 <div class="nav-auth-buttons">
                     <button class="cust-btn login" style="background: none; color: #000000; border: 1px solid var(--app-blue);">
                     <span>Sign in</span>
@@ -85,7 +85,7 @@
             <RouterLink to="/jobs" class="menu-item"><div><span class="menu-item-label">Find Job</span></div></RouterLink>
             <RouterLink to="/client" class="menu-item"><div><span class="menu-item-label">Hire Talent</span></div></RouterLink>
                 <div class="menu-item">
-                    <div class="menu-item-label" @click="signup_options =!signup_options; signin_options=false"><span>Sign Up</span> 
+                    <div class="menu-item-label" @click="signup_options =!signup_options; signin_options=false"><span>Sign Up</span>
                         <span>
                         <i v-if="!signup_options" class="bi bi-caret-down-fill"></i>
                         <i v-if="signup_options" class="bi bi-caret-up-fill"></i>
@@ -97,7 +97,7 @@
                         <RouterLink to="/talent-signUp" class="options"><div>As Talent</div></RouterLink>
                     </div>
                 <div class="menu-item">
-                    <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span> 
+                    <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span>
                         <span>
                         <i v-if="!signin_options" class="bi bi-caret-down-fill"></i>
                         <i v-if="signin_options" class="bi bi-caret-up-fill"></i>
@@ -160,7 +160,7 @@
                                         <div class="notify-line" v-for="(notify, index) in userNotifications" :key="index">
                                             <div @click="markNotificationAsRead(notify._id)">
                                                 <i class="bi bi-check-circle-fill"></i>
-                                                <span name="notification-item"> 
+                                                <span name="notification-item">
                                                     <div>{{ notify.message }}</div>
                                                     <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
                                                 </span>
@@ -168,25 +168,25 @@
                                         </div>
                                         <div class="notify-line">No new or unread notifications</div>
                                     </div>
-                                    
+
                                     <div class="notifications-footer"><RouterLink to="/notifications"> See all Notifications</RouterLink></div>
                                 </div>
                             </div>
-                           
+
                             <i class="bi bi-three-dots-vertical" style="margin-right: 8px"></i>
-                        
+
                         <!--Logged in user credential display-->
                         <div class="user-menu-toggle">
                             <!-- <div class="tz-user-thumbnail" :style="setUser"></div> -->
                             <div v-if="userDetails.profile">
                                 <img  :src="userDetails.profile.profileImage" class="tz-user-thumbnail">
                             </div>
-                            
+
                             <div  style="font-size: 12px;">
                                 <div class="">{{ userDetails.firstname }} {{ userDetails.lastname }}</div>
-                                <div class="logout"> {{ userDetails.email }}</div> 
+                                <div class="logout"> {{ userDetails.email }}</div>
                             </div>
-                        
+
                             <div class="tz-user-menu tz-user-menu-sw">
                                 <!-- <RouterLink to="/user/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]"> -->
                                     <div class="tz-menu-content" @click="navigateToUserprofile(userDetails.id)">
@@ -215,11 +215,11 @@
                                     <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
                                     </svg> -->
                                     <i>
-                                    <label class="switch"> 
+                                    <label class="switch">
                                         <input v-model="isDarkMode" type="checkbox" @click="themeStore.toggleTheme">
                                     <span class="slider round"></span>
                                     </label></i>theme
-                                    
+
                                     <!-- <button class="tz_mode_switch" @click="themeStore.toggleTheme">Toggle Theme {{ darkMode }}</button> -->
                                 </div>
                             </div>
@@ -284,16 +284,16 @@
             <span class="menu-item-label">My Applications</span>
         </div>
         </RouterLink>
-       
+
         <RouterLink to="/notifications" class="menu-item">
         <div>
             <span class="menu-item-label">Notifications <span class="badge badge-danger" v-if="userNotifications.length > 0">{{ userNotifications.length }}</span></span>
         </div>
         </RouterLink>
 
-        
 
-        
+
+
 
         <span class="menu-item">
         <div>
@@ -307,11 +307,11 @@
             </label>
             <span class="menu-item-label" style="padding-left: 10px;">Switch theme</span>
         </span>
-       
+
 
     </div>
 </transition>
-</div> 
+</div>
 
 
 <div v-if="userIsEmployer" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -358,7 +358,7 @@
                                         <div class="notify-line" v-for="(notify, index) in userNotifications" :key="index">
                                             <div @click="markNotificationAsRead(notify._id)">
                                                 <i class="bi bi-check-circle-fill"></i>
-                                                <span name="notification-item"> 
+                                                <span name="notification-item">
                                                     <div>{{ notify.message }}</div>
                                                     <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
                                                 </span>
@@ -366,20 +366,20 @@
                                         </div>
                                         <div class="notify-line">No new or unread notifications</div>
                                     </div>
-                                    
+
                                     <div class="notifications-footer"><RouterLink to="/notifications"> See all Notifications</RouterLink></div>
                                 </div>
                             </div>
-                           
+
                             <i class="bi bi-three-dots-vertical"></i>
-                        
+
                         <!--Logged in user credential display-->
                         <div class="user-menu-toggle">
                             <div v-if="employerDetails.profile">
                                 <img  :src="employerDetails.profile.profileImage" class="tz-user-thumbnail">
                             </div>
                             <span  style="font-size: 12px;">{{ employerDetails.firstname }} {{ employerDetails.lastname }}<br/><button class="logout"> {{ employerDetails.email }}</button> <br/></span>
-                        
+
                             <div class="tz-user-menu tz-user-menu-sw">
                                 <!-- <RouterLink to="/client/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]"> -->
                                     <div class="tz-menu-content" @click="navigateToClientprofile(employerDetails.id)">
@@ -403,7 +403,7 @@
                                     <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
                                     </svg> -->
                                     <i>
-                                    <label class="switch"> 
+                                    <label class="switch">
                                     <input v-model="isDarkMode" type="checkbox" @click="themeStore.toggleTheme">
                                     <span class="slider round"></span>
                                     </label></i>theme
@@ -423,7 +423,7 @@
             <img class="nav-img" src="../components/Logos_icons/techzone.png">
         </RouterLink>
         <!--now you have to decide which item is preffered to appear at the top of the menu-->
-        
+
         <span class="closeBtn" @click="showMenu=false">&times;</span>
        </div>
 
@@ -446,7 +446,7 @@
                 <span class="menu-item-label">Messages</span>
             </div>
         </RouterLink>
-       
+
         <RouterLink to="/notifications" class="menu-item">
             <div>
                 <span class="menu-item-label">Notifications <span class="badge badge-danger" v-if="userNotifications.length > 0">{{ userNotifications.length }}</span></span>
@@ -475,7 +475,7 @@
         </span>
     </div>
 </transition>
-</div> 
+</div>
 
 
 </template>
@@ -492,7 +492,6 @@ import { ref } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import themeStore from '@/theme/theme';
 import Modal from './modal.vue';
-import { formatTimestamp } from '@/myUtils.js';
 
 
 const api_url = "http://127.0.0.1:5000/api"
@@ -503,7 +502,7 @@ const isDropdownOpen = ref(false);
 
 export default {
     name: 'ConnectionStatus',
- 
+
     setup() {
     const isDropdownOpen = ref(false);
     const toggleDropdown = () => {
@@ -521,7 +520,7 @@ export default {
     //   dateFormatter,
     };
   },
-  
+
     components:{ Search, LeftNav, RouterLink, Modal },
     data(){
         return{
@@ -563,6 +562,25 @@ export default {
             localStorage.removeItem('token');
             this.$router.push('/');
         },
+        // Function to trigger re-login
+        async reLogin() {
+            // Clear the existing token
+            localStorage.removeItem('token');
+            // Redirect to the login page
+            this.$router.push('/');
+            alert("YOur session expired, please login!");
+        },
+        // Function to handle a failed API request
+        async handleApiError(error) {
+            if (error.response && error.response.status === 401) {
+                // Unauthorized error
+                // Perform re-login
+                await this.reLogin();
+            } else {
+                // Handle other errors
+                console.error('API error:', error);
+            }
+        },
 
         checkLoginStatus(){
             const token = localStorage.getItem('token');
@@ -581,10 +599,10 @@ export default {
             console.log("logged in as", userRole);
             },
 
-            handleOnline() {
+        handleOnline() {
             this.isOffline = false;
             },
-            handleOffline() {
+        handleOffline() {
             this.isOffline = true;
             },
             /// this function gets the users details via api route
@@ -596,11 +614,13 @@ export default {
                 const headers = {
                     Authorization: `JWT ${token}`, // Assuming it's a JWT token
                 };
-
                 axios.get(user_url, { headers })
                     .then((response) => {
-                    // Handle the response here
-                    // For example, you can set user details in your component's data
+                        if(response.status === 401){
+                            localStorage.removeItem('token');
+                            this.$router.push('login');
+                            alert("YOur session expired, please login.");
+                        }
                     this.userDetails = response.data.user;
                     // console.log(this.userDetails) // Assuming userDetails is a data property
                     this.isLoading = false;
@@ -627,12 +647,11 @@ export default {
                     // this.isLoading = false;
                     })
                     .catch((error) => {
+                    // Handle the API request error
+                    this.handleApiError(error);
                     console.error(error);
                     });
         },
-
-
-
 
         // this function gets the employer details via api route
         getEmployerDetails() {
@@ -646,11 +665,10 @@ export default {
 
                 axios.get(user_url, { headers })
                     .then((response) => {
-                    // Handle the response here
-                    // For example, you can set user details in your component's data
                     this.employerDetails = response.data.employer;
                     // console.log("emplyer details: ", this.employerDetails) // Assuming userDetails is a data property
                     this.isLoading = false;
+
                     })
                     .catch((error) => {
                     // Handle errors
@@ -658,8 +676,8 @@ export default {
                     });
         },
         navigateToUserprofile(user_id) {
-                    const route = this.$router.resolve({ name: "Techzone - profile", params: { user_id: user_id } });
-                    window.open(route.href, '_blank');
+            const route = this.$router.resolve({ name: "Techzone - profile", params: { user_id: user_id } });
+            window.open(route.href, '_blank');
         },
         navigateToClientprofile(user_id) {
                     const route = this.$router.resolve({ name: "Techzone - client", params: { user_id: user_id } });
@@ -708,7 +726,6 @@ export default {
         },
 
 
-        
         },
         beforeDestroy() {
             window.removeEventListener('online', this.handleOnline);
@@ -729,7 +746,7 @@ export default {
                 const isDark = localStorage.getItem('darkMode');
                 this.isDarkMode = isDark;
 
-                
+
             },
   }
 
@@ -916,7 +933,7 @@ export default {
 .closeBtn{
     /* color: var(--app-blue); */
     font-size: 25px !important;
-    position: absolute; 
+    position: absolute;
     right: 20px;
     top:2px;
     cursor: pointer;
@@ -1012,17 +1029,17 @@ export default {
 .menu-toggle.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
-  
+
   .menu-toggle.active span:nth-child(2) {
     opacity: 0;
   }
-  
+
   .menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
   }
-  
 
-  
+
+
 .nav-toggler{
     display: none;
 }
@@ -1120,10 +1137,10 @@ export default {
 
 
 .user-menu-toggle {
-display:flex; 
-flex-direction: row; 
-justify-content: center; 
-align-items: center; 
+display:flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
 margin-right: 10px; gap: 5px;
 }
 

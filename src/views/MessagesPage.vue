@@ -11,7 +11,7 @@
           <!-- <div class="page-filters"></div> -->
           <!-- <div class="insights-content"><small>your chats with clients are safe</small></div> -->
     </div>
-    <div class="Page-contents">
+    <div class="Page-contents" v-if="!isLoading && rooms.length > 0">
           <!----message page contents starts here ----->
           <div class="tz_message">
             <div class="tz_message_left">
@@ -23,7 +23,7 @@
                 <div v-if="isUser">
                   <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay">
                     <div class="room"  @click="selectRoom(room)">
-                      <img class="tz-user-thumbnail" :src="getUserById(room.employerId).profile.profileImage" >
+                      <!-- <img class="tz-user-thumbnail" :src="getUserById(room.employerId).profile.profileImage" > -->
                       <div>
                         <b>{{ getUserById(room.employerId).firstname }} {{ getUserById(room.employerId).lastname }}</b>
                         <br/>
@@ -35,7 +35,7 @@
                 <div v-if="isEmployer">
                   <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay">
                     <div class="room" @click="selectRoom(room)">
-                      <img class="tz-user-thumbnail" :src="getUserById(room.userId).profile.profileImage" >
+                      <!-- <img class="tz-user-thumbnail" :src="getUserById(room.userId).profile.profileImage" > -->
                       <div>
                         <b>{{ getUserById(room.userId).firstname }} {{ getUserById(room.userId).lastname }}</b>
                         <br/>
@@ -109,7 +109,7 @@ export default {
 
       userDetails: '',
       roomDetails: {},
-      isLoading: '',
+      isLoading: false,
       isUser: false,
       isEmployer: false,
       searchTerm: '',
@@ -154,6 +154,7 @@ export default {
     },
 
     async getUserDetails() {
+                        this.isLoading = true;
                         const token = localStorage.getItem('token'); // Get the token from localStorage
                         const userRole = token ? JSON.parse(atob(token.split('.')[1])).role : null;
                         console.log("signed in as: ", userRole)
