@@ -11,6 +11,16 @@
     </div>
 </div>
 
+<!--  this is the modal displayed when a user tries logging out....... -->
+<div class="logout-modal" v-if="showTokenExpiredModal">
+    <div class="modal-content">
+        <span>Your session expired, please login.</span>
+        <div class="modal-options">
+            <span class="yes" @click="realLogout">Okay</span>
+        </div>
+    </div>
+</div>
+
 
 
 <div v-if="showStatus" id="status" class="popup" :class="{ online: isOnline, 'offline': !isOnline }">
@@ -544,6 +554,7 @@ export default {
             isDarkMode: true,
 
             userNotifications: '',
+            showTokenExpiredModal: false,
 
         };
     },
@@ -564,11 +575,7 @@ export default {
         },
         // Function to trigger re-login
         async reLogin() {
-            // Clear the existing token
-            localStorage.removeItem('token');
-            // Redirect to the login page
-            this.$router.push('/');
-            alert("YOur session expired, please login!");
+            this.showTokenExpiredModal = true;
         },
         // Function to handle a failed API request
         async handleApiError(error) {
@@ -631,7 +638,7 @@ export default {
                     });
         },
 
-
+        //this function also helps to check when token has expired and redirects user to login
         getUserUnreadNotifications() {
                 const token = localStorage.getItem('token'); // Get the token from localStorage
                 // Set up headers with the token
