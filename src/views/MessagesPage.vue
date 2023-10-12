@@ -11,7 +11,8 @@
           <!-- <div class="page-filters"></div> -->
           <!-- <div class="insights-content"><small>your chats with clients are safe</small></div> -->
     </div>
-    <div class="Page-contents" v-if="!isLoading && rooms.length > 0">
+    <div v-if="isLoading">Loading...</div>
+    <div class="Page-contents">
           <!----message page contents starts here ----->
           <div class="tz_message">
             <div class="tz_message_left">
@@ -20,12 +21,13 @@
                     <input type="search" class="ft-search" v-model="searchTerm" placeholder="Search conversations">
               </div> -->
               <!-- Display list of rooms -->
+              <!-- the getUserById function must be called on its own before using in the component to fecthc user details else it wouldnt work -->
                 <div v-if="isUser">
-                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay">
-                    <div class="room"  @click="selectRoom(room)">
-                      <!-- <img class="tz-user-thumbnail" :src="getUserById(room.employerId).profile.profileImage" > -->
+                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#efefef' : '' }">
+                    <div class="room"  @click="selectRoom(room)" v-if="getUserById(room.employerId)">
+                      <img class="tz-user-thumbnail" :src="getUserById(room.employerId).profile.profileImage" >
                       <div>
-                        <b>{{ getUserById(room.employerId).firstname }} {{ getUserById(room.employerId).lastname }}</b>
+                        <b>{{ getUserById(room.employerId).profile.company_name }}</b>
                         <br/>
                         {{room.name.substring(0, 30)}}...
                       </div>
@@ -33,9 +35,9 @@
                   </div>
                 </div>
                 <div v-if="isEmployer">
-                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay">
-                    <div class="room" @click="selectRoom(room)">
-                      <!-- <img class="tz-user-thumbnail" :src="getUserById(room.userId).profile.profileImage" > -->
+                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#efefef' : '' }">
+                    <div class="room" @click="selectRoom(room)" v-if="getUserById(room.userId)">
+                      <img class="tz-user-thumbnail" :src="getUserById(room.userId).profile.profileImage" >
                       <div>
                         <b>{{ getUserById(room.userId).firstname }} {{ getUserById(room.userId).lastname }}</b>
                         <br/>
@@ -44,13 +46,19 @@
                     </div>
                   </div>
                 </div>
+                <div v-if="rooms.length <= 0" style="text-align: center; padding: 30px;">You have no inbox yet</div>
             </div>
 
           <transition name="slide">
             <div class="tz_message_main" :class="roomDisplay ? 'opened' : 'closed'">
 
                 <!-- Display current room messages -->
-                <div class="room_title" v-if="selectedRoom"> <div @click="roomDisplay = !roomDisplay"> &lArr; back</div>Chat room for contract<br/><b>{{ selectedRoom.name }}</b> <br/> initiated {{ formatTimestamp(selectedRoom.created) }}</div>
+                <div class="room_title" v-if="selectedRoom">
+                  <div @click="roomDisplay = !roomDisplay" class="room_close_btn"><i class="bi bi-arrow-left-circle-fill"></i></div>
+                  <div>
+                    Chat room for contract<br/><b>{{ selectedRoom.name }}</b> <br/> initiated {{ formatTimestamp(selectedRoom.created) }}
+                  </div>
+                </div>
                 <div class="room_container" v-if="selectedRoom">
                   <div class="msg_room" ref="chatContainer">
                     <div :class="{'sent-message': message.user == userDetails.id,'received-message': message.user != userDetails.id}"
@@ -65,7 +73,7 @@
                   </div>
                    <!-- Input for sending a new message -->
                    <div class="room_footer">
-                      <input class="msg_input"  @keyup.enter="sendMessage" v-model="newMessage" placeholder="Type your message" type="textarea"/>
+                      <textarea class="msg_input" v-model="newMessage" placeholder="Type your message"></textarea>
                       <button class="msg_send_btn" @click="sendMessage" :disabled="newMessage == ''"><i class="bi bi-send-fill"></i></button>
                    </div>
 
@@ -103,15 +111,15 @@ export default {
   data() {
     return {
       rooms: [],
-      selectedRoom: null,
+      selectedRoom: 0,
       messages: [],
       newMessage: '',
 
       userDetails: '',
       roomDetails: {},
       isLoading: false,
-      isUser: false,
-      isEmployer: false,
+      isUser: null,
+      isEmployer: null,
       searchTerm: '',
 
       roomDisplay: false,
@@ -127,8 +135,6 @@ export default {
 
     async sendMessage() {
       // if (!this.selectedRoom || this.newMessage.trim() === '') return;
-
-      // Use Axios to send a message to the server
       const message = {
         text: this.newMessage,
         user: this.userDetails.id, // Replace with the actual user ID
@@ -143,13 +149,12 @@ export default {
     selectRoom(room) {
       this.selectedRoom = room;
       this.fetchMessages(room._id);
-
       // Initialize WebSocket connection for real-time updates
       const socket = io('http://localhost:3000');
       socket.emit('join', room._id);
       socket.on('message', (message) => {
         // Add received message to the messages array
-        this.messages.push(message);
+      this.messages.push(message);
       });
     },
 
@@ -160,6 +165,7 @@ export default {
                         console.log("signed in as: ", userRole)
                         if (userRole == 'user') {
                         this.isUser = true;
+                        this.isEmployer = false;
                         const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
                         const headers = {
                             Authorization: `JWT ${token}`, // Assuming it's a JWT token
@@ -177,6 +183,7 @@ export default {
                           }
                           if (userRole == 'employer') {
                             this.isEmployer = true;
+                            this.isUser = false;
                             const user_url = `${this.api_url}/employer-info`; // Assuming user-info is the endpoint for user details
                         const headers = {
                             Authorization: `JWT ${token}`, // Assuming it's a JWT token
@@ -195,6 +202,7 @@ export default {
     },
 
     async fetchData(userId) {
+      this.isLoading = true;
       const response = await axios.get(`${this.message_api_url}/rooms/${userId}`);
       this.rooms = response.data;
     },
@@ -235,7 +243,8 @@ export default {
 
   created() {
   this.getUserDetails().then(() => {
-    this.fetchData(this.userDetails.id);
+  this.fetchData(this.userDetails.id);
+  this.isLoading = false;
   });
 },
 
@@ -259,7 +268,7 @@ export default {
   }
 
   .tz_message_main{
-    border: 1px solid green;
+    /* border: 1px solid green; */
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -270,11 +279,8 @@ export default {
     padding: 10px;
   }
 
-  .msg_text{
-    background: #efefef;
-    padding: 10px;
-    margin: 8px;
-    max-width: 350px;
+  .msg_tex{
+    max-width: 500px;
   }
   .msg_time{
     font-size: 12px;
@@ -282,6 +288,7 @@ export default {
   .room{
     display: flex;
     flex-direction: row;
+    width: 300px;
     gap: 10px;
     justify-content: flex-start;
     align-items: center;
@@ -291,7 +298,8 @@ export default {
 
   .room_block{
     cursor: pointer;
-    border-bottom: 1px solid #b1b1b1;
+    padding: 10px 0px;
+    border-bottom: 1px solid #efefef;
   }
   .room_block:hover{
     background: #efefef;
@@ -310,7 +318,11 @@ export default {
     text-align: left;
     background: #efefef;
     padding: 10px;
-    /* position: fixed; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    /* border: 1px solid red; */
     width: 100%;
   }
   .room_container{
@@ -376,8 +388,14 @@ export default {
   align-self: flex-start; /* Align received messages to the right */
 }
 
+.room_close_btn{
+  display: none;
+}
 
 @media only screen and (max-width: 720px) {
+  .room_close_btn{
+    display: block;
+  }
   .tz_message_left{
     width: 100%;
     height: 90dvh;
@@ -400,7 +418,7 @@ export default {
     /* height: 100vh; */
     position: absolute;
     width: 100vw;
-    border: 1px solid red;
+    /* border: 1px solid red; */
   }
 }
 
