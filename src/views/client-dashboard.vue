@@ -375,7 +375,7 @@
                             userId: userId
                         }
                         try{
-                            const response = await axios.post(`${this.message_api_url}/rooms`, roomDetails);
+                            const response = await axios.post(`${this.message_api_url}/api/rooms`, roomDetails);
                             console.log("message success...");
                             this.$router.push('/client/messages');
                         }catch (error){
