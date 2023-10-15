@@ -8,9 +8,7 @@
         <div class="Left-Nav">
             <LeftNav/>
         </div>
-        <div class="Page-header">
-            <!-- <div class="page-title"><slot name="page-title">Dashboard</slot></div> -->
-        </div>
+        <div class="Page-header"></div>
         <div class="Page-contents">
                <div class="container">
                     <div class="tz-client-header"  :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -41,7 +39,7 @@
                            Notifications</button>
                     </li>
                 </ul>
-                <div class="tab-content" id="pills-tabContent">
+                <div class="tab_content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-jobsActivity" role="tabpanel" aria-labelledby="pills-home-tab">
                     <div class="cards-container">
                         <div class="tz_accordion">
@@ -50,44 +48,43 @@
                         <div class="zero-job" v-if="hasFinishedLoad && jobs.length == 0">you havent posted any jobs yet... <RouterLink to="/client/post-job"><span> Post a job</span></RouterLink></div>
 
                         <div class="tz_accordion-item" v-for="(job, index) in jobs" :key="index" >
-                            <div class="tz_accordion-header" @click="toggleItem(index)" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                                <b>Job Created by {{ userDetails.firstname }} {{ userDetails.lastname }}  - {{ getHoursTillDate(job.created_at) }} ago</b>
-                                <i :class="['arrow', { 'arrow-down': job.open, 'arrow-right': !job.open }]"></i>
+                            <div class="tz_accordion_header" @click="toggleItem(index)" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                <div>
+                                    <b>Job Created by {{ userDetails.firstname }} {{ userDetails.lastname }}  - {{ getHoursTillDate(job.created_at) }} ago</b>
+                                    <i :class="['arrow', { 'arrow-down': job.open, 'arrow-right': !job.open }]"></i>
+                                </div>
+                                <span v-if="!job.open"><b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,100) }}...</span>
                             </div>
                             <transition name="fade">
-                                <div v-if="job.open" class="tz_accordion-body" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                                    <div class="accordion_body_first">
-                                        <b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,200) }}...
+                                <div v-if="job.open" class="tz_accordion_body" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                    <div style="display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;">
+                                        <div class="accordion_body_first">
+                                            <b>{{job.job_title}}</b><br/>{{ job.job_description.substring(0,200) }}...
 
-                                        <br/> <span style="color: var(--app-blue)">hires: {{ job.hiredUsers.length }}</span>
-                                        <br/> <span style="color: var(--app-blue)">Status: <span v-if="job.isCompleted">Completed</span><span v-else>Open</span></span>
+                                            <br/> <span style="color: var(--app-blue)">hires: {{ job.hiredUsers.length }}</span>
+                                            <br/> <span style="color: var(--app-blue)">Status: <span v-if="job.isCompleted">Completed</span><span v-else>Open</span></span>
 
-                                        <div class="job_effect_btns">
-                                            <button class="job-btn edit-btn" @click="editJobPost(job._id)"><i class="bi bi-pencil-square"></i> Edit</button>
-                                            <!-- <button class="job-btn delete-btn"  @click="deleteJob(job._id)" ><i class="bi bi-trash-fill"></i> Delete</button> -->
-                                            <span class="job-btn delete-btn"  @click="deleteJobOptions = !deleteJobOptions">
-                                                <span v-if="!deleteJobOptions"><i class="bi bi-trash-fill"></i> Delete</span>
-                                                <!-- <transition name="fade"> -->
-                                                    <div v-if="deleteJobOptions" class="deleteOptions">Are you sure? <span  @click="deleteJob(job._id)"> Yes</span> | No</div>
-                                                <!-- </transition> -->
-                                            </span>
+                                            <div class="job_effect_btns">
+                                                <button class="job-btn edit-btn" @click="editJobPost(job._id)"><i class="bi bi-pencil-square"></i> Edit</button>
+                                                <!-- <button class="job-btn delete-btn"  @click="deleteJob(job._id)" ><i class="bi bi-trash-fill"></i> Delete</button> -->
+                                                <span class="job-btn delete-btn"  @click="deleteJobOptions = !deleteJobOptions">
+                                                    <span v-if="!deleteJobOptions"><i class="bi bi-trash-fill"></i> Delete</span>
+                                                    <!-- <transition name="fade"> -->
+                                                        <div v-if="deleteJobOptions" class="deleteOptions">Are you sure? <span  @click="deleteJob(job._id)"> Yes</span> | No</div>
+                                                    <!-- </transition> -->
+                                                </span>
+                                            </div>
                                         </div>
+                                        <button v-if="job.applications.length > 0" class="accordion_applicants" @click="toggleFullDetails(index)">
+                                            <span v-if="!job.showDetails" class="spinner-grow spinner-grow-sm" role="status">
+                                                <!-- <span class="sr-only">Loading...</span> -->
+                                            </span>
+                                            Applicants: {{ job.applications.length }}
+                                        </button>
+                                        <button v-else class="accordion_applicants"> Applicants: {{ job.applications.length }} </button>
                                     </div>
-                                    <button v-if="job.applications.length > 0" class="accordion_applicants" @click="toggleFullDetails(index)">
-                                        <span v-if="!job.showDetails" class="spinner-grow spinner-grow-sm" role="status">
-                                            <!-- <span class="sr-only">Loading...</span> -->
-                                        </span>
-                                        Applicants: {{ job.applications.length }}
-                                    </button>
-                                    <button v-else class="accordion_applicants"> Applicants: {{ job.applications.length }} </button>
-
-                                </div>
-                            </transition>
-                            <transition name="fade">
-
-                                <div v-if="job.showDetails" class="tz_accordion-bodylg" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-
-                                    <div class="tab-content" id="pills-tabContent">
+                                    <div v-if="job.showDetails" class="tz_accordion_bodylg" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                    <div class="tab_content" id="pills-tabContent">
                                         <b>All Applicants</b>
                                         <!-- <div class="tab-pane fade show active" id="pills-applicants" role="tabpanel" aria-labelledby="pills-applicants-tab"> -->
                                         <div class="accordion_body_firs" v-for="(applicant, index) in getJobApplications(index)" :key="index">
@@ -102,22 +99,22 @@
                                                 <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
                                                 <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
                                                 <div class="job-effect-btns" style="padding: 15px 0px;">
-                                                    <button class="cust-btn" style="border-radius: 5px;" @click="messageUser(job.job_title, applicant.user)">Message</button>
+                                                    <button class="cust-btn" style="border-radius: 5px;" v-if="checkUser(applicant.user)"> <RouterLink style="color: #fff !important;" to="/client/messages"> See messages </RouterLink></button>
+                                                    <button class="cust-btn" style="border-radius: 5px;" v-if="!checkUser(applicant.user)" @click="messageUser(job.job_title, applicant.user)"> Message </button>
 
-                                                    <button class="cust-btn" style="background: var(--app-grey); border-radius: 5px; margin-left: 10px;" v-if="job.hiredUsers.includes(applicant._id)">Hired</button>
-                                                    <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else @click="hireUser(job._id, applicant._id)">Hire</button>
+                                                    <button class="cust-btn" style="background: var(--app-grey); border-radius: 5px; margin-left: 10px;" v-if="job.hiredUsers.includes(applicant.user)">Hired</button>
+                                                    <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else @click="hireUser(job._id, applicant.user)">Hire</button>
                                                 </div>
                                             </div>
                                             <!-- {{ applicant }} -->
                                             </div>
                                         </div>
-                                        <!-- </div> -->
-                                        <!-- <div class="tab-pane fade" id="pills-shortlisted" role="tabpanel" aria-labelledby="pills-shortlisted-tab">...</div>
-                                        <div class="tab-pane fade" id="pills-hired" role="tabpanel" aria-labelledby="pills-hired-tab">...</div> -->
                                     </div>
-
+                                    </div>
                                 </div>
                             </transition>
+
+
                         </div>
 
                         </div>
@@ -189,7 +186,7 @@
                     },
 
                     // the function below is responsible for getting the currently signed in employer...
-                    getUserDetails() {
+                    async getUserDetails() {
                         const token = localStorage.getItem('token'); // Get the token from localStorage
                         const user_url = `${this.api_url}/employer-info`; // Assuming user-info is the endpoint for user details
 
@@ -198,7 +195,7 @@
                             Authorization: `JWT ${token}`, // Assuming it's a JWT token
                         };
 
-                        axios.get(user_url, { headers })
+                        await axios.get(user_url, { headers })
                             .then((response) => {
                             // Handle the response here
                             // For example, you can set user details in your component's data
@@ -359,6 +356,8 @@
                             // Handle a successful hiring (e.g., show a success message)
                             this.getUserDetails();
                             alert('User hired successfully');
+
+
                         } else {
                             // Handle errors (e.g., display an error message)
                             console.error('Error hiring user');
@@ -383,11 +382,32 @@
                         }
                     },
 
+                    async fetchRooms() {
+                    this.isLoading = true;
+                    const response = await axios.get(`${this.message_api_url}/api/rooms/${this.userDetails.id}`);
+                    this.rooms = response.data.reverse();
+                    },
+
+                    checkUser(userId){
+                        const rooms = this.rooms;
+                        for(let i = 0; i < rooms.length; i++){
+                            if(rooms[i].userId == userId){
+                                return true
+                            }
+                            else{
+                                return false
+                            }
+                        }
+                    },
+
 
                 },
-                mounted() {
-                        this.getUserDetails();
-                    },
+                created() {
+                this.getUserDetails().then(() => {
+                this.fetchRooms();
+                this.isLoading = false;
+                });
+                },
 
     }
 
@@ -415,16 +435,16 @@
         color: #fff !important;
       }
 
-      .dark .tz_accordion-header{
+      .dark .tz_accordion_header{
         background: var(--accent-dark) !important;
         color: #fff !important;
       }
-      .dark .tz_accordion-bodylg{
+      .dark .tz_accordion_bodylg{
         background: var(--accent-dark) !important;
         color: #fff !important;
       }
 
-      .dark .tz_accordion-body{
+      .dark .tz_accordion_body{
         background: var(--accent-dark) !important;
         color: #fff !important;
       }
@@ -588,28 +608,36 @@ small{font-size: 12px;}
   border-radius: 10px 10px 0px 0px;
 }
 
-.tz_accordion-header {
+.tz_accordion_header {
   background-color: #fff;
-  padding: 10px;
+  padding: 15px;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  border-radius: 15px 15px 0px 0px;
+  align-items: space-between;
+  border-radius: 15px;
   border-bottom: 1px solid #efefef;
 }
+.tz_accordion_header > div{
+    display: flex;
+    flex-direction: row;
+  justify-content: space-between;
+  align-items: space-between;
+}
 
-.tz_accordion-body{
-  padding: 20px;
+.tz_accordion_body{
+  padding: 15px;
   background-color: #fff;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  flex-wrap: wrap;
   gap: 25px;
   justify-content: space-between;
   border-radius: 0px 0px 15px 15px;
 }
 
-.tz_accordion-bodylg{
+.tz_accordion_bodylg{
   padding: 20px;
   background-color: #fff;
   display: flex;
@@ -632,7 +660,6 @@ small{font-size: 12px;}
     height: 50px;
     padding: 10px;
     border-radius: 5px;
-    /* animation: glowing 1300ms infinite; */
     display: flex;
     flex-direction: row;
     justify-content: center;

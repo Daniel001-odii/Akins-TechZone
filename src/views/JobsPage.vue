@@ -58,7 +58,7 @@
                             <span class="mobile-link" @click="navigateToJobDetails(jobs[selectedJob]._id)">{{ job.job_title }} <i class="bi bi-box-arrow-up-right"></i></span>
                             <span class="desktop-link">{{ job.job_title }}</span>
                         </template>
-                        <template #job-post-company><span v-if="employerDetails.profile">{{ employerDetails.profile.company_name }}</span></template>
+                        <template #job-post-company><span v-if="getUserById(job.employer).profile">{{ getUserById(job.employer).profile.company_name }}</span></template>
                         <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
                         <template #job-duration> {{ job.period }}</template>
                         <template #job-description>{{ job.job_description.substring(0,200) }}...</template>
@@ -72,11 +72,11 @@
                             </button>
                         </template>
                     </JobCard>
-                    
+
                 </div>
                 </slot>
         </div>
-    
+
             <!-----------job  details from search results--------------------------------------------------->
         <div class="job-details-area card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div style="overflow-y: scroll;">
@@ -85,7 +85,7 @@
                     <div class="jdh-left">
                         <span><b>{{ jobs[selectedJob].job_title }}</b></span>
                         <small>
-                            <span v-if="employerDetails.profile">{{ employerDetails.profile.company_name }} |</span>
+                            <span v-if="getUserById(jobs[selectedJob].employer).profile">{{ getUserById(jobs[selectedJob].employer).profile.company_name }} |</span>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
@@ -108,7 +108,7 @@
                                 <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>Posted {{ getHoursTillDate(jobs[selectedJob].created_at) }} ago
                         </span>
-                        
+
                         <span class="jdh-detail">
                             <!------------wallet icon-------------->
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
@@ -116,9 +116,9 @@
                             </svg>(₦){{ formatBudgetAmount(jobs[selectedJob].budget) }} {{ jobs[selectedJob].budget_des }}
                         </span>
                     </div>
-                    
+
                     <div class="jdh-right">
-                        
+
                             <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">{{ checkJobApplication(jobs[selectedJob]._id) }} </button>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                         <span class="jdh-title">Project type</span>
                             {{ jobs[selectedJob].period }}
                     </div>
-                    
+
                     <div class="jd-section">
                         <span class="jdh-title">Skills Required</span>
                         <div class="skill_set">
@@ -145,48 +145,47 @@
                             </div>
                         </div>
                     </div>
-                            
-                    <!-- <div class="jd-section">
-                        <span class="jdh-title">About the recruiter</span>                        
-                        {{  getUserById(jobs[selectedJob].employer) }} 
-                        <div v-if="employerDetails.profile" class="little-employer" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                            <img style="height: 40px; width: 40px; border-radius: 20%" :src="employerDetails.profile.profileImage">
+
+                    <div class="jd-section">
+                        <span class="jdh-title">About the recruiter</span>
+                        <div v-if="getUserById(jobs[selectedJob].employer)" class="little-employer" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                            <img style="height: 40px; width: 40px; border-radius: 20%" :src="getUserById(jobs[selectedJob].employer).profile.profileImage">
                             <div>
-                                <b>{{ employerDetails.profile.company_name }}</b> | {{ employerDetails.profile.city }}
-                                <br/>{{ employerDetails.profile.tagline }}
-                                <br/>web: {{ employerDetails.profile.website }}
+                                <b>{{ getUserById(jobs[selectedJob].employer).profile.company_name }}</b> | {{ getUserById(jobs[selectedJob].employer).profile.city }}
+                                <br/>{{ getUserById(jobs[selectedJob].employer).profile.tagline }}
+                                <br/>web: {{ getUserById(jobs[selectedJob].employer).profile.website }}
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                     <div class="jd-section">
                         <span>
                             <span @click="navigateToJobDetails(jobs[selectedJob]._id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                         </span>
-                        
+
                     </div>
                 </div>
             </slot>
             </div>
-                  
+
         </div>
     </div>
 
-   
-        
+
+
 
     <DotLoader v-if="isLoading"/>
     <span  v-if="jobs.length == undefined || jobs.length == 0" class="no-job-screen"><p>You are all caught up, there are no jobs at this time</p></span>
-        
+
 
 </div>
-  
+
   <!-- <div class="footer">
       <Footer/>
   </div> -->
-  
+
   </div>
 </template>
-  
+
 <script>
   import { RouterLink, useRouter } from 'vue-router';
   import Footer from '../components/Footer.vue';
@@ -202,7 +201,7 @@
   import DotLoader from '../components/DotLoader.vue'
   import Alert from '../components/Alert.vue'
   import themeStore from '@/theme/theme';
-  
+
       export default {
         setup(){
               // Accessing themeStore properties and methods
@@ -235,9 +234,9 @@
                 isSaving: [],
 
                 authErrors: false,
-                employerDetails: '',
+                employerDetails: [],
 
-                // 
+                //
                 applied_jobs:'',
                 // variables for search functionalities.....
                 keywords: '',
@@ -254,7 +253,7 @@
                     return formattedValue;
                 },
                 showFullJob(index) {
-                    this.selectedJob = index; 
+                    this.selectedJob = index;
                     },
 
 
@@ -285,7 +284,7 @@
                         // For example, you can set user details in your component's data
                         this.userDetails = response.data.user;
                         this.userSavedJobs = this.userDetails.saved_jobs;
-                        
+
                         this.isLoading = false;
                         })
                         .catch((error) => {
@@ -354,7 +353,7 @@
                     const diffInDays = Math.floor(diffInHours / 24)
                     if(diffInDays <= 1){ return `${diffInDays} day`}
                     else{return `${diffInDays} days`}
-                    
+
                 } else {
                     const diffInMonths = Math.floor(diffInHours / 720)
                     if(diffInMonths <= 1){ return `${diffInMonths} month`}
@@ -443,25 +442,12 @@
                 },
 
                 // now we try to get the employer's details ......
-                async getUserByI(id) {
-                    try {
-                        const response = await axios.get(`${this.api_url}/get-info/${id}`);
-                        this.employerDetails = response.data.employer;
-                        
-                        console.log("employer: ", this.employerDetails);
-                        
-                    } catch (error) {
-                        console.error('Error fetching user or employer details:', error);
-                        throw error; // You can choose to rethrow the error or handle it differently
-                    }
-                },
-
-                getUserById(id) {
+                getUserByI(id) {
                     axios.get(`${this.api_url}/get-info/${id}`)
                         .then(response => {
                             this.isLoading = false;
                             this.employerDetails = response.data.employer;
-                            
+
                             })
                             .catch(error => {
                             console.error('Error fetching user or employer details:', error);
@@ -469,13 +455,27 @@
                                         // Handle errors
                         });
                     },
+
+
+                getUserById(id) {
+                if (!this.employerDetails[id]) {
+                    axios.get(`${this.api_url}/get-info/${id}`)
+                    .then(response => {
+                    this.employerDetails[id] = response.data.employer;
+                    })
+                    .catch(error => {
+                    console.error('Error fetching user or employer details:', error);
+                    });
+                }
+                return this.employerDetails[id];
                 },
-            
+            },
+
             computed: {
             },
 
             mounted(){
-                
+
             },
             beforeMount(){
                 const token = localStorage.getItem('token');
@@ -484,16 +484,16 @@
                 }
                 this.fetchJobListings();
                 this.getUserDetails();
-               
-                
+
+
             },
 }
-</script>       
-  
-  
+</script>
+
+
   <style scoped>
     @media screen and (max-width: 650px) {}
-    
+
 #user-top-navigation-container .nav-tooltip {
     position: absolute;
     top: 50px;

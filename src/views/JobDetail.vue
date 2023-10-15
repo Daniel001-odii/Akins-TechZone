@@ -11,7 +11,7 @@
 
     <!-- add message toast to page -->
     <Toast ref="toast"></Toast>
-   
+
 
     <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
@@ -77,16 +77,46 @@
                             <p class="tz-form-title">Payment type</p>
                             {{ job.budget_type }}
                     </div>
-                    <div class="tz-job-content-description">
+                    <div class="tz-job-content-description" v-if="getUserById(job.employer)">
                             <p class="tz-form-title">About recruiter</p>
-                            {{  getUserById(job.employer) }}
+                            <!-- {{  getUserById(job.employer) }} -->
+                            <!-- <hr/> -->
+                            <!-- {{  getUserById(job.employer).profile.company_name }} | {{  getUserById(job.employer).profile.location }}<br/>
+                            {{  getUserById(job.employer).profile.industry_type }} <br/>
+                            {{  getUserById(job.employer).profile.tagline }} -->
+                            <div class="jd-section">
+                        <!-- <span class="jdh-title">About the recruiter</span> -->
+                        <div v-if="getUserById(job.employer)" class="little-employer" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                            <img style="height: 40px; width: 40px; border-radius: 20%" :src="getUserById(job.employer).profile.profileImage">
+                            <div>
+                                <b>{{ getUserById(job.employer).profile.company_name }}</b> | {{ getUserById(job.employer).profile.city }}
+                                <br/>{{ getUserById(job.employer).profile.tagline }}
+                                <br/>web: {{ getUserById(job.employer).profile.website }}
+                            </div>
+                        </div>
                     </div>
-                    
+                    </div>
+                    <div class="tz-job-content-description">
+                            <p class="tz-form-title">Previous posted Jobs</p>
+
+                            <div v-if="getUserById(job.employer)">
+                                <div v-for="job in getUserById(job.employer).jobs">
+                                    <span v-if="fetchEmployerJobs(job)">
+                                        <!-- {{ fetchEmployerJobs(job) }} -->
+                                        {{ fetchEmployerJobs(job).job_title }} <br/>
+                                        (#){{ fetchEmployerJobs(job).budget }} <br/>
+
+
+                                    </span>
+                                </div>
+                            </div>
+                    </div>
+
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Share this job post</p>
                             <div class="tz-copy-link">
                                 <div id="contentToCopy" class="tz-disabled-link">{{ shareLink }}</div>
-                                
+
                             </div>
                             <span class="bi bi-clipboar" @click="copyText"><u>copy link</u></span>
                     </div>
@@ -122,7 +152,7 @@
                                     <div class="currency">NGN</div>
                                     <input type="number" class="counterOffer" placeholder="0.00" v-model="counterOffer" :disabled="jobIsApplied">
                                 </div>
-                                
+
                                 <small>input the amount you want to get paid for this job</small>
                             </div>
                             <div class="form-sub">
@@ -148,13 +178,13 @@
             <DotLoader/>
             <!-- <SkeletonLoader/> -->
         </div>
-        
+
         <!-- <div class="footer"><Footer/></div> -->
-      
+
     </div>
       </template>
-      
-      <script> 
+
+      <script>
       import { RouterLink , useRoute  } from 'vue-router';
       import Footer from '../components/Footer.vue';
       import JobCard from '../components/JobCard.vue';
@@ -171,7 +201,7 @@
       import themeStore from '@/theme/theme';
       import SkeletonLoader from '../components/pageSkeleton.vue'
       import Modal from '../components/modal.vue'
-      
+
 
       const toggleTheme = themeStore.toggleTheme;
       const token = localStorage.getItem('token'); // Get the user's JWT token from localStorage
@@ -196,7 +226,7 @@
                     return {
                     themeStore,
                     toggleTheme,
-                    
+
                     };
                 },
         data() {
@@ -208,7 +238,7 @@
             showModal: false,
 
             userDetails: '',
-            employerDetails: '',
+            employerDetails: [],
 
             selectedFiles: [],
             filesToUpload: '',
@@ -222,7 +252,8 @@
             attachment: '',
 
             isSubmitting: false,
-            
+            employerJob: [],
+
             };
         },
         methods: {
@@ -240,7 +271,7 @@
                 fetchJobListings() {
                 const jobId = this.$route.params.job_id;
                 // console.log(this.$route.params.job_id);
-                
+
 
                 axios.get(`${this.api_url}/jobs/${jobId}`)
                     .then(response => {
@@ -256,42 +287,18 @@
                     });
                 },
 
-                fetchUserAppliedJobs() {
-                    this.isLoading = true;
-                    // Fetch user-applied jobs using the route you created
-                    axios.get(`${this.api_url}/user-applied-jobs`, {
-                        headers: {
-                        Authorization: `JWT ${localStorage.getItem('token')}`, // Include the JWT token from localStorage
-                        },
-                    })
+                fetchEmployerJobs(jobId) {
+                    if(!this.employerJob[jobId]){
+                axios.get(`${this.api_url}/jobs/${jobId}`)
                     .then(response => {
-                            this.userAppliedJobs = response.data.jobs;
-                            console.log("user applied jobs: ", this.userAppliedJobs);
-                            // Use the some method to check if any item in the userAppliedJobs array matches the given jobId
-                            const isJobApplied = this.userAppliedJobs.some(job => job._id === this.$route.params.job_id);
-                            if(isJobApplied){this.jobIsApplied = true}else{this.jobIsApplied = false};
-                            // Log the result to the console
-                            console.log(`Job ID ${this.$route.params.job_id} is${isJobApplied ? '' : ' not'} found in user-applied jobs`);
-
-                            // the code below checks if the user already applied for the job and prepopulates the form fields to avoid futher submission
-                            for(let i = 0; i < this.job.applications.length; i++){
-                               if(this.job.applications[i].user.includes(this.userDetails.id)){
-                                    // console.log(this.applicationForm = this.job.applications[i]);
-                                    this.applicationForm = this.job.applications[i]
-                                    this.coverLetter = this.job.applications[i].coverLetter;
-                                    this.counterOffer = this.job.applications[i].counterOffer;
-                                    this.reasonForCounterOffer = this.job.applications[i].reasonForCounterOffer;
-                               }
-                            };
-                            // Return a message based on whether the job is applied or not
-                            // return isJobApplied ? "View Application" : "Apply here";
+                        // this.data.push(response.data.job);
+                        this.employerJob[jobId] = response.data.job;
                     })
                     .catch(error => {
-                        console.error(error);
-                    })
-                    .finally(() => {
-                        this.isLoading = false;
+                    console.error(error);
                     });
+                }
+                return this.employerJob[jobId];
                 },
 
                 getHoursTillDate(dateString) {
@@ -301,10 +308,10 @@
                 const diffInHours = Math.floor(diff / (1000 * 60 * 60))
                 const diffInMins = Math.floor(diff / (1000 * 60))
                 const diffInSecs = Math.floor(diff / (1000))
-                const timeInSeconds = Math.floor(date.getTime() / 1000); 
+                const timeInSeconds = Math.floor(date.getTime() / 1000);
                 //calculate respectively......
                 if (diffInMins < 60) {return `${diffInMins} minutes`}
-                else if (diffInHours < 24) {return `${diffInHours} hours`} 
+                else if (diffInHours < 24) {return `${diffInHours} hours`}
                 else if (diffInHours < 720) {
                     const diffInDays = Math.floor(diffInHours / 24)
                     return `${diffInDays} days`
@@ -321,7 +328,7 @@
 
                 async submitApplication() {
                     this.isSubmitting = true;
-                    
+
                     const applying_jobId = this.job_id; // Replace with the actual job ID you want to apply for
 
                     const applicationData = {
@@ -380,7 +387,7 @@
                     }
                     );
 
-                  
+
                 } catch (error) {
                     console.error('Error submitting application:', error);
                 } finally {
@@ -400,7 +407,7 @@
                 .then((response) => {
                 // Handle the response here
                 this.userDetails = response.data.user;
-                console.log("the user ", this.userDetails) 
+                console.log("the user ", this.userDetails)
                 })
                 .catch((error) => {
                 // Handle errors
@@ -410,26 +417,61 @@
                 },
 
                  // now we try to get the employer's details ......
-                 async getUserById(id) {
-                    try {
-                        const response = await axios.get(`${this.api_url}/get-info/${id}`);
-                        const employerDetails = response.data.employer;
-                        if (employerDetails) {
-                            return employerDetails.firstname;
-                        } else {
-                            throw new Error("Employer details not found");
-                        }
-                    } catch (error) {
-                        console.error('Error fetching user or employer details:', error);
-                        throw error; // You can choose to rethrow the error or handle it differently
-                    }
+                getUserById(id) {
+                if (!this.employerDetails[id]) {
+                    axios.get(`${this.api_url}/get-info/${id}`)
+                    .then(response => {
+                    this.employerDetails[id] = response.data.employer;
+                    })
+                    .catch(error => {
+                    console.error('Error fetching user or employer details:', error);
+                    });
+                }
+                return this.employerDetails[id];
+                },
+                fetchUserAppliedJobs() {
+                    this.isLoading = true;
+                    // Fetch user-applied jobs using the route you created
+                    axios.get(`${this.api_url}/user-applied-jobs`, {
+                        headers: {
+                        Authorization: `JWT ${localStorage.getItem('token')}`, // Include the JWT token from localStorage
+                        },
+                    })
+                    .then(response => {
+                            this.userAppliedJobs = response.data.jobs;
+                            console.log("user applied jobs: ", this.userAppliedJobs);
+                            // Use the some method to check if any item in the userAppliedJobs array matches the given jobId
+                            const isJobApplied = this.userAppliedJobs.some(job => job._id === this.$route.params.job_id);
+                            if(isJobApplied){this.jobIsApplied = true}else{this.jobIsApplied = false};
+                            // Log the result to the console
+                            console.log(`Job ID ${this.$route.params.job_id} is${isJobApplied ? '' : ' not'} found in user-applied jobs`);
+
+                            // the code below checks if the user already applied for the job and prepopulates the form fields to avoid futher submission
+                            for(let i = 0; i < this.job.applications.length; i++){
+                               if(this.job.applications[i].user.includes(this.userDetails.id)){
+                                    // console.log(this.applicationForm = this.job.applications[i]);
+                                    this.applicationForm = this.job.applications[i]
+                                    this.coverLetter = this.job.applications[i].coverLetter;
+                                    this.counterOffer = this.job.applications[i].counterOffer;
+                                    this.reasonForCounterOffer = this.job.applications[i].reasonForCounterOffer;
+                               }
+                            };
+                            // Return a message based on whether the job is applied or not
+                            // return isJobApplied ? "View Application" : "Apply here";
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
+                    });
                 },
 
                 handleButtonClick(){
                     const fileInput = document.querySelector('input[type="file"]');
                     fileInput.click();
                     },
-        
+
                 handleDrop(event){
                     event.preventDefault();
                     const file = event.dataTransfer.files[0];
@@ -449,25 +491,25 @@
             this.fetchJobListings();
             this.fetchUserAppliedJobs();
             // this.getUserById("651d62b22d5495c4ca702289");
-            
-            
-            
+
+
+
             // this.checkJobApplication();
             if(this.userAppliedJobs.length > 0){
                 console.log(this.userAppliedJobs);
             }
-            
+
         },
         // mounted(){
-           
+
         // }
         };
 
 
 
-      </script>       
-      
-      
+      </script>
+
+
 <style scoped>
 small{font-size: 12px;}
 .Page-contents{
@@ -478,7 +520,7 @@ small{font-size: 12px;}
     width: 100%;
     /* border: 2px solid red; */
     padding: 5px;
-    
+
 }
 .tz-company-header-img{
     height: 200px;

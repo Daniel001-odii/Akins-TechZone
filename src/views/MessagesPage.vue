@@ -11,8 +11,8 @@
           <!-- <div class="page-filters"></div> -->
           <!-- <div class="insights-content"><small>your chats with clients are safe</small></div> -->
     </div>
-    <div v-if="isLoading">Loading...</div>
-    <div class="Page-contents">
+    <Loader v-if="isLoading"/>
+    <div class="Page-contents" v-else>
           <!----message page contents starts here ----->
           <div class="tz_message">
             <div class="tz_message_left">
@@ -50,13 +50,14 @@
             </div>
 
           <transition name="slide">
-            <div class="tz_message_main" :class="roomDisplay ? 'opened' : 'closed'">
+            <div class="tz_message_main" :class="[roomDisplay ? 'opened' : 'closed'], ['theme-transition', { 'dark': themeStore.darkMode }]">
 
                 <!-- Display current room messages -->
                 <div class="room_title" v-if="selectedRoom">
                   <div @click="roomDisplay = !roomDisplay" class="room_close_btn"><i class="bi bi-arrow-left-circle-fill"></i></div>
                   <div>
-                    Chat room for contract<br/><b>{{ selectedRoom.name }}</b> <br/> initiated {{ formatTimestamp(selectedRoom.created) }}
+                    <b>{{ selectedRoom.name }}</b>
+                    <br/><span style="color: grey;"> initiated {{ formatTimestamp(selectedRoom.created) }}</span>
                   </div>
                 </div>
                 <div class="room_container" v-if="selectedRoom">
@@ -101,9 +102,10 @@
   import axios from 'axios';
   import io from 'socket.io-client';
   import { RouterLink } from 'vue-router';
+  import Loader from '../components/DotLoader.vue';
 
 export default {
-  components:{ NavBar, RouterLink, LeftNav },
+  components:{ NavBar, RouterLink, LeftNav, Loader },
   setup(){
     const toggleTheme = themeStore.toggleTheme;
         return{themeStore,toggleTheme}
@@ -142,7 +144,7 @@ export default {
       };
 
       await axios.post(`${this.message_api_url}/api/messages`, message);
-      this.fetchMessages(this.selectRoom.id)
+      // this.fetchMessages(this.selectRoom.id)
       this.newMessage = '';
     },
 
@@ -201,10 +203,10 @@ export default {
                           }
     },
 
-    async fetchData(userId) {
+    async fetchRooms(userId) {
       this.isLoading = true;
       const response = await axios.get(`${this.message_api_url}/api/rooms/${userId}`);
-      this.rooms = response.data;
+      this.rooms = response.data.reverse();
     },
 
     formatTimestamp(timestamp) {
@@ -243,7 +245,7 @@ export default {
 
   created() {
   this.getUserDetails().then(() => {
-  this.fetchData(this.userDetails.id);
+  this.fetchRooms(this.userDetails.id);
   this.isLoading = false;
   });
 },

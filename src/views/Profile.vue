@@ -36,11 +36,11 @@
     <form @submit.prevent="updateuserProfile" id="userProfile.profile">
         <span @click="this.editProfileMenu = !this.editProfileMenu;" class="closeBtn">&times; close</span>
         <div class="bio profile-field">
-            <input class="profile-input" type="text" :value="userDetails.firstname" disabled>
-            <input class="profile-input" type="text" :value="userDetails.lastname" disabled>
+            <input class="profile-input" type="text"  v-model="userProfile.firstname">
+            <input class="profile-input" type="text" v-model="userProfile.lastname">
         </div>
         <div class="bio profile-field">
-            <input class="profile-input" type="text" placeholder="say something about yourself" v-model="userProfile.profile.bio">
+            <textarea class="profile-input" type="text" placeholder="say something about yourself" v-model="userProfile.profile.bio"></textarea>
         </div>
         <div class="location profile-field">
             <input class="profile-input" type="text" placeholder="your location goes here..." v-model="userProfile.profile.location">
@@ -59,7 +59,7 @@
         </div>
         <button type="submit" class="cust-btn">save and exit</button>
     </form>
-    
+
 </div>
 
 <NavBar/>
@@ -69,7 +69,7 @@
     <div class="verifyEmailAlert" v-if="!userDetails.isVerified">
         Please verify your email to update your profile.
     </div>
-    
+
 
     <DotLoader v-if="isLoading"/>
 
@@ -106,17 +106,17 @@
             </div>
             <!-- <div class="section-divider"></div> -->
             <div class="tz-profile-right">
-                <div class="profile-item">verification: 
+                <div class="profile-item">verification:
                     <span  v-if="userDetails.isVerified" style="color: green">Verified <i class="bi bi-check-circle-fill"></i></span>
-                    <span v-else>not verified <i class="bi bi-check-circle-fill"></i></span> 
+                    <span v-else>not verified <i class="bi bi-check-circle-fill"></i></span>
                 </div>
-                <div class="profile-item">joined: 
+                <div class="profile-item">joined:
                     <span>{{ formatTimestamp(userDetails.created) }}</span>
                 </div>
-                <div class="profile-item">location: 
+                <div class="profile-item">location:
                     <span>{{ userDetails.profile.location }}</span>
                 </div>
-               
+
                 <div class="tz-user-socials">
                     <div class="tz-social">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="34" viewBox="0 0 35 34" fill="none">
@@ -168,7 +168,10 @@
                             <div v-for="(skills,index) in  userDetails.profile.skillsList.split(', ')" :key="index">
                                 <div class="skills">{{ skills }}</div>
                             </div>
-                        </div>
+                </div>
+                <div class="about-header">
+                    Completed Jobs
+                </div>
             </div>
         </div>
 
@@ -191,7 +194,7 @@
             </div>
 
         </div>
-       
+
     </div>
 
 </div>
@@ -203,10 +206,10 @@
 
 <script>
 
-    
-    
-  
-    
+
+
+
+
 
 import NavBar from '../components/NavBar.vue';
 import Footer from '../components/Footer.vue';
@@ -306,14 +309,14 @@ import DotLoader from '../components/DotLoader.vue';
                         this.imageUrl = this.userDetails.profile.profileImage;
                     }
                     else if(response.data.employer){
-                        this.userDetails = response.data.employer 
+                        this.userDetails = response.data.employer
                     }
                                 // const firstname = response.data.user.firstname;
                                 // const lastname = response.data.user.lastname;
                                 // return response.data.user;
                     console.log("user detail: ", response.data.user);
                     this.userDetails = response.data.user;
-                    
+
                     this.employerDetails = response.data.employer;
                     this.isLoading = false;
                     })
@@ -353,7 +356,7 @@ import DotLoader from '../components/DotLoader.vue';
 
     async updateuserProfile(){
             const token = localStorage.getItem('token'); // Get the token from localStorage
-    
+
             // Set up headers with the token
             const headers = {
                 Authorization: `JWT ${token}`, // Assuming it's a JWT token
@@ -366,7 +369,7 @@ import DotLoader from '../components/DotLoader.vue';
 
         } catch (error) {
             console.log(error);
-            
+
         }
             },
     autoFill(){
@@ -472,7 +475,7 @@ import DotLoader from '../components/DotLoader.vue';
             console.error('Error uploading profile image:', error);
         }
         },
-        
+
     checkCurrentViewer(){
         const token = localStorage.getItem('token');
         const userRole = token ? JSON.parse(atob(token.split('.')[1])).id : null;
@@ -509,10 +512,10 @@ import DotLoader from '../components/DotLoader.vue';
         console.error('Error sending verification email:', error);
       }
     },
-  
-                
+
+
           },
-          
+
         beforeMount(){
             this.getUserById(this.$route.params.user_id);
             this.checkCurrentViewer()
@@ -559,7 +562,7 @@ import DotLoader from '../components/DotLoader.vue';
 
 *{
     font-size: 0.9rem !important;
-     
+
 }
 .body{
     padding-top: 50px;
@@ -613,7 +616,7 @@ th, td{
         display: flex;
         justify-content: center;
         align-items: center;
-        
+
     }
     .icon{
         position: absolute;
@@ -653,8 +656,8 @@ th, td{
 
 
 
-   
-   
+
+
     .tz-profile-left{
         display: flex;
         flex-direction: row;
@@ -777,7 +780,7 @@ th, td{
         border: 1px solid #f5c6cb;
         transition: 1s;
     }
-    
+
     .editProfileModal{
         /* display: flex; */
         gap: 50px;
@@ -807,7 +810,7 @@ th, td{
     }
 
 
- 
+
 
 
    .logout-modal{

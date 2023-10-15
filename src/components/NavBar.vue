@@ -2,7 +2,7 @@
 
 <!--  this is the modal displayed when a user tries logging out....... -->
 <div class="logout-modal" v-if="showModal">
-    <div class="modal-content">
+    <div class="modal-content" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <span>Are you sure you want to logout?</span>
         <div class="modal-options">
             <span class="yes" @click="realLogout">Yes</span>
@@ -13,7 +13,7 @@
 
 <!--  this is the modal displayed when a user tries logging out....... -->
 <div class="logout-modal" v-if="showTokenExpiredModal">
-    <div class="modal-content">
+    <div class="modal-content" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <span>Your session expired, please login.</span>
         <div class="modal-options">
             <span class="yes" @click="realLogout">Okay</span>
@@ -23,16 +23,10 @@
 
 
 
-<div v-if="showStatus" id="status" class="popup" :class="{ online: isOnline, 'offline': !isOnline }">
-    <span v-if="isOnline" class="online">You're online!</span>
-    <span v-else class="offline">You're offline.</span>
-    <span @click="showStatus = !showStatus" id="status_dismiss">&times;</span>
-</div>
 
-
-<div v-if="isOffline" class="offline-message">
+<!-- <div v-if="isOffline" class="offline-message">
     Internet connection is lost. Please check your network.
-</div>
+</div> -->
 
 <div v-if="userNotLoggedIn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     <nav class="Tz-navbar container-fluid">
@@ -579,7 +573,7 @@ export default {
         },
         // Function to handle a failed API request
         async handleApiError(error) {
-            if (error.response && error.response.status === 401) {
+            if (error.response && error.response.status === 401 && token) {
                 // Unauthorized error
                 // Perform re-login
                 await this.reLogin();
@@ -823,7 +817,6 @@ export default {
     border: none;
     background: none;
     padding: 0;
-
 }
 .user-menu-toggle:hover .tz-user-menu{
     display: block;
@@ -909,6 +902,7 @@ export default {
 .notify-line{
     text-align: center;
     padding: 5px;
+    /* background: red; */
 }
 .notify-line:hover{
     background: var(--app-hover);

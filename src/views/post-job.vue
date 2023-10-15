@@ -84,7 +84,7 @@
                 <div>
                   <input style="display:none" type="text" id="skillSet" v-model="skills" disabled="true" required>
                 </div>
-              
+
             </div>
 
 
@@ -204,7 +204,7 @@
             <div class="section">
               <div class="section-title">Describe the job location</div>
                 <div class="section-content">
-                    <textarea class="job-description" placeholder="Enter job location and address here..." v-model="formData.location" required></textarea>
+                    <input style="height: 50px; font-size: 15px;" class="job-descripton" placeholder="Enter job location and address here..." v-model="formData.location" required>
                 </div>
                 <div class="section-last">
                   bit info about the job location from techzone...
@@ -243,7 +243,7 @@
   </div>
   </form>
 
-  
+
 </div>
 <div class="page_last">
     <div class="slider-form-buttons">
@@ -268,7 +268,7 @@ import Search from '../components/Search.vue';
 import Modal from '../components/modal.vue'
 import axios from 'axios';
 import Navbar from '../components/NavBar.vue'
-import themeStore from '@/theme/theme'; 
+import themeStore from '@/theme/theme';
 
 export default {
   components: { Navbar, CheckBox, Search, Modal },
@@ -376,7 +376,7 @@ methods: {
         this.showModal = true;
         // this.$router.push('/client/successful');
       // }
-      // else{console.error("error submitting form!!!")} 
+      // else{console.error("error submitting form!!!")}
     }catch (error){
       this.showError = true;
       this.formErrors = error.response.data.message;
@@ -560,7 +560,7 @@ opacity: 0.8;
 .formSlide-leave-to {
 opacity: 0;
 margin-left: -100%;
-} 
+}
 
 .radio-selection{
 border: 1px solid #d5d5d5;
@@ -615,7 +615,7 @@ textarea{
       max-width: 400px;
       padding: 10px;
   }
-  
+
 
   .section-divider{
       height: 250px !important;
@@ -636,7 +636,7 @@ textarea{
       height: 100px;
       font-size: 0.6em;
       width: 100%;
-      
+
   }
 
   .filter-search{
@@ -703,7 +703,7 @@ textarea{
       .page-sub{
         width: 100%;
         padding: 15px;
-        
+
       }
       .form-content{
           flex-direction: column;
