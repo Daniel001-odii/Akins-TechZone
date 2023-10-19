@@ -166,6 +166,7 @@
                     applicantDetailsMap: {},
                     jobs:'',
                     //
+                    rooms: [],
                     applicantDetails: {},
                     jobsLoading: false,
                     hasFinishedLoad: false,
@@ -229,7 +230,6 @@
                                 });
                                 if(this.jobs.length > 0){
                                     this.jobs[0].open = true;
-                                    if(this.jobs.length > 1){this.jobs[1].open = true};
                                 }
 
 

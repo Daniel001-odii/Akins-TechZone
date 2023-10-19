@@ -371,7 +371,7 @@ methods: {
     try{
       const response = await axios.post(`${this.api_url}/jobs`, this.formData, {headers});
       // if(response.status === 200){
-        console.log("job posted successfully!");
+        console.log(response.message);
         this.isLoading = false;
         this.showModal = true;
         // this.$router.push('/client/successful');

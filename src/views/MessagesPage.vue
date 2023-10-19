@@ -23,25 +23,25 @@
               <!-- Display list of rooms -->
               <!-- the getUserById function must be called on its own before using in the component to fecthc user details else it wouldnt work -->
                 <div v-if="isUser">
-                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#efefef' : '' }">
+                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#7F56D9' : '' }">
                     <div class="room"  @click="selectRoom(room)" v-if="getUserById(room.employerId)">
                       <img class="tz-user-thumbnail" :src="getUserById(room.employerId).profile.profileImage" >
                       <div>
                         <b>{{ getUserById(room.employerId).profile.company_name }}</b>
                         <br/>
-                        {{room.name.substring(0, 30)}}...
+                        {{room.name.substring(0, 20)}}...
                       </div>
                     </div>
                   </div>
                 </div>
                 <div v-if="isEmployer">
-                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#efefef' : '' }">
+                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#7F56D9' : '' }">
                     <div class="room" @click="selectRoom(room)" v-if="getUserById(room.userId)">
                       <img class="tz-user-thumbnail" :src="getUserById(room.userId).profile.profileImage" >
                       <div>
                         <b>{{ getUserById(room.userId).firstname }} {{ getUserById(room.userId).lastname }}</b>
                         <br/>
-                        {{room.name.substring(0, 30)}}...
+                        {{room.name.substring(0, 20)}}...
                       </div>
                     </div>
                   </div>
@@ -302,6 +302,7 @@ export default {
     cursor: pointer;
     padding: 10px 0px;
     border-bottom: 1px solid #efefef;
+    height: 80px;
   }
   .room_block:hover{
     background: #efefef;
@@ -318,14 +319,16 @@ export default {
 
   .room_title{
     text-align: left;
-    background: #efefef;
+    /* background: #efefef; */
     padding: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 6px;
     /* border: 1px solid red; */
+    border-bottom: 1px solid #D0D5DD;
     width: 100%;
+    height: 80px;
   }
   .room_container{
     display: flex;
@@ -344,27 +347,31 @@ export default {
 }
 .room_footer{
   width: 100%;
-  height: 15%;
   display: flex;
   flex-direction: row;
-  padding: 30px;
-  background: #efefef;
+  padding: 10px;
+  border-top: 1px solid #D0D5DD;
+  /* background: #efefef; */
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 .msg_input{
   width: 100%;
   padding: 10px;
   border: none;
   border-radius: 10px;
+  height: 45px;
+  max-height: 100px;
+  border: 1px solid #D0D5DD;
+  outline: none;
 }
 .msg_send_btn{
   padding: 10px;
-  background: var(--app-blue);
+  background: #7F56D9;
   border: none;
   color: #fff;
-  border-radius: 50%;
+  border-radius: 10px;
 }
 .msg_send_btn:disabled{
   background: var(--app-grey);
@@ -377,6 +384,8 @@ export default {
   padding: 10px; /* Add padding for spacing */
   margin-bottom: 10px;
   align-self: flex-end; /* Add margin for spacing between messages */
+  background: var(--primary-600, #7F56D9);
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10);
 }
 
 /* CSS for received messages */
@@ -388,6 +397,8 @@ export default {
   margin-bottom: 10px; /* Add margin for spacing between messages */
   text-align: left;
   align-self: flex-start; /* Align received messages to the right */
+  background: var(--gray-100, #F2F4F7);
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10);
 }
 
 .room_close_btn{

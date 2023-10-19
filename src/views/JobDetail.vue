@@ -24,13 +24,22 @@
         <div class="Page-header">
             <div class="page-title" :class="['theme-transition', { 'dark': themeStore.darkMode }]">Application</div>
         </div>
+
         <div v-if="!isLoading" class="Page-contents" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                <div class="tz-job-content-area">
+
+               <div class="tz-job-content-area">
+                <div style="background: #39af39;
+               width: 100%;
+               padding: 15px;
+               color: #fff;
+               border-radius: 5px;" v-if="jobIsApplied">
+               <svg xmlns="http://www.w3.org/2000/svg" height="20px" fill="none" aria-hidden="true" viewBox="0 0 24 24" role="img"><path vector-effect="non-scaling-stroke" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 21a9 9 0 100-18 9 9 0 000 18z"></path><path vector-effect="non-scaling-stroke" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.5 9.51l-4.98 4.98-2.02-2.01"></path></svg>
+               You already submitted an application for this job</div>
                     <!-- <div class="tz-company-header-img"></div> -->
                     <div class="job-detail-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="jdh-left">
                             <span><b>{{ job.job_title }}</b></span>
-                            <small>microsot Imc. <i>Stars</i></small>
+                            <small>{{ job.employer_company }} | *****</small>
                                 <!---------------clock icon-------------->
                                 <!---------------location icon-------------->
                                 <span class="jdh-detail">
@@ -96,21 +105,20 @@
                         </div>
                     </div>
                     </div>
-                    <div class="tz-job-content-description">
-                            <p class="tz-form-title">Previous posted Jobs</p>
+                    <!-- <div class="tz-job-content-description">
+                            <p class="tz-form-title">Previous Jobs by recruiter</p>
 
                             <div v-if="getUserById(job.employer)">
                                 <div v-for="job in getUserById(job.employer).jobs">
                                     <span v-if="fetchEmployerJobs(job)">
-                                        <!-- {{ fetchEmployerJobs(job) }} -->
-                                        {{ fetchEmployerJobs(job).job_title }} <br/>
-                                        (#){{ fetchEmployerJobs(job).budget }} <br/>
+                                        {{ fetchEmployerJobs(job).job_title }} - {{ getHoursTillDate(fetchEmployerJobs(job).created_at) }} ago <br/>
+                                        (#){{ formatBudgetAmount(fetchEmployerJobs(job).budget) }} <br/>
 
 
                                     </span>
                                 </div>
                             </div>
-                    </div>
+                    </div> -->
 
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Share this job post</p>
@@ -166,7 +174,7 @@
                                 <button class="tz-form-submit-btn cust-btn" type="submit" :disabled="isSubmitting" ><span v-if="isSubmitting">processing...</span><span v-else>Submit Application</span></button>
                             </span>
                             <span v-else>
-                                <button class="tz-form-submit-btn cust-btn" style="background: green;" type="submit" disabled>Application sent</button>
+                                <!-- <button class="tz-form-submit-btn cust-btn" style="background: green;" type="submit" disabled>Application sent</button> -->
                             </span>
 
                         </div>
@@ -277,7 +285,7 @@
                     .then(response => {
                         // this.data.push(response.data.job);
                         this.job = response.data.job;
-                        console.log("currrent job in view: ", this.job);
+                        // console.log("currrent job in view: ", this.job);
                     })
                     .catch(error => {
                     console.error(error);
@@ -346,7 +354,7 @@
 
                     try {
                     const response = await axios.post(`${this.api_url}/apply/${this.$route.params.job_id}`, applicationData, config);
-                    console.log('Job application successful:', response.data);
+                    // console.log('Job application successful:', response.data);
                     this.showModal = true;
                     this.isSubmitting = false;
 
@@ -395,7 +403,7 @@
                 }
                 },
 
-                getUserDetails() {
+            getUserDetails() {
             this.isLoading = true;
             const token = localStorage.getItem('token'); // Get the token from localStorage
             const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
@@ -407,7 +415,7 @@
                 .then((response) => {
                 // Handle the response here
                 this.userDetails = response.data.user;
-                console.log("the user ", this.userDetails)
+                // console.log("the user ", this.userDetails)
                 })
                 .catch((error) => {
                 // Handle errors
@@ -439,12 +447,12 @@
                     })
                     .then(response => {
                             this.userAppliedJobs = response.data.jobs;
-                            console.log("user applied jobs: ", this.userAppliedJobs);
+                            // console.log("user applied jobs: ", this.userAppliedJobs);
                             // Use the some method to check if any item in the userAppliedJobs array matches the given jobId
                             const isJobApplied = this.userAppliedJobs.some(job => job._id === this.$route.params.job_id);
                             if(isJobApplied){this.jobIsApplied = true}else{this.jobIsApplied = false};
                             // Log the result to the console
-                            console.log(`Job ID ${this.$route.params.job_id} is${isJobApplied ? '' : ' not'} found in user-applied jobs`);
+                            // console.log(`Job ID ${this.$route.params.job_id} is${isJobApplied ? '' : ' not'} found in user-applied jobs`);
 
                             // the code below checks if the user already applied for the job and prepopulates the form fields to avoid futher submission
                             for(let i = 0; i < this.job.applications.length; i++){

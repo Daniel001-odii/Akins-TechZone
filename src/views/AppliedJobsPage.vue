@@ -58,7 +58,7 @@
                             <span class="mobile-link" @click="navigateToJobDetails(jobs[selectedJob]._id)">{{ job.job_title }} <i class="bi bi-box-arrow-up-right"></i></span>
                             <span class="desktop-link">{{ job.job_title }}</span>
                         </template>
-                        <template #job-post-company></template>
+                        <!-- <template #job-post-company><span v-if="getUserById(job.employer).profile">{{ getUserById(job.employer).profile.company_name }}</span></template> -->
                         <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
                         <template #job-duration> {{ job.period }}</template>
                         <!-- <template #job-description>{{ job.job_description.substring(0,120) }}...</template> -->
@@ -72,11 +72,11 @@
                             </button>
                         </template>
                     </JobCard>
-                    
+
                 </div>
                 </slot>
         </div>
-    
+
             <!-----------job  details from search results--------------------------------------------------->
         <div class="job-details-area card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div style="overflow-y: scroll;">
@@ -102,7 +102,7 @@
                                 <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>Posted {{ getHoursTillDate(jobs[selectedJob].created_at) }} ago
                         </span>
-                        
+
                         <span class="jdh-detail">
                             <!------------wallet icon-------------->
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
@@ -110,9 +110,9 @@
                             </svg>(₦){{ formatBudgetAmount(jobs[selectedJob].budget) }} {{ jobs[selectedJob].budget_des }}
                         </span>
                     </div>
-                    
+
                     <div class="jdh-right">
-                        
+
                             <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">{{ checkJobApplication(jobs[selectedJob]._id) }} </button>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                         <span class="jdh-title">Project type</span>
                             {{ jobs[selectedJob].period }}
                     </div>
-                    
+
                     <div class="jd-section">
                         <span class="jdh-title">Skills Required</span>
                         <div class="skill_set">
@@ -139,7 +139,7 @@
                             </div>
                         </div>
                     </div>
-                            
+
                     <div class="jd-section">
                         <span class="jdh-title">About the recruiter</span>
                         <!-- <p style="color: red;">this job id = {{navigateToJobDetails(filteredJobs[selectedJob].id)}}</p> -->
@@ -149,29 +149,29 @@
                         <span>
                             <span @click="navigateToJobDetails(jobs[selectedJob]._id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                         </span>
-                        
+
                     </div>
                 </div>
             </slot>
             </div>
-                  
+
         </div>
     </div>
-        
+
 
     <DotLoader v-if="isLoading"/>
     <span  v-if="jobs.length == undefined || jobs.length == 0" class="no-job-screen"><p>You have no Applied jobs</p></span>
-               
+
 
 </div>
-  
+
   <!-- <div class="footer">
       <Footer/>
   </div> -->
-  
+
   </div>
 </template>
-  
+
 <script>
   import { RouterLink, useRouter } from 'vue-router';
   import Footer from '../components/Footer.vue';
@@ -191,7 +191,7 @@
 //   const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
 // const api_url = "http://127.0.0.1:5000/api"
 
-  
+
       export default {
         setup(){
               // Accessing themeStore properties and methods
@@ -223,7 +223,7 @@
 
                 authErrors: false,
 
-                // 
+                //
                 applied_jobs:'',
                 // variables for search functionalities.....
                 keywords: '',
@@ -240,7 +240,7 @@
                     return formattedValue;
                 },
                 showFullJob(index) {
-                    this.selectedJob = index; 
+                    this.selectedJob = index;
                     },
 
 
@@ -303,6 +303,19 @@
                 window.open(route.href, '_blank');
                 },
 
+                 getUserById(id) {
+                if (!this.employerDetails[id]) {
+                    axios.get(`${this.api_url}/get-info/${id}`)
+                    .then(response => {
+                    this.employerDetails[id] = response.data.employer;
+                    })
+                    .catch(error => {
+                    console.error('Error fetching user or employer details:', error);
+                    });
+                }
+                return this.employerDetails[id];
+                },
+
 
             //converts the created_at property of the api to readable, hours, days, months, years text for display
                 getHoursTillDate(dateString) {
@@ -327,7 +340,7 @@
                     const diffInDays = Math.floor(diffInHours / 24)
                     if(diffInDays <= 1){ return `${diffInDays} day`}
                     else{return `${diffInDays} days`}
-                    
+
                 } else {
                     const diffInMonths = Math.floor(diffInHours / 720)
                     if(diffInMonths <= 1){ return `${diffInMonths} month`}
@@ -399,29 +412,29 @@
                     }
                 },
             },
-            
+
             computed: {
             },
 
             mounted(){
-                this.fetchUserAppliedJobs();
+                // this.fetchUserAppliedJobs();
                 this.getUserDetails();
-               
+
             },
             beforeMount(){
                 const token = localStorage.getItem('token');
                 if(token){
                     this.fetchUserAppliedJobs();
                 }
-                
+
             },
 }
-</script>       
-  
-  
+</script>
+
+
   <style scoped>
     @media screen and (max-width: 650px) {}
-    
+
 #user-top-navigation-container .nav-tooltip {
     position: absolute;
     top: 50px;

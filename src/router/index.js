@@ -12,7 +12,6 @@ import Notifications from '../views/notifications.vue'
 import UserProfile from '../views/Profile.vue'
 import PublicUserProfile from '../views/Profile_public.vue'
 //views based on job category......
-import requestedJobs from '../views/RequestedJobs.vue'
 import assignedJobs from '../views/AssignedJobs.vue'
 import completedJobs from '../views/CompletedJobs.vue'
 import declinedJobs from '../views/DeclinedJobs.vue'
@@ -70,7 +69,7 @@ const routes = [
   {path: "/reset-password-main", name: "Password - reset2", component: ResetPassword2},
 
   //job categories.......
-  {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true, role: 'user' }},
+  // {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true, role: 'user' }},
   {path: "/jobs/assigned-jobs", component: assignedJobs, meta: { requiresAuth: true, role: 'user' }},
   {path: "/jobs/completed-jobs", component: completedJobs, meta: { requiresAuth: true, role: 'user' }},
   {path: "/jobs/declined-jobs", component: declinedJobs, meta: { requiresAuth: true, role: 'user' }},

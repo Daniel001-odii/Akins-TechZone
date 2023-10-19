@@ -58,7 +58,7 @@
                             <span class="mobile-link" @click="navigateToJobDetails(jobs[selectedJob]._id)">{{ job.job_title }} <i class="bi bi-box-arrow-up-right"></i></span>
                             <span class="desktop-link">{{ job.job_title }}</span>
                         </template>
-                        <template #job-post-company><span v-if="getUserById(job.employer).profile">{{ getUserById(job.employer).profile.company_name }}</span></template>
+                        <template #job-post-company>{{ job.employer_company }}</template>
                         <template #job-amount>(₦){{ formatBudgetAmount(job.budget) }}</template>
                         <template #job-duration> {{ job.period }}</template>
                         <template #job-description>{{ job.job_description.substring(0,200) }}...</template>
@@ -85,7 +85,7 @@
                     <div class="jdh-left">
                         <span><b>{{ jobs[selectedJob].job_title }}</b></span>
                         <small>
-                            <span v-if="getUserById(jobs[selectedJob].employer).profile">{{ getUserById(jobs[selectedJob].employer).profile.company_name }} |</span>
+                            <span>{{ jobs[selectedJob].employer_company }} |</span>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
