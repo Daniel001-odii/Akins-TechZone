@@ -24,9 +24,10 @@
 
 
 
-<!-- <div v-if="isOffline" class="offline-message">
+<div v-if="isOffline" class="offline-message">
     Internet connection is lost. Please check your network.
-</div> -->
+    <span @click="isOffline = !isOffline">&times;</span>
+</div>
 
 <div v-if="userNotLoggedIn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     <nav class="Tz-navbar container-fluid">
@@ -324,8 +325,8 @@
                     <RouterLink to="/client/dashboard"  class="navbar-brand"><img class="nav-img" src="../components/Logos_icons/techzone.png"></RouterLink>
                 <div class="nav-contents">
                     <div class="Tz-nav-links">
-                        <RouterLink to="/client/post-job">Post Job</RouterLink>
                         <RouterLink to="/client/dashboard">Dashboard</RouterLink>
+                        <RouterLink to="/client/post-job">Post Job</RouterLink>
                     </div>
                 </div>
         </div>
@@ -755,20 +756,7 @@ export default {
 
 
 <style scoped>
-.offline-message {
-  background-color: #ffcccb;
-  color: #4b0707;
-  padding: 10px;
-  text-align: center;
-  position: fixed;
-  left: 0;
-  right: 0;
-  z-index: 99999;
-  margin: 0 auto;
-  max-width: 500px;
-  border-radius: 10px;
-  margin-top: 10px;
-}
+
 
 *{
     font-size: 0.85rem !important;

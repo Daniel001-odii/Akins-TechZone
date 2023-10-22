@@ -1,14 +1,17 @@
 <template>
     <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
-            <Navbar>
-                <template #action-1><RouterLink to="/client/post-job">Post Job</RouterLink></template>
-            </Navbar>
+            <Navbar/>
         </div>
         <div class="Left-Nav">
             <LeftNav/>
         </div>
-        <div class="Page-header"></div>
+        <!-- <div class="Page-header"></div> -->
+
+        <div v-if="profileErrorMessage" class="offline-message">
+            please complete your profile to post a job.
+        </div>
+
         <div class="Page-contents">
                <div class="container">
                     <div class="tz-client-header"  :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -16,7 +19,7 @@
                             <span>Welcome back, </span> <br/>
                             <span class="tz-client-title"> {{ userDetails.firstname }} {{ userDetails.lastname }}</span>
                         </div>
-                        <RouterLink to="/client/post-job">
+                        <RouterLink to="/client/post-job" v-if="calculateProfileCompletion() == 100">
                             <button class="post-job-btn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
                                     <path d="M6.06641 12H18.0664" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -25,7 +28,23 @@
                                 Post a Job
                             </button>
                         </RouterLink>
+                        <button v-else class="post-job-btn" :class="['theme-transition', { 'dark': themeStore.darkMode }]" @click="profileErrorMessage = !profileErrorMessage">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                    <path d="M6.06641 12H18.0664" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12.0459 17.6558V5.65576" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Post a Job
+                            </button>
                     </div>
+
+                    <!-- <div class="profile_completion">
+                        <span>Profile completion</span>
+                        <span>
+                            <progress style="color: red" min="0" max="100" :value="calculateProfileCompletion()"></progress>
+                            {{ calculateProfileCompletion() }}%
+                        </span>
+                    </div> -->
+
                     <!-- <div class="tz-client-tab"> -->
                 <ul class="nav nav-pills mb-3 tz-client-tab" id="pills-tab" role="tablist" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                     <li class="nav-item" role="presentation">
@@ -130,7 +149,7 @@
                 </div>
                </div>
         </div>
-        <!-- <div class="footer"><Footer/></div> -->
+        <div class="footer"><Footer/></div>
 
     </div>
       </template>
@@ -172,9 +191,55 @@
                     hasFinishedLoad: false,
                     //
                     deleteJobOptions: false,
+                    profileErrorMessage: false,
                     };
                 },
                 methods: {
+                    calculateProfileCompletion(){
+                    const user = this.userDetails;
+                    let tempPercentage = 10;
+
+                    if(this.userDetails){
+                    if(user.profile){
+                        tempPercentage += 0;
+                    }
+                    if(user.profile.tagline){
+                        tempPercentage += 5;
+                    }
+                    if (user.profile.description){
+                        tempPercentage += 10;
+                    }
+                    if (user.profile.company_name){
+                        tempPercentage += 5;
+                    }
+                    if (user.profile.website){
+                        tempPercentage += 5;
+                    }
+                    if (user.profile.industry_type){
+                        tempPercentage += 5;
+                    }
+                    if(user.profile.phone){
+                        tempPercentage += 5;
+                    }
+                    if(user.profile.location){
+                        tempPercentage += 5;
+                    }
+                    if(user.profile.city){
+                        tempPercentage += 5;
+                    }
+                    if(user.profile.socialAccount){
+                        tempPercentage += 5;
+                    }
+                    if(user.profile.profileImage){
+                        tempPercentage += 20;
+                    }
+                    if(user.isVerified){
+                        tempPercentage += 20
+                    }
+
+                    return tempPercentage;
+                }
+                    },
                     toggleItem(index) {
                     this.jobs[index].open = !this.jobs[index].open;
                     },
@@ -734,6 +799,22 @@ background: red;
     align-items: center;
     text-align: center;
     background: none !important;
+}
+
+
+.error-message {
+  background-color: #ffcccb;
+  color: #4b0707;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  margin: 0 auto;
+  max-width: 500px;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
 @media screen and (max-width: 600px) {

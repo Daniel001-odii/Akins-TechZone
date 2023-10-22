@@ -149,7 +149,7 @@ a{
   :root {
     --app-blue: #4E79BC;
     --app-blue-hover: #3166ba;
-    --app-grey: #8C8989;  
+    --app-grey: #8C8989;
     --offWhite: #F1F4F4;
     --app-dark-grey: #3C4045;
     --app-hover: #efefef83;
@@ -249,7 +249,34 @@ a{
   border-radius: 10px 10px 0px 0px;
 }
 
+.offline-message {
+  background-color: #ffcccb;
+  color: #4b0707;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  margin: 0 auto;
+  max-width: 450px;
+  border-radius: 10px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.offline-message > span{
+  font-size: 20px !important;
+  cursor: pointer;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
 
+.offline-message > span:hover{
+  background: #ff9997;
+}
 
 
 
@@ -482,11 +509,11 @@ p{
   height: 100%;
   }
 
- 
-  
+
+
   .Navigation { grid-area: Navigation; }
   .Left-Nav {
-      background: #fff; 
+      background: #fff;
       grid-area: Left-Nav;
       display: flex;
       flex-direction: column;
@@ -497,13 +524,13 @@ p{
   }
 
   .spacer{
-      border-bottom: 1px solid #C8C6C6; 
+      border-bottom: 1px solid #C8C6C6;
       height: 61px !important;
       width: 100% !important;
   }
 
   .Page-title { grid-area: Page-title; }
-  .Page-header { 
+  .Page-header {
       grid-area: Page-header;
       display: flex;
       flex-direction: column;
@@ -511,7 +538,7 @@ p{
       font-size: 0.8em !important;
       border-bottom: 1px solid #C8C6C6;
       border-left: 1px solid #C8C6C6;
-      justify-content: flex-end; 
+      justify-content: flex-end;
       /* height: 135px; */
   }
   .page-title{
@@ -555,10 +582,10 @@ p{
       border-bottom: 3px solid var(--app-blue);
       color: var(--app-blue);
   }
-  .Page-contents { 
-      grid-area: Page-contents; 
+  .Page-contents {
+      grid-area: Page-contents;
       /* overflow: scroll; */
-      /* height: 100vh; */
+      height: 100vh;
       /* border: 2px solid red; */
   }
 
@@ -665,7 +692,7 @@ p{
       align-items: center; */
       gap: 10px;
       max-width: 500px;
-      flex-wrap: wrap; 
+      flex-wrap: wrap;
   }
   .job-detail-content{
       padding: 10px;
@@ -745,7 +772,7 @@ opacity: 0;
     gap: 5px;
 }
 .mobile-link{
-  display: none;     
+  display: none;
  }
  .tz-copy-link{
   border-radius: 5px;
@@ -812,7 +839,7 @@ opacity: 0;
 @media screen and (max-width: 650px) {
   .mobile-link{
    display: block;
-   width: 60%;     
+   width: 60%;
   }
   .desktop-link{
     display: none;

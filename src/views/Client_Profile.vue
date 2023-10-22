@@ -31,9 +31,9 @@
         </div>
     </div>
 </div>
-    
-    
-    
+
+
+
     <div v-if="editProfileMenu" class="editProfileModal" style="">
     <!-- <div class="editProfileModal" style=""> -->
         <form @submit.prevent="updateuserProfile" id="userProfile.profile">
@@ -71,33 +71,33 @@
             </div>
             <button type="submit" class="cust-btn">save and exit</button>
         </form>
-        
+
     </div>
-    
+
     <NavBar/>
-    
-    
+
+
     <!-- this particular banner is only actve when the current user hasnt verified their account,..... -->
-    <div class="verifyEmailAlert" v-if="!userDetails.isVerified">
+    <div class="verifyEmailAlert" v-if="!isLoading && !userDetails.isVerified">
         Please verify your email to update your profile.
     </div>
-    
-    
-    
+
+
+
         <!-- <div class="tz_alert_box" v-if="showError">
             <span>{{ formErrors }}</span>
             <span class="tz_alert_box_closeBtn" @click="showError = !showError">&times;</span>
         </div> -->
-    
-        <DotLoader v-if="isLoading"/>
-    
 
-    
+        <DotLoader v-if="isLoading"/>
+
+
+
     <div class="body" :class="['theme-transition', { 'dark': themeStore.darkMode }]" v-if="!isLoading">
-    
-    
-    
-    
+
+
+
+
         <div class="tz-profile-card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                 <div class="tz-profile-left">
                     <div class="profileImgSwitch">
@@ -113,7 +113,10 @@
                         <div class="tz-user-skill">{{ userDetails.profile.company_name }}</div>
                         <div class="tz-user-skill">{{ userDetails.email }}</div>
                         <div class="tz-btn-array">
-                            <button v-if="userDetails.isVerified" class="cust-btn" @click="editProfileMenu = !editProfileMenu">Edit Profile</button>
+                            <button v-if="userDetails.isVerified" class="cust-btn" @click="editProfileMenu = !editProfileMenu">
+                                <span v-if="calculateProfileCompletion() < 100">Complete profile</span>
+                                <span v-else>Edit Profile</span>
+                            </button>
                             <button v-else class="cust-btn" @click="sendVerificationEmail">{{ verificationMessage }}</button>
                         </div>
                     </div>
@@ -159,11 +162,18 @@
                             <i class="bi bi-github"></i>
                             <span>Github</span>
                         </div>
-                        
+
+                    </div>
+                    <div class="profile_completion">
+                        <span>Profile completion</span>
+                        <span>
+                            <progress style="color: red" min="0" max="100" :value="calculateProfileCompletion()"></progress>
+                            {{ calculateProfileCompletion() }}%
+                        </span>
                     </div>
                 </div>
         </div>
-    
+
         <div class="tz-profile-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M12.1197 12.78C12.0497 12.77 11.9597 12.77 11.8797 12.78C10.1197 12.72 8.71973 11.28 8.71973 9.50998C8.71973 7.69998 10.1797 6.22998 11.9997 6.22998C13.8097 6.22998 15.2797 7.69998 15.2797 9.50998C15.2697 11.28 13.8797 12.72 12.1197 12.78Z" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -181,7 +191,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <div class="tagline-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                 <div class="tz-emphasis">
                     <b>Phone Number</b>
@@ -212,32 +222,32 @@
                     <b>Date joined</b>
                     <span>{{ formatTimestamp(userDetails.created) }}</span>
                 </div>
-    
+
             </div>
-           
+
         </div>
-    
+
     </div>
-    
+
         <!-- <footer>
             <Footer/>
         </footer> -->
     </template>
-    
+
     <script>
-    
-        
-        
-      
-        
-    
+
+
+
+
+
+
     import NavBar from '../components/NavBar.vue';
     import Footer from '../components/Footer.vue';
     import 'bootstrap/dist/js/bootstrap.js';
     import axios from 'axios';
     import themeStore from '@/theme/theme';
     import DotLoader from '../components/DotLoader.vue';
-    
+
 export default {
     components:{NavBar, Footer, DotLoader},
             setup(){
@@ -260,8 +270,10 @@ export default {
                     imageUrl: '', // Bind to the selected image URL
                     scale: 1, // Initial scale value
 
-    
-    
+                    // profileCompletion: 0,
+
+
+
                 userProfile: {
                     profile:{
                         tagline: '',
@@ -284,7 +296,7 @@ export default {
                     .then(response => {
                         this.isLoading = false;
                         this.userDetails = response.data.employer;
-                        
+
                         // autopopulate the user form
                         this.userProfile.profile = this.userDetails.profile;
                         console.log(response.data.employer);
@@ -300,9 +312,55 @@ export default {
                     const options = { year: "numeric", month: "long", day: "numeric" };
                     return date.toLocaleDateString(undefined, options);
     },
+
+    calculateProfileCompletion(){
+        const user = this.userDetails;
+        let tempPercentage = 10;
+
+        if(this.userDetails){
+        if(user.profile){
+            tempPercentage += 0;
+        }
+        if(user.profile.tagline){
+            tempPercentage += 5;
+        }
+        if (user.profile.description){
+            tempPercentage += 10;
+        }
+        if (user.profile.company_name){
+            tempPercentage += 5;
+        }
+        if (user.profile.website){
+            tempPercentage += 5;
+        }
+        if (user.profile.industry_type){
+            tempPercentage += 5;
+        }
+        if(user.profile.phone){
+            tempPercentage += 5;
+        }
+        if(user.profile.location){
+            tempPercentage += 5;
+        }
+        if(user.profile.city){
+            tempPercentage += 5;
+        }
+        if(user.profile.socialAccount){
+            tempPercentage += 5;
+        }
+        if(user.profile.profileImage){
+            tempPercentage += 20;
+        }
+        if(user.isVerified){
+            tempPercentage += 20
+        }
+
+        return tempPercentage;
+    }
+    },
     async updateuserProfile(){
                 const token = localStorage.getItem('token'); // Get the token from localStorage
-        
+
                 // Set up headers with the token
                 const headers = {
                     Authorization: `JWT ${token}`, // Assuming it's a JWT token
@@ -312,10 +370,10 @@ export default {
                 console.log(response.data);
                 this.editProfileMenu = !this.editProfileMenu;
                 this.showError = true;
-    
+
             } catch (error) {
                 console.log(error);
-                
+
             }
     },
     autoFill(){
@@ -462,13 +520,14 @@ export default {
 
 
     },
-              
+
     created(){
         this.getUserById(this.$route.params.user_id);
+        this.calculateProfileCompletion
         }
 }
     </script>
-    
+
     <style scoped>
     /* Style the circular frame */
 .circle {
@@ -501,7 +560,7 @@ export default {
 
     *{
         font-size: 0.9rem !important;
-         
+
     }
     .body{
         padding-top: 50px;
@@ -533,10 +592,10 @@ export default {
         .tz-profile-card > *{
             /* border: 1px solid red; */
         }
-    
-    
-    
-    
+
+
+
+
         .tz-user-thumbnail{
             display: flex;
             align-self: flex-start;
@@ -555,7 +614,7 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            
+
         }
         .icon{
             position: absolute;
@@ -573,7 +632,7 @@ export default {
             transition-duration: 2s;
             animation-duration: 2s;
         }
-    
+
         .icon > span{
             font-size: 0.2rem !important;
             color: #000000;
@@ -590,13 +649,13 @@ export default {
         .icon:hover .icon{
             display: flex;
         }
-    
-    
-    
-    
-    
-       
-       
+
+
+
+
+
+
+
         .tz-profile-left{
             display: flex;
             flex-direction: row;
@@ -658,7 +717,7 @@ export default {
             margin-left: 10px;
             /* border: 1px solid red; */
         }
-    
+
         .tz-profile-header{
             border: 1px solid rgba(184, 184, 184, 0.4);
             color: var(--app-blue);
@@ -680,13 +739,13 @@ export default {
             flex-direction: row;
             color: #000;
         }
-    
+
         .tz-emphasis{
             display: flex;
             flex-direction: column;
             margin-bottom: 15px;
         }
-    
+
         .tagline-area{
             width: 35%;
             background: #fff;
@@ -708,8 +767,8 @@ export default {
             margin-left: 110px;
             padding: 20px;
         }
-    
-    
+
+
         .verifyEmailAlert{
             flex-direction: row;
             text-align: center;
@@ -719,7 +778,7 @@ export default {
             border: 1px solid #f5c6cb;
             transition: 1s;
         }
-        
+
         .editProfileModal{
             /* display: flex; */
             gap: 50px;
@@ -734,24 +793,24 @@ export default {
             padding: 10px;
             border-radius: 10px;
         }
-    
+
         .profile-field{
             width: 100%;
             /* border: 1px solid red; */
         }
-    
-    
+
+
         .profile-input{
             padding: 20px;
             border: none;
             border-bottom: 1px solid #b8b5b5;
             /* border-radius: 5px; */
         }
-    
-    
-     
-    
-    
+
+
+
+
+
        .logout-modal{
         height: 100dvh;
         width: 100%;
@@ -783,7 +842,7 @@ export default {
         width: 100%;
         justify-content: space-around;
     }
-    
+
     .modal-options > span{
         border: 1px solid var(--app-blue);
         padding: 10px;
@@ -797,17 +856,22 @@ export default {
         background: var(--app-blue);
         color: #fff !important;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+.profile_completion{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #efefef;
+    padding: 10px;
+}
+
+
+
+
+
+
+
+
         @media only screen and (max-width: 720px) {
             .tz-profile-card{
                 flex-direction: column;
@@ -847,7 +911,7 @@ export default {
             width: 100%;
             }
         }
-    
+
         @media only screen and (max-width: 1000px) {
             .tz-profile-left{
                 flex-direction: column;

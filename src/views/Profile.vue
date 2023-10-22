@@ -66,7 +66,7 @@
 
 
     <!-- this particular banner is only actve when the current user hasnt verified their account,..... -->
-    <div class="verifyEmailAlert" v-if="!userDetails.isVerified">
+    <div class="verifyEmailAlert" v-if="!isLoading && !userDetails.isVerified">
         Please verify your email to update your profile.
     </div>
 
