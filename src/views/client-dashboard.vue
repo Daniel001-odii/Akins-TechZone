@@ -1,4 +1,5 @@
 <template>
+
     <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
             <Navbar/>
@@ -87,12 +88,18 @@
                                                 <button class="job-btn edit-btn" @click="editJobPost(job._id)"><i class="bi bi-pencil-square"></i> Edit</button>
                                                 <!-- <button class="job-btn delete-btn"  @click="deleteJob(job._id)" ><i class="bi bi-trash-fill"></i> Delete</button> -->
                                                 <span class="job-btn delete-btn"  @click="deleteJobOptions = !deleteJobOptions">
-                                                    <span v-if="!deleteJobOptions"><i class="bi bi-trash-fill"></i> Delete</span>
-                                                    <!-- <transition name="fade"> -->
-                                                        <div v-if="deleteJobOptions" class="deleteOptions">Are you sure? <span  @click="deleteJob(job._id)"> Yes</span> | No</div>
-                                                    <!-- </transition> -->
+                                                    <i class="bi bi-trash-fill"></i> Delete
                                                 </span>
                                             </div>
+                                                <div class="hireModal" v-if="deleteJobOptions">
+                                                    <div class="hireModalSub">
+                                                        Are you sure you want to delete the job: <br/> <b> {{job.job_title}}</b> ? <br/><strong style="color: red">Job cannot be retrieved after deletion!</strong>
+                                                            <div class="hireModalBtn">
+                                                                <button class="cust-btn" style="border-radius: 5px; background: red;" @click="deleteJob(job._id)">Delete</button>
+                                                                <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="deleteJobOptions = !deleteJobOptions">cancel</button>
+                                                            </div>
+                                                        </div>
+                                                </div>
                                         </div>
                                         <button v-if="job.applications.length > 0" class="accordion_applicants" @click="toggleFullDetails(index)">
                                             <span v-if="!job.showDetails" class="spinner-grow spinner-grow-sm" role="status">
@@ -122,7 +129,16 @@
                                                     <button class="cust-btn" style="border-radius: 5px;" v-if="!checkUser(applicant.user)" @click="messageUser(job.job_title, applicant.user)"> Message </button>
 
                                                     <button class="cust-btn" style="background: var(--app-grey); border-radius: 5px; margin-left: 10px;" v-if="job.hiredUsers.includes(applicant.user)">Hired</button>
-                                                    <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else @click="hireUser(job._id, applicant.user)">Hire</button>
+                                                    <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else  @click="hireModalDisplay = !hireModalDisplay">Hire</button>
+                                                </div>
+                                                <div class="hireModal" v-if="hireModalDisplay">
+                                                    <div class="hireModalSub">
+                                                        Are you sure you want to hire <br/> <b> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }} </b> for the contract: <br/> <b>{{job.job_title}}</b> ?
+                                                            <div class="hireModalBtn">
+                                                                <button class="cust-btn" style="border-radius: 5px" @click="hireUser(job._id, applicant.user)">Yes Hire</button>
+                                                                <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="hireModalDisplay = !hireModalDisplay">cancel</button>
+                                                            </div>
+                                                        </div>
                                                 </div>
                                             </div>
                                             <!-- {{ applicant }} -->
@@ -192,6 +208,8 @@
                     //
                     deleteJobOptions: false,
                     profileErrorMessage: false,
+
+                    hireModalDisplay: false,
                     };
                 },
                 methods: {
@@ -387,7 +405,7 @@
                         };
 
                         try{
-                        const response = await axios.delete(`http://127.0.0.1:5000/api/jobs/${job_id}`, {headers});
+                        const response = await axios.delete(`${this.api_url}/jobs/${job_id}`, {headers});
                         if(response.status === 200){
                             console.log("job deleted successfully!");
                             console.log(response.data);
@@ -398,6 +416,7 @@
                         else{console.error("error deleting job")}
                         }catch (error){
                         console.error("network error: ", error);}
+                        this.deleteJobOptions = false;
                     },
 
                      //this function opens up in a new page the details of any job clicked...
@@ -776,8 +795,12 @@ border: 1px solid #efefef;
 border-radius: 5px;
 color: #fff !important;
 font-size: 0.6em;
+cursor: pointer;
 }
 
+.job-btn:hover{
+    background: #e80000;
+}
 .edit-btn{
 background: green;
 }
@@ -816,6 +839,38 @@ background: red;
   border-radius: 10px;
   margin-top: 10px;
 }
+
+
+.hireModal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999999;
+    height: 100vh;
+    width: 100%;
+    background: #000000bd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+}
+.hireModalSub{
+    width: 350px;
+    text-align: center;
+    padding: 30px;
+    border-radius: 5px;
+    background: #fff;
+    gap: 10px;
+}
+
+.hireModalBtn{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
 
 @media screen and (max-width: 600px) {
     .container{

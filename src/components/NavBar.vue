@@ -24,10 +24,10 @@
 
 
 
-<div v-if="isOffline" class="offline-message">
+<!-- <div v-if="isOffline" class="offline-message">
     Internet connection is lost. Please check your network.
     <span @click="isOffline = !isOffline">&times;</span>
-</div>
+</div> -->
 
 <div v-if="userNotLoggedIn" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
     <nav class="Tz-navbar container-fluid">
@@ -171,7 +171,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="notify-line">No new or unread notifications</div>
+
                                     </div>
 
                                     <div class="notifications-footer"><RouterLink to="/notifications"> See all Notifications</RouterLink></div>
@@ -331,10 +331,10 @@
                 </div>
         </div>
         <div class="search">
-            <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
+            <form @submit.prevent="searchUsers" style=" display: flex; flex-direction: row; gap: 10px;">
                 <div class="filter-search">
-                        <i class="bi bi-search"></i>
-                        <input type="search" class="ft-search" v-model="keywords" placeholder="Search for freelancers">
+                        <i class="bi bi-search" @click="searchUsers"></i>
+                        <input type="search" class="ft-search" v-model="user_search_keywords" placeholder="Search for freelancers">
                 </div>
             </form>
         </div>
@@ -369,7 +369,6 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="notify-line">No new or unread notifications</div>
                                     </div>
 
                                     <div class="notifications-footer"><RouterLink to="/notifications"> See all Notifications</RouterLink></div>
@@ -544,6 +543,7 @@ export default {
             userIsUser: false,
             userIsEmployer: false,
             keywords: '',
+            user_search_keywords: '',
 
             showModal: false,
             isDarkMode: true,
@@ -577,6 +577,7 @@ export default {
             if (error.response && error.response.status === 401 && token) {
                 // Unauthorized error
                 // Perform re-login
+                localStorage.removeItem('token');
                 await this.reLogin();
             } else {
                 // Handle other errors
@@ -697,6 +698,32 @@ export default {
         };
             return date.toLocaleDateString(undefined, options);
         },
+
+        async searchUsers() {
+                    this.isLoading = true;
+                    const keywords = this.user_search_keywords;
+                    console.log(keywords.length);
+                    let userName, userId;
+                    if(keywords.split(" ").length > 1 || keywords[0].length < 10){
+                        userName = keywords;
+                    } else {
+                        userId = this.user_search_keywords;
+                    }
+
+                    // Define your search criteria here
+                    try {
+                    // Make an Axios GET request to your search endpoint
+                    const response = await axios.get(`${this.api_url}/search/users`, {params:{userName, userId}});
+                    console.log("matching users: ", response);
+
+                    // Handle the response data (jobs) as needed
+                    this.isLoading = false;
+                } catch (error) {
+                    this.isLoading = false;
+                    console.error('Error searching user:', error);
+                    // Handle errors, e.g., show an error message to the user
+                    }
+                },
 
 
         async markNotificationAsRead(notificationId) {
@@ -878,14 +905,15 @@ export default {
     overflow-y: scroll;
 }
 .notify-line > div{
-    padding: 15px;
-    border-bottom: 1px solid #efefef;
+    /* padding: 15px; */
+    /* border-bottom: 1px solid #efefef; */
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     text-align: left;
-    gap: 8px;
+    /* border: 1px solid red; */
+    /* gap: 8px; */
 }
 .notify-line{
     text-align: center;

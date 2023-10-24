@@ -23,7 +23,7 @@
               <!-- Display list of rooms -->
               <!-- the getUserById function must be called on its own before using in the component to fecthc user details else it wouldnt work -->
                 <div v-if="isUser">
-                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#7F56D9' : '' }">
+                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#efefef' : '' }">
                     <div class="room"  @click="selectRoom(room)" v-if="getUserById(room.employerId)">
                       <img class="tz-user-thumbnail" :src="getUserById(room.employerId).profile.profileImage" >
                       <div>
@@ -35,7 +35,7 @@
                   </div>
                 </div>
                 <div v-if="isEmployer">
-                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#7F56D9' : '' }">
+                  <div class="room_block" v-for="room in rooms" :key="room._id" @click="roomDisplay = !roomDisplay" :style="{ background: selectedRoom === room ? '#efefef' : '' }">
                     <div class="room" @click="selectRoom(room)" v-if="getUserById(room.userId)">
                       <img class="tz-user-thumbnail" :src="getUserById(room.userId).profile.profileImage" >
                       <div>
@@ -53,15 +53,16 @@
             <div class="tz_message_main" :class="[roomDisplay ? 'opened' : 'closed'], ['theme-transition', { 'dark': themeStore.darkMode }]">
 
                 <!-- Display current room messages -->
-                <div class="room_title" v-if="selectedRoom">
+                <div v-if="selectedRoom">
+                <div class="room_title">
                   <div @click="roomDisplay = !roomDisplay" class="room_close_btn"><i class="bi bi-arrow-left-circle-fill"></i></div>
                   <div>
                     <b>{{ selectedRoom.name }}</b>
                     <br/><span style="color: grey;"> initiated {{ formatTimestamp(selectedRoom.created) }}</span>
                   </div>
                 </div>
-                <div class="room_container" v-if="selectedRoom">
-                  <div class="msg_room" ref="chatContainer">
+                <div class="room_container">
+                  <div class="msg_room" ref="chatContainer" id="chatContainer">
                     <div :class="{'sent-message': message.user == userDetails.id,'received-message': message.user != userDetails.id}"
                       class="msg_box" v-for="message in messages" :key="message._id">
                       <!-- <img v-if="message.user == userDetails.id" class="msg_user_thumb" :src="applicantDetails.profile.profileImage"> -->
@@ -71,6 +72,7 @@
                         <span class="msg_time">{{ formatTimestamp(message.created) }}</span>
                       </div>
                     </div>
+                    <div class="toBottom" @click="scrollChatsToBottom">v</div>
                   </div>
                    <!-- Input for sending a new message -->
                    <div class="room_footer">
@@ -79,6 +81,7 @@
                    </div>
 
                 </div>
+              </div>
                 <div v-else class="room_container" style="padding: 20px; text-align: center;">
                   Your chats are super secured
                 </div>
@@ -104,6 +107,9 @@
   import { RouterLink } from 'vue-router';
   import Loader from '../components/DotLoader.vue';
 
+
+
+
 export default {
   components:{ NavBar, RouterLink, LeftNav, Loader },
   setup(){
@@ -125,14 +131,22 @@ export default {
       searchTerm: '',
 
       roomDisplay: false,
+      showScrollToBottom: false,
     };
   },
+
+
 
   methods: {
     async fetchMessages(roomId) {
       // Fetch messages for the selected room using Axios
       const newresponse = await axios.get(`${this.message_api_url}/api/messages/${roomId}`);
       this.messages = newresponse.data;
+
+      // const msgs = this.$refs.chatContainer;
+      // msgs.addEventListener('scroll', this.handleScroll);
+      // this.showScrollToBottom = false;
+
     },
 
     async sendMessage() {
@@ -148,6 +162,17 @@ export default {
       this.newMessage = '';
     },
 
+    handleScroll() {
+      const container = this.$refs.chatContainer;
+      // Check if the user has scrolled up by comparing the scroll position
+      // to the scroll height and client height of the container
+      if (container.scrollTop < container.scrollHeight - container.clientHeight) {
+        this.showScrollToBottom = true;
+      } else {
+        this.showScrollToBottom = false;
+      }
+    },
+
     selectRoom(room) {
       this.selectedRoom = room;
       this.fetchMessages(room._id);
@@ -157,7 +182,25 @@ export default {
       socket.on('message', (message) => {
         // Add received message to the messages array
       this.messages.push(message);
+      this.scrollChatsToBottom(); //scrolls the recipients message box...
       });
+
+      if(this.messages){
+        this.scrollChatsToBottom();
+      }
+
+    },
+
+    scrollChatsToBottom(){
+      const container = this.$refs.chatContainer;
+      // Use smooth scrolling to scroll to the bottom
+      if(container){
+        container.scroll({
+        top: container.scrollHeight,
+        behavior: 'smooth',
+      });
+      }
+
     },
 
     async getUserDetails() {
@@ -250,6 +293,10 @@ export default {
   });
 },
 
+mounted() {
+
+  },
+
 }
 </script>
 
@@ -257,6 +304,42 @@ export default {
 
 
 /* ------------------------------- */
+
+.toBottom{
+  background: #efefef;
+  padding: 15px;
+  display: flex;
+  /* display: none; */
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 30%;
+  align-self: flex-end;
+  position: sticky;
+  bottom: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.toBottom:hover {
+  background-color: #e5e5e5;
+}
+
+/* Show the button when it should be visible */
+.v-enter-active.toBottom,
+.v-leave-active.toBottom {
+  transition: opacity 0.2s;
+}
+
+.v-enter.toBottom,
+.v-leave-to.toBottom {
+  opacity: 0;
+  display: flex;
+}
+
+
+
     .tz_message{
       display: flex;
       flex-direction: row;
@@ -312,9 +395,10 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 15px;
-    overflow: auto;
-    max-height: 85%;
-    /* height: 300px; */
+    overflow-y: auto;
+    /* max-height: 80%; */
+    /* min-height: 550px; */
+    /* border: 1px solid red; */
   }
 
   .room_title{
