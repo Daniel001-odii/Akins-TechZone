@@ -584,9 +584,7 @@ p{
   }
   .Page-contents {
       grid-area: Page-contents;
-      /* overflow: scroll; */
-      height: 100vh;
-      /* border: 2px solid red; */
+      height: 100%;
   }
 
   .filter-menu{

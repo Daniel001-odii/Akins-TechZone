@@ -41,8 +41,10 @@ import client_jobs from '../views/Client_Jobs.vue'
 import client_messages from '../views/Client_MessagesPage.vue'
 import client_payment from '../views/Payment.vue'
 import Client_Profile from '../views/Client_Profile.vue'
+import Payment from '../views/payment.vue'
 // import
 
+import AdminPage from '../views/admin.vue'
 
 const routes = [
   {path: '/', component: HomePage, name: "Techzone"},
@@ -62,6 +64,9 @@ const routes = [
   {path: "/savedJobs", name: 'Techzone - Saved jobs', component: SavedJobs, meta: { requiresAuth: true, role: 'user' }},
   {path: "/messages", name: 'Techzone - Messages', component: Messages, meta: { requiresAuth: true, role: 'user' }},
   {path: "/talent/customize-profile", component: customize},
+
+  {path: "/funding/:user_id/:job_id", component: Payment, name: "Funding"},
+
   {path: "/employer/customize-profile", component: customize_client},
   {path: "/jobs/:job_id/application", name: 'Techzone - Application', component: JobDetail, meta: { requiresAuth: true, role: 'user' }},
   {path: "/notifications", name:  "Techzone - Notifications", component: Notifications},
@@ -84,6 +89,9 @@ const routes = [
   {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
   {path: "/support", name: "Techzone - support", component: SupportPage},
   {path: "/support/form", name: "Techzone - form", component: SupportForm},
+
+  // adminsitrator based views....
+  {path: "/site/administration", name: "Super-user", component: AdminPage},
 ];
 
 

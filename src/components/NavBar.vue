@@ -163,12 +163,14 @@
                                     <div class="notifications-header">Notifications</div>
                                     <div v-if="userNotifications" class="notify">
                                         <div class="notify-line" v-for="(notify, index) in userNotifications" :key="index">
-                                            <div @click="markNotificationAsRead(notify._id)">
-                                                <i class="bi bi-check-circle-fill"></i>
+                                            <div>
+                                                <!-- <i class="notify_icon bi bi-check-circle-fill"></i> -->
+                                                <i class="notify_icon bi bi-person-circle"></i>
                                                 <span name="notification-item">
                                                     <div>{{ notify.message }}</div>
                                                     <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
                                                 </span>
+                                                <span class="notifications_dismiser" @click="markNotificationAsRead(notify._id)">&times;</span>
                                             </div>
                                         </div>
 
@@ -361,14 +363,16 @@
                                     <div class="notifications-header">Notifications</div>
                                     <div v-if="userNotifications" class="notify">
                                         <div class="notify-line" v-for="(notify, index) in userNotifications" :key="index">
-                                            <div @click="markNotificationAsRead(notify._id)">
-                                                <i class="bi bi-check-circle-fill"></i>
+                                            <div>
+                                                <i class="notify_icon bi bi-check-circle-fill"></i>
                                                 <span name="notification-item">
                                                     <div>{{ notify.message }}</div>
                                                     <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
                                                 </span>
+                                                <span class="notifications_dismiser" @click="markNotificationAsRead(notify._id)">&times;</span>
                                             </div>
                                         </div>
+
                                     </div>
 
                                     <div class="notifications-footer"><RouterLink to="/notifications"> See all Notifications</RouterLink></div>
@@ -893,7 +897,6 @@ export default {
     text-align: center;
     padding: 12px;
     border-bottom: 1px solid var(--app-hover);
-    margin-bottom: 3px;
 }
 .notify{
     display: flex;
@@ -905,20 +908,19 @@ export default {
     overflow-y: scroll;
 }
 .notify-line > div{
-    /* padding: 15px; */
-    /* border-bottom: 1px solid #efefef; */
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     text-align: left;
+    gap: 10px;
     /* border: 1px solid red; */
-    /* gap: 8px; */
+    height: 80px;
 }
 .notify-line{
     text-align: center;
     padding: 5px;
-    /* background: red; */
+    /* border: 1px solid green; */
 }
 .notify-line:hover{
     background: var(--app-hover);
@@ -926,13 +928,18 @@ export default {
 .notifications-footer{
     padding: 12px;
     border-top: 1px solid var(--app-hover);
-    margin-top: 5px;
 }
-.notifications-footer > *{
-    /* color: var(--app-blue) !important; */
+
+.notify_icon{
+    align-self: flex-start;
 }
 .notifications:hover{
+
+}
+.notifications_dismiser{
     cursor: pointer !important;
+    font-size: 20px !important;
+    padding: 10px;
 }
 
 .badge{

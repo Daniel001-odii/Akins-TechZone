@@ -66,7 +66,7 @@
 
 
     <!-- this particular banner is only actve when the current user hasnt verified their account,..... -->
-    <div class="verifyEmailAlert" v-if="!isLoading && !userDetails.isVerified">
+    <div class="verifyEmailAlert" v-if="!isLoading && !userDetails.isVerified && isAllowed">
         Please verify your email to update your profile.
     </div>
 
@@ -90,7 +90,7 @@
                     <img :src="userDetails.profile.profileImage" class="tz-user-thumbnail">
                 </div>
                 <div class="tz-user-details">
-                    <p  class="tz-user-name">{{ userDetails.firstname }} {{ userDetails.lastname }}</p>
+                    <p  class="tz-user-name">{{ userDetails.firstname }} {{ userDetails.lastname }} <i v-if="userDetails.isVerified" style="color: blue" class="bi bi-patch-check-fill"></i></p>
                     <div class="tz-user-skill">{{ userDetails.profile.skillTitle }}</div>
                     <div class="tz-user-skill">{{ userDetails.email }}</div>
                     <div class="tz-btn-array" v-if="isAllowed">
@@ -106,9 +106,9 @@
             </div>
             <!-- <div class="section-divider"></div> -->
             <div class="tz-profile-right">
-                <div class="profile-item">verification:
-                    <span  v-if="userDetails.isVerified" style="color: green">Verified <i class="bi bi-check-circle-fill"></i></span>
-                    <span v-else>not verified <i class="bi bi-check-circle-fill"></i></span>
+                <div class="profile-item">
+                    <span  v-if="userDetails.isVerified" style="color: green">Email is Verified</span>
+                    <span v-else>email is not verified</span>
                 </div>
                 <div class="profile-item">joined:
                     <span>{{ formatTimestamp(userDetails.created) }}</span>
@@ -579,7 +579,7 @@ th, td{
         background: var(--app-grey) !important;
     }
     .tz-profile-card{
-        width: 80%;
+        /* width: 80%; */
         padding: 20px;
         background: #fff;
         margin: 0 auto;
@@ -875,7 +875,7 @@ th, td{
             width: 100%;
         }
         .tz-profile-left{
-            /* flex-direction: column; */
+            flex-direction: column !important;
             align-items: flex-start;
         }
         .tz-user-details{
@@ -913,7 +913,7 @@ th, td{
 
     @media only screen and (max-width: 1000px) {
         .tz-profile-left{
-            flex-direction: column;
+            flex-direction: row;
         }
         .tz-user-details{
         display: flex;

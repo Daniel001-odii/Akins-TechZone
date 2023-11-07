@@ -4,6 +4,12 @@
     <template #action-1><RouterLink to="/client/post-job">Post Job</RouterLink></template>
     <template #action-2><RouterLink to="/client/post-job"></RouterLink></template>
   </Navbar>
+  <p style="width: 100%; padding: 10px; text-align: center; background: #3ff53f; color: #238023">Editing Job <b>{{ formData.job_title }}</b></p>
+  <div class="tz_alert_box" v-if="showError">
+        <span>{{ formErrors }}</span>
+        <span class="tz_alert_box_closeBtn" @click="showError = !showError">&times;</span>
+  </div>
+
   <div class="tz_alert_box" v-if="showError">
         <span>{{ formErrors }}</span>
         <span class="tz_alert_box_closeBtn" @click="showError = !showError">&times;</span>
@@ -84,7 +90,7 @@
                 <div>
                   <input style="display:none" type="text" id="skillSet" v-model="skills" disabled="true" required>
                 </div>
-              
+
             </div>
 
 
@@ -176,7 +182,8 @@
                     </label>
                     <label class="budget-select">
                       <p style="font-weight: bold;">Project Budget (₦)</p>
-                        <input type="number" name="project-budget" style="width:50%" v-model="formData.budget" required>
+                        <!-- <input type="number" name="project-budget" style="width:50%" v-model="formData.budget" required> -->
+                        <input placeholder="0.00" name="project-budget" style="width:100%" v-model="budgetValue" @input="formatCurrency" required>
                     </label>
                   </div>
                 </div>
@@ -235,7 +242,7 @@
                       <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }">
                           <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                           <span v-if="isLoading === true">processing...</span>
-                          <span v-else>Post Job</span>
+                          <span v-else>Update Job</span>
                       </button>
             </div>
       </div>
@@ -243,7 +250,7 @@
   </div>
   </form>
 
-  
+
 </div>
 <div class="page_last">
     <div class="slider-form-buttons">
@@ -268,7 +275,7 @@ import Search from '../components/Search.vue';
 import Modal from '../components/modal.vue'
 import axios from 'axios';
 import Navbar from '../components/NavBar.vue'
-import themeStore from '@/theme/theme'; 
+import themeStore from '@/theme/theme';
 
 export default {
   components: { Navbar, CheckBox, Search, Modal },
@@ -302,6 +309,7 @@ export default {
 
       showError: false,
       formErrors: '',
+      budgetValue: '',
   }
 },
 methods: {
@@ -369,7 +377,7 @@ methods: {
     };
 
     this.isLoading = true;
-   
+
 
     console.log(this.formData);
     try {
@@ -405,10 +413,10 @@ methods: {
                         autofilledJob.skills = job.skills;
                         autofilledJob.period = job.period;
                         autofilledJob.budget_type = job.budget_type;
-                        autofilledJob.budget = job.budget;
+                        this.budgetValue = job.budget;
                         autofilledJob.job_description = job.job_description;
                         autofilledJob.location = job.location;
-                        
+
 
                         // replace the tags like it was never out of there :)
                         this.tags = autofilledJob.skills.split(',');
@@ -441,7 +449,20 @@ methods: {
       this.tags.splice(index, 1)
       this.skills.splice(index, 1);
       console.log(this.skills)
-    }
+    },
+
+    formatCurrency() {
+      // Remove non-numeric characters and format the number
+      let formattedValue = this.budgetValue.replace(/[^0-9.]/g, ''); // Remove non-numeric characters
+      // Add thousands separator
+      formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      // Update the input field value
+      this.budgetValue = formattedValue;
+      this.formData.budget = parseInt(this.budgetValue.replaceAll(",",""));;
+      console.log(this.formData.budget);
+    },
+
+
   },
   beforeMount(){
     this.fetchJobListings();
@@ -602,7 +623,7 @@ opacity: 0.8;
 .formSlide-leave-to {
 opacity: 0;
 margin-left: -100%;
-} 
+}
 
 .radio-selection{
 border: 1px solid #d5d5d5;
@@ -657,7 +678,7 @@ textarea{
       max-width: 400px;
       padding: 10px;
   }
-  
+
 
   .section-divider{
       height: 250px !important;
@@ -678,7 +699,7 @@ textarea{
       height: 100px;
       font-size: 0.6em;
       width: 100%;
-      
+
   }
 
   .filter-search{
@@ -745,7 +766,7 @@ textarea{
       .page-sub{
         width: 100%;
         padding: 15px;
-        
+
       }
       .form-content{
           flex-direction: column;

@@ -7,27 +7,24 @@
     <div class="tz_content_row">
         <div class="tz_row_left">
         <div class="subtitle">Job Title & Description</div>
-        <div class="tz_content_title">Product Designer</div>
+        <div class="tz_content_title">{{job.job_title}}</div>
         <div class="tz_content">
-            We are seeking a highly experienced and skilled Product Designer to join our dynamic team. 
-            The successful candidate will have a proven track record in designing and developing software solutions, 
-            as well as a strong understanding of programming principles and best practices. 
-            The role will involve working collaboratively with other developers, project managers, 
-            and stakeholders to design and implement high-quality software solutions.
+            {{job.job_description}}
         </div>
         </div>
 
         <div class="tz_row_right">
             <div class="subtitle">Payment Amount</div>
-            <div class="tz_content_title" style="color: #42d642">NGN 100, 000</div>
-            <div class="subtitle" style="margin-top: 10px;">Work Duration</div>
-            <div class="tz_content_title">1 Month</div>
+            <div class="tz_content_title" style="color: #42d642">NGN {{formatBudgetAmount(job.budget)}}</div>
+            <div class="subtitle" style="margin-top: 10px;">Project type</div>
+            <div class="tz_content_title">{{job.period}}</div>
 
             <div class="tz_user_frame">
                 <div class="subtitle" style="margin-top: 10px;">Talent to Hire</div>
                 <div class="talent_card">
-                    <div class="talent_dp"></div>
-                    <div class="talent_username subtitle">Charles bobby</div>
+                    <div ></div>
+                    <img class="talent_dp" :src="imageUrl">
+                    <div class="talent_username subtitle">{{userDetails.firstname}} {{userDetails.lastname}}</div>
                 </div>
             </div>
         </div>
@@ -52,7 +49,7 @@
                 </div>
             </div>
                 <input type="radio" id="pmt" name="pmt_select">
-            
+
             </label>
             <label class="tz_pmt" for="pmt2">
             <div class="pmt_container">
@@ -68,7 +65,7 @@
                 </div>
             </div>
                 <input type="radio" id="pmt2" name="pmt_select">
-            
+
             </label>
         </div>
         <div class="tz_new_pmt">
@@ -89,7 +86,7 @@
     </form>
 </div>
 
-    
+
 
 
 </div>
@@ -103,6 +100,7 @@
 import NavBar from '../components/NavBar.vue'
 import Footer from '../components/Footer.vue'
 import themeStore from '@/theme/theme';
+import axios from 'axios';
 
 const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
 
@@ -116,13 +114,67 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
                       toggleTheme,
                   };
           },
+
+        data(){
+            return{
+                job: '',
+                user: '',
+                userDetails: '',
+                imageUrl: '',
+            }
+        },
+        methods: {
+            fetchJobListings() {
+                const jobId = this.$route.params.job_id;
+                // console.log(this.$route.params.job_id);
+
+
+                axios.get(`${this.api_url}/jobs/${jobId}`)
+                    .then(response => {
+                        // this.data.push(response.data.job);
+                        this.job = response.data.job;
+                        // console.log("currrent job in view: ", this.job);
+                    })
+                    .catch(error => {
+                    console.error(error);
+                    })
+                    .finally(() => {
+                    this.isLoading = false;
+                    });
+                },
+            getUserById(id) {
+                this.isLoading = true;
+                    axios.get(`${this.api_url}/get-info/${id}`)
+                        .then(response => {
+                            if(response.data.user){
+                                this.userDetails = response.data.user;
+                                this.imageUrl = this.userDetails.profile.profileImage;
+                            }
+                            })
+                            .catch(error => {
+                            console.error('Error fetching user or employer details:', error);
+                            this.isLoading = false;
+                                        // Handle errors
+                        });
+            },
+            formatBudgetAmount(value){
+                    const formattedValue = new Intl.NumberFormat('en-US').format(value);
+                    return formattedValue;
+                },
+        },
+
+    beforeMount(){
+        this.fetchJobListings();
+        this.getUserById(this.$route.params.user_id);
+    }
+
     }
 </script>
 
 <style scoped>
 *{
     font-size: 0.9rem;
-     
+
 }
 .body{
     padding-top: 50px;
@@ -161,7 +213,7 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
 }
 .tz_content{
     font-size: 0.8em;
-    width: 100%;    
+    width: 100%;
 }
 
 .tz_content_col{
@@ -190,9 +242,9 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
     height: 35px;
     width: 35px;
     border-radius: 50%;
-    background: url('../components/Logos_icons/dummy_user.png');
+    /* background: url('../components/Logos_icons/dummy_user.png');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
 }
 
 
@@ -205,6 +257,7 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
     border: 1px solid var(--app-grey);
     border-radius: 10px;
     background: #fff;
+    max-width: 1000px;
 }
 .tz_pmt:hover{
     border: 2px solid var(--app-blue);
@@ -265,7 +318,7 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
 .dark .tz_pmt{
     background: var(--accent-dark);
 }
-   
+
     @media only screen and (max-width: 720px) {
 .tz_content_row{
     justify-content: left;
@@ -273,6 +326,6 @@ const api_url = "https://techzoneapp.herokuapp.com/api/jobs";
     }
 
     @media only screen and (max-width: 1000px) {
-       
+
     }
 </style>

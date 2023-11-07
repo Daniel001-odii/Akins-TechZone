@@ -115,9 +115,10 @@
                                         <!-- <div class="tab-pane fade show active" id="pills-applicants" role="tabpanel" aria-labelledby="pills-applicants-tab"> -->
                                         <div class="accordion_body_firs" v-for="(applicant, index) in getJobApplications(index)" :key="index">
                                             <div class="applicants_card">
+                                                <span class="close_btn" @click="toggleFullDetails(index)">&times;</span>
                                                 <!-- {{ getJobApplications(index) }} -->
                                             <div v-if="getUserById(applicant.user)">
-                                                <img class="tz-user-thumbnail-big" :src="getUserById(applicant.user).profile.profileImage">
+                                                <img @click="navigateToUserprofile(applicant.user)" class="tz-user-thumbnail-big" :src="getUserById(applicant.user).profile.profileImage">
                                                 <br/>
                                                 <span style="color: var(--app-blue); text-decoration: underline;" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
                                                 <b>Cover letter: </b> {{ applicant.coverLetter }} <br/>
@@ -125,8 +126,8 @@
                                                 <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
                                                 <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
                                                 <div class="job-effect-btns" style="padding: 15px 0px;">
-                                                    <button class="cust-btn" style="border-radius: 5px;" v-if="checkUser(applicant.user)"> <RouterLink style="color: #fff !important;" to="/client/messages"> See messages </RouterLink></button>
-                                                    <button class="cust-btn" style="border-radius: 5px;" v-if="!checkUser(applicant.user)" @click="messageUser(job.job_title, applicant.user)"> Message </button>
+                                                    <button class="cust-btn" style="border-radius: 5px;" v-if="checkUser(applicant.user, job.job_title)"> <RouterLink style="color: #fff !important;" to="/client/messages"> See messages </RouterLink></button>
+                                                    <button class="cust-btn" style="border-radius: 5px;" v-if="!checkUser(applicant.user, job.job_title)" @click="messageUser(job.job_title, applicant.user)"> Message </button>
 
                                                     <button class="cust-btn" style="background: var(--app-grey); border-radius: 5px; margin-left: 10px;" v-if="job.hiredUsers.includes(applicant.user)">Hired</button>
                                                     <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else  @click="hireModalDisplay = !hireModalDisplay">Hire</button>
@@ -165,7 +166,7 @@
                 </div>
                </div>
         </div>
-        <div class="footer"><Footer/></div>
+        <!-- <div class="footer"><Footer/></div> -->
 
     </div>
       </template>
@@ -439,7 +440,8 @@
                         if (response.status === 200) {
                             // Handle a successful hiring (e.g., show a success message)
                             this.getUserDetails();
-                            alert('User hired successfully');
+                            // alert('User hired successfully');
+                            this.$router.push(`/funding/${userId}/${jobId}`);
 
 
                         } else {
@@ -470,12 +472,13 @@
                     this.isLoading = true;
                     const response = await axios.get(`${this.message_api_url}/api/rooms/${this.userDetails.id}`);
                     this.rooms = response.data.reverse();
+                    console.log("this is the room data", this.rooms);
                     },
 
-                    checkUser(userId){
+                    checkUser(userId, roomName){
                         const rooms = this.rooms;
                         for(let i = 0; i < rooms.length; i++){
-                            if(rooms[i].userId == userId){
+                            if(rooms[i].userId == userId && rooms[i].name == roomName){
                                 return true
                             }
                             else{
@@ -546,6 +549,12 @@
         background: none !important;
       }
 
+.close_btn{
+    font-size: 30px !important;
+    position: absolute;
+    right: 30px;
+    top: 20px;
+}
 
 small{font-size: 12px;}
 .Page-contents{
@@ -555,7 +564,7 @@ small{font-size: 12px;}
     align-items: flex-start;
     width: 100%;
     padding: 5px;
-    overflow-y: scroll  ;
+    /* overflow-y: scroll; */
 }
 .page-grid-container{
     background: #F6F9FF;
@@ -733,8 +742,16 @@ small{font-size: 12px;}
 }
 
 .applicants_card{
-    margin: 10px 0px;
-    border-bottom: 1px solid #efefef;
+    /* position: absolute;
+    z-index: 99999;
+    background: #fff;
+    height: 100dvh;
+    top: 100px;
+    left: 0;
+    width: 100%;
+    padding: 100px 20px; */
+    /* margin: 10px 0px; */
+    /* border-bottom: 1px solid #efefef; */
     padding: 10px;
 }
 .accordion_applicants{
@@ -749,6 +766,7 @@ small{font-size: 12px;}
     justify-content: center;
     align-items: center;
     gap: 5px;
+    margin: 6px;
 }
 @keyframes glowing {
         0% {
@@ -848,7 +866,7 @@ background: red;
     z-index: 99999999;
     height: 100vh;
     width: 100%;
-    background: #000000bd;
+    background: #00000079;
     display: flex;
     flex-direction: column;
     align-items: center;

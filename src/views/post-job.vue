@@ -174,9 +174,10 @@
                           <!-- <p>Hourly rate</p> -->
                         </div>
                     </label>
-                    <label class="budget-select">
+                    <label class="budget-select" style="border: 1px solid var(--app-blue);">
                       <p style="font-weight: bold;">Project Budget (₦)</p>
-                        <input type="number" name="project-budget" style="width:50%" v-model="formData.budget" required>
+                        <input placeholder="0.00" name="project-budget" style="width:100%" v-model="budgetValue" @input="formatCurrency" required>
+                        <!-- <input placeholder="0.0" name="project-budget" style="width:100%" v-model="formattedValue" @input="updateValue" required> -->
                     </label>
                   </div>
                 </div>
@@ -232,7 +233,7 @@
                 <!-- <input type="submit" value="Review Job" class="cust-btn" style="width: 100%; background: green"/> -->
 
                 <!-------forms submit button-------------->
-                      <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }">
+                      <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }" >
                           <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                           <span v-if="isLoading === true">processing...</span>
                           <span v-else>Post Job</span>
@@ -302,8 +303,17 @@ export default {
 
       showError: false,
       formErrors: '',
+
+      budgetValue: '',
   }
 },
+
+computed: {
+    formattedValue() {
+      return this.formatCurrency(this.value);
+    },
+  },
+
 methods: {
   generateSuggestions() {
       // Clear previous suggestions
@@ -385,7 +395,6 @@ methods: {
   },
 
 
-
   /////////controls adding of tags////////////////
   addTag(){
       if (this.inputValue.trim() !== '') {
@@ -402,11 +411,31 @@ methods: {
       this.tags.splice(index, 1)
       this.skills.splice(index, 1);
       console.log(this.skills)
-    }
+    },
+
+    updateValue(event) {
+      // Remove commas and parse the input as a float
+      const inputValue = parseFloat(event.target.value.replace(/,/g, ''));
+
+      if (!isNaN(inputValue)) {
+        this.value = inputValue;
+      }
+    },
+
+    formatCurrency() {
+      // Remove non-numeric characters and format the number
+      let formattedValue = this.budgetValue.replace(/[^0-9.]/g, ''); // Remove non-numeric characters
+      // Add thousands separator
+      formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      // Update the input field value
+      this.budgetValue = formattedValue;
+      this.formData.budget = parseInt(this.budgetValue.replaceAll(",",""));;
+      console.log(this.formData.budget);
+    },
+
+
   },
-  dontsubmitForm(){
-    console.log("a tag has been added!")
-  },
+
 }
 
 // }

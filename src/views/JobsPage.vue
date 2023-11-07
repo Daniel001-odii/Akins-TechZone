@@ -245,6 +245,8 @@
                 posted: '',
                 location: '',
                 jobType: '',
+
+                saved: false,
                 }
             },
             methods: {
@@ -492,6 +494,9 @@
 
 
   <style scoped>
+  .Page-contents{
+    height: auto !important;
+  }
     @media screen and (max-width: 650px) {}
 
 #user-top-navigation-container .nav-tooltip {

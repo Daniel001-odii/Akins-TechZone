@@ -403,7 +403,7 @@
                 }
                 },
 
-            getUserDetails() {
+                getUserDetails() {
             this.isLoading = true;
             const token = localStorage.getItem('token'); // Get the token from localStorage
             const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
