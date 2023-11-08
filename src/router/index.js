@@ -19,7 +19,7 @@ import JobDetail from '../views/JobDetail.vue'
 import AppliedJobsPage from '../views/AppliedJobsPage.vue'
 //Introduction views for both clients and talents...
 import customize from '../views/customizeProfile.vue'
-import customize_client from '../views/clientCustomize.vue'
+import customize_client from '../views/Client_Customize.vue'
 
 //Authentication views.........
 // import EmployerSignup from '../views/SignUp_2.vue'
@@ -33,7 +33,7 @@ import SignUpClient from '../views/SignUpClient.vue'
 
 
 //clients based views
-import client_dashboard from '../views/client-dashboard.vue'
+import client_dashboard from '../views/client_dashboard.vue'
 import post_job from '../views/post-job.vue'
 import edit_job from '../views/edit-job.vue'
 import JobSuccess from '../views/JobSuccess.vue' ///page is deprecated and has been replaced with a moda instead..
@@ -45,6 +45,9 @@ import Payment from '../views/payment.vue'
 // import
 
 import AdminPage from '../views/admin.vue'
+import SignUp_admin from '../views/SignUp_admin.vue';
+import Login_admin from '../views/Admin_Login.vue';
+
 
 const routes = [
   {path: '/', component: HomePage, name: "Techzone"},
@@ -92,6 +95,8 @@ const routes = [
 
   // adminsitrator based views....
   {path: "/site/administration", name: "Super-user", component: AdminPage},
+  {path: "/site/register", name: "Super register", component: SignUp_admin},
+  {path: "/site/login", name: "Super login", component: Login_admin},
 ];
 
 
