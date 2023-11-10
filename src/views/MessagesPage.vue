@@ -121,6 +121,7 @@ export default {
       rooms: [],
       selectedRoom: 0,
       messages: [],
+
       newMessage: '',
 
       userDetails: '',
@@ -138,19 +139,17 @@ export default {
 
 
   methods: {
+
     async fetchMessages(roomId) {
       // Fetch messages for the selected room using Axios
       const newresponse = await axios.get(`${this.message_api_url}/api/messages/${roomId}`);
-      this.messages = newresponse.data;
-
-      // const msgs = this.$refs.chatContainer;
-      // msgs.addEventListener('scroll', this.handleScroll);
-      // this.showScrollToBottom = false;
+      this.messages = newresponse.data.reverse();
+      // this.messages = newresponse.data;
+      console.log(this.messages)
 
     },
 
     async sendMessage() {
-      // if (!this.selectedRoom || this.newMessage.trim() === '') return;
       const message = {
         text: this.newMessage,
         user: this.userDetails.id, // Replace with the actual user ID
@@ -158,7 +157,9 @@ export default {
       };
 
       await axios.post(`${this.message_api_url}/api/messages`, message);
-      // this.fetchMessages(this.selectRoom.id)
+      const tempMessageTime = new Date();
+      message.created = tempMessageTime;
+      // this.messages.unshift(message);
       this.newMessage = '';
     },
 
@@ -181,7 +182,7 @@ export default {
       socket.emit('join', room._id);
       socket.on('message', (message) => {
         // Add received message to the messages array
-      this.messages.push(message);
+      this.messages.unshift(message);
       this.scrollChatsToBottom(); //scrolls the recipients message box...
       });
 
@@ -316,8 +317,8 @@ mounted() {
   height: 30px;
   border-radius: 30%;
   align-self: flex-end;
-  position: sticky;
-  bottom: 10px;
+  position: absolute;
+  bottom: 100px;
   cursor: pointer;
   transition: opacity 0.2s;
 }
@@ -393,7 +394,7 @@ mounted() {
 
   .msg_room{
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     padding: 15px;
     overflow-y: auto;
     /* max-height: 80%; */

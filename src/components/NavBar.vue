@@ -167,7 +167,7 @@
                                                 <!-- <i class="notify_icon bi bi-check-circle-fill"></i> -->
                                                 <i class="notify_icon bi bi-person-circle"></i>
                                                 <span name="notification-item">
-                                                    <div>{{ notify.message }}</div>
+                                                    <div>{{ notify.message.substring(0, 120) }}...</div>
                                                     <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
                                                 </span>
                                                 <span class="notifications_dismiser" @click="markNotificationAsRead(notify._id)">&times;</span>
@@ -366,7 +366,7 @@
                                             <div>
                                                 <i class="notify_icon bi bi-check-circle-fill"></i>
                                                 <span name="notification-item">
-                                                    <div>{{ notify.message }}</div>
+                                                    <div>{{ notify.message.substring(0, 120) }}...</div>
                                                     <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
                                                 </span>
                                                 <span class="notifications_dismiser" @click="markNotificationAsRead(notify._id)">&times;</span>

@@ -94,7 +94,7 @@ const routes = [
   {path: "/support/form", name: "Techzone - form", component: SupportForm},
 
   // adminsitrator based views....
-  {path: "/site/administration", name: "Super-user", component: AdminPage},
+  {path: "/site/administration", name: "Super-user", component: AdminPage,  meta: { requiresAdminAuth: true, role: 'Admin' || 'Manager' || 'Moderator'}},
   {path: "/site/register", name: "Super register", component: SignUp_admin},
   {path: "/site/login", name: "Super login", component: Login_admin},
 ];
@@ -121,8 +121,13 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
   const userRole = token ? JSON.parse(atob(token.split('.')[1])).role : null;
 
+  if(to.meta.requiresAdminAuth && to.meta.role !== userRole){
+    redirectToLogin = true; // Set the flag to true
+    requestedRoute = to.fullPath; // Store the requested route
+    next('/site/login')
+  }
   // Check if the route has a "requiresAuth" meta field and matches the user's role
-  if (to.meta.requiresAuth && to.meta.role !== userRole) {
+  else if (to.meta.requiresAuth && to.meta.role !== userRole) {
     redirectToLogin = true; // Set the flag to true
     requestedRoute = to.fullPath; // Store the requested route
     next('/login'); // Redirect to login for unauthorized access

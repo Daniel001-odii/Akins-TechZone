@@ -10,6 +10,15 @@
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button>
+            <div>
+                Records perpage
+                <select v-model="itemsPerPage" @change="getAllRecords">
+                    <option>5</option>
+                    <option>8</option>
+                    <option>10</option>
+                </select>
+            </div>
+
         </div>
         <span  @click="userModal = !userModal" class="close_btn">&times;</span>
         <div class="composite_modal_inner">
@@ -27,8 +36,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(user, index) in records.details.users" :key="index" c>
-                    <th scope="row">{{ index }}</th>
+                    <!-- {{ records.details.users }} -->
+                    <!-- <tr v-for="(user, index) in records.details.users" :key="index"> -->
+                    <tr v-for="(user, index) in paginatedDisplay(users)" :key="index">
+
+                    <th scope="row">{{ user.serialNo }}</th>
                     <td class="sticky_due"><span @click="seeUser(user._id)"><img class="user_image" :src="user.profile.profileImage"> {{ user.firstname }} {{ user.lastname }}</span> <i v-if="user.isVerified" style="color: blue" class="bi bi-patch-check-fill"></i></td>
                     <td>{{user.email}}</td>
                     <td>{{user.profile.skillTitle}}</td>
@@ -52,6 +64,10 @@
                 </tbody>
             </table>
         </div>
+        <div class="btn_control">
+            <button class="btn btn-primary" @click="prevPage" :disabled="currentPage === 1">Previous</button>
+            <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+        </div>
     </div>
 </div>
 
@@ -65,6 +81,14 @@
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button>
+            <div>
+                Records perpage
+                <select v-model="itemsPerPage" @change="getAllRecords">
+                    <option>5</option>
+                    <option>8</option>
+                    <option>10</option>
+                </select>
+            </div>
         </div>
     <span @click="employerModal = !employerModal" class="close_btn">&times;</span>
     <div class="composite_modal_inner">
@@ -81,8 +105,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(user, index) in records.details.employers" :key="index" c>
-                <th scope="row">{{ index }}</th>
+                <tr v-for="(user, index) in paginatedDisplay(employers)" :key="index">
+                <th scope="row">{{ user.serialNo }}</th>
                 <td class="sticky_due"><span @click="seeClient(user._id)"><img class="user_image" :src="user.profile.profileImage"> {{ user.firstname }} {{ user.lastname }}</span> <i v-if="user.isVerified" style="color: blue" class="bi bi-patch-check-fill"></i></td>
                 <td>{{user.email}}</td>
                 <td>{{user.profile.skillTitle}}</td>
@@ -92,6 +116,10 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="btn_control">
+            <button class="btn btn-primary" @click="prevPage" :disabled="currentPage === 1">Previous</button>
+            <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
     </div>
 </div>
 </div>
@@ -300,39 +328,7 @@
 
 
 <br/><br/>
-    <div class="fitting_second" style=";">
-        <div style="display: flex; flex-direction: column; gap: 10px; border: 1px solid #858585; padding: 10px; border-radius: 10px;">
-            <p>3 Recently registered companies</p>
-            <!-- {{records.details.employers}} -->
-            <div class="tz_card" >
-                <!-- <i class="bi bi-people-fill"></i> -->
-                <img class="user_image" :src="records.details.employers[0].profile.profileImage">
-                <div class="tz_card_body">
-                    <!-- <span class="tz_card_title_main"><b>{{ records.users }}</b></span> -->
-                    <span class="tz_card_title">{{records.details.employers[0].profile.company_name}}</span>
-                    <span class="tz_card_title">{{records.details.employers[0].profile.company_name}}</span>
-                </div>
-            </div>
 
-            <div class="tz_card" >
-                <!-- <i class="bi bi-people-fill"></i> -->
-                <img class="user_image" :src="records.details.employers[0].profile.profileImage">
-                <div class="tz_card_body">
-                    <!-- <span class="tz_card_title_main"><b>{{ records.users }}</b></span> -->
-                    <span class="tz_card_title">{{records.details.employers[1].profile.company_name}}</span>
-                    <span class="tz_card_title">{{records.details.employers[1].profile.industry_type}} | {{records.details.employers[1].profile.website}}</span>
-                </div>
-            </div>
-        </div>
-
-    <div class="tz_card">
-        <i class="bi bi-bell-fill"></i>
-        <div class="tz_card_body">
-            <span class="tz_card_title_main"><b>{{ records.Notifications }}</b></span>
-            <span class="tz_card_title">All Users  notifications</span>
-        </div>
-    </div>
-    </div>
 
 
 </div>
@@ -355,6 +351,11 @@
                 formIsLoading: false,
                 records: '',
 
+                users: '',
+                employers: '',
+                jobs: '',
+                admins: '',
+
                 userModal:false,
                 employerModal: false,
                 jobModal: false,
@@ -362,6 +363,9 @@
 
                 userDetails: '',
                 adminSignUpModal: false,
+
+                currentPage: 1,
+                itemsPerPage: 5,
 
                 errors: '',
 
@@ -374,11 +378,60 @@
                 }
             }
         },
+        computed: {
+            // paginatedDisplay(records){
+            //     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            //     const endIndex = startIndex + this.itemsPerPage;
+            //     return records.slice(startIndex, endIndex);
+            // },
+            totalPages(){
+                return Math.ceil(this.records.details.users.length/this.itemsPerPage);
+            }
+        },
         methods:{
+            nextPage(){
+                if(this.currentPage < this.totalPages){
+                    this.currentPage++;
+                }
+            },
+            prevPage(){
+                if(this.currentPage > 1){
+                    this.currentPage--;
+                }
+            },
+            paginatedDisplay(records){
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                return records.slice(startIndex, endIndex);
+            },
             getAllRecords(){
                     this.isLoading = true;
                     axios.get(`${this.api_url}/admin/open-sesame`).then(response => {
                         this.records = response.data;
+
+                        this.users = this.records.details.users;
+                        this.employers = this.records.details.employers;
+                        this.jobs = this.records.details.jobs;
+                        this.admins = this.records.details.admins;
+                        // the code below assigns a serial number to each user....
+
+                        const assignSerial =(record)=>{
+                            let SN = 0;
+                            record.forEach(newRecord =>{
+                            SN ++;
+                            newRecord.serialNo = SN;
+                        });
+                        };
+                        assignSerial(this.users);
+                        assignSerial(this.employers);
+                        assignSerial(this.jobs);
+                        assignSerial(this.admins);
+                        // this.users.forEach(user =>{
+                        //     SN ++;
+                        //     user.serialNo = SN;
+                        // })
+                        // console.log(this.users)
+
                         this.isLoading = false;
                     }).catch(error => {
                         this.isLoading = false;
@@ -428,7 +481,7 @@
             } catch (error) {
             this.errors = JSON.parse(error.request.response);
             this.show_errors = true;
-
+            this.formIsLoading = false;
             console.log(error.request.response);
 
             }
@@ -500,7 +553,7 @@
     display: flex;
     position: relative;
     background: #0000007a;
-    height: 100% !important;
+    height: 100vh !important;
     width: 100vw;
     z-index: 999999;
     justify-content: center;
@@ -615,13 +668,13 @@
         background: #fff;
         top: 200px;
         width: 100%;
-        height: 100%;
+        height: 80%;
         padding: 30px;
     }
 
     .composite_modal_bg{
         background: #0000007a;
-        height: 100% !important;
+        height: 90% !important;
         position: fixed;
         width: 100%;
     }
@@ -631,6 +684,7 @@
         border-radius: 10px;
         background: #fff;
         padding: 10px;
+        border: 1px solid #c7c7c7;
     }
     .user_image{
         height: 50px;
@@ -658,6 +712,14 @@
     table{
         width: 1800px !important;
         border-collapse: collapse;
+    }
+
+
+    .btn_control{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding: 10px 0px;
     }
 
 </style>
