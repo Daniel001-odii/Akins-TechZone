@@ -32,11 +32,15 @@
 <!--  this is the modal displayed when a user tries changing profile image...... -->
 <div class="logout-modal" v-if="showResumeModal">
     <div class="modal-content">
-        <div>
+        <span style="position: absolute;
+        top: 0px;
+        right: 10px;" @click="showResumeModal = !showResumeModal">&times;</span>
+        <div class="modal-content" style="gap: 10px;">
             <input type="file" ref="fileInput" @change="handleFileUpload">
-            <button @click="uploadUserPortfolio">Upload Portfolio</button>
+            <button v-if="uploadResbtn" class="cust-btn" @click="uploadUserPortfolio">Upload Resume</button>
+            <a v-if="userDetails.portfolio" :href="userDetails.portfolio">see current resume</a>
         </div>
-        <span @click="showResumeModal = !showResumeModal">&times;</span>
+
     </div>
 
 </div>
@@ -109,14 +113,15 @@
                         <button v-if="userDetails.isVerified" class="cust-btn" @click="editProfileMenu = !editProfileMenu">Edit Profile</button>
                         <button v-else class="cust-btn" @click="sendVerificationEmail">{{ verificationMessage }}</button>
 
-                        <button class="cust-btn" v-if="!userDetails.portfolio" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;" @click="showResumeModal = !showResumeModal">upload Resume</button>
-                        <button class="cust-btn" v-else style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">
+                        <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;" @click="showResumeModal = !showResumeModal">Resume</button>
+                        <!-- <button class="cust-btn" v-else style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">
                            <a :href="userDetails.portfolio" download="resume.pdf">View Resume</a>
-                        </button>
+                        </button> -->
                     </div>
                     <div class="tz-btn-array" v-else>
-                        <button class="cust-btn">Message</button>
-                        <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">Hire</button>
+                        <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">
+                           <a :href="userDetails.portfolio" download="resume.pdf">View {{ userDetails.firstname }}'s Resume</a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -260,6 +265,7 @@ import DotLoader from '../components/DotLoader.vue';
 
                 file: '',
                 showResumeModal: '',
+                uploadResbtn: false,
 
 
             userProfile: {
@@ -399,6 +405,7 @@ import DotLoader from '../components/DotLoader.vue';
     handleFileUpload(event) {
       // Store the selected file in the component's data
       this.selectedFile = event.target.files[0];
+
     },
     scaleImage(imageUrl, scale) {
         // Create a temporary image element
@@ -531,6 +538,7 @@ import DotLoader from '../components/DotLoader.vue';
 
     handleFileUpload(event) {
       this.file = event.target.files[0];
+      this.uploadResbtn = true;
     },
 
     async uploadUserPortfolio() {
@@ -552,6 +560,7 @@ import DotLoader from '../components/DotLoader.vue';
         if (response.ok) {
           alert('User portfolio uploaded successfully');
           // Reload page to show the new upload
+          this.showResumeModal = false;
           this.getUserById(this.$route.params.user_id);
           // You can perform further actions after successful upload
         } else {
