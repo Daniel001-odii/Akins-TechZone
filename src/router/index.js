@@ -40,7 +40,7 @@ import JobSuccess from '../views/JobSuccess.vue' ///page is deprecated and has b
 import client_jobs from '../views/Client_Jobs.vue'
 import client_messages from '../views/Client_MessagesPage.vue'
 import Client_Profile from '../views/Client_Profile.vue'
-import Payment from '../views/payment.vue'
+import Payment from '../views/Payment.vue'
 // import
 
 import AdminPage from '../views/admin.vue'
