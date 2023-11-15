@@ -33,13 +33,12 @@ import SignUpClient from '../views/SignUpClient.vue'
 
 
 //clients based views
-import client_dashboard from '../views/client_dashboard.vue'
+import client_dashboard from '../views/Client_dashboard.vue'
 import post_job from '../views/post-job.vue'
 import edit_job from '../views/edit-job.vue'
 import JobSuccess from '../views/JobSuccess.vue' ///page is deprecated and has been replaced with a moda instead..
 import client_jobs from '../views/Client_Jobs.vue'
 import client_messages from '../views/Client_MessagesPage.vue'
-import client_payment from '../views/Payment.vue'
 import Client_Profile from '../views/Client_Profile.vue'
 import Payment from '../views/payment.vue'
 // import
@@ -88,7 +87,7 @@ const routes = [
   {path: "/client/post-job", name: "Techzone - Post", component: post_job, meta: { requiresAuth: true, role: 'employer' }},
   {path: "/client/edit-job/:job_id", name: "Techzone - Edit Job", component: edit_job, meta: { requiresAuth: true, role: 'employer' }},
   {path: "/client/messages", name: "Techzone - Client Messages", component: Messages, meta: { requiresAuth: true, role: 'employer' }},
-  {path: "/client/payment", name: "Techzone - Client payment", component: client_payment, meta: { requiresAuth: true }},
+  // {path: "/client/payment", name: "Techzone - Client payment", component: client_payment, meta: { requiresAuth: true }},
   {path: "/client/successful", component: JobSuccess, meta: { requiresAuth: true }},
   {path: "/support", name: "Techzone - support", component: SupportPage},
   {path: "/support/form", name: "Techzone - form", component: SupportForm},
