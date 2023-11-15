@@ -65,12 +65,11 @@
             </table>
         </div>
         <div class="btn_control">
-            <button class="btn btn-primary" @click="prevPage" :disabled="currentPage === 1">Previous</button>
-            <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+            <button class="btn btn-primary" @click="prevPage" :disabled="currentPage === 1"><i class="bi bi-caret-left-fill"></i></button>
+            <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === totalPages"><i class="bi bi-caret-right-fill"></i></button>
         </div>
     </div>
 </div>
-
 
 <div class="composite_modal_bg" v-if="employerModal">
 <div class="composite_modal">
@@ -118,8 +117,8 @@
         </table>
     </div>
     <div class="btn_control">
-            <button class="btn btn-primary" @click="prevPage" :disabled="currentPage === 1">Previous</button>
-            <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+        <button class="btn btn-primary" @click="prevPage" :disabled="currentPage === 1"><i class="bi bi-caret-left-fill"></i></button>
+            <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === totalPages"><i class="bi bi-caret-right-fill"></i></button>
     </div>
 </div>
 </div>
@@ -267,21 +266,61 @@
 </div>
 </div>
 
+<div class="composite_modal_bg" v-if="settingsModal">
+<div class="composite_modal">
+    <h2 style="padding: 10px; margin-right: 20px;">Administrative account settings</h2>
+    <span @click="settingsModal = !settingsModal" class="close_btn">&times;</span>
+    <!-- <input class="form-control" type="email" placeholder="email" v-model="adminProfile.email">
+    <input class="form-control" type="name" v-model="adminProfile.firstname"> -->
+    <div class="create_admin_modal" style="border: none; padding: 0px !important;">
+            <!-- <span class="close_btn" @click="adminSignUpModal = !adminSignUpModal">&times;</span> -->
+            <form class="new_user_form" @submit.prevent="updateAdminProfile">
+                <!-- <h2>Register <br/>a new administrative user</h2> -->
+                <div v-if="errors" class="alert alert-danger">{{ errors.message }}</div>
+            <div class="form-group">
+                <label for="firstname">firstname</label>
+                <input type="name" class="form-control" id="firstname" v-model="adminProfile.firstname" placeholder="firstname">
+                <br/>
+                <label for="lastname">lastname</label>
+                <input type="name" class="form-control" id="lastname"  v-model="adminProfile.lastname" placeholder="lastname">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  v-model="adminProfile.email" placeholder="Enter email">
+                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+            </div>
+            <!-- <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1"  v-model="newAdmin.password" placeholder="Password">
+            </div> -->
+            <button @click="updateAdminProfile" class="btn btn-primary" :disabled="formIsLoading">save</button>
+            </form>
+        </div>
+</div>
 
+</div>
 
+<div class="admin_nav_right">
+    <div>{{ userDetails.role }} | <span style="color:red; cursor: pointer;" @click="logout">Logout <i class="bi bi-box-arrow-right"></i></span></div>
+    <div style="color: blue"> {{ userDetails.email }}</div>
+</div>
 
 <div v-if="!isLoading" class="fitting">
     <!-- {{ records }} -->
 
     <div class="admin_nav">
-        <h3>Hi {{userDetails.firstname}} {{ userDetails.lastname }}, Welcome.</h3>
-
-        <div class="admin_nav_right">
-            <div>{{ userDetails.role }} | <span style="color:red" @click="logout">Logout</span></div>
-            <div style="color: blue"> {{ userDetails.email }}</div>
+        <div>
+            <h3><b>Hi {{userDetails.firstname}} {{ userDetails.lastname }}, Welcome.</b></h3>
+            <p>Welcome to the techzone administration panel.
+                <br/>
+                you can view different records from the database by clicking on the tabs below.
+            </p>
         </div>
 
+        <img style="height: 200px;" src="../assets/imgs/dashboard.png">
     </div>
+
+
 
     <div class="fitting_second">
 
@@ -324,12 +363,30 @@
                 <span class="tz_card_title">Admin Users</span>
             </div>
         </div>
+
+        <div class="tz_card" @click="settingsModal = !settingsModal" v-if="userDetails.role == 'Admin'">
+            <i class="bi bi-gear-fill"></i>
+            <div class="tz_card_body">
+                <span class="tz_card_title_main"><b>Settings</b></span>
+                <span class="tz_card_title">current admin settings</span>
+            </div>
+        </div>
     </div>
 
 
 <br/><br/>
+<div class="fitting_second">
 
+            <div class="tz_card" style="align-items: flex-start; width: 800px; padding: 30px; align-items: center; ;">
+                <img src="../assets/imgs/single.png">
+                <div class="tz_card_body">
+                    <span class="tz_badge">New Updates</span>
+                    <b>You can view profiles of registered users by clicking on the users profile name or profile image from the users page</b>
+                    <p style="padding: 10px 0px; color: blue;">Updates incoming!</p>
+                </div>
 
+            </div>
+</div>
 
 </div>
 
@@ -355,11 +412,18 @@
                 employers: '',
                 jobs: '',
                 admins: '',
+                adminProfile: {
+                    email: '',
+                    password: '',
+                    firstname: '',
+                    lastname: ''
+                },
 
                 userModal:false,
                 employerModal: false,
                 jobModal: false,
                 adminModal: false,
+                settingsModal: false,
 
                 userDetails: '',
                 adminSignUpModal: false,
@@ -461,31 +525,49 @@
                 axios.get(user_url, { headers })
                     .then((response) => {
                     this.userDetails = response.data.user;
-                    // console.log(this.userDetails) // Assuming userDetails is a data property
+                    console.log(this.userDetails) // Assuming userDetails is a data property
                     this.isLoading = false;
                     })
                     .catch((error) => {
                     // Handle errors
                     console.error(error);
                     });
-        },
-        async registerNewAdmin() {
-            this.formIsLoading = true;
-            try {
-            const response = await axios.post(`${this.api_url}/admin/register/user`, this.newAdmin);
-            console.log(response.data);
-            this.formIsLoading = false;
-            this.adminSignUpModal = false;
-            this.getAllRecords();
-            alert("user registered!");
-            } catch (error) {
-            this.errors = JSON.parse(error.request.response);
-            this.show_errors = true;
-            this.formIsLoading = false;
-            console.log(error.request.response);
+            },
+            async registerNewAdmin() {
+                this.formIsLoading = true;
+                try {
+                const response = await axios.post(`${this.api_url}/admin/register/user`, this.newAdmin);
+                console.log(response.data);
+                this.formIsLoading = false;
+                this.adminSignUpModal = false;
+                this.getAllRecords();
+                alert("user registered!");
+                } catch (error) {
+                this.errors = JSON.parse(error.request.response);
+                this.show_errors = true;
+                this.formIsLoading = false;
+                console.log(error.request.response);
 
-            }
-        },
+                }
+            },
+            async updateAdminProfile(){
+                    const token = localStorage.getItem('token'); // Get the token from localStorage
+                    this.formIsLoading = true;
+                    // Set up headers with the token
+                    const headers = {
+                        Authorization: `JWT ${token}`, // Assuming it's a JWT token
+                    };
+                        try {
+                    const response = await axios.put(`${this.api_url}/admin/update/`, this.adminProfile, {headers});
+                    console.log(response.data);
+                    this.formIsLoading = false;
+                    this.showError = true;
+
+                } catch (error) {
+                    console.log(error);
+
+                }
+            },
 
         logout(){
             localStorage.removeItem('token');
@@ -505,20 +587,22 @@
 }
 
 .admin_nav{
-    padding: 20px;
-    background: #fff;
+    padding: 20px 40px;
+    background: #10076e;
     border-radius: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     margin-bottom: 20px;
+    color: #fff;
 }
 
 .admin_nav_right{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    padding: 20px;
 }
 .tz_card{
     padding: 12px;
@@ -576,7 +660,15 @@
 }
 
 
-
+.tz_badge{
+    padding: 10px;
+    background: #d9d9ff;
+    border-radius: 30px;
+    color: blue;
+    width: 150px;
+    text-align: center;
+    margin: 20px 0px;
+}
 .bi{
 
     border-radius: 50%;
@@ -625,7 +717,14 @@
     align-items: center;
     padding: 20px;
 }
-
+.bi-gear-fill{
+    color: rgb(0, 0, 0);
+    background: #e1e1e1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 .dropdown-menu > li{
     padding: 5px;
 }

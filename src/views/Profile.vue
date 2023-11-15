@@ -29,6 +29,18 @@
     </div>
 </div>
 
+<!--  this is the modal displayed when a user tries changing profile image...... -->
+<div class="logout-modal" v-if="showResumeModal">
+    <div class="modal-content">
+        <div>
+            <input type="file" ref="fileInput" @change="handleFileUpload">
+            <button @click="uploadUserPortfolio">Upload Portfolio</button>
+        </div>
+        <span @click="showResumeModal = !showResumeModal">&times;</span>
+    </div>
+
+</div>
+
 
 
 <div v-if="editProfileMenu" class="editProfileModal" style="">
@@ -96,7 +108,11 @@
                     <div class="tz-btn-array" v-if="isAllowed">
                         <button v-if="userDetails.isVerified" class="cust-btn" @click="editProfileMenu = !editProfileMenu">Edit Profile</button>
                         <button v-else class="cust-btn" @click="sendVerificationEmail">{{ verificationMessage }}</button>
-                        <button class="cust-btn" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">View Resume</button>
+
+                        <button class="cust-btn" v-if="!userDetails.portfolio" style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;" @click="showResumeModal = !showResumeModal">upload Resume</button>
+                        <button class="cust-btn" v-else style="border: 1px solid var(--app-blue); color: var(--app-blue); background: #fff;">
+                           <a :href="userDetails.portfolio" download="resume.pdf">View Resume</a>
+                        </button>
                     </div>
                     <div class="tz-btn-array" v-else>
                         <button class="cust-btn">Message</button>
@@ -242,6 +258,9 @@ import DotLoader from '../components/DotLoader.vue';
                 imageUrl: '', // Bind to the selected image URL
                 scale: 1, // Initial scale value
 
+                file: '',
+                showResumeModal: '',
+
 
             userProfile: {
                 profile:{
@@ -376,7 +395,6 @@ import DotLoader from '../components/DotLoader.vue';
             this.userProfile.profile = this.userDetails.profile;
             },
     showMessage(message, type){
-
     },
     handleFileUpload(event) {
       // Store the selected file in the component's data
@@ -415,8 +433,6 @@ import DotLoader from '../components/DotLoader.vue';
 
       return new Blob([arrayBuffer], { type: contentType });
     },
-
-
     async uploadProfileImage() {
         // Scale the image using the this.scale value
         const scaledImageUrl = this.scaleImage(this.imageUrl, this.scale);
@@ -513,6 +529,39 @@ import DotLoader from '../components/DotLoader.vue';
       }
     },
 
+    handleFileUpload(event) {
+      this.file = event.target.files[0];
+    },
+
+    async uploadUserPortfolio() {
+        const token = localStorage.getItem('token');
+      try {
+        const formData = new FormData();
+        formData.append('userPortfolio', this.file);
+        const headers = {
+            Authorization: `JWT ${token}`, // Add the JWT token to the authorization header
+            };
+
+        // Assume your backend endpoint is hosted at http://localhost:3000
+        const response = await fetch(`${this.api_url}/upload-user-portfolio`, {
+          method: 'POST',
+          headers: headers,
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert('User portfolio uploaded successfully');
+          // Reload page to show the new upload
+          this.getUserById(this.$route.params.user_id);
+          // You can perform further actions after successful upload
+        } else {
+          throw new Error('Failed to upload portfolio');
+        }
+      } catch (error) {
+        console.error('Error uploading portfolio:', error.message);
+        // Handle error appropriately (e.g., show an error message to the user)
+      }
+    },
 
           },
 
