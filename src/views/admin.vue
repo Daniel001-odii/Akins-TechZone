@@ -268,7 +268,11 @@
 
 <div class="composite_modal_bg" v-if="settingsModal">
 <div class="composite_modal">
-    <h2 style="padding: 10px; margin-right: 20px;">Administrative account settings</h2>
+    <h2 style="padding: 10px; margin-right: 20px;">Super-user Admin account settings</h2>
+    <div class="alert alert-danger">
+        <span>Changing the account details for the super user account automatically revokes access priviledge from previous administrator</span>
+    </div>
+
     <span @click="settingsModal = !settingsModal" class="close_btn">&times;</span>
     <!-- <input class="form-control" type="email" placeholder="email" v-model="adminProfile.email">
     <input class="form-control" type="name" v-model="adminProfile.firstname"> -->
@@ -279,20 +283,16 @@
                 <div v-if="errors" class="alert alert-danger">{{ errors.message }}</div>
             <div class="form-group">
                 <label for="firstname">firstname</label>
-                <input type="name" class="form-control" id="firstname" v-model="adminProfile.firstname" placeholder="firstname">
+                <input type="name" class="form-control" id="firstname" v-model="adminProfile.firstname" :placeholder="userDetails.firstname">
                 <br/>
                 <label for="lastname">lastname</label>
-                <input type="name" class="form-control" id="lastname"  v-model="adminProfile.lastname" placeholder="lastname">
+                <input type="name" class="form-control" id="lastname"  v-model="adminProfile.lastname" :placeholder="userDetails.lastname">
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  v-model="adminProfile.email" placeholder="Enter email">
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  v-model="adminProfile.email" :placeholder="userDetails.email">
                 <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
             </div>
-            <!-- <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1"  v-model="newAdmin.password" placeholder="Password">
-            </div> -->
             <button @click="updateAdminProfile" class="btn btn-primary" :disabled="formIsLoading">save</button>
             </form>
         </div>
@@ -414,7 +414,6 @@
                 admins: '',
                 adminProfile: {
                     email: '',
-                    password: '',
                     firstname: '',
                     lastname: ''
                 },
@@ -458,16 +457,19 @@
                     this.currentPage++;
                 }
             },
+
             prevPage(){
                 if(this.currentPage > 1){
                     this.currentPage--;
                 }
             },
+
             paginatedDisplay(records){
                 const startIndex = (this.currentPage - 1) * this.itemsPerPage;
                 const endIndex = startIndex + this.itemsPerPage;
                 return records.slice(startIndex, endIndex);
             },
+
             getAllRecords(){
                     this.isLoading = true;
                     axios.get(`${this.api_url}/admin/open-sesame`).then(response => {
@@ -501,19 +503,22 @@
                         this.isLoading = false;
                         console.error(error);
                     })
-                },
+            },
 
             formatTimestamp(timestamp) {
                 const date = new Date(timestamp);
                 const options = { year: "numeric", month: "long", day: "numeric" };
                 return date.toLocaleDateString(undefined, options);
             },
+
             seeUser(user_id){
                 this.$router.push(`/user/${user_id}`);
             },
+
             seeClient(user_id){
                 this.$router.push(`/client/${user_id}`);
             },
+
             getUserDetails() {
                 const token = localStorage.getItem('token'); // Get the token from localStorage
                 const user_url = `${this.api_url}/admin/get-details`; // Assuming user-info is the endpoint for user details
@@ -525,6 +530,9 @@
                 axios.get(user_url, { headers })
                     .then((response) => {
                     this.userDetails = response.data.user;
+                    this.adminProfile.firstname = this.userDetails.firstname;
+                    this.adminProfile.lastname = this.userDetails.lastname;
+                    this.adminProfile.email = this.userDetails.email;
                     console.log(this.userDetails) // Assuming userDetails is a data property
                     this.isLoading = false;
                     })
@@ -533,6 +541,7 @@
                     console.error(error);
                     });
             },
+
             async registerNewAdmin() {
                 this.formIsLoading = true;
                 try {
@@ -550,21 +559,25 @@
 
                 }
             },
+
             async updateAdminProfile(){
-                    const token = localStorage.getItem('token'); // Get the token from localStorage
-                    this.formIsLoading = true;
+                // Get the token from localStorage
+                const token = localStorage.getItem('token');
+                this.formIsLoading = true;
+
                     // Set up headers with the token
                     const headers = {
                         Authorization: `JWT ${token}`, // Assuming it's a JWT token
                     };
                         try {
-                    const response = await axios.put(`${this.api_url}/admin/update/`, this.adminProfile, {headers});
+                    const response = await axios.put(`${this.api_url}/admin/update`, this.adminProfile, {headers});
                     console.log(response.data);
                     this.formIsLoading = false;
                     this.showError = true;
 
                 } catch (error) {
                     console.log(error);
+                    this.formIsLoading = false;
 
                 }
             },
@@ -657,6 +670,7 @@
     gap: 15px;
     display: flex;
     flex-direction: column;
+    max-width: 400px;
 }
 
 
@@ -767,7 +781,7 @@
         background: #fff;
         top: 200px;
         width: 100%;
-        height: 80%;
+        height: 100%;
         padding: 30px;
     }
 

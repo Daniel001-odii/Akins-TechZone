@@ -204,12 +204,24 @@
 
             <div class="section">
               <div class="section-title">Describe the job location</div>
+              <div class="section-description">
+
+                <span>Address*</span>
                 <div class="section-content">
-                    <input style="height: 50px; font-size: 15px;" class="job-descripton" placeholder="Enter job location and address here..." v-model="formData.location" required>
+                    <input style="height: 40px; width: 100%; font-size: 15px;" class="job_descripton" placeholder="Address" v-model="formData.location" required>
                 </div>
+                <span>state*</span>
+                <select class="state_select" v-model="selectedState">
+                  <option value="Select a state" disabled>Select a state</option>
+                  <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
+                </select>
+              </div>
+                <br/>
+
                 <div class="section-last">
                   bit info about the job location from techzone...
                 </div>
+
             </div>
       </div>
     </Transition>
@@ -243,6 +255,9 @@
     </Transition>
   </div>
   </form>
+<div>
+
+</div>
 
 
 </div>
@@ -271,15 +286,28 @@ import axios from 'axios';
 import Navbar from '../components/NavBar.vue'
 import themeStore from '@/theme/theme';
 
+// import "leaflet/dist/leaflet.css";
+// import L from "leaflet";
+// import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
+
 export default {
-  components: { Navbar, CheckBox, Search, Modal },
+  components: {
+    Navbar,
+    CheckBox,
+    Search,
+    Modal,
+    // LMap,
+    // LTileLayer,
+    // LMarker,
+  },
   setup(){
-                const toggleTheme = themeStore.toggleTheme;
-                return{
-                    themeStore,
-                    toggleTheme,
-                }
-            },
+    const toggleTheme = themeStore.toggleTheme;
+    return {
+      themeStore,
+      toggleTheme,
+    };
+
+    },
   data() {
   return {
     inputValue: '',
@@ -305,6 +333,14 @@ export default {
       formErrors: '',
 
       budgetValue: '',
+      states: [
+        'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue',
+        'Borno', 'Cross River', 'Delta', 'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'FCT',
+        'Gombe', 'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina', 'Kebbi', 'Kogi',
+        'Kwara', 'Lagos', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo',
+        'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara'
+      ],
+      center: [37,7749, -122,4194]
   }
 },
 
@@ -393,8 +429,6 @@ methods: {
       this.isLoading = false;
       console.error("form submission error: ", error);}
   },
-
-
   /////////controls adding of tags////////////////
   addTag(){
       if (this.inputValue.trim() !== '') {
@@ -433,8 +467,11 @@ methods: {
       console.log(this.formData.budget);
     },
 
+ },
 
-  },
+ mounted(){
+
+ }
 
 }
 
@@ -446,6 +483,15 @@ methods: {
 form{
   display: flex;
   flex-direction: column;
+}
+
+.state_select{
+  padding: 6px;
+}
+.section-description{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .row-budgets{
   display: flex;
@@ -647,7 +693,7 @@ textarea{
 
 
   .section-divider{
-      height: 250px !important;
+      /* height: 250px !important; */
       width: 1px !important;
       background: var(--app-grey) !important;
   }

@@ -200,9 +200,6 @@
                                         <i class="bi bi-person-circle"></i>
                                     View profile</div>
                                 <!-- </RouterLink> -->
-                                <div class="tz-menu-content">
-                                    <i class="bi bi-gear-fill"></i>
-                                    Settings</div>
                                 <RouterLink to="/myjobs" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="tz-menu-content">
                                         <i class="bi bi-send-check-fill"></i>
@@ -915,7 +912,7 @@ export default {
     text-align: left;
     gap: 10px;
     /* border: 1px solid red; */
-    height: 80px;
+    /* height: 50px; */
 }
 .notify-line{
     text-align: center;

@@ -38,21 +38,21 @@
             </div>
             <button type="submit">save and exit</button>
         </form>
-        
+
     </div>
-    
+
         <NavBar/>
-    
+
         <div class="tz_alert_box" v-if="showError">
             <span>{{ formErrors }}</span>
             <span class="tz_alert_box_closeBtn" @click="showError = !showError">&times;</span>
         </div>
-    
+
         <DotLoader v-if="isLoading"/>
-    
-    
+
+
     <div class="body" :class="['theme-transition', { 'dark': themeStore.darkMode }]" v-if="!isLoading">
-    
+
         <div class="tz-profile-card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                 <div class="tz-profile-left">
                     <div class="tz-user-thumbnail"></div>
@@ -107,7 +107,7 @@
                             <i class="bi bi-github"></i>
                             <span>Github</span>
                         </div>
-                        
+
                     </div>
                     <!-- <div class="tz-availablity">Availability</div>
                     <div class="tz-location">Location</div>
@@ -115,7 +115,7 @@
                     <div class="tz-socials"></div> -->
                 </div>
         </div>
-    
+
         <div class="tz-profile-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M12.1197 12.78C12.0497 12.77 11.9597 12.77 11.8797 12.78C10.1197 12.72 8.71973 11.28 8.71973 9.50998C8.71973 7.69998 10.1797 6.22998 11.9997 6.22998C13.8097 6.22998 15.2797 7.69998 15.2797 9.50998C15.2697 11.28 13.8797 12.72 12.1197 12.78Z" stroke="#4E79BC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -142,7 +142,7 @@
                     <!-- <span>{{ userDetails.profile.skillsList }}</span> -->
                 </div>
             </div>
-    
+
             <div class="bio-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                 <div class="tz-emphasis">
                     <b>Phone Number</b>
@@ -160,32 +160,32 @@
                     <b>Date joined</b>
                     <!-- <span>{{ formatTimestamp(userDetails.created) }}</span> -->
                 </div>
-    
+
             </div>
-           
+
         </div>
-    
+
     </div>
-    
+
         <footer>
             <Footer/>
         </footer>
     </template>
-    
+
     <script>
-    
-        
-        
-      
-        
-    
+
+
+
+
+
+
     import NavBar from '../components/NavBar.vue';
     import Footer from '../components/Footer.vue';
     import 'bootstrap/dist/js/bootstrap.js';
     import axios from 'axios';
     import themeStore from '@/theme/theme';
     import DotLoader from '../components/DotLoader.vue';
-    
+
         export default {
             components:{NavBar, Footer, DotLoader},
             setup(){
@@ -202,7 +202,7 @@
                     isLoading: true,
                     editProfileMenu: false,
                     showError: false,
-    
+
                 userProfile: {
                     profile:{
                         bio: '',
@@ -226,7 +226,7 @@
                 const headers = {
                     Authorization: `JWT ${token}`, // Assuming it's a JWT token
                 };
-    
+
                 axios.get(user_url, { headers })
                     .then((response) => {
                     // Handle the response here
@@ -234,7 +234,7 @@
                     this.userDetails = response.data.user;
                     console.log("the user ", this.userDetails.profile) // Assuming userDetails is a data property
                     this.isLoading = false;
-    
+
                     //auto populate user form...
                     this.autoFill();
                     })
@@ -264,11 +264,11 @@
                     .then(response => {
                         if(response.data.user){
                             this.userDetails = response.data.user;
-                            console.log("user details: ", response.data.user); 
+                            console.log("user details: ", response.data.user);
                         }
                         else if(response.data.employer){
                             this.userDetails = response.data.employer;
-                            console.log("employer details: ", response.data.employer);  
+                            console.log("employer details: ", response.data.employer);
                         }
                         this.isLoading = false;
                         })
@@ -285,7 +285,7 @@
                 },
         async updateuserProfile(){
                 const token = localStorage.getItem('token'); // Get the token from localStorage
-        
+
                 // Set up headers with the token
                 const headers = {
                     Authorization: `JWT ${token}`, // Assuming it's a JWT token
@@ -295,35 +295,35 @@
                 console.log(response.data);
                 this.editProfileMenu = !this.editProfileMenu;
                 showError = true;
-    
+
             } catch (error) {
                 console.log(error.request.response);
-                
+
             }
                 },
         autoFill(){
                 this.userProfile.profile = this.userDetails.profile;
                 },
         showMessage(message, type){
-    
+
         },
-                    
+
               },
-              
-    
-    
-              
+
+
+
+
               mounted() {
                 // this.getUserDetails();
                 this.getUserById(this.$route.params.user_id);
             },
         }
     </script>
-    
+
     <style scoped>
     *{
         font-size: 0.9rem !important;
-         
+
     }
     .body{
         padding-top: 50px;
@@ -429,7 +429,7 @@
             margin-left: 10px;
             /* border: 1px solid red; */
         }
-    
+
         .tz-profile-header{
             border: 1px solid rgba(184, 184, 184, 0.4);
             color: var(--app-blue);
@@ -451,13 +451,13 @@
             flex-direction: row;
             color: #000;
         }
-    
+
         .tz-emphasis{
             display: flex;
             flex-direction: column;
             margin-bottom: 15px;
         }
-    
+
         .bio-area{
             width: 35%;
             background: #fff;
@@ -479,7 +479,7 @@
             margin-left: 110px;
             padding: 20px;
         }
-       
+
         @media only screen and (max-width: 720px) {
             .tz-profile-card{
                 flex-direction: column;
@@ -519,7 +519,7 @@
             width: 100%;
             }
         }
-    
+
         @media only screen and (max-width: 1000px) {
             .tz-profile-left{
                 flex-direction: column;

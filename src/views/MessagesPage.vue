@@ -59,6 +59,7 @@
                   <div>
                     <b>{{ selectedRoom.name }}</b>
                     <br/><span style="color: grey;"> initiated {{ formatTimestamp(selectedRoom.created) }}</span>
+                    <br/><span><RouterLink to=""><small>view contract</small></RouterLink></span>
                   </div>
                 </div>
                 <div class="room_container">
@@ -72,6 +73,7 @@
                         <span class="msg_time">{{ formatTimestamp(message.created) }}</span>
                       </div>
                     </div>
+                    <div v-if="messageIsLoading" class="msg_loading">Loading...</div>
                     <div class="toBottom" @click="scrollChatsToBottom">v</div>
                   </div>
                    <!-- Input for sending a new message -->
@@ -131,6 +133,8 @@ export default {
       isEmployer: null,
       searchTerm: '',
 
+      messageIsLoading: false,
+
       roomDisplay: false,
       showScrollToBottom: false,
     };
@@ -142,10 +146,14 @@ export default {
 
     async fetchMessages(roomId) {
       // Fetch messages for the selected room using Axios
-      const newresponse = await axios.get(`${this.message_api_url}/api/messages/${roomId}`);
-      this.messages = newresponse.data.reverse();
-      // this.messages = newresponse.data;
-      console.log(this.messages)
+      this.messageIsLoading = true;
+      try{
+        const newresponse = await axios.get(`${this.message_api_url}/api/messages/${roomId}`);
+        this.messages = newresponse.data.reverse();
+        this.messageIsLoading = false;
+      }catch(error){
+
+      }
 
     },
 
@@ -305,7 +313,13 @@ mounted() {
 
 
 /* ------------------------------- */
-
+.msg_loading{
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 95%;
+  text-align: center;
+}
 .toBottom{
   background: #efefef;
   padding: 15px;
@@ -397,6 +411,7 @@ mounted() {
     flex-direction: column-reverse;
     padding: 15px;
     overflow-y: auto;
+    position: relative;
     /* max-height: 80%; */
     /* min-height: 550px; */
     /* border: 1px solid red; */
@@ -413,7 +428,7 @@ mounted() {
     /* border: 1px solid red; */
     border-bottom: 1px solid #D0D5DD;
     width: 100%;
-    height: 80px;
+    /* height: 80px; */
   }
   .room_container{
     display: flex;

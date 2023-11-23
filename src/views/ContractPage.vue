@@ -1,12 +1,85 @@
 <template>
-     <Modal v-if="showModal">
-        <template #message>Application successfuly sent</template>
-        <template #buttonAndText>
-            <RouterLink to="/jobs">
-                  <button class="cust-btn">Okay</button>
-            </RouterLink>
-        </template>
-    </Modal>
+     <div v-if="showFeedbackModal" class="feedback_modal">
+        <div class="feedback_modal_inner">
+
+            <form class="modal-body" @submit.prevent="sendClientFeedBack">
+                    <div>
+                        <div class="feedback_col">
+                            <h2>Submit A feedback</h2>
+                            <small style="width: 300px !important;">a very sincere feedback tells alot about the client and helps other freelancers to work better with the client.</small>
+                        </div>
+                          <!-- Example 1: Communication -->
+                        <div class="feedback_row">Communication
+                        <div class="rating">
+                            <label v-for="value in 5" :key="value" class="rating-item">
+                            <input type="radio" :value="value" v-model="rating.grade_a" :id="'communication-' + value" name="communication" class="sr-only" />
+                            <div :class="{ 'selected': value <= rating.grade_a }" class="custom-rating-box tz_rate" @click="selected(value, 'grade_a')">
+                                {{ value }}
+                            </div>
+                            </label>
+                        </div>
+                        </div>
+
+                        <!-- Example 2: Requirements -->
+                        <div class="feedback_row">Requirements
+                        <div class="rating">
+                            <label v-for="value in 5" :key="value" class="rating-item">
+                            <input type="radio" :value="value" v-model="rating.grade_b" :id="'requirements-' + value" name="requirements" class="sr-only" />
+                            <div :class="{ 'selected': value <= rating.grade_b }" class="custom-rating-box tz_rate" @click="selected(value, 'grade_b')">
+                                {{ value }}
+                            </div>
+                            </label>
+                        </div>
+                        </div>
+
+                        <!-- Example 3: Payment Promptness -->
+                        <div class="feedback_row">Payment Promptness
+                        <div class="rating">
+                            <label v-for="value in 5" :key="value" class="rating-item">
+                            <input type="radio" :value="value" v-model="rating.grade_c" :id="'payment-' + value" name="payment" class="sr-only" />
+                            <div :class="{ 'selected': value <= rating.grade_c }" class="custom-rating-box tz_rate" @click="selected(value, 'grade_c')">
+                                {{ value }}
+                            </div>
+                            </label>
+                        </div>
+                        </div>
+
+                        <!-- Example 4: Project Clarity and Scope -->
+                        <div class="feedback_row">Project Clarity and Scope
+                        <div class="rating">
+                            <label v-for="value in 5" :key="value" class="rating-item">
+                            <input type="radio" :value="value" v-model="rating.grade_d" :id="'project-' + value" name="project" class="sr-only" />
+                            <div :class="{ 'selected': value <= rating.grade_d }" class="custom-rating-box tz_rate" @click="selected(value, 'grade_d')">
+                                {{ value }}
+                            </div>
+                            </label>
+                        </div>
+                        </div>
+
+                        <!-- Example 4: Project Clarity and Scope -->
+                        <div class="feedback_row">Overall Satisfaction
+                        <div class="rating">
+                            <label v-for="value in 5" :key="value" class="rating-item">
+                            <input type="radio" :value="value" v-model="rating.grade_e" :id="'satisfaction-' + value" name="satisfaction" class="sr-only" />
+                            <div :class="{ 'selected': value <= rating.grade_e }" class="custom-rating-box tz_rate" @click="selected(value, 'grade_e')">
+                                {{ value }}
+                            </div>
+                            </label>
+                        </div>
+                        </div>
+
+                    </div>
+            </form>
+            <div class="feedback_modal_footer">
+                <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal">Close</button>
+                <button type="button" class="btn btn-primary" @click="sendClientFeedBack" v-if="!checkForCompletion">Submit feedback</button>
+                <button type="button" class="btn btn-primary" v-else>Project Completed successfully!</button>
+                {{ checkForCompletion }}
+
+            </div>
+        </div>
+
+    </div>
 
 
     <!-- add message toast to page -->
@@ -22,18 +95,17 @@
             <LeftNav />
         </div>
         <div class="Page-header">
-            <div class="page-title" :class="['theme-transition', { 'dark': themeStore.darkMode }]">Application</div>
+            <div class="page-title" :class="['theme-transition', { 'dark': themeStore.darkMode }]">Contract</div>
         </div>
+
 
         <div v-if="!isLoading" class="Page-contents" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
 
-               <div class="tz-job-content-area">
-            <div v-if="jobIsApplied" class="alert alert-info">
-                You already submitted an application for this job . . .
-            </div>
+               <div class="tz_job_content_area">
                     <!-- <div class="tz-company-header-img"></div> -->
                     <div class="job-detail-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="jdh-left">
+                            <div class="alert alert-success" style="width: 100%;" v-if="jobIsCompleted">You have completed this Project successfully!</div>
                             <span><b>{{ job.job_title }}</b></span>
                             <span>{{ job.employer_company }}</span>
                                 <!---------------clock icon-------------->
@@ -66,18 +138,7 @@
                             <p class="tz-form-title">Job Description</p>
                             {{ job.job_description }}
                     </div>
-                    <div class="tz-job-content-description">
-                            <p class="tz-form-title">Skills Required</p>
-                            <div class="skill_set">
-                            <div v-for="(skills,index) in job.skills.split(', ')" :key="index">
-                                    <div class="skills">{{ skills }}</div>
-                            </div>
-                            </div>
-                    </div>
-                    <div class="tz-job-content-description">
-                            <p class="tz-form-title">Project type</p>
-                            {{ job.period }}
-                    </div>
+
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Payment type</p>
                             {{ job.budget_type }}
@@ -85,84 +146,28 @@
                     <div class="tz-job-content-description" v-if="getUserById(job.employer)">
                             <p class="tz-form-title">About recruiter</p>
                             <div class="jd-section">
-                        <div v-if="getUserById(job.employer)" class="little-employer" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                        <div v-if="getUserById(job.employer)" class="little-employe" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                             <img style="height: 70px; width: 70px; border-radius: 20%" :src="getUserById(job.employer).profile.profileImage">
                             <div>
-                                <b>{{ getUserById(job.employer).profile.company_name }}</b> | {{ getUserById(job.employer).profile.city }}
-                                <br/>{{ getUserById(job.employer).profile.tagline }}
+                                <span style="color: var(--app-blue);">{{ getUserById(job.employer).profile.company_name }} | {{ getUserById(job.employer).profile.tagline }}</span>
+                                <br/>location: {{ getUserById(job.employer).profile.city }}
                                 <br/>web: {{ getUserById(job.employer).profile.website }}
-                                <br/><span class="rating" v-html="convertToStars(getUserById(job.employer).ratedValue)"></span>
+                                <br/>company type: {{  getUserById(job.employer).profile.industry_type }}
                             </div>
                         </div>
                     </div>
                     </div>
-                    <div class="tz-job-content-description">
-                            <p class="tz-form-title">Share this job post</p>
-                            <div class="tz-copy-link">
-                                <div id="contentToCopy" class="tz-disabled-link">{{ shareLink }}</div>
+
+                    <div class="tz-job-content-description" v-if="!jobIsCompleted">
+                            <p class="tz-form-title">Contract actions</p>
+                            <div class="btn_row">
+                                <button class="btn btn-primary" @click="markJobAsComplete(job._id)"  v-if="!jobIsCompleted">mark job as completed</button>
+                                <button type="button" class="btn btn-secondary">submit job feedback</button>
 
                             </div>
-                            <span class="bi bi-clipboar" @click="copyText"><u>copy link</u></span>
                     </div>
                 </div>
 
-
-                <div class="tz-form-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                    <span class="tz-form-title">Submit an application for this job</span>
-                    <form @submit.prevent="submitApplication">
-                        <div class="tz-form-content">
-                            <span class="tz-form-title">Cover Letter</span>
-                            <textarea class="tz-form-textarea" placeholder="write a convincing cover letter here..." v-model="coverLetter" required :disabled="jobIsApplied"></textarea>
-                        </div>
-                        <div class="tz-form-content">
-                            <span class="tz-form-title">Attachment</span>
-                            <div class="drop-zone" @drop="handleDrop" @dragover.prevent>
-                                <img v-if="selectedFiles.length == 0" @click="handleButtonClick" style="cursor: pointer;" src="../components/Logos_icons/cloud.png" class="cloud">
-                                <span v-if="selectedFiles.length == 0">Drag and drop files or upload project files here.</span>
-                                <!-- <span v-else>{{ selectedFiles.name }}</span> -->
-                                <!-- Display selected file names -->
-                                <ul>
-                                    <li v-for="(fileName, index) in selectedFiles" :key="index">{{ fileName }}</li>
-                                </ul>
-                            </div>
-                                <!-- <input type="file" ref="fileInput" @change="handleFileInputChange" style="display: none" :disabled="jobIsApplied"> -->
-                                <!-- File input for multiple attachments -->
-                                <input type="file" ref="fileInput" multiple @change="handleFileChange" style="display: none" :disabled="jobIsApplied"/>
-                                <span @click="handleButtonClick" style="color:blue; cursor: pointer;margin: 0;" class="cust-bt">Upload files</span>
-                        </div>
-                        <div class="tz-form-content row">
-                            <span class="tz-form-title">Counter offer</span>
-                            <div class="form-sub">
-                                <p>Requesting Fee</p>
-                                <div class="amount-input">
-                                    <div class="currency">NGN</div>
-                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="counterOffer" :disabled="jobIsApplied">
-                                </div>
-
-                                <small>input the amount you want to get paid for this job</small>
-                            </div>
-                            <div class="form-sub">
-                                <p>Reason</p>
-                                <textarea type="textarea" class="tz-form-textarea" style="height: 70px;" placeholder="...." v-model="reasonForCounterOffer" :disabled="jobIsApplied"></textarea>
-                                <small>give a detailed reason for countering the offer</small>
-                            </div>
-                        </div>
-                        <div class="tz-form-content">
-                            <span v-if="!jobIsApplied">
-                                <button class="tz-form-submit-btn cust-btn" type="submit" :disabled="isSubmitting" ><span v-if="isSubmitting">processing...</span><span v-else>Submit Application</span></button>
-                            </span>
-                            <!-- <span v-else>
-                                <button class="tz-form-submit-btn cust-btn" style="background: green;" type="submit" disabled>Application sent</button>
-                            </span> -->
-
-                        </div>
-                        <div class="tz-form-content" v-if="checkForHires(userDetails.id)">
-                            <span>
-                                <button class="tz-form-submit-btn cust-btn" type="submit" :disabled="isSubmitting" @click="getContractPage(job._id)">view contract</button>
-                            </span>
-                        </div>
-                    </form>
-                </div>
         </div>
 
         <div v-else style="height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center;" class="Page-contents">
@@ -226,7 +231,7 @@
             isLoading: true,
             shareLink: window.location.href,
             job_id: '',
-            showModal: false,
+            showFeedbackModal: false,
 
             userDetails: '',
             employerDetails: [],
@@ -236,6 +241,7 @@
 
             userAppliedJobs: '',
             jobIsApplied: false,
+            jobIsCompleted: false,
 
             coverLetter: '',
             counterOffer: '',
@@ -245,7 +251,16 @@
             isSubmitting: false,
             employerJob: [],
 
-            userIsHired: false,
+            rating: {
+                grade_a: 0,
+                grade_b: 0,
+                grade_c: 0,
+                grade_d: 0,
+                grade_e: 0,
+            },
+
+            selectedRating: null,
+            userCompletedContract: false,
 
             };
         },
@@ -282,10 +297,10 @@
 
                 fetchEmployerJobs(jobId) {
                     if(!this.employerJob[jobId]){
-                axios.get(`${this.api_url}/jobs/${jobId}`)
-                    .then(response => {
-                        // this.data.push(response.data.job);
-                        this.employerJob[jobId] = response.data.job;
+                    axios.get(`${this.api_url}/jobs/${jobId}`)
+                        .then(response => {
+                            // this.data.push(response.data.job);
+                            this.employerJob[jobId] = response.data.job;
                     })
                     .catch(error => {
                     console.error(error);
@@ -389,24 +404,24 @@
                 },
 
                 getUserDetails() {
-            this.isLoading = true;
-            const token = localStorage.getItem('token'); // Get the token from localStorage
-            const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
-            // Set up headers with the token
-            const headers = {
-                Authorization: `JWT ${token}`, // Assuming it's a JWT token
-            };
-            axios.get(user_url, { headers })
-                .then((response) => {
-                // Handle the response here
-                this.userDetails = response.data.user;
-                // console.log("the user ", this.userDetails)
-                })
-                .catch((error) => {
-                // Handle errors
-                this.isLoading = false;
-                console.error(error);
-                });
+                    this.isLoading = true;
+                    const token = localStorage.getItem('token'); // Get the token from localStorage
+                    const user_url = `${this.api_url}/user-info`; // Assuming user-info is the endpoint for user details
+                    // Set up headers with the token
+                    const headers = {
+                        Authorization: `JWT ${token}`, // Assuming it's a JWT token
+                    };
+                    axios.get(user_url, { headers })
+                        .then((response) => {
+                        // Handle the response here
+                        this.userDetails = response.data.user;
+                        // console.log("the user ", this.userDetails)
+                        })
+                        .catch((error) => {
+                        // Handle errors
+                        this.isLoading = false;
+                        console.error(error);
+                        });
                 },
 
                  // now we try to get the employer's details ......
@@ -422,7 +437,6 @@
                 }
                 return this.employerDetails[id];
                 },
-
                 fetchUserAppliedJobs() {
                     this.isLoading = true;
                     // Fetch user-applied jobs using the route you created
@@ -437,6 +451,9 @@
                             // Use the some method to check if any item in the userAppliedJobs array matches the given jobId
                             const isJobApplied = this.userAppliedJobs.some(job => job._id === this.$route.params.job_id);
                             if(isJobApplied){this.jobIsApplied = true}else{this.jobIsApplied = false};
+
+
+
                             // Log the result to the console
                             // console.log(`Job ID ${this.$route.params.job_id} is${isJobApplied ? '' : ' not'} found in user-applied jobs`);
 
@@ -450,8 +467,14 @@
                                     this.reasonForCounterOffer = this.job.applications[i].reasonForCounterOffer;
                                }
                             };
-                            // Return a message based on whether the job is applied or not
-                            // return isJobApplied ? "View Application" : "Apply here";
+                            //  the code below checks if the current user has completed the job
+                            for(let i = 0; i < this.job.completedBy.length; i++){
+                               if(this.job.completedBy[i].includes(this.userDetails.id)){
+                                    this.jobIsCompleted = true;
+
+                                    console.log("job completed: ", this.jobIsCompleted)
+                               }
+                            };
                     })
                     .catch(error => {
                         console.error(error);
@@ -459,10 +482,6 @@
                     .finally(() => {
                         this.isLoading = false;
                     });
-                },
-
-                getContractPage(jobId) {
-                    this.$router.push(`/contract/${jobId}`);
                 },
 
                 handleButtonClick(){
@@ -483,30 +502,60 @@
                     this.filesToUpload = files;
                     },
 
-                convertToStars(ratingValue) {
-                    if(!ratingValue || ratingValue == undefined || ratingValue <= 0){
-                        return `<i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>`
+                async markJobAsComplete(jobId) {
+                    const userId = this.userDetails.id;
+                    const employerId = this.job.employer;
+
+                    console.log("job id:", jobId, "user id:", this.userDetails.id, "employer id:", this.job.employer)
+                    try {
+                    const response = await axios.post(`${this.api_url}/completeJob`,
+                    {
+                        jobId: jobId,
+                        userId: userId,
+                        employerId: employerId},
+                    {
+                        headers: {
+                        Authorization: `JWT ${token}`},
                     }
-                    const fullStars = Math.floor(ratingValue);
-                    const halfStar = ratingValue - fullStars >= 0.5 ? 1 : 0;
-                    const emptyStars = 5 - fullStars - halfStar;
+                    );
 
-                    const fullStarsHTML = `<i class='bi bi-star-fill'></i>`.repeat(fullStars);
-                    const halfStarHTML = halfStar ? `<i class="bi bi-star-half"></i>` : '';
-                    const emptyStarsHTML = `<i class="bi bi-star"></i>`.repeat(emptyStars);
+                    alert("Job Completed Successfully!");
+                    // refresh the page...
+                    window.location.reload();
 
-                    return fullStarsHTML + halfStarHTML + emptyStarsHTML;
+                } catch (error) {
+                    console.error('Error marking job a complete:', error);
+                }
+                    },
+                async sendClientFeedBack(){
+                    try{
+                    const jobId = this.job._id;
+                    const employerId = this.job.employer;
+                    const userId = this.userDetails.id;
+                    const ratedValue = (this.rating.grade_a + this.rating.grade_b + this.rating.grade_c + this.rating.grade_d + this.rating.grade_e)/5;
 
+                    const response = await axios.post(`${this.api_url}/employer/${employerId}/rating`, {
+                            jobId,
+                            userId,
+                            ratedValue
+                            });
+                        console.log(response.data);
+                         // close modal
+                         this.showFeedbackModal = false;
+                    }
+
+                    catch(error){
+                        console.error('Error sending feedback rating:', error.message);
+                    }
                 },
-
-                checkForHires(user_id){
-                    if(this.job.hiredUsers.includes(user_id)){
-                        this.userIsHired = true;
+                selected(value, section) {
+                    this.rating[section] = value;
+                },
+                checkjForCompletion(user_id){
+                    if(this.job.completedBy.includes(user_id)){
                         return true;
                     }
-                    this.userIsHired = false;
                     return false;
-
                 },
 
         },
@@ -558,9 +607,9 @@ small{font-size: 12px;}
 .tz-job-content-description{
     margin-top: 20px;
 }
-.tz-job-content-area, .tz-form-area{
+.tz_job_content_area, .tz-form-area{
     /* border: 2px solid green; */
-    width: 50%;
+    width:100%;
     padding: 20px;
     overflow-y: scroll;
     /* height: 90vh; */
@@ -627,6 +676,11 @@ small{font-size: 12px;}
   margin-top: 50px;
 }
 
+.btn_row{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
 .drop-zone {
   display: flex;
   flex-direction: column;
@@ -651,16 +705,114 @@ butto {
   cursor: pointer;
 }
 
+.feedback_modal{
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    background: #0000007f;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.feedback_modal_inner{
+    /* height: 300px; */
+    background: #fff;
+    /* max-width: 500px; */
+    padding: 20px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.feedback_modal_footer{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    /* border: 1px solid red; */
+    justify-content: flex-end;
+}
+.feedback_col{
+    padding: 20px;
+}
+.feedback_row{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    border: 0.5px solid #efefef;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+.closeBtn{
+    right: 0px !important;
+}
+.tz_rate{
+    border: 1px solid #efefef;
+    border-radius: 10px;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+
 @media screen and (max-width: 1200px) {
     .Page-contents{
         flex-direction: column;
         overflow-y: scroll;
     }
-    .tz-job-content-area, .tz-form-area{
+    .tz_job_content_area, .tz-form-area{
         width: 100%;
         overflow: visible;
         height: auto;
         /* border: 2px solid red; */
     }
 }
+
+/* This style is used to visually represent the rating as custom-designed boxes */
+.rating {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 300px !important;
+  font-size: 24px;
+  gap: 20px;
+}
+
+.rating-item {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Hide the radio buttons visually */
+.sr-only {
+  position: absolute;
+  opacity: 0;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+}
+
+/* Style for the custom-designed rating boxes */
+.custom-rating-box {
+  /* border: 2px solid #000; */
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.selected {
+  background-color:var(--app-blue);
+  color: #000;
+  color: #fff;
+}
+
 </style>

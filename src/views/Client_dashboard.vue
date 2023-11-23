@@ -1,5 +1,28 @@
 <template>
 
+
+<div class="hireModal" v-if="deleteJobOptions">
+    <div class="hireModalSub">
+        Are you sure you want to delete the job: <br/> <b> {{tempJob_title}}</b> ? <br/><strong style="color: red">Job cannot be retrieved after deletion!</strong>
+        <div class="hireModalBtn">
+            <button class="cust-btn" style="border-radius: 5px; background: red;" @click="deleteJob">Delete</button>
+            <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="deleteJobOptions = !deleteJobOptions">cancel</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- hiring modal starts below....... -->
+<div class="hireModal" v-if="hireModalDisplay">
+    <div class="hireModalSub">
+        Are you sure you want to hire <br/> <b>  </b> for the contract: <br/> <b>{{tempJob_title}}</b> ?
+            <div class="hireModalBtn">
+                <button class="cust-btn" style="border-radius: 5px" @click="hireUser">Yes Hire</button>
+                <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="hireModalDisplay = !hireModalDisplay">cancel</button>
+            </div>
+    </div>
+</div>
+
     <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
             <Navbar/>
@@ -87,19 +110,11 @@
                                             <div class="job_effect_btns">
                                                 <button class="job-btn edit-btn" @click="editJobPost(job._id)"><i class="bi bi-pencil-square"></i> Edit</button>
                                                 <!-- <button class="job-btn delete-btn"  @click="deleteJob(job._id)" ><i class="bi bi-trash-fill"></i> Delete</button> -->
-                                                <span class="job-btn delete-btn"  @click="deleteJobOptions = !deleteJobOptions">
+                                                <span class="job-btn delete-btn"  @click="showDeleteModal(job._id, job.job_title)">
                                                     <i class="bi bi-trash-fill"></i> Delete
                                                 </span>
                                             </div>
-                                                <div class="hireModal" v-if="deleteJobOptions">
-                                                    <div class="hireModalSub">
-                                                        Are you sure you want to delete the job: <br/> <b> {{job.job_title}}</b> ? <br/><strong style="color: red">Job cannot be retrieved after deletion!</strong>
-                                                            <div class="hireModalBtn">
-                                                                <button class="cust-btn" style="border-radius: 5px; background: red;" @click="deleteJob(job._id)">Delete</button>
-                                                                <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="deleteJobOptions = !deleteJobOptions">cancel</button>
-                                                            </div>
-                                                        </div>
-                                                </div>
+
                                         </div>
                                         <button v-if="job.applications.length > 0" class="accordion_applicants" @click="toggleFullDetails(index)">
                                             <span v-if="!job.showDetails" class="spinner-grow spinner-grow-sm" role="status">
@@ -130,17 +145,9 @@
                                                     <button class="cust-btn" style="border-radius: 5px;" v-if="!checkUser(applicant.user, job.job_title)" @click="messageUser(job.job_title, applicant.user)"> Message </button>
 
                                                     <button class="cust-btn" style="background: var(--app-grey); border-radius: 5px; margin-left: 10px;" v-if="job.hiredUsers.includes(applicant.user)">Hired</button>
-                                                    <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else  @click="hireModalDisplay = !hireModalDisplay">Hire</button>
+                                                    <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else  @click="showHireModal(job._id, applicant.user, job.job_title)">Hire</button>
                                                 </div>
-                                                <div class="hireModal" v-if="hireModalDisplay">
-                                                    <div class="hireModalSub">
-                                                        Are you sure you want to hire <br/> <b> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }} </b> for the contract: <br/> <b>{{job.job_title}}</b> ?
-                                                            <div class="hireModalBtn">
-                                                                <button class="cust-btn" style="border-radius: 5px" @click="hireUser(job._id, applicant.user)">Yes Hire</button>
-                                                                <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="hireModalDisplay = !hireModalDisplay">cancel</button>
-                                                            </div>
-                                                        </div>
-                                                </div>
+
                                             </div>
                                             <!-- {{ applicant }} -->
                                             </div>
@@ -211,6 +218,9 @@
                     profileErrorMessage: false,
 
                     hireModalDisplay: false,
+                    tempJobId: '',
+                    tempJob_title: '',
+                    tempUserId: '',
                     };
                 },
                 methods: {
@@ -398,7 +408,7 @@
 
                     },
 
-                    async deleteJob(job_id){
+                    async deleteJob(){
                         // Set up headers with the token
                         const token = localStorage.getItem('token');
                         const headers = {
@@ -406,7 +416,7 @@
                         };
 
                         try{
-                        const response = await axios.delete(`${this.api_url}/jobs/${job_id}`, {headers});
+                        const response = await axios.delete(`${this.api_url}/jobs/${this.tempJobId}`, {headers});
                         if(response.status === 200){
                             console.log("job deleted successfully!");
                             console.log(response.data);
@@ -426,13 +436,13 @@
                         window.open(route.href, '_blank');
                     },
 
-                    async hireUser(jobId, userId) {
+                    async hireUser() {
                         try {
                         // Retrieve the JWT token from local storage
                         const token = localStorage.getItem('token');
                         // Make a POST request to the API endpoint
                         const response = await axios.post(
-                            `${this.api_url}/jobs/${jobId}/hire/${userId}`,
+                            `${this.api_url}/jobs/${this.tempJobId}/hire/${this.tempUserId}`,
                             {},
                             {headers: {Authorization: `JWT ${token}`},}
                         );
@@ -486,6 +496,18 @@
                             }
                         }
                     },
+
+                    showDeleteModal(tempJobId, tempJob_title){
+                        this.deleteJobOptions = !this.deleteJobOptions;
+                        this.tempJobId = tempJobId;
+                        this.tempJob_title = tempJob_title;
+                    },
+                    showHireModal(tempJobId, tempUserId, tempJob_title){
+                        this.hireModalDisplay = !this.hireModalDisplay;
+                        this.tempJobId = tempJobId;
+                        this.tempUserId = tempUserId;
+                        this.tempJob_title = tempJob_title;
+                    }
 
 
                 },

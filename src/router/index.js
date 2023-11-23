@@ -20,6 +20,7 @@ import AppliedJobsPage from '../views/AppliedJobsPage.vue'
 //Introduction views for both clients and talents...
 import customize from '../views/customizeProfile.vue'
 import customize_client from '../views/Client_Customize.vue'
+import contract_page from '../views/ContractPage.vue'
 
 //Authentication views.........
 // import EmployerSignup from '../views/SignUp_2.vue'
@@ -74,6 +75,7 @@ const routes = [
   {path: "/notifications", name:  "Techzone - Notifications", component: Notifications},
   {path: "/reset-password", name: "Password - reset", component: ResetPassword},
   {path: "/reset-password-main", name: "Password - reset2", component: ResetPassword2},
+  {path: "/contract/:job_id", name: "Techzone - Contract", component: contract_page, meta: { requiresAuth: true, role: 'user' }},
 
   //job categories.......
   // {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true, role: 'user' }},

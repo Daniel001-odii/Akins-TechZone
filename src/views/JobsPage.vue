@@ -85,11 +85,12 @@
                     <div class="jdh-left">
                         <span><b>{{ jobs[selectedJob].job_title }}</b></span>
                         <small>
-                            <span>{{ jobs[selectedJob].employer_company }} |</span>
+                            <span>{{ jobs[selectedJob].employer_company }}</span>
+                            <br/><span v-if="getUserById(jobs[selectedJob].employer)"><span class="rating" v-html="convertToStars(getUserById(jobs[selectedJob].employer).ratedValue)"></span></span>
+                            <!-- <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-fill"></i>
-                            <i class="bi bi-star-half"></i>
+                            <i class="bi bi-star-half"></i> -->
                         </small>
                         <!-- <span>Job is saved: {{ checkSavedJobs(jobs[selectedJob]._id) }}</span> -->
                             <!---------------clock icon-------------->
@@ -154,6 +155,9 @@
                                 <b>{{ getUserById(jobs[selectedJob].employer).profile.company_name }}</b> | {{ getUserById(jobs[selectedJob].employer).profile.city }}
                                 <br/>{{ getUserById(jobs[selectedJob].employer).profile.tagline }}
                                 <br/>web: {{ getUserById(jobs[selectedJob].employer).profile.website }}
+                                <!-- <br/><span><b>rated: </b> {{ displayStars(calculateAverageRating(getUserById(jobs[selectedJob].employer).realRating)) }} stars</span> -->
+                                <br/><span class="rating" v-html="convertToStars(getUserById(jobs[selectedJob].employer).ratedValue)"></span>
+
                             </div>
                         </div>
                     </div>
@@ -471,7 +475,24 @@
                 }
                 return this.employerDetails[id];
                 },
-            },
+
+                convertToStars(ratingValue) {
+                if(!ratingValue || ratingValue == undefined || ratingValue <= 0){
+                    return `<i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i>`
+                }
+                const fullStars = Math.floor(ratingValue);
+                const halfStar = ratingValue - fullStars >= 0.5 ? 1 : 0;
+                const emptyStars = 5 - fullStars - halfStar;
+
+                const fullStarsHTML = `<i class='bi bi-star-fill'></i>`.repeat(fullStars);
+                const halfStarHTML = halfStar ? `<i class="bi bi-star-half"></i>` : '';
+                const emptyStarsHTML = `<i class="bi bi-star"></i>`.repeat(emptyStars);
+
+                return fullStarsHTML + halfStarHTML + emptyStarsHTML;
+
+                },
+
+                },
 
             computed: {
             },
@@ -518,5 +539,6 @@
     transition: opacity .1s ease-in-out;
     transition-delay: .5s;
 }
+
 
   </style>
