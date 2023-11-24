@@ -365,6 +365,8 @@
                                                 <span name="notification-item">
                                                     <div>{{ notify.message.substring(0, 120) }}...</div>
                                                     <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
+                                                    <!-- {{ notify.linkUrl }} -->
+                                                    <br/><div @click="viewContractPage(notify.linkUrl)" class="notify_link" style="color: var(--app-blue)">View contract <i class="bi bi-box-arrow-up-right"></i></div>
                                                 </span>
                                                 <span class="notifications_dismiser" @click="markNotificationAsRead(notify._id)">&times;</span>
                                             </div>
@@ -755,6 +757,10 @@ export default {
         }
         },
 
+        viewContractPage(linkUrl){
+            this.$router.push(`/${linkUrl}`);
+        }
+
 
         },
         beforeDestroy() {
@@ -881,7 +887,18 @@ export default {
 
 
 
-
+.notify_link{
+    padding: 5px;
+    border-radius: 30px;
+    margin-top: 10px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #efefef;
+}
+.notify_link:hover{
+    background: var(--app-blue);
+    color: #fff !important;
+}
 
 
 

@@ -76,6 +76,7 @@ const routes = [
   {path: "/reset-password", name: "Password - reset", component: ResetPassword},
   {path: "/reset-password-main", name: "Password - reset2", component: ResetPassword2},
   {path: "/contract/:job_id", name: "Techzone - Contract", component: contract_page, meta: { requiresAuth: true, role: 'user' }},
+  {path: "/client/contract/:job_id/:user_id", name: "Techzone - Contract-client", component: contract_page},
 
   //job categories.......
   // {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true, role: 'user' }},

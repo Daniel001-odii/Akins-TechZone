@@ -18,21 +18,21 @@
             <!----this is an insight page and needs no job lisitng content-->
              <!---notifications modal-->
                 <div class="notification">
-                                <div class="notify" v-for="(notification, index) in userNotifications" :key="index">
-                                    <div @click="markNotificationAsRead(notification._id)">
-                                        <div class="notify_line">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 20" fill="none">
+                                <div class="notify" v-for="(notification, index) in userNotifications" :key="index" :class="notification.isRead ? 'readNote' : 'unreadNote'"  @click="markNotificationAsRead(notification._id)">
+                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 21 20" fill="none">
                                                 <path d="M10.5 20C4.977 20 0.5 15.523 0.5 10C0.5 4.477 4.977 0 10.5 0C16.023 0 20.5 4.477 20.5 10C20.5 15.523 16.023 20 10.5 20ZM9.503 14L16.573 6.929L15.159 5.515L9.503 11.172L6.674 8.343L5.26 9.757L9.503 14Z"
                                                 :fill="notification.isRead ? 'green' : 'grey'"/>
-                                            </svg>
-                                            <span style="margin-left: 10px;">{{ notification.message }}</span>
+                                            </svg> -->
+
+                                        <div class="notify_line">
+                                            <span>{{ notification.message }}</span>
+                                            <span class="notify_time">{{ formatTimestamp(notification.createdAt) }}</span>
                                         </div>
-
-                                        <span class="notify_time">{{ formatTimestamp(notification.createdAt) }}</span>
-                                    </div>
-
+                                        <small v-if="notification.isRead" style="color: green;">read</small>
+                                        <small v-else style="color: red;">unread</small>
                                 </div>
                 </div>
+                <small style="padding: 20px;">End of notifications...</small>
       </div>
       <!-- <div class="footer">
         <Footer/>
@@ -138,31 +138,36 @@
 
 
     <style scoped>
-    .notification{
+    .readNote{
+        background: #f4f4f4;
+    }
+    .unreadNote{
+        background: #fff;
+    }
+.notification{
       width: 90%;
       font-size: 0.5em !important;
       display: flex;
       flex-direction: column;
     }
-    .Page-contents{
+
+.Page-contents{
         display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 20px;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
-        height: 80vh;
         font-size: 1.8em !important;
-        text-align: center;
     }
-.notify > div{
+
+.notify{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
     padding: 15px;
-    width: 100%;
     cursor: pointer;
-    text-align: left;
+    gap: 20px;
+    border-bottom: 0.5px solid #efefef;
 }
 
 .notify:hover{
@@ -171,8 +176,10 @@
 
 .notify_line{
     display: flex;
-    flex-direction: row;
-    max-width: 300px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
 }
 
 .notify_time{

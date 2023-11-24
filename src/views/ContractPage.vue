@@ -72,9 +72,9 @@
             </form>
             <div class="feedback_modal_footer">
                 <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal">Close</button>
-                <button type="button" class="btn btn-primary" @click="sendClientFeedBack" v-if="!checkForCompletion">Submit feedback</button>
-                <button type="button" class="btn btn-primary" v-else>Project Completed successfully!</button>
-                {{ checkForCompletion }}
+                <button type="button" class="btn btn-primary" @click="sendClientFeedBack">Submit feedback</button>
+                <!-- <button type="button" class="btn btn-primary" v-else>Project Completed successfully!</button> -->
+                <!-- {{ checkForCompletion }} -->
 
             </div>
         </div>
@@ -95,7 +95,7 @@
             <LeftNav />
         </div>
         <div class="Page-header">
-            <div class="page-title" :class="['theme-transition', { 'dark': themeStore.darkMode }]">Contract</div>
+            <div class="page-title" :class="['theme-transition', { 'dark': themeStore.darkMode }]">Contract<span v-if="isEmployer">-Review</span></div>
         </div>
 
 
@@ -105,7 +105,8 @@
                     <!-- <div class="tz-company-header-img"></div> -->
                     <div class="job-detail-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="jdh-left">
-                            <div class="alert alert-success" style="width: 100%;" v-if="jobIsCompleted">You have completed this Project successfully!</div>
+                            <div class="alert alert-success" style="width: 100%;" v-if="this.job.completedBy.includes(String(this.userDetails.id))">Project completed successfully!</div>
+                            <!-- <div class="alert alert-info" v-if="requestedReview">You have requested for review</div> -->
                             <span><b>{{ job.job_title }}</b></span>
                             <span>{{ job.employer_company }}</span>
                                 <!---------------clock icon-------------->
@@ -158,14 +159,25 @@
                     </div>
                     </div>
 
-                    <div class="tz-job-content-description" v-if="!jobIsCompleted">
+                    <div class="tz-job-content-description">
                             <p class="tz-form-title">Contract actions</p>
                             <div class="btn_row">
-                                <button class="btn btn-primary" @click="markJobAsComplete(job._id)"  v-if="!jobIsCompleted">mark job as completed</button>
-                                <button type="button" class="btn btn-secondary">submit job feedback</button>
-
+                                <button class="btn btn-primary" @click="requestApproval" v-if="isUser && !this.job.requestedReview.includes((String(this.userDetails.id)))">send contract for review</button>
+                                <button class="btn btn-primary" v-if="isUser && this.job.requestedReview.includes((String(this.userDetails.id)))"  disabled>contract review request sent</button>
+                                <button class="btn btn-primary" v-if="isEmployer && this.job.requestedReview.includes((String(this.userDetails.id))) && this.job.completedBy.includes(String(this.userDetails.id))"  disabled>contract review request approved</button> ___
+                                <button @click="markJobAsComplete(job._id)" class="btn btn-primary" v-if="isEmployer && this.job.completedBy.includes(String(this.userDetails.id)) != true" >Approve job completion request</button>
+                                <button class="btn btn-success" disabled v-if="this.job.completedBy.includes(String(this.userDetails.id))">Job completed</button>
                             </div>
                     </div>
+                    <div class="tz-job-content-description">
+                        <p class="tz-form-title">Feedback</p>
+                        <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="!this.job.completedBy.includes(String(this.userDetails.id))">submit job feedback</button>
+                        <span v-if="this.job.requestedReview.includes((String(this.userDetails.id))) && !this.job.completedBy.includes(String(this.userDetails.id))">Awaiting client approval before feedback is available</span>
+                        <span v-if="this.job.completedBy.includes(String(this.userDetails.id)) && this.job.requestedReview.includes((String(this.userDetails.id))) && isUser">the client sent you a feedback</span>
+                        <span v-else>you sent a feedback</span>
+                        <!-- <span>Contract Feedback submitted</span> -->
+                    </div>
+
                 </div>
 
         </div>
@@ -240,16 +252,18 @@
             filesToUpload: '',
 
             userAppliedJobs: '',
-            jobIsApplied: false,
-            jobIsCompleted: false,
+            jobIsApplied: null,
+            jobIsCompleted: null,
 
             coverLetter: '',
             counterOffer: '',
             reasonForCounterOffer: '',
             attachment: '',
 
-            isSubmitting: false,
+            isSubmitting: null,
             employerJob: [],
+            isUser: true,
+            isEmployer: null,
 
             rating: {
                 grade_a: 0,
@@ -261,6 +275,8 @@
 
             selectedRating: null,
             userCompletedContract: false,
+
+            requestedReview: false,
 
             };
         },
@@ -285,7 +301,8 @@
                     .then(response => {
                         // this.data.push(response.data.job);
                         this.job = response.data.job;
-                        // console.log("currrent job in view: ", this.job);
+                        console.log("currrent job in view: ", this.job);
+
                     })
                     .catch(error => {
                     console.error(error);
@@ -452,8 +469,6 @@
                             const isJobApplied = this.userAppliedJobs.some(job => job._id === this.$route.params.job_id);
                             if(isJobApplied){this.jobIsApplied = true}else{this.jobIsApplied = false};
 
-
-
                             // Log the result to the console
                             // console.log(`Job ID ${this.$route.params.job_id} is${isJobApplied ? '' : ' not'} found in user-applied jobs`);
 
@@ -468,13 +483,6 @@
                                }
                             };
                             //  the code below checks if the current user has completed the job
-                            for(let i = 0; i < this.job.completedBy.length; i++){
-                               if(this.job.completedBy[i].includes(this.userDetails.id)){
-                                    this.jobIsCompleted = true;
-
-                                    console.log("job completed: ", this.jobIsCompleted)
-                               }
-                            };
                     })
                     .catch(error => {
                         console.error(error);
@@ -483,6 +491,40 @@
                         this.isLoading = false;
                     });
                 },
+
+                // this.job.completedBy.includes(String(this.userDetails.id))(){
+
+                //     if(this.job.completedBy.includes(String(this.userDetails.id))){
+                //         return true;
+                //     } else{
+                //         return false;
+                //     }
+
+
+                // },
+                // this.job.requestedReview.includes((String(this.userDetails.id)))(){
+                //     if(this.job.requestedReview.includes((String(this.userDetails.id)))){
+                //         return true
+                //     } else{
+                //         return false;
+                //     }
+                // },
+
+                // examineCurrentUser(){
+                //     for(let i = 0; i <= this.job.completedBy.length; i++){
+                //                if(this.job.completedBy[i] === this.userDetails.id){
+                //                     this.jobIsCompleted = true;
+                //                     console.log("job completed: ", this.jobIsCompleted)
+                //                }
+                //             };
+                //             console.log(this.userDetails.id)
+                //             for(let i = 0; i <= this.job.requestedReview.length; i++){
+                //                if(this.job.requestedReview[i] === this.userDetails.id){
+                //                     this.requestedReview = true;
+                //                     console.log("job sent for review: ", this.requestedReview)
+                //                }
+                //             };
+                // },
 
                 handleButtonClick(){
                     const fileInput = document.querySelector('input[type="file"]');
@@ -503,12 +545,12 @@
                     },
 
                 async markJobAsComplete(jobId) {
-                    const userId = this.userDetails.id;
+                    const userId = this.$route.params.user_id;
                     const employerId = this.job.employer;
 
-                    console.log("job id:", jobId, "user id:", this.userDetails.id, "employer id:", this.job.employer)
+                    console.log("job id:", jobId, "user id:", userId, "employer id:", employerId)
                     try {
-                    const response = await axios.post(`${this.api_url}/completeJob`,
+                    const response = await axios.post(`${this.api_url}/approve-review-request`,
                     {
                         jobId: jobId,
                         userId: userId,
@@ -519,7 +561,7 @@
                     }
                     );
 
-                    alert("Job Completed Successfully!");
+                    alert("review reuest approved!");
                     // refresh the page...
                     window.location.reload();
 
@@ -534,6 +576,7 @@
                     const userId = this.userDetails.id;
                     const ratedValue = (this.rating.grade_a + this.rating.grade_b + this.rating.grade_c + this.rating.grade_d + this.rating.grade_e)/5;
 
+                    console.log(jobId, employerId, userId, ratedValue)
                     const response = await axios.post(`${this.api_url}/employer/${employerId}/rating`, {
                             jobId,
                             userId,
@@ -548,34 +591,73 @@
                         console.error('Error sending feedback rating:', error.message);
                     }
                 },
+                async requestApproval(){
+                    try{
+                    const jobId = this.job._id;
+                    const employerId = this.job.employer;
+                    const userId = this.userDetails.id;
+
+
+                    const response = await axios.post(`${this.api_url}/jobs/requestApproval`, {
+                            jobId,
+                            userId,
+                            employerId
+                            });
+                        console.log(response.data);
+                        window.location.reload();
+                    }
+                    catch(error){
+                        console.error('Error requesting for approval:', error.message);
+                    }
+                },
+                checkLoginStatus(){
+                const token = localStorage.getItem('token');
+                const userRole = token ? JSON.parse(atob(token.split('.')[1])).role : null;
+
+                if (userRole === 'user') {
+                this.isUser = true;
+                this.isEmployer = false; // Corrected variable name
+                } else if (userRole === 'employer') {
+                this.isUser = false;
+                this.isEmployer = true;
+                } else {
+                this.userNotLoggedIn = true;
+                }
+
+                console.log("logged in as", userRole);
+                },
+
+
                 selected(value, section) {
                     this.rating[section] = value;
-                },
-                checkjForCompletion(user_id){
-                    if(this.job.completedBy.includes(user_id)){
-                        return true;
-                    }
-                    return false;
                 },
 
         },
         created() {
-            this.getUserDetails();
+            this.checkLoginStatus();
+            if(this.isUser){
+                this.getUserDetails();
+                this.fetchUserAppliedJobs();
+            }
+
             this.fetchJobListings();
-            this.fetchUserAppliedJobs();
+
+
+
+
             // this.getUserById("651d62b22d5495c4ca702289");
 
 
 
             // this.checkJobApplication();
-            if(this.userAppliedJobs.length > 0){
-                console.log(this.userAppliedJobs);
-            }
+            // if(this.userAppliedJobs.length > 0){
+            //     console.log(this.userAppliedJobs);
+            // }
 
         },
-        // mounted(){
+        mounted(){
 
-        // }
+        }
         };
 
 

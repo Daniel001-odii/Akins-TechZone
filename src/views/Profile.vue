@@ -192,6 +192,9 @@
                 </div>
                 <div class="about-header">
                     Completed Jobs
+                    <span v-for="job in userDetails.completedJobs">
+                        {{ job.job_title }}
+                    </span>
                 </div>
             </div>
         </div>

@@ -22,8 +22,8 @@ export default {
     <header>
         <NavBar/>
     </header>
-    
-    
+
+
 <main>
     <!-- <div class="container"> -->
     <div class="hero-section">
@@ -33,12 +33,10 @@ export default {
             <img height="200" src="../components/Logos_icons/job_not_found.png">
     </div>
     </div>
-    <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; color: var(--app-grey); margin-top: 30px;  font-weight: normal;">See if you are using the correct URL or 
+    <div class="hero-title" style="font-size: 1.2em; text-align: center; padding: 15px; color: var(--app-grey); margin-top: 30px;  font-weight: normal;">See if you are using the correct URL or
         <RouterLink to="/">Go back home</RouterLink></div>
-   
-    
-<InfiniteScroll/>
-</main> 
+
+</main>
 
 <footer>
     <!-- <Footer/> -->

@@ -38,10 +38,10 @@
                       <RouterLink to="/jobs/declined-jobs"><div class="job-category">Declined</div></RouterLink>
               </div>
         </div>
-    
-    
+
+
     <div class="Page-contents" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-    
+
     <div class="page-content-sub" v-if="jobs.length > 0" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="job-cards-area">
                 <slot name="job-cards">
@@ -65,11 +65,11 @@
                             </button>
                         </template>
                     </JobCard>
-                    
+
                 </div>
                 </slot>
             </div>
-        
+
                  <!-----------job  details from search results--------------------------------------------------->
         <div class="job-details-area card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div style="overflow-y: scroll;">
@@ -95,7 +95,7 @@
                                 <path d="M7 1H13" stroke="#4E79BC" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>Posted {{ getHoursTillDate(jobs[selectedJob].created_at) }} ago
                         </span>
-                        
+
                         <span class="jdh-detail">
                             <!------------wallet icon-------------->
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 20 18" fill="none">
@@ -103,9 +103,9 @@
                             </svg>(₦){{ formatBudgetAmount(jobs[selectedJob].budget) }} {{ jobs[selectedJob].budget_des }}
                         </span>
                     </div>
-                    
+
                     <div class="jdh-right">
-                        
+
                             <button class="cust-btn" style="border-radius: 5px;" @click="navigateToJobDetails(jobs[selectedJob]._id)">Apply Here</button>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                         <span class="jdh-title">Project type</span>
                             {{ jobs[selectedJob].period }}
                     </div>
-                    
+
                     <div class="jd-section">
                         <span class="jdh-title">Skills Required</span>
                         <div class="skill_set">
@@ -132,7 +132,7 @@
                             </div>
                         </div>
                     </div>
-                            
+
                     <div class="jd-section">
                         <span class="jdh-title">About the recruiter</span>
                         <!-- <p style="color: red;">this job id = {{navigateToJobDetails(filteredJobs[selectedJob].id)}}</p> -->
@@ -142,29 +142,29 @@
                         <span>
                             <span @click="navigateToJobDetails(jobs[selectedJob]._id)" style="color: var(--app-blue) !important; padding: 25px 0px; cursor: pointer;"><i class="bi bi-box-arrow-up-right"></i>Open job in a new window</span>
                         </span>
-                        
+
                     </div>
                 </div>
             </slot>
             </div>
-                  
+
         </div>
         </div>
-            
-    
+
+
         <DotLoader v-if="isLoading"/>
         <span  v-if="jobs.length == 0" class="no-job-screen"><p>You have not completed any jobs yet</p></span>
-            
-    
+
+
     </div>
-      
+
       <!--<div class="footer">
           <Footer/>
       </div>-->
-      
+
       </div>
       </template>
-      
+
       <script>
       import { RouterLink, useRouter } from 'vue-router';
       import Footer from '../components/Footer.vue';
@@ -179,8 +179,8 @@
       import Skeleton from '../components/pageSkeleton.vue'
       import DotLoader from '../components/DotLoader.vue'
       import themeStore from '@/theme/theme';
-    
-      
+
+
           export default {
             setup(){
                   // Accessing themeStore properties and methods
@@ -194,7 +194,7 @@
                 data() {
                     return {
                     selectedJob: 0, // index of currently selected job
-    
+
                     /*------ the area below ensures the search filter works, pls dont touch-----*/
                     searchTerm: '',
                     jobs:'',
@@ -211,7 +211,7 @@
                     posted: '',
                     location: '',
                     jobType: '',
-                    
+
                     }
                 },
                 methods: {
@@ -220,10 +220,10 @@
                         return formattedValue;
                     },
                     showFullJob(index) {
-                        this.selectedJob = index; 
+                        this.selectedJob = index;
                         },
-    
-    
+
+
                     fetchJobListings() {
                         this.isLoading = true;
                         const token = localStorage.getItem('token'); // Get the user's token from local storage
@@ -269,12 +269,12 @@
                             console.error(error);
                             });
                     },
-                    
+
                         // Function to check if a job ID is saved
                     checkSavedJobs(jobId) {
                     return this.userSavedJobs.includes(jobId);
                     },
-    
+
                     //this function opens up in a new page the details of any job clicked...
                     navigateToJobDetails(jobId) {
                     const route = this.$router.resolve({ name: 'Application', params: { id: jobId } });
@@ -288,7 +288,7 @@
                     const diffInHours = Math.floor(diff / (1000 * 60 * 60))
                     const diffInMins = Math.floor(diff / (1000 * 60))
                     const diffInSecs = Math.floor(diff / (1000))
-    
+
                     const timeInSeconds = Math.floor(date.getTime() / 1000); // Convert to seconds
                         // console.log("time in minutes is: " + diffInMins)
                     //calculate respectively......
@@ -298,12 +298,12 @@
                     else if (diffInHours < 24) {
                         if(diffInHours <= 1){return `${diffInHours} hour`}
                         else{return `${diffInHours} hours`}
-    
+
                     } else if (diffInHours < 720) {
                         const diffInDays = Math.floor(diffInHours / 24)
                         if(diffInDays <= 1){ return `${diffInDays} day`}
                         else{return `${diffInDays} days`}
-                        
+
                     } else {
                         const diffInMonths = Math.floor(diffInHours / 720)
                         if(diffInMonths <= 1){ return `${diffInMonths} month`}
@@ -374,7 +374,7 @@
                 window.open(route.href, '_blank');
                 },
                 },
-                
+
                 computed: {
                     filteredJobs() {
                     if (!this.searchTerm) {
@@ -391,17 +391,17 @@
                     });
         },
                 },
-    
+
                 mounted(){
                     this.fetchJobListings();
                     this.getHoursTillDate();
                     this.getUserDetails();
                 },
     }
-    
-      </script>       
-      
-      
+
+      </script>
+
+
       <style>
         /* @media screen and (max-width: 650px) {} */
       </style>
