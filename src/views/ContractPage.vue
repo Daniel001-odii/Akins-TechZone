@@ -171,7 +171,7 @@
                     </div>
                     <div class="tz-job-content-description">
                         <p class="tz-form-title">Feedback</p>
-                        <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="!this.job.completedBy.includes(String(this.userDetails.id))">submit job feedback</button>
+                        <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="!this.job.completedBy.includes(String(this.userDetails.id)) && isUser">submit job feedback</button>
                         <span v-if="this.job.requestedReview.includes((String(this.userDetails.id))) && !this.job.completedBy.includes(String(this.userDetails.id))">Awaiting client approval before feedback is available</span>
                         <span v-if="this.job.completedBy.includes(String(this.userDetails.id)) && this.job.requestedReview.includes((String(this.userDetails.id))) && isUser">the client sent you a feedback</span>
                         <span v-else>you sent a feedback</span>

@@ -192,10 +192,14 @@
                 </div>
                 <div class="about-header">
                     Completed Jobs
-                    <span v-for="job in userDetails.completedJobs">
-                        {{ job.job_title }}
-                    </span>
                 </div>
+                <div v-for="job in userDetails.completedJobs">
+                        <!-- {{ job.job_title }} -->
+                       <span style="color: var(--app-blue);"> {{ job.job_title }}</span><br/>
+                       {{ job.budget }} <br/>
+                       {{ formatTimestamp(job.completion_date) }} <br/><br/>
+                       <!-- {{ job }} -->
+                    </div>
             </div>
         </div>
 
@@ -269,6 +273,8 @@ import DotLoader from '../components/DotLoader.vue';
                 file: '',
                 showResumeModal: '',
                 uploadResbtn: false,
+
+                completedJobs: {},
 
 
             userProfile: {
@@ -575,11 +581,32 @@ import DotLoader from '../components/DotLoader.vue';
       }
     },
 
+    async fetchCompletedJobs() {
+        const token = localStorage.getItem('token');
+        const headers = {
+                Authorization: `JWT ${token}`, // Assuming it's a JWT token
+            };
+      try {
+        this.loading = true;
+        // Make an HTTP GET request to fetch completed jobs
+        const response = await axios.get(`${this.api_url}/user-completed-jobs`, { headers }); // Replace with your backend route
+
+        // Update completedJobs with the fetched data
+        this.completedJobs = response.data.completedJobs;
+        this.loading = false;
+      } catch (error) {
+        this.loading = false;
+        this.error = 'Error fetching user-completed jobs';
+        console.error(error);
+      }
+    }
+
           },
 
         beforeMount(){
             this.getUserById(this.$route.params.user_id);
             this.checkCurrentViewer()
+            this.fetchCompletedJobs();
         }
     }
 </script>
@@ -823,7 +850,7 @@ th, td{
         font-weight: bolder;
         border-bottom: 1px solid var(--app-hover);
         margin-bottom: 10px;
-        margin-top: 10px;
+        margin-top: 30px;
     }
     .back-btn{
         display: block;

@@ -26,6 +26,7 @@
 
                                         <div class="notify_line">
                                             <span>{{ notification.message }}</span>
+                                            <span v-if="notification.linkUrl" @click="viewContractPage(notification.linkUrl)" style="color: blue; padding: 10px 0px;">view contract</span>
                                             <span class="notify_time">{{ formatTimestamp(notification.createdAt) }}</span>
                                         </div>
                                         <small v-if="notification.isRead" style="color: green;">read</small>
@@ -67,6 +68,9 @@
                 }
               },
             methods:{
+                viewContractPage(linkUrl){
+                this.$router.push(`/${linkUrl}`);
+                },
                 getAllUserNotifications() {
                 const token = localStorage.getItem('token'); // Get the token from localStorage
                 // Set up headers with the token

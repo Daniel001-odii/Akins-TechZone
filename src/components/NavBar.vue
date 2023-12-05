@@ -366,7 +366,7 @@
                                                     <div>{{ notify.message.substring(0, 120) }}...</div>
                                                     <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
                                                     <!-- {{ notify.linkUrl }} -->
-                                                    <br/><div @click="viewContractPage(notify.linkUrl)" class="notify_link" style="color: var(--app-blue)">View contract <i class="bi bi-box-arrow-up-right"></i></div>
+                                                    <br/><div v-if="notify.linkUrl" @click="viewContractPage(notify.linkUrl)" class="notify_link" style="color: var(--app-blue)">View contract <i class="bi bi-box-arrow-up-right"></i></div>
                                                 </span>
                                                 <span class="notifications_dismiser" @click="markNotificationAsRead(notify._id)">&times;</span>
                                             </div>
@@ -939,6 +939,11 @@ export default {
 .notify-line:hover{
     background: var(--app-hover);
 }
+
+.notify-line:hover .notifications_dismiser{
+    opacity: 1;
+}
+
 .notifications-footer{
     padding: 12px;
     border-top: 1px solid var(--app-hover);
@@ -947,13 +952,11 @@ export default {
 .notify_icon{
     align-self: flex-start;
 }
-.notifications:hover{
-
-}
 .notifications_dismiser{
     cursor: pointer !important;
     font-size: 20px !important;
     padding: 10px;
+    opacity: 0;
 }
 
 .badge{
