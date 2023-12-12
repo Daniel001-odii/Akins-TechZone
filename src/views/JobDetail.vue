@@ -108,9 +108,8 @@
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Share this job post</p>
-                            <div class="tz-copy-link">
-                                <div id="contentToCopy" class="tz-disabled-link">{{ shareLink }}</div>
-
+                            <div class="tz-copy-link" style="padding: none !important;">
+                                <input type="text" style="border: none; width: 100%;" :value="shareLink" disabled>
                             </div>
                             <span class="bi bi-clipboar" @click="copyText"><u>copy link</u></span>
                     </div>
@@ -281,8 +280,8 @@
                     this.alertIcon = icon;
                 },
             copyText() {
-                const contentToCopy = document.getElementById('contentToCopy').innerText;
-                navigator.clipboard.writeText(contentToCopy)
+                // const contentToCopy = document.getElementById('contentToCopy').innerText;
+                navigator.clipboard.writeText(this.shareLink)
                     .then(() => {
                     // this.$refs.toast.showSuccessToast('Successfully copied to clipboard');
                     this.showAlert("success", "Link copied successfully!");
