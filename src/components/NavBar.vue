@@ -1,5 +1,12 @@
 <template>
 
+<Alert
+    v-if="showAlertBox"
+    :message="alertMessage"
+    :icon="alertIcon"
+    :alertType="alertType" />
+
+
 <!--  this is the modal displayed when a user tries logging out....... -->
 <div class="logout-modal" v-if="showModal">
     <div class="modal-content" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -205,11 +212,17 @@
                                         <i class="bi bi-send-check-fill"></i>
                                     My Applications</div>
                                 </RouterLink>
+                                <RouterLink to="/notifications" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+                                    <div class="tz-menu-content">
+                                        <i class="bi bi-bell"></i>
+                                    Notifications</div>
+                                </RouterLink>
                                 <RouterLink to="/support" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                                     <div class="tz-menu-content">
                                         <i class="bi bi-question-circle-fill"></i>
                                     Support</div>
                                 </RouterLink>
+
                                 <div @click="logout" class="tz-menu-content">
                                     <i class="bi bi-box-arrow-right"></i>
                                     Log out
@@ -499,7 +512,7 @@ import { ref } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import themeStore from '@/theme/theme';
 import Modal from './modal.vue';
-
+import Alert from './Alert.vue'
 
 const api_url = "http://127.0.0.1:5000/api"
 
@@ -528,7 +541,7 @@ export default {
     };
   },
 
-    components:{ Search, LeftNav, RouterLink, Modal },
+    components:{ Search, LeftNav, RouterLink, Modal, Alert },
     data(){
         return{
             userDetails:[],
@@ -554,6 +567,8 @@ export default {
             userNotifications: '',
             showTokenExpiredModal: false,
 
+            showAlertBox: false,
+
         };
     },
     created() {
@@ -563,13 +578,23 @@ export default {
 
 
     methods: {
+        showAlert(type, message, icon){
+                    this.showAlertBox = !this.showAlertBox;
+                    this.alertType = type;
+                    this.alertMessage = message;
+                    this.alertIcon = icon;
+                },
+
+
         logout(){
         this.showModal = true;
         },
 
         realLogout(){
+            this.showAlert("success", "You logged!");
             localStorage.removeItem('token');
             this.$router.push('/');
+
         },
         // Function to trigger re-login
         async reLogin() {
@@ -850,7 +875,7 @@ export default {
     background: #fff;
     border: 1px solid #00000023;
     box-shadow: 0px 12px 12px #F1F4F4;
-    top: 42px;
+    top: 35px;
     left: -139px;
     right: 0;
     font-size: 0.8em;

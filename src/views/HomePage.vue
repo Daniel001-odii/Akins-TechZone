@@ -36,7 +36,7 @@ export default {
     ItemScroll,
     NavBarHome,
     JobCard
-}, 
+},
 data(){
         return{
             userMenuIsShown: false,
@@ -105,15 +105,15 @@ methods:{
                 }
 },
 computed: {
-    
+
   },
 mounted(){
             // this.fetchJobListings();
             this.getHoursTillDate();
             var title = this.$route.name
-    console.log(title)
+    // console.log(title)
     document.title = title
-            
+
             // this.topDevJobs();
         },
 };
@@ -126,13 +126,13 @@ mounted(){
 <header>
         <nav class="Tz-navbar container-fluid">
             <div class="Tz-brand-area">
-                    
+
                     <RouterLink to="/"  class="navbar-brand">
                         <img class="nav-img" src="../components/Logos_icons/techzone_white.png">
                     </RouterLink>
-            
 
-                    <div class="nav-contents"> 
+
+                    <div class="nav-contents">
                         <div class="Tz-nav-links">
                             <span><RouterLink to="/jobs" class="tz-page-link">Find Work</RouterLink></span>
                             <span><RouterLink to="/client/dashboard" class="tz-page-link">Hire Talent</RouterLink></span>
@@ -142,7 +142,7 @@ mounted(){
             </div>
 
             <div class="search"><Search/></div>
-        
+
                 <div class="nav-auth-buttons">
                     <button class="cust-btn login" style="background: none; color: #fff; border: 1px solid var(--app-blue);">
                     <span>Sign in</span>
@@ -182,7 +182,7 @@ mounted(){
             <RouterLink to="/jobs" class="menu-item"><div><span class="menu-item-label">Find Job</span></div></RouterLink>
             <RouterLink to="/client" class="menu-item"><div><span class="menu-item-label">Hire Talent</span></div></RouterLink>
                 <div class="menu-item">
-                    <div class="menu-item-label" @click="signup_options =!signup_options; signin_options=false"><span>Sign Up</span> 
+                    <div class="menu-item-label" @click="signup_options =!signup_options; signin_options=false"><span>Sign Up</span>
                         <span>
                         <i v-if="!signup_options" class="bi bi-caret-down-fill"></i>
                         <i v-if="signup_options" class="bi bi-caret-up-fill"></i>
@@ -194,7 +194,7 @@ mounted(){
                         <RouterLink to="/talent-signUp" class="options"><div>As Talent</div></RouterLink>
                     </div>
                 <div class="menu-item">
-                    <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span> 
+                    <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span>
                         <span>
                         <i v-if="!signin_options" class="bi bi-caret-down-fill"></i>
                         <i v-if="signin_options" class="bi bi-caret-up-fill"></i>
@@ -216,8 +216,8 @@ mounted(){
         <div class="hero-section-sub">
         <div class="tz-hero-left">
             <div class="tz-hero-title">Hire the right Employees, Find Your Dream Job.</div>
-            <div class="tz-hero-subtitle">TechZone is a job search platform in Nigeria. 
-                We establish trusted networking between freelancers and businesses all across the nation. 
+            <div class="tz-hero-subtitle">TechZone is a job search platform in Nigeria.
+                We establish trusted networking between freelancers and businesses all across the nation.
                 Qualified job seekers find the best in-demand jobs of their desired skills anywhere nationwide.
             </div>
             <form class="tz-hero-form">
@@ -232,7 +232,7 @@ mounted(){
        <div class="tz-right-image"></div>
        </div>
     </div>
-    
+
     <div class="tz-second-section" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="tz-second-title">Discover The Trending Jobs <br/> In Demand</div>
         <div class="tz-trends-container">
@@ -243,7 +243,7 @@ mounted(){
             <div class="tz-trend"> android <span class="tz-trend-count">{{ indemandTags("android") }} JOBS</span></div>
             <div class="tz-trend"> Low voltage cabling <span class="tz-trend-count">{{ indemandTags("cabling") }} JOBS</span></div>
             <div class="tz-trend"> PHP <span class="tz-trend-count">{{ indemandTags("php") }} JOBS</span></div>
-            
+
         </div>
     </div>
     <div class="tz-second-section" style="background: #F6F9FF;" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -266,7 +266,7 @@ mounted(){
                         <div class="ft-jobCard-des">{{job.job_des.substring(0,120)}}</div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
     </div>
@@ -283,9 +283,9 @@ mounted(){
             </button>
         </div>
         <img src="../assets/imgs/landing_girl.png" class="last-girl">
-        
+
     </div>
-    
+
 </main>
 
 <footer>
@@ -362,7 +362,7 @@ mounted(){
     width: 250px;
     justify-content: center;
     align-items: center;
-    font-weight: bold;   
+    font-weight: bold;
 }
 .tz-hero-formSubmit:hover{
     color: #fff;
@@ -474,7 +474,7 @@ mounted(){
 }
 .hero-section{
     background: #000;
-    
+
 }
 
 .hero-section-sub{
@@ -504,7 +504,7 @@ mounted(){
     z-index: 99999;
     position: sticky;
     /* top: 20px; */
-    
+
 }
 
 
@@ -519,17 +519,17 @@ mounted(){
 .menu-toggle.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
-  
+
   .menu-toggle.active span:nth-child(2) {
     opacity: 0;
   }
-  
+
   .menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
   }
-  
 
-  
+
+
 .nav-toggler{
     display: none;
 }
@@ -693,7 +693,7 @@ mounted(){
     }
 
 }
-    
+
 
 @media only screen and (max-width: 350px) {
     .tz-hero-title{
@@ -712,7 +712,7 @@ mounted(){
 .closeBtn{
     /* color: var(--app-blue); */
     font-size: 30px;
-    position: absolute; 
+    position: absolute;
     right: 20px;
     top:2px;
     cursor: pointer;
@@ -763,7 +763,7 @@ mounted(){
     margin: 0px 10px 0px 10px;
     cursor: pointer;
     display: none;
-    
+
 }
 
 .cust-actions{
@@ -774,17 +774,17 @@ mounted(){
 .menu-toggle.active span:nth-child(1) {
     transform: rotate(45deg) translate(5px, 5px);
   }
-  
+
   .menu-toggle.active span:nth-child(2) {
     opacity: 0;
   }
-  
+
   .menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
   }
-  
 
-  
+
+
 .nav-toggler{
     display: none;
 }

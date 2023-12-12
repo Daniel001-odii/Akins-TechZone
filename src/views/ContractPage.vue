@@ -1,4 +1,12 @@
 <template>
+
+<Alert
+    v-if="showAlertBox"
+    :message="alertMessage"
+    :icon="alertIcon"
+    :alertType="alertType" />
+
+
      <div v-if="showFeedbackModal" class="feedback_modal">
         <div class="feedback_modal_inner">
 
@@ -171,10 +179,10 @@
                     </div>
                     <div class="tz-job-content-description">
                         <p class="tz-form-title">Feedback</p>
-                        <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="!this.job.completedBy.includes(String(this.userDetails.id)) && isUser">submit job feedback</button>
-                        <span v-if="this.job.requestedReview.includes((String(this.userDetails.id))) && !this.job.completedBy.includes(String(this.userDetails.id))">Awaiting client approval before feedback is available</span>
+                        <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="isEmployer && this.job.requestedReview.includes((String(this.userDetails.id))) && this.job.completedBy.includes(String(this.userDetails.id)) && isUser">submit job feedback</button>
+                        <span v-if="this.job.requestedReview.includes((String(this.userDetails.id))) && !this.job.completedBy.includes(String(this.userDetails.id))">Awaiting client approval before job feedback is available</span>
                         <span v-if="this.job.completedBy.includes(String(this.userDetails.id)) && this.job.requestedReview.includes((String(this.userDetails.id))) && isUser">the client sent you a feedback</span>
-                        <span v-else>you sent a feedback</span>
+                        <!-- <span v-else>you sent a feedback</span> -->
                         <!-- <span>Contract Feedback submitted</span> -->
                     </div>
 
@@ -209,7 +217,7 @@
       import themeStore from '@/theme/theme';
       import SkeletonLoader from '../components/pageSkeleton.vue'
       import Modal from '../components/modal.vue'
-
+      import Alert from '../components/Alert.vue'
 
       const toggleTheme = themeStore.toggleTheme;
       const token = localStorage.getItem('token'); // Get the user's JWT token from localStorage
@@ -229,6 +237,7 @@
             Toast,
             SkeletonLoader,
             Modal,
+            Alert,
         },
         setup() {
                     return {
@@ -281,6 +290,13 @@
             };
         },
         methods: {
+            showAlert(type, message, icon){
+                    this.showAlertBox = !this.showAlertBox;
+                    this.alertType = type;
+                    this.alertMessage = message;
+                    this.alertIcon = icon;
+                },
+
             copyText() {
                 const contentToCopy = document.getElementById('contentToCopy').innerText;
                 navigator.clipboard.writeText(contentToCopy)
@@ -295,8 +311,6 @@
                 fetchJobListings() {
                 const jobId = this.$route.params.job_id;
                 // console.log(this.$route.params.job_id);
-
-
                 axios.get(`${this.api_url}/jobs/${jobId}`)
                     .then(response => {
                         // this.data.push(response.data.job);
@@ -491,41 +505,6 @@
                         this.isLoading = false;
                     });
                 },
-
-                // this.job.completedBy.includes(String(this.userDetails.id))(){
-
-                //     if(this.job.completedBy.includes(String(this.userDetails.id))){
-                //         return true;
-                //     } else{
-                //         return false;
-                //     }
-
-
-                // },
-                // this.job.requestedReview.includes((String(this.userDetails.id)))(){
-                //     if(this.job.requestedReview.includes((String(this.userDetails.id)))){
-                //         return true
-                //     } else{
-                //         return false;
-                //     }
-                // },
-
-                // examineCurrentUser(){
-                //     for(let i = 0; i <= this.job.completedBy.length; i++){
-                //                if(this.job.completedBy[i] === this.userDetails.id){
-                //                     this.jobIsCompleted = true;
-                //                     console.log("job completed: ", this.jobIsCompleted)
-                //                }
-                //             };
-                //             console.log(this.userDetails.id)
-                //             for(let i = 0; i <= this.job.requestedReview.length; i++){
-                //                if(this.job.requestedReview[i] === this.userDetails.id){
-                //                     this.requestedReview = true;
-                //                     console.log("job sent for review: ", this.requestedReview)
-                //                }
-                //             };
-                // },
-
                 handleButtonClick(){
                     const fileInput = document.querySelector('input[type="file"]');
                     fileInput.click();
@@ -570,6 +549,7 @@
                 }
                     },
                 async sendClientFeedBack(){
+                    this.showAlert("success", "feedback sent successfully")
                     try{
                     const jobId = this.job._id;
                     const employerId = this.job.employer;
@@ -588,7 +568,8 @@
                     }
 
                     catch(error){
-                        console.error('Error sending feedback rating:', error.message);
+                        // console.error('Error sending feedback rating:', error.message);
+                        this.showAlert("error", error.message)
                     }
                 },
                 async requestApproval(){

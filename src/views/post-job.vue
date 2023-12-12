@@ -207,20 +207,17 @@
               <div class="section-description">
 
                 <span>Address*</span>
-                <div class="section-content">
-                    <input style="height: 40px; width: 100%; font-size: 15px;" class="job_descripton" placeholder="Address" v-model="formData.location" required>
+                <div class="section-content" style="display: flex; margin-top: 10px;">
+                    <input style="height: 40px; width: 100%; font-size: 15px;" type='address' class="job_descripton" placeholder="Address line including city" v-model="formData.location.address" required>
+                    <i style="color: #00bd00; position: absolute; right: 50px;" v-if="locationFound" class="bi bi-check-lg"></i>
                 </div>
+
                 <span>state*</span>
-                <select class="state_select" v-model="selectedState">
-                  <option value="Select a state" disabled>Select a state</option>
+                <select class="state_select" @change="whatState" v-model="formData.location.state">
                   <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
                 </select>
+                <button class="cust-btn" @click.prevent="getJobCordinates" :disabled="loadingNext"><span v-if="loadingNext">searching...</span><span v-if="!loadingNext">confirm location</span></button>
               </div>
-                <br/>
-
-                <div class="section-last">
-                  bit info about the job location from techzone...
-                </div>
 
             </div>
       </div>
@@ -315,6 +312,9 @@ export default {
     selectedSuggestions: [],
 
     currentIndex: 0,
+    state: '',
+    address: '',
+
     formData: {
         job_title: '',
         skills: '',
@@ -322,7 +322,7 @@ export default {
         budget_type: '',
         budget: '',
         job_description: '',
-        location: '',
+        location: {},
       },
       tags:[],
       skills:[],
@@ -340,7 +340,12 @@ export default {
         'Kwara', 'Lagos', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo',
         'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara'
       ],
-      center: [37,7749, -122,4194]
+      // selectedState: "",
+      latitude: null,
+      longitude: null,
+
+      loadingNext: false,
+      locationFound: false,
   }
 },
 
@@ -466,6 +471,27 @@ methods: {
       this.formData.budget = parseInt(this.budgetValue.replaceAll(",",""));;
       console.log(this.formData.budget);
     },
+
+    async getJobCordinates() {
+      this.loadingNext = true;
+      const geocoder = new google.maps.Geocoder();
+      const address = this.formData.location.address;
+
+      geocoder.geocode({ address}, (results, status) => {
+        if (status === 'OK' && results && results.length > 0) {
+          const { lat, lng } = results[0].geometry.location;
+          this.locationFound = true;
+          this.formData.location.latitude = lat();
+          this.formData.location.longitude = lng();
+          console.log("Lat: ", this.latitude, "Long: ", this.longitude, "general result: ");
+          this.loadingNext = false;
+
+        } else{
+          alert("geo code was not successful...")
+        }
+      })
+
+    }
 
  },
 

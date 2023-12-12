@@ -46,7 +46,6 @@
 </div>
 
 
-
 <div v-if="editProfileMenu" class="editProfileModal" style="">
 <!-- <div class="editProfileModal" style=""> -->
     <form @submit.prevent="updateuserProfile" id="userProfile.profile">
@@ -78,6 +77,11 @@
 
 </div>
 
+<Alert
+    v-if="showAlertBox"
+    :message="alertMessage"
+    :icon="alertIcon"
+    :alertType="alertType" />
 <NavBar/>
 
 
@@ -245,11 +249,11 @@ import 'bootstrap/dist/js/bootstrap.js';
 import axios from 'axios';
 import themeStore from '@/theme/theme';
 import DotLoader from '../components/DotLoader.vue';
-
+import Alert from '../components/Alert.vue'
 
 
     export default {
-        components:{NavBar, Footer, DotLoader},
+        components:{NavBar, Footer, DotLoader, Alert},
         setup(){
                 // Accessing themeStore properties and methods
                   const toggleTheme = themeStore.toggleTheme;
@@ -291,6 +295,12 @@ import DotLoader from '../components/DotLoader.vue';
             }
           },
           methods:{
+            showAlert(type, message, icon){
+                    this.showAlertBox = !this.showAlertBox;
+                    this.alertType = type;
+                    this.alertMessage = message;
+                    this.alertIcon = icon;
+                },
     /// this function gets the users details via api route
     getUserDetails() {
         this.isLoading = true;
@@ -405,6 +415,7 @@ import DotLoader from '../components/DotLoader.vue';
             console.log(error);
 
         }
+        this.showAlert("success", "Profile updated successfully!");
             },
     autoFill(){
             this.userProfile.profile = this.userDetails.profile;
@@ -506,6 +517,7 @@ import DotLoader from '../components/DotLoader.vue';
         } catch (error) {
             console.error('Error uploading profile image:', error);
         }
+        this.showAlert("success", "Profile image updated successfully!");
         },
 
     checkCurrentViewer(){

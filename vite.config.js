@@ -14,6 +14,12 @@ export default defineConfig({
   publicPath: process.env.NODE_ENV === 'production'
   ? ''
   : '/',
+  optimizeDeps: {
+    include: [
+      "@fawmi/vue-google-maps",
+      "fast-deep-equal",
+    ],
+  },
 });
 
 
