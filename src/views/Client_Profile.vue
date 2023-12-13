@@ -36,39 +36,52 @@
 
     <div v-if="editProfileMenu" class="editProfileModal" style="">
     <!-- <div class="editProfileModal" style=""> -->
-        <form @submit.prevent="updateuserProfile" id="userProfile.profile">
-            <span @click="this.editProfileMenu = !this.editProfileMenu;" class="closeBtn">&times; close</span>
+        <form @submit.prevent="updateuserProfile" id="userProfile.profile" class="editProfileModalMain">
+            <span @click="this.editProfileMenu = !this.editProfileMenu;" class="closeBtn">&times;</span>
             <div class="tagline profile-field">
-                <input class="profile-input" type="text" :value="userDetails.firstname" disabled>
-                <input class="profile-input" type="text" :value="userDetails.lastname" disabled>
+                <span>Full name</span>
+                <div class="profile_field_inner">
+                    <input class="profile-input" type="text" :value="userDetails.firstname" disabled>
+                    <input class="profile-input" type="text" :value="userDetails.lastname" disabled>
+                </div>
             </div>
             <div class="tagline profile-field">
+                <span>Company name</span>
                 <input class="profile-input" type="text" placeholder="your company Name" v-model="userProfile.profile.company_name">
             </div>
             <div class="tagline profile-field">
+                <span>Company tagline</span>
                 <input class="profile-input" type="text" placeholder="say something about yourself" v-model="userProfile.profile.tagline">
             </div>
             <div class="location profile-field">
+                <span>Company address</span>
                 <input class="profile-input" type="text" placeholder="your location goes here..." v-model="userProfile.profile.location">
             </div>
+            <div class="social profile-field">
+                <span>City of location</span>
+                <input class="profile-input" type="text" placeholder="city location of industry" v-model="userProfile.profile.city">
+            </div>
             <div class="phone profile-field">
+                <span>Phone</span>
                 <input class="profile-input" type="number" placeholder="your phone goes here..." v-model="userProfile.profile.phone">
             </div>
             <div class="skillTitle profile-field">
-                <textarea class="profile-input" type="textarea" placeholder="write a short note about your company" v-model="userProfile.profile.description"></textarea>
+                <span>Company bio</span>
+                <textarea class="profile-input" type="textarea" style="height: 200px" placeholder="write a short note about your company" v-model="userProfile.profile.description"></textarea>
             </div>
             <div class="skills profile-field">
+                <span>Company type</span>
                 <input class="profile-input" type="text" placeholder="what is you company's category" v-model="userProfile.profile.industry_type">
             </div>
             <div class="social profile-field">
+                <span>Company social media link</span>
                 <input class="profile-input" type="text" placeholder="link to you fav social account" v-model="userProfile.profile.socialAccount">
             </div>
             <div class="social profile-field">
+                <span>Company website <link rel="stylesheet" href="style.css"></span>
                 <input class="profile-input" type="text" placeholder="link to you fav social account" v-model="userProfile.profile.website">
             </div>
-             <div class="social profile-field">
-                <input class="profile-input" type="text" placeholder="city location of industry" v-model="userProfile.profile.city">
-            </div>
+
             <button type="submit" class="cust-btn">save and exit</button>
         </form>
 
@@ -123,46 +136,15 @@
                 </div>
                 <!-- <div class="section-divider"></div> -->
                 <div class="tz-profile-right">
-                    <table style="text-align: center;">
-                        <tbody>
-                        <tr>
-                            <td>verification:</td>
-                            <td v-if="userDetails.isVerified" style="color: green">Verified <i class="bi bi-check-circle-fill"></i></td>
-                            <td v-else>not verified <i class="bi bi-check-circle-fill"></i></td>
-                        </tr>
-                        <tr>
-                            <td>joined:</td>
-                            <td>{{ formatTimestamp(userDetails.created) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Location</td>
-                            <td>{{ userDetails.profile.location }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="tz-user-socials">
-                        <div class="tz-social">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="34" viewBox="0 0 35 34" fill="none">
-                            <circle cx="17.5008" cy="16.6102" r="16.6102" fill="#F6F9FF"/>
-                            <path d="M25.7806 21.8673C25.7806 22.1662 25.7141 22.4735 25.5729 22.7725C25.4318 23.0715 25.249 23.3539 25.0082 23.6196C24.6012 24.0681 24.1528 24.392 23.6462 24.5996C23.1479 24.8073 22.608 24.9152 22.0267 24.9152C21.1795 24.9152 20.2743 24.7159 19.3192 24.309C18.3641 23.902 17.409 23.3539 16.4623 22.6645C15.5072 21.9669 14.6019 21.1945 13.7382 20.3391C12.8828 19.4754 12.1104 18.5701 11.4211 17.6234C10.7401 16.6766 10.1919 15.7298 9.79328 14.7913C9.39463 13.8445 9.19531 12.9393 9.19531 12.0756C9.19531 11.5108 9.29497 10.971 9.4943 10.4727C9.69362 9.96607 10.0092 9.50099 10.4494 9.08573C10.9809 8.56251 11.5623 8.30505 12.1768 8.30505C12.4094 8.30505 12.6419 8.35488 12.8495 8.45455C13.0655 8.55421 13.2565 8.7037 13.406 8.91963L15.3328 11.6354C15.4823 11.843 15.5902 12.034 15.665 12.2167C15.7397 12.3912 15.7812 12.5656 15.7812 12.7234C15.7812 12.9227 15.7231 13.122 15.6068 13.313C15.4989 13.504 15.3411 13.7034 15.1418 13.9027L14.5106 14.5588C14.4192 14.6501 14.3777 14.7581 14.3777 14.891C14.3777 14.9574 14.386 15.0156 14.4026 15.082C14.4275 15.1484 14.4524 15.1983 14.469 15.2481C14.6185 15.5222 14.876 15.8793 15.2414 16.3112C15.6151 16.743 16.0138 17.1832 16.4457 17.6234C16.8941 18.0635 17.326 18.4705 17.7662 18.8442C18.198 19.2096 18.5551 19.4588 18.8375 19.6083C18.879 19.6249 18.9289 19.6498 18.987 19.6747C19.0534 19.6996 19.1199 19.7079 19.1946 19.7079C19.3358 19.7079 19.4438 19.6581 19.5351 19.5667L20.1663 18.9439C20.374 18.7362 20.5733 18.5784 20.7643 18.4788C20.9553 18.3625 21.1463 18.3044 21.354 18.3044C21.5118 18.3044 21.6779 18.3376 21.8606 18.4123C22.0433 18.4871 22.2343 18.5951 22.4419 18.7362L25.1909 20.6879C25.4068 20.8374 25.5563 21.0118 25.6477 21.2195C25.7307 21.4271 25.7806 21.6347 25.7806 21.8673Z" stroke="#292D32" stroke-width="1.24576" stroke-miterlimit="10"/>
-                            </svg>
-                            <span>Phone</span>
-                        </div>
-                        <div class="tz-social">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
-                            <circle cx="17.1102" cy="16.6102" r="16.6102" fill="#FBF0E7"/>
-                            <path d="M12.9588 16.6102C9.63672 16.6102 9.63672 18.0968 9.63672 19.9323V20.7628C9.63672 23.055 9.63672 24.9153 13.7893 24.9153H20.4333C23.7554 24.9153 24.5859 23.055 24.5859 20.7628V19.9323C24.5859 18.0968 24.5859 16.6102 21.2638 16.6102C20.4333 16.6102 20.2008 16.7846 19.7689 17.1085L18.9218 18.0055C17.9418 19.0519 16.2808 19.0519 15.2925 18.0055L14.4537 17.1085C14.0218 16.7846 13.7893 16.6102 12.9588 16.6102Z" stroke="#292D32" stroke-width="1.24576" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M22.924 16.6103V11.6272C22.924 9.79179 22.924 8.30518 19.602 8.30518H14.6189C11.2969 8.30518 11.2969 9.79179 11.2969 11.6272V16.6103" stroke="#292D32" stroke-width="1.24576" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M15.9062 14.3097H18.6718" stroke="#292D32" stroke-width="1.24576" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M15.2168 11.8181H19.3693" stroke="#292D32" stroke-width="1.24576" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>Email</span>
-                        </div>
-                        <div class="tz-social">
-                            <i class="bi bi-github"></i>
-                            <span>Github</span>
-                        </div>
-
+                    <div class="profile-item">
+                        <span  v-if="userDetails.isVerified" style="color: green">Email is Verified</span>
+                        <span v-else>email is not verified</span>
+                    </div>
+                    <div class="profile-item">joined:
+                        <span>{{ formatTimestamp(userDetails.created) }}</span>
+                    </div>
+                    <div class="profile-item">location:
+                        <span>{{ userDetails.profile.location }}</span>
                     </div>
                     <div class="profile_completion">
                         <span>Profile completion</span>
@@ -190,9 +172,18 @@
                         <span>{{ userDetails.profile.description }}</span>
                     </div>
                 </div>
+                <div class="tz-user-about">
+                    <div class="about-header">Jobs posted</div>
+                    <div class="user-about" v-for="job in jobs">
+                        <span style="color: var(--app-blue)">{{ job.job_title }}</span><br/>
+                        <span>{{ formatBudgetAmount(job.budget) }}</span><br/>
+                        <span>{{ formatTimestamp(job.created_at) }}</span>
+                        <br/><br/>
+                    </div>
+                </div>
             </div>
 
-            <div class="tagline-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+            <div class="tagline-area" style="margin-top: 40px; padding: 10px;" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                 <div class="tz-emphasis">
                     <b>Phone Number</b>
                     <span>+234{{ userDetails.profile.phone }} </span>
@@ -286,7 +277,8 @@ export default {
                         socialAccount: '',
                         phone: '',
                         },
-                    }
+                    },
+                    jobs: '',
                 }
               },
     methods:{
@@ -306,6 +298,39 @@ export default {
                         this.isLoading = false;
                                     // Handle errors
                     });
+    },
+    formatBudgetAmount(value){
+                    const formattedValue = new Intl.NumberFormat('en-US').format(value);
+                    return `₦${formattedValue}`;
+                },
+    getJobsByEmployer(employer_id) {
+
+    this.jobsLoading = true;
+
+    // const employer_id = this.userDetails.id;
+    // console.log(employer_id)
+    axios.get(`${this.api_url}/employer/${employer_id}/jobs`)
+    .then(response => {
+        this.jobsLoading = false;
+        this.hasFinishedLoad = true;
+        this.jobs = response.data.jobs;
+        this.jobs.reverse();
+        this.jobs.forEach(job => {
+            job.open = false;
+            job.showDetails = false;
+            // this.applicantDetails = job.applications;
+        });
+        if(this.jobs.length > 0){
+            this.jobs[0].open = true;
+        }
+
+        console.log("client jobs: ", this.jobs)
+    })
+    .catch(error => {
+        console.error('Error fetching jobs by employer:', error);
+        this.jobsLoading = false;
+        // Handle errors
+    });
     },
     formatTimestamp(timestamp) {
                     const date = new Date(timestamp);
@@ -523,13 +548,14 @@ export default {
 
     created(){
         this.getUserById(this.$route.params.user_id);
+        this.getJobsByEmployer(this.$route.params.user_id);
         this.calculateProfileCompletion
         }
 }
     </script>
 
-    <style scoped>
-    /* Style the circular frame */
+<style scoped>
+/* Style the circular frame */
 .circle {
   width: 200px;
   height: 200px;
@@ -555,314 +581,350 @@ export default {
 }
 
 
-
-
-
-    *{
-        font-size: 0.9rem !important;
-
-    }
-    .body{
-        padding-top: 50px;
-        padding-bottom: 50px;
-        background: transparent;
-    }
-    th, td{
-        padding: 5px;
-        /* border: 1px solid red; */
-    }
-    .section-divider{
-            height: 150px !important;
-            width: 1px !important;
-            background: var(--app-grey) !important;
-        }
-        .tz-profile-card{
-            width: 80%;
-            padding: 20px;
-            background: #fff;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            color: #000;
-        }
-        .tz-profile-card > *{
-            /* border: 1px solid red; */
-        }
-
-
-
-
-        .tz-user-thumbnail{
-            display: flex;
-            align-self: flex-start;
-            height: 100px;
-            width: 100px;
-            border-radius: 50%;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            outline: 4px solid var(--app-blue);
-            outline-offset: 5px;
-        }
-        .profileImgSwitch{
-            border-radius: 50%;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-        }
-        .icon{
-            position: absolute;
-            color: #ffffff;
-            /* background: #ff0000; */
-            /* opacity: 0.5; */
-            z-index: 999;
-            margin: 0 auto;
-            height: 100%;
-            width: 100%;
-            border-radius: 50%;
-            display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
-            transition-duration: 2s;
-            animation-duration: 2s;
-        }
-
-        .icon > span{
-            font-size: 0.2rem !important;
-            color: #000000;
-            border: 1px solid #000;
-            border-radius: 50%;
-            background: #fff;
-            cursor: pointer;
-            height: 25px;
-            width: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .icon:hover .icon{
-            display: flex;
-        }
-
-
-
-
-
-
-
-        .tz-profile-left{
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-        }
-        .tz-user-details{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-        .tz-profile-right{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .tz-profile-left, .tz-profile-right{
-            /* justify-content: center; */
-        }
-        .tz-user-name{
-            font-size: 60px;
-            font-weight: bolder;
-            margin: 0; padding: 0;
-        }
-        .tz-user-skill{
-            font-size: 15px;
-            font-weight: 300;
-            margin: 0; padding: 0;
-        }
-        .tz-user-tagline{
-            font-size: 14px;
-            /* max-width: 300px; */
-        }
-        .tz-btn-array{
-            gap: 5px;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap !important;
-            margin-top: 10px;
-        }
-        .cust-btn{
-            border-radius: 5px;
-        }
-    .tz-user-socials{
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-    }
-        .tz-social{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            padding: 10px;
-            margin-left: 10px;
-            /* border: 1px solid red; */
-        }
-
-        .tz-profile-header{
-            border: 1px solid rgba(184, 184, 184, 0.4);
-            color: var(--app-blue);
-            width: 80%;
-            background: #fff;
-            padding: 10px;
-            margin:0 auto;
-            margin-top: 20px;
-            gap: 5px;
-            display: flex;
-        }
-        .tz-profile-last{
-            width: 80%;
-            margin:0 auto;
-            margin-top: 5px;
-            /* margin-bottom: 50px !important; */
-            gap: 5px;
-            display: flex;
-            flex-direction: row;
-            color: #000;
-        }
-
-        .tz-emphasis{
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-        }
-
-        .tagline-area{
-            width: 35%;
-            background: #fff;
-            padding: 10px;
-        }
-        .about-area{
-            width: 100%;
-            background: #ffffff;
-            padding: 10px;
-        }
-        .about-header{
-            font-weight: bolder;
-            border-bottom: 1px solid var(--app-hover);
-            margin-bottom: 10px;
-            margin-top: 10px;
-        }
-        .back-btn{
-            display: block;
-            margin-left: 110px;
-            padding: 20px;
-        }
-
-
-        .verifyEmailAlert{
-            flex-direction: row;
-            text-align: center;
-            padding: 10px;
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            transition: 1s;
-        }
-
-        .editProfileModal{
-            /* display: flex; */
-            gap: 50px;
-            position: absolute;
-            z-index: 99999;
-            height: 100dvh;
-            background: #efefef;
-            width: 80%;
-            margin: 0 auto;
-            left: 0;
-            right: 0;
-            padding: 10px;
-            border-radius: 10px;
-        }
-
-        .profile-field{
-            width: 100%;
-            /* border: 1px solid red; */
-        }
-
-
-        .profile-input{
-            padding: 20px;
-            border: none;
-            border-bottom: 1px solid #b8b5b5;
-            /* border-radius: 5px; */
-        }
-
-
-
-
-
-       .logout-modal{
-        height: 100dvh;
-        width: 100%;
-        background: #000000d3;
-        position: fixed;
-        z-index: 999999;
-        display: flex;
-        flex: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-    }
-    .modal-content{
-        /* height: 200px; */
-        background: #fff;
-        /* width: 350px; */
-        border-radius: 10px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 25px;
-    }
-    .modal-content > span{
-        font-size: 1.5em !important;
-    }
-    .modal-options{
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-around;
-    }
-
-    .modal-options > span{
-        border: 1px solid var(--app-blue);
-        padding: 10px;
-        border-radius: 5px;
-        color: var(--app-blue);
-        font-size: 1rem !important;
-        width: 40%;
-        cursor: pointer;
-    }
-    .no{
-        background: var(--app-blue);
-        color: #fff !important;
-    }
+.closeBtn{
+    color: #000;
+    font-size: 30px !important;
+    position: absolute;
+    right: 30px;
+    top: 20px;
+}
 
 
 .profile_completion{
     display: flex;
     flex-direction: column;
     border: 1px solid #efefef;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+
+
+
+
+
+*{
+    font-size: 0.9rem !important;
+
+}
+.body{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background: transparent;
+}
+th, td{
+    padding: 5px;
+    /* border: 1px solid red; */
+}
+.section-divider{
+        height: 150px !important;
+        width: 1px !important;
+        background: var(--app-grey) !important;
+    }
+    .tz-profile-card{
+        /* width: 80%; */
+        padding: 20px;
+        background: #fff;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        color: #000;
+    }
+    .tz-profile-card > *{
+        /* border: 1px solid red; */
+    }
+
+
+
+
+    .tz-user-thumbnail{
+        display: flex;
+        align-self: flex-start;
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        outline: 4px solid var(--app-blue);
+        outline-offset: 5px;
+    }
+    .profileImgSwitch{
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+    .icon{
+        position: absolute;
+        color: #ffffff;
+        /* background: #ff0000; */
+        /* opacity: 0.5; */
+        z-index: 999;
+        margin: 0 auto;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        transition-duration: 2s;
+        animation-duration: 2s;
+    }
+
+    .icon > span{
+        font-size: 0.2rem !important;
+        color: #000000;
+        border: 1px solid #000;
+        border-radius: 50%;
+        background: #fff;
+        cursor: pointer;
+        height: 25px;
+        width: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .icon:hover .icon{
+        display: flex;
+    }
+
+
+
+
+
+
+
+    .tz-profile-left{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+    }
+    .tz-user-details{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .tz-profile-right{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        /* border: 1px solid red; */
+    }
+    .tz-profile-left, .tz-profile-right{
+        /* justify-content: center; */
+    }
+    .tz-user-name{
+        font-size: 60px;
+        font-weight: bolder;
+        margin: 0; padding: 0;
+    }
+    .tz-user-skill{
+        font-size: 15px;
+        font-weight: 300;
+        margin: 0; padding: 0;
+    }
+    .tz-user-bio{
+        font-size: 14px;
+        /* max-width: 300px; */
+    }
+    .tz-btn-array{
+        gap: 5px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap !important;
+        margin-top: 10px;
+    }
+    .cust-btn{
+        border-radius: 5px;
+    }
+.tz-user-socials{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+    .tz-social{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        padding: 10px;
+        margin-left: 10px;
+        /* border: 1px solid red; */
+    }
+
+    .tz-profile-header{
+        border: 1px solid rgba(184, 184, 184, 0.4);
+        color: var(--app-blue);
+        width: 80%;
+        background: #fff;
+        padding: 10px;
+        margin:0 auto;
+        margin-top: 20px;
+        gap: 5px;
+        display: flex;
+    }
+    .tz-profile-last{
+        width: 80%;
+        margin:0 auto;
+        margin-top: 5px;
+        /* margin-bottom: 50px !important; */
+        gap: 5px;
+        display: flex;
+        flex-direction: row;
+        color: #000;
+        justify-content: space-between;
+    }
+
+    .tz-emphasis{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+
+    .bio-area{
+        width: 35%;
+        background: #fff;
+        padding: 10px;
+    }
+    .about-area{
+        width: 80%;
+        background: #ffffff;
+        padding: 10px;
+    }
+    .about-header{
+        font-weight: bolder;
+        border-bottom: 1px solid var(--app-hover);
+        margin-bottom: 10px;
+        margin-top: 30px;
+    }
+    .back-btn{
+        display: block;
+        margin-left: 110px;
+        padding: 20px;
+    }
+
+
+    .verifyEmailAlert{
+        flex-direction: row;
+        text-align: center;
+        padding: 10px;
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+        transition: 1s;
+    }
+
+    .editProfileModal{
+        gap: 50px;
+        position: fixed;
+        z-index: 99999;
+        height: 100vh !important;
+        background: #0000008b;
+        width: 100%;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        padding: 10px;
+    }
+
+
+    .editProfileModalMain{
+        max-width: 750px;
+        background: #fff;
+        border-radius: 10px;
+        margin: 0 auto;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 90%;
+        overflow: scroll;
+        position: relative;
+    }
+    .profile-field{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 20px;
+    }
+
+    .profile_field_inner{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        display: flex;
+    }
+
+
+    .profile-input{
+        padding: 10px;
+        border: 1px solid var(--app-blue);
+        border-radius: 10px;
+        width: 100%;
+        /* border-radius: 5px; */
+    }
+
+
+
+
+
+   .logout-modal{
+    height: 100dvh;
+    width: 100%;
+    background: #000000d3;
+    position: fixed;
+    z-index: 999999;
+    display: flex;
+    flex: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.modal-content{
+    /* height: 200px; */
+    background: #fff;
+    max-width: 400px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 25px;
+}
+.modal-content > span{
+    font-size: 1.5em !important;
+}
+.modal-options{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.modal-options > span{
+    border: 1px solid var(--app-blue);
     padding: 10px;
+    border-radius: 5px;
+    color: var(--app-blue);
+    font-size: 1rem !important;
+    width: 40%;
+    cursor: pointer;
+}
+.no{
+    background: var(--app-blue);
+    color: #fff !important;
 }
 
 
@@ -872,58 +934,63 @@ export default {
 
 
 
-        @media only screen and (max-width: 720px) {
-            .tz-profile-card{
-                flex-direction: column;
-                width: 100%;
-            }
-            .tz-profile-left{
-                flex-direction: column;
-                /* align-items: flex-start; */
-            }
-            .tz-user-details{
-            align-items: flex-start;
-            }
-            .tz-user-thumbnail{
-                align-items: flex-start !important;
-            }
-            .section-divider{
-                display: none;
-            }
-            .tz-profile-last{
-                flex-direction: column;
-                gap: 5px;
-                padding: 10px;
-            }
-            .tz-profile-right{
-                align-content: center;
-                width: 100%;
-                padding: 0px;
-            }
-            .about-area{
-                /* height: 400px; */
-            }
-            .tz-profile-header, .tz-profile-last, .about-area{
-                width: 100%;
-                margin-top: 5px !important;
-            }
-            .tagline-area{
-            width: 100%;
-            }
-        }
 
-        @media only screen and (max-width: 1000px) {
-            .tz-profile-left{
-                flex-direction: column;
-            }
-            .tz-user-details{
-            display: flex;
+
+
+    @media only screen and (max-width: 720px) {
+        .tz-profile-card{
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            width: 100%;
+        }
+        .tz-profile-left{
+            flex-direction: column !important;
+            align-items: flex-start;
+        }
+        .tz-user-details{
+        align-items: flex-start;
+        justify-content: flex-start;
         }
         .tz-user-thumbnail{
-            align-self: center;
+            align-items: flex-start !important;
         }
+        .section-divider{
+            display: none;
         }
-    </style>
+        .tz-profile-last{
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+        }
+        /* .tz-profile-right{
+            align-content: center;
+            justify-items: center;
+            width: 100%;
+            padding: 0px;
+        } */
+        .about-area{
+            /* height: 400px; */
+        }
+        .tz-profile-header, .tz-profile-last, .about-area{
+            width: 100%;
+            margin-top: 5px !important;
+        }
+        .bio-area{
+        width: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 1000px) {
+        .tz-profile-left{
+            flex-direction: row;
+        }
+        .tz-user-details{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
+    .tz-user-thumbnail{
+        align-self: center;
+    }
+    }
+</style>

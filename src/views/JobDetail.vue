@@ -163,7 +163,8 @@
                         </div>
                         <div class="tz-form-content" v-if="checkForHires(userDetails.id)">
                             <span>
-                                <button class="tz-form-submit-btn cust-btn" type="submit" :disabled="isSubmitting" @click="getContractPage(job._id)">view contract</button>
+                                <!-- <button class="tz-form-submit-btn cust-btn" :disabled="isSubmitting" @click.prevent()="getContractPage(job._id, userDetails.id)">view contract</button> -->
+                                <RouterLink :to="'/contract/' + job._id + '/' + userDetails.id">View contract</RouterLink>
                             </span>
                         </div>
                     </form>
@@ -493,8 +494,8 @@
                     });
                 },
 
-                getContractPage(jobId) {
-                    this.$router.push(`/contract/${jobId}`);
+                getContractPage(jobId, userId) {
+                    this.$router.push(`/contract/${jobId}/${user_id}`);
                 },
 
                 handleButtonClick(){

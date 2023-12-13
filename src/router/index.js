@@ -75,9 +75,10 @@ const routes = [
   {path: "/notifications", name:  "Techzone - Notifications", component: Notifications},
   {path: "/reset-password", name: "Password - reset", component: ResetPassword},
   {path: "/reset-password-main", name: "Password - reset2", component: ResetPassword2},
-  {path: "/contract/:job_id", name: "Techzone - Contract", component: contract_page, meta: { requiresAuth: true, role: 'user' }},
+  {path: "/contract/:job_id/:user_id", name: "Techzone - Contract", component: contract_page, meta: { requiresAuth: true, role: 'user' }},
   {path: "/client/contract/:job_id/:user_id", name: "Techzone - Contract-client", component: contract_page},
 
+  {path: "/client/dashboard/:show_modal", name: "Techzone - User search", component: client_dashboard, meta: { requiresAuth: true, role: 'employer' }},
   //job categories.......
   // {path: "/jobs/requested-jobs", component: requestedJobs, meta: { requiresAuth: true, role: 'user' }},
   {path: "/jobs/assigned-jobs", component: assignedJobs, meta: { requiresAuth: true, role: 'user' }},

@@ -38,7 +38,6 @@
 
         <div class="Page-contents">
                <div class="container">
-
                     <div class="tz-client-header"  :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div style="color: #000">
                             <span>Welcome back, </span> <br/>
@@ -60,44 +59,6 @@
                                 </svg>
                                 Post a Job
                             </button>
-                    </div>
-
-                    <div class="search_modal" v-if="this.$route.params.show_modal && searchEnabled" style="
-                    background: #fff;
-                    border-radius: 10px;
-                    padding: 20px;
-                    margin-top: 10px;
-
-                    ">
-                        <span @click="searchEnabled = !searchEnabled">&times; close</span><br/>
-                        <span style="font-size: 20px !important;">Search for freelancers and assign jobs</span><br/>
-                        <small>Search by User's ID, location, state, skill keyword, name</small>
-                        <div class="search_box">
-                            <form @submit.prevent="searchUsers">
-                                <input type="text" v-model="keywords" placeholder="search fo freelancers, IDs">
-                                <button type="submit">Search</button>
-                            </form>
-                            <div v-if="resultUsers" v-for="user in resultUsers" style="
-                            display: flex;
-                            flex-direction: row;
-                            margin-top: 10px;
-                            border: 1px solid #efefef;
-                            justify-content: flex-start;
-                            align-items: center;
-                            border-radius: 10px;
-                            gap: 20px;
-                            padding: 20px;">
-                                <!-- {{ user }} -->
-                                <RouterLink :to="'/user/' + user._id"><img :src="user.profile.profileImage" style="height: 70px; border-radius: 50%;"></RouterLink>
-                                <div>
-                                    <RouterLink :to="'/user/' + user._id"> <span style="font-size: 20px !important;">{{ user.firstname }} {{ user.lastname }} <i v-if="user.isVerified" class="bi bi-patch-check-fill" style="color: blue"></i></span> <br/></RouterLink>
-                                    <span>{{ user.profile.skillTitle }}</span><br/>
-                                    <span>{{ user.profile.location }}</span><br/>
-                                    <button>Assign Job</button>
-                                </div>
-                            </div>
-                            <span v-if="resultUsers && resultUsers.length === 0" style="color: red"> no matching user found</span>
-                        </div>
                     </div>
 
                     <div class="tz-client-tab ">
@@ -255,9 +216,6 @@
                     tempUserId: '',
 
                     activeTab: 'Tab1',
-                    searchEnabled: true,
-                    keywords: '',
-                    resultUsers: '',
                     };
                 },
                 methods: {
@@ -549,20 +507,6 @@
                         const formattedValue = new Intl.NumberFormat('en-US').format(value);
                         return `₦${formattedValue}`;
                     },
-
-                    async searchUsers(){
-                        const keywords = this.keywords;
-                        try {
-                            // Make an Axios GET request to your search endpoint
-                            const response = await axios.get(`${this.api_url}/search/users`, {
-                                params: { keywords},
-                            });
-                            this.resultUsers = response.data.users;
-                            console.log(this.resultUsers)
-                        }catch(error){
-
-                        }
-                    }
 
 
                 },

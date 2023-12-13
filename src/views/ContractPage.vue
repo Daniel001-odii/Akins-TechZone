@@ -169,21 +169,24 @@
 
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Contract actions</p>
-                            <div class="btn_row">
-                                <button class="btn btn-primary" @click="requestApproval" v-if="isUser && !this.job.requestedReview.includes((String(this.userDetails.id)))">send contract for review</button>
-                                <button class="btn btn-primary" v-if="isUser && this.job.requestedReview.includes((String(this.userDetails.id)))"  disabled>contract review request sent</button>
-                                <button class="btn btn-primary" v-if="isEmployer && this.job.requestedReview.includes((String(this.userDetails.id))) && this.job.completedBy.includes(String(this.userDetails.id))"  disabled>contract review request approved</button> ___
-                                <button @click="markJobAsComplete(job._id)" class="btn btn-primary" v-if="isEmployer && this.job.completedBy.includes(String(this.userDetails.id)) != true" >Approve job completion request</button>
-                                <button class="btn btn-success" disabled v-if="this.job.completedBy.includes(String(this.userDetails.id))">Job completed</button>
+                            <div class="btn_ro">
+                                <button class="btn btn-primary" @click="requestApproval" v-if="isUser && !this.job.requestedReview.includes(this.$route.params.user_id.toString())">send contract for review</button>
+                                <i v-if="isUser" class="bi bi-arrow-return-right"></i> <button class="btn btn-primary" v-if="isUser && this.job.requestedReview.includes(this.$route.params.user_id.toString())"  disabled>contract review request sent</button>
+                                <i v-if="isEmployer" class="bi bi-arrow-return-right"></i> <button class="btn btn-primary" v-if="isEmployer && this.job.requestedReview.includes(this.$route.params.user_id.toString()) && this.job.completedBy.includes(this.$route.params.user_id.toString())"  disabled>contract review request approved</button> <i class="bi bi-arrow-right"></i>
+                                <button @click="markJobAsComplete(job._id)" class="btn btn-primary" v-if="isEmployer && this.job.completedBy.includes(this.$route.params.user_id.toString()) != true" >Approve job completion request</button>
+                                <button class="btn btn-success" disabled v-if="this.job.completedBy.includes(this.$route.params.user_id.toString())">Job completed</button>
                             </div>
                     </div>
                     <div class="tz-job-content-description">
                         <p class="tz-form-title">Feedback</p>
-                        <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="isEmployer && this.job.requestedReview.includes((String(this.userDetails.id))) && this.job.completedBy.includes(String(this.userDetails.id)) && isUser">submit job feedback</button>
-                        <span v-if="this.job.requestedReview.includes((String(this.userDetails.id))) && !this.job.completedBy.includes(String(this.userDetails.id))">Awaiting client approval before job feedback is available</span>
-                        <span v-if="this.job.completedBy.includes(String(this.userDetails.id)) && this.job.requestedReview.includes((String(this.userDetails.id))) && isUser">the client sent you a feedback</span>
-                        <!-- <span v-else>you sent a feedback</span> -->
-                        <!-- <span>Contract Feedback submitted</span> -->
+                        <div class="btn_ro">
+                            <!-- <i v-if="isEmployer" class="bi bi-arrow-return-right"></i> <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="this.job.requestedReview.includes(this.$route.params.user_id.toString()) && this.job.completedBy.includes(this.$route.params.user_id.toString())">submit Freelancer feedback</button> -->
+                            <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="this.job.requestedReview.includes(this.$route.params.user_id.toString()) && !this.job.completedBy.includes(this.$route.params.user_id.toString())">submit job feedback</button>
+                            <span v-if="this.job.requestedReview.includes(this.$route.params.user_id.toString()) && !this.job.completedBy.includes(this.$route.params.user_id.toString())">Awaiting client approval before job feedback is available</span>
+                            <span v-if="this.job.completedBy.includes(this.$route.params.user_id.toString()) && this.job.requestedReview.includes(this.$route.params.user_id.toString()) && isUser">the client sent you a feedback</span>
+                            <span v-else><i v-if="isEmployer" class="bi bi-arrow-return-right"></i> you sent a feedback</span>
+                            <!-- <span>Contract Feedback submitted</span> -->
+                        </div>
                     </div>
 
                 </div>
@@ -286,6 +289,7 @@
             userCompletedContract: false,
 
             requestedReview: false,
+            showAlertBox: false,
 
             };
         },
@@ -297,16 +301,16 @@
                     this.alertIcon = icon;
                 },
 
-            copyText() {
-                const contentToCopy = document.getElementById('contentToCopy').innerText;
-                navigator.clipboard.writeText(contentToCopy)
-                    .then(() => {
-                    this.$refs.toast.showSuccessToast('Successfully copied to clipboard');
-                    })
-                    .catch((error) => {
-                    console.error('Error copying to clipboard:', error);
-                    });
-                },
+                copyText() {
+                    const contentToCopy = document.getElementById('contentToCopy').innerText;
+                    navigator.clipboard.writeText(contentToCopy)
+                        .then(() => {
+                        this.$refs.toast.showSuccessToast('Successfully copied to clipboard');
+                        })
+                        .catch((error) => {
+                        console.error('Error copying to clipboard:', error);
+                        });
+                    },
 
                 fetchJobListings() {
                 const jobId = this.$route.params.job_id;
@@ -316,6 +320,7 @@
                         // this.data.push(response.data.job);
                         this.job = response.data.job;
                         console.log("currrent job in view: ", this.job);
+                        this.checkForCompletion();
 
                     })
                     .catch(error => {
@@ -397,43 +402,6 @@
                     }
                 },
 
-                async submitApplicatio() {
-                this.isSubmitting = true;
-
-                    const formData = new FormData();
-                    formData.append('coverLetter', this.coverLetter);
-                    formData.append('counterOffer', this.counterOffer);
-                    formData.append('reasonForCounterOffer', this.reasonForCounterOffer);
-                    for (const file of this.filesToUpload) {
-                    formData.append('attachment', file);
-                    }
-
-                    // for (const [key, value] of formData.entries()) {
-                    // console.log(`form data:  ${key}: ${value}`);
-                    // }
-
-                    const token = localStorage.getItem('token'); // Get the JWT token from local storage
-
-
-                try {
-                    const response = await axios.post(
-                    `${this.api_url}/apply/${this.$route.params.job_id}`,
-                    formData,
-                    {
-                        headers: {
-                        Authorization: `JWT ${token}`,
-                        'Content-Type': 'multipart/form-data'},
-                    }
-                    );
-
-
-                } catch (error) {
-                    console.error('Error submitting application:', error);
-                } finally {
-                    this.isSubmitting = false;
-                }
-                },
-
                 getUserDetails() {
                     this.isLoading = true;
                     const token = localStorage.getItem('token'); // Get the token from localStorage
@@ -468,6 +436,7 @@
                 }
                 return this.employerDetails[id];
                 },
+
                 fetchUserAppliedJobs() {
                     this.isLoading = true;
                     // Fetch user-applied jobs using the route you created
@@ -505,6 +474,7 @@
                         this.isLoading = false;
                     });
                 },
+
                 handleButtonClick(){
                     const fileInput = document.querySelector('input[type="file"]');
                     fileInput.click();
@@ -540,7 +510,8 @@
                     }
                     );
 
-                    alert("review reuest approved!");
+                    this.showAlert("success", "Review request approved",);
+                    // alert("review request approved!");
                     // refresh the page...
                     window.location.reload();
 
@@ -577,15 +548,13 @@
                     const jobId = this.job._id;
                     const employerId = this.job.employer;
                     const userId = this.userDetails.id;
-
-
                     const response = await axios.post(`${this.api_url}/jobs/requestApproval`, {
                             jobId,
                             userId,
                             employerId
                             });
                         console.log(response.data);
-                        window.location.reload();
+                        // window.location.reload();
                     }
                     catch(error){
                         console.error('Error requesting for approval:', error.message);
@@ -607,6 +576,13 @@
 
                 console.log("logged in as", userRole);
                 },
+                checkForCompletion(){
+                    this.userCompletedContract = true;
+                    console.log("job completed by: ", this.job.completedBy);
+                    if(this.job.completedBy.includes(this.$route.params.user_id.toString())){
+                        alert("user already closed contract...")
+                    };
+                },
 
 
                 selected(value, section) {
@@ -619,7 +595,9 @@
             if(this.isUser){
                 this.getUserDetails();
                 this.fetchUserAppliedJobs();
+                // this.checkForCompletion();
             }
+
 
             this.fetchJobListings();
 

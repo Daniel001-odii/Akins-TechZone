@@ -137,7 +137,10 @@
                     </div>
                     <div class="jd-section">
                         <span class="jdh-title">Project type</span>
-                            {{ jobs[selectedJob].period }}
+                            {{ jobs[selectedJob].period }} <br/>
+                            <span v-if="jobs[selectedJob].period == 'small'">Usually quick and straightforward, Project has a life span of 1 to 3 Months.</span>
+                            <span v-if="jobs[selectedJob].period == 'medium'">Project has a life span of about 3 to 6 months.</span>
+                            <span v-if="jobs[selectedJob].period == 'large'">Project has a life span of greater than 6 months.</span>
                     </div>
 
                     <div class="jd-section">

@@ -140,12 +140,12 @@
 
 
         <div class="search">
-            <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">
-                <div class="filter-search">
+            <!-- <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;"> -->
+                <div class="filter-search" @click="goToSearchPage">
                         <i class="bi bi-search"></i>
                         <input type="search" class="ft-search" v-model="keywords" placeholder="Search all types of jobs">
                 </div>
-            </form>
+            <!-- </form> -->
         </div>
                     <div class="Tz-nav-actions">
                             <div class="notifications">
@@ -342,13 +342,13 @@
                     </div>
                 </div>
         </div>
-        <div class="search">
-            <form @submit.prevent="searchUsers" style=" display: flex; flex-direction: row; gap: 10px;">
-                <div class="filter-search">
+        <div class="search" @click="goToSearchPage">
+            <!-- <form @submit.prevent="searchUsers" style=" display: flex; flex-direction: row; gap: 10px;"> -->
+                <div class="filter-search" @click="goToSearchPage">
                         <i class="bi bi-search" @click="searchUsers"></i>
-                        <input type="search" class="ft-search" v-model="user_search_keywords" placeholder="Search for freelancers">
+                        <input type="search" class="ft-search" v-model="user_search_keywords" placeholder="Search for freelancers" disabled>
                 </div>
-            </form>
+            <!-- </form> -->
         </div>
         <div class="Tz-nav-actions">
                             <div class="notifications">
@@ -378,7 +378,6 @@
                                                 <span name="notification-item">
                                                     <div>{{ notify.message.substring(0, 120) }}...</div>
                                                     <small style="font-size: 9px !important;">{{ formatTimestamp(notify.createdAt) }}</small>
-                                                    <!-- {{ notify.linkUrl }} -->
                                                     <br/><div v-if="notify.linkUrl" @click="viewContractPage(notify.linkUrl)" class="notify_link" style="color: var(--app-blue)">View contract <i class="bi bi-box-arrow-up-right"></i></div>
                                                 </span>
                                                 <span class="notifications_dismiser" @click="markNotificationAsRead(notify._id)">&times;</span>
@@ -588,6 +587,10 @@ export default {
 
         logout(){
         this.showModal = true;
+        },
+
+        goToSearchPage(){
+            this.$router.push(`/client/dashboard/true`);
         },
 
         realLogout(){

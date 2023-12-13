@@ -48,28 +48,42 @@
 
 <div v-if="editProfileMenu" class="editProfileModal" style="">
 <!-- <div class="editProfileModal" style=""> -->
-    <form @submit.prevent="updateuserProfile" id="userProfile.profile">
-        <span @click="this.editProfileMenu = !this.editProfileMenu;" class="closeBtn">&times; close</span>
+    <form @submit.prevent="updateuserProfile" id="userProfile.profile" class="editProfileModalMain">
+        <span @click="this.editProfileMenu = !this.editProfileMenu;" class="closeBtn">&times;</span>
+        <p style="font-size: 30px !important;">User Information</p>
+        <small>
+            Here you can edit public information about yourself.
+            Due to security reasons, some personal documents will be required before changes can be effected.
+        </small>
         <div class="bio profile-field">
-            <input class="profile-input" type="text"  v-model="userProfile.firstname">
-            <input class="profile-input" type="text" v-model="userProfile.lastname">
+            <span>Full Name</span>
+            <div class="profile_field_inner">
+                <input class="profile-input" type="text" placeholder="firstname"  v-model="userProfile.firstname">
+                <input class="profile-input" type="text" placegolder="lastname" v-model="userProfile.lastname">
+            </div>
         </div>
         <div class="bio profile-field">
-            <textarea class="profile-input" type="text" placeholder="say something about yourself" v-model="userProfile.profile.bio"></textarea>
+            <span>A bit about yourself</span>
+            <textarea class="profile-input" style="height: 250px; max-height: 250px;" type="text" placeholder="say something about yourself" v-model="userProfile.profile.bio"></textarea>
         </div>
         <div class="location profile-field">
+            <span>Address & location</span>
             <input class="profile-input" type="text" placeholder="your location goes here..." v-model="userProfile.profile.location">
         </div>
         <div class="phone profile-field">
+            <span>Phone number</span>
             <input class="profile-input" type="number" placeholder="your phone goes here..." v-model="userProfile.profile.phone">
         </div>
         <div class="skillTitle profile-field">
+            <span>Skill title (what best describes you)</span>
             <input class="profile-input" type="text" placeholder="write what best describes you" v-model="userProfile.profile.skillTitle">
         </div>
-        <div class="skills profile-field">
+        <div class="skill profile-field">
+            <span>Skills (seperated with comma)</span>
             <input class="profile-input" type="text" placeholder="list your skills here" v-model="userProfile.profile.skillsList">
         </div>
         <div class="social profile-field">
+            <span>Portfolio link/URL</span>
             <input class="profile-input" type="text" placeholder="link to you fav social account" v-model="userProfile.profile.socialAccount">
         </div>
         <button type="submit" class="cust-btn">save and exit</button>
@@ -142,7 +156,7 @@
                     <span>{{ userDetails.profile.location }}</span>
                 </div>
 
-                <div class="tz-user-socials">
+                <!-- <div class="tz-user-socials">
                     <div class="tz-social">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="34" viewBox="0 0 35 34" fill="none">
                         <circle cx="17.5008" cy="16.6102" r="16.6102" fill="#F6F9FF"/>
@@ -161,10 +175,10 @@
                         <span>Email</span>
                     </div>
                     <div class="tz-social">
-                        <!-- <i class="bi bi-github"></i>
-                        <span>Github</span> -->
+                        <i class="bi bi-github"></i>
+                        <span>Github</span>
                     </div>
-                </div>
+                </div> -->
             </div>
     </div>
 
@@ -207,7 +221,7 @@
             </div>
         </div>
 
-        <div class="bio-area" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
+        <div class="bio-area" style="margin-top: 40px; padding: 10px;" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-emphasis">
                 <b>Phone Number</b>
                 <span>+{{ userDetails.profile.phone }} </span>
@@ -650,7 +664,13 @@ import Alert from '../components/Alert.vue'
 }
 
 
-
+.closeBtn{
+    color: #000;
+    font-size: 30px !important;
+    position: absolute;
+    right: 30px;
+    top: 20px;
+}
 
 
 
@@ -886,26 +906,51 @@ th, td{
         gap: 50px;
         position: absolute;
         z-index: 99999;
-        height: 100dvh;
-        background: #efefef;
-        width: 80%;
+        height: 100%;
+        background: #0000008b;
+        width: 100%;
         margin: 0 auto;
         left: 0;
         right: 0;
         padding: 10px;
-        border-radius: 10px;
+        /* border-radius: 10px; */
     }
 
+
+    .editProfileModalMain{
+        max-width: 750px;
+        background: #fff;
+        border-radius: 10px;
+        margin: 0 auto;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        height: 90%;
+        overflow: scroll;
+        position: relative;
+    }
     .profile-field{
         width: 100%;
-        /* border: 1px solid red; */
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-bottom: 20px;
+    }
+
+    .profile_field_inner{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        display: flex;
     }
 
 
     .profile-input{
-        padding: 20px;
-        border: none;
-        border-bottom: 1px solid #b8b5b5;
+        padding: 10px;
+        border: 1px solid var(--app-blue);
+        border-radius: 10px;
+        width: 100%;
         /* border-radius: 5px; */
     }
 
