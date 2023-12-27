@@ -26,14 +26,15 @@
 
                                         <div class="notify_line">
                                             <span>{{ notification.message }}</span>
-                                            <span v-if="notification.linkUrl" @click="viewContractPage(notification.linkUrl)" style="color: blue; padding: 10px 0px;">view contract</span>
+                                            <RouterLink  v-if="notification.linkUrl" :to="notification.linkUrl"><span style="color: blue; padding: 10px 0px">view contract</span></RouterLink>
+                                            <!-- <span v-if="notification.linkUrl" @click="viewContractPage(notification.linkUrl)" style="color: blue; padding: 10px 0px;">view contract</span> -->
                                             <span class="notify_time">{{ formatTimestamp(notification.createdAt) }}</span>
                                         </div>
                                         <small v-if="notification.isRead" style="color: green;">read</small>
                                         <small v-else style="color: red;">unread</small>
                                 </div>
                 </div>
-                <small style="padding: 20px;">End of notifications...</small>
+                <small style="padding: 20px; font-size: 20px">No new notifications</small>
       </div>
       <!-- <div class="footer">
         <Footer/>

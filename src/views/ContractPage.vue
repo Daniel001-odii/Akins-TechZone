@@ -81,17 +81,14 @@
             <div class="feedback_modal_footer">
                 <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal">Close</button>
                 <button type="button" class="btn btn-primary" @click="sendClientFeedBack">Submit feedback</button>
-                <!-- <button type="button" class="btn btn-primary" v-else>Project Completed successfully!</button> -->
-                <!-- {{ checkForCompletion }} -->
-
             </div>
         </div>
-
     </div>
 
 
     <!-- add message toast to page -->
     <Toast ref="toast"></Toast>
+
 
 
     <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
@@ -108,12 +105,15 @@
 
 
         <div v-if="!isLoading" class="Page-contents" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-
                <div class="tz_job_content_area">
-                    <!-- <div class="tz-company-header-img"></div> -->
+
+                <!-- add all alerts and badges immediately below this comment...... -->
+                <div class="alert alert-danger" v-if="jobIsDeclined">You declined the contract offer!</div>
+                <div class="alert alert-success" v-if="jobIsAccepted">You accepted the contract offer!</div>
+
                     <div class="job-detail-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="jdh-left">
-                            <div class="alert alert-success" style="width: 100%;" v-if="this.job.completedBy.includes(String(this.userDetails.id))">Project completed successfully!</div>
+                            <div class="alert alert-success" style="width: 100%;" v-if="job.completedBy.includes(this.$route.params.user_id.toString())">Project completed successfully!</div>
                             <!-- <div class="alert alert-info" v-if="requestedReview">You have requested for review</div> -->
                             <span><b>{{ job.job_title }}</b></span>
                             <span>{{ job.employer_company }}</span>
@@ -167,24 +167,41 @@
                     </div>
                     </div>
 
+
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Contract actions</p>
-                            <div class="btn_ro">
-                                <button class="btn btn-primary" @click="requestApproval" v-if="isUser && !this.job.requestedReview.includes(this.$route.params.user_id.toString())">send contract for review</button>
-                                <i v-if="isUser" class="bi bi-arrow-return-right"></i> <button class="btn btn-primary" v-if="isUser && this.job.requestedReview.includes(this.$route.params.user_id.toString())"  disabled>contract review request sent</button>
-                                <i v-if="isEmployer" class="bi bi-arrow-return-right"></i> <button class="btn btn-primary" v-if="isEmployer && this.job.requestedReview.includes(this.$route.params.user_id.toString()) && this.job.completedBy.includes(this.$route.params.user_id.toString())"  disabled>contract review request approved</button> <i class="bi bi-arrow-right"></i>
-                                <button @click="markJobAsComplete(job._id)" class="btn btn-primary" v-if="isEmployer && this.job.completedBy.includes(this.$route.params.user_id.toString()) != true" >Approve job completion request</button>
-                                <button class="btn btn-success" disabled v-if="this.job.completedBy.includes(this.$route.params.user_id.toString())">Job completed</button>
+                            <div class=""  v-if="jobIsLoaded && userIsLoaded">
+                                <!-- options below should only show when job is still under pending..... -->
+                                <span v-if="jobIsPending">
+                                    <p>contract pending</p>
+                                    <button class="btn btn-secondary" @click="declineJob">Decline</button> or
+                                    <button class="btn btn-primary" @click="accceptJob">Accept</button><br/><br/>
+                                </span>
+
+                                <!-- other options should be displyed if only contract has been accepted -->
+                                <span v-if="jobIsAccepted">
+                                    <p>contract accepted</p>
+                                    <button class="btn btn-primary" @click="requestApproval">submit contract for review</button>
+                                    <i v-if="isUser" class="bi bi-arrow-return-right"></i> <button class="btn btn-primary" disabled>contract review request sent</button>
+                                    <i v-if="isEmployer" class="bi bi-arrow-return-right"></i> <button class="btn btn-primary" v-if="isEmployer && this.job.requestedReview.includes(this.$route.params.user_id.toString()) && this.job.completedBy.includes(this.$route.params.user_id.toString())"  disabled>contract review request approved</button> <i class="bi bi-arrow-right"></i>
+                                    <button @click="markJobAsComplete(job._id)" class="btn btn-primary" v-if="isEmployer && this.job.completedBy.includes(this.$route.params.user_id.toString()) != true" >Approve job completion request</button>
+                                    <button class="btn btn-success" disabled v-if="this.job.completedBy.includes(this.$route.params.user_id.toString())">Job completed</button>
+                                </span>
+                                <span v-if="jobIsDeclined">You declined the contract offer</span>
+
                             </div>
+                            <span v-else>Loading...</span>
                     </div>
                     <div class="tz-job-content-description">
                         <p class="tz-form-title">Feedback</p>
                         <div class="btn_ro">
+                            <p >Job not yet valid for feedback <br/><small>feedbacks can only be given after the contract has been completed.</small></p>
+
                             <!-- <i v-if="isEmployer" class="bi bi-arrow-return-right"></i> <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="this.job.requestedReview.includes(this.$route.params.user_id.toString()) && this.job.completedBy.includes(this.$route.params.user_id.toString())">submit Freelancer feedback</button> -->
                             <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="this.job.requestedReview.includes(this.$route.params.user_id.toString()) && !this.job.completedBy.includes(this.$route.params.user_id.toString())">submit job feedback</button>
                             <span v-if="this.job.requestedReview.includes(this.$route.params.user_id.toString()) && !this.job.completedBy.includes(this.$route.params.user_id.toString())">Awaiting client approval before job feedback is available</span>
                             <span v-if="this.job.completedBy.includes(this.$route.params.user_id.toString()) && this.job.requestedReview.includes(this.$route.params.user_id.toString()) && isUser">the client sent you a feedback</span>
-                            <span v-else><i v-if="isEmployer" class="bi bi-arrow-return-right"></i> you sent a feedback</span>
+                            <!-- <span v-else><i v-if="isEmployer" class="bi bi-arrow-return-right"></i> you sent a feedback</span> -->
                             <!-- <span>Contract Feedback submitted</span> -->
                         </div>
                     </div>
@@ -291,6 +308,13 @@
             requestedReview: false,
             showAlertBox: false,
 
+            // making ure data is ready before usage and conditionals..
+            userIsLoaded: false,
+            jobIsLoaded: false,
+            jobIsPending: null,
+            jobIsAccepted: null,
+            jobIsDeclined: null,
+
             };
         },
         methods: {
@@ -312,38 +336,39 @@
                         });
                     },
 
-                fetchJobListings() {
-                const jobId = this.$route.params.job_id;
-                // console.log(this.$route.params.job_id);
-                axios.get(`${this.api_url}/jobs/${jobId}`)
-                    .then(response => {
-                        // this.data.push(response.data.job);
+                async fetchJobListings() {
+                    const jobId = this.$route.params.job_id;
+                    this.isLoading = true;
+                    try{
+                        const response = await axios.get(`${this.api_url}/jobs/${jobId}`);
                         this.job = response.data.job;
-                        console.log("currrent job in view: ", this.job);
-                        this.checkForCompletion();
+                        this.isLoading = false;
+                        this.jobIsLoaded = true;
+                    }
+                    catch(error){
+                            console.log(error);
+                            this.showAlert("error", error,);
+                    }
 
-                    })
-                    .catch(error => {
-                    console.error(error);
-                    })
-                    .finally(() => {
-                    this.isLoading = false;
-                    });
                 },
 
-                fetchEmployerJobs(jobId) {
-                    if(!this.employerJob[jobId]){
-                    axios.get(`${this.api_url}/jobs/${jobId}`)
-                        .then(response => {
-                            // this.data.push(response.data.job);
-                            this.employerJob[jobId] = response.data.job;
-                    })
-                    .catch(error => {
+                async fetchEmployerJobs(jobId) {
+                try {
+                    if (!this.employerJob[jobId]) {
+                    const response = await axios.get(`${this.api_url}/jobs/${jobId}`);
+
+                    if (response && response.data && response.data.job) {
+                        this.employerJob[jobId] = response.data.job;
+                    }
+                    }
+                    return this.employerJob[jobId];
+                } catch (error) {
                     console.error(error);
-                    });
+                    // Handle error scenarios as needed
+                    return null; // or throw error
                 }
-                return this.employerJob[jobId];
                 },
+
 
                 getHoursTillDate(dateString) {
                 const date = new Date(dateString)
@@ -414,7 +439,20 @@
                         .then((response) => {
                         // Handle the response here
                         this.userDetails = response.data.user;
-                        // console.log("the user ", this.userDetails)
+                        this.userIsLoaded = true;
+                        console.log("user details: ", this.userDetails);
+
+                        // check for the state of the current job in view...
+                            if(this.userIsLoaded){
+                                // first check if the job is in a pending state waiting for users response.....
+                                this.jobIsPending = this.userDetails.pending_jobs.some(job => String(job.job_id) === String(this.$route.params.job_id));
+                                // second check if job is accepted and set state as accepted.....
+                                this.jobIsAccepted = this.userDetails.accepted_jobs.some(job => String(job.job_id) === String(this.$route.params.job_id));
+                                // thirdly check if the job has been declined.....
+                                this.jobIsDeclined = this.userDetails.declined_jobs.some(job => String(job.job_id) === String(this.$route.params.job_id));
+
+
+                            }
                         })
                         .catch((error) => {
                         // Handle errors
@@ -437,43 +475,44 @@
                 return this.employerDetails[id];
                 },
 
-                fetchUserAppliedJobs() {
+                async fetchUserAppliedJobs() {
+                    if(this.jobIsLoaded){
+                        try {
                     this.isLoading = true;
-                    // Fetch user-applied jobs using the route you created
-                    axios.get(`${this.api_url}/user-applied-jobs`, {
-                        headers: {
-                        Authorization: `JWT ${localStorage.getItem('token')}`, // Include the JWT token from localStorage
-                        },
-                    })
-                    .then(response => {
-                            this.userAppliedJobs = response.data.jobs;
-                            // console.log("user applied jobs: ", this.userAppliedJobs);
-                            // Use the some method to check if any item in the userAppliedJobs array matches the given jobId
-                            const isJobApplied = this.userAppliedJobs.some(job => job._id === this.$route.params.job_id);
-                            if(isJobApplied){this.jobIsApplied = true}else{this.jobIsApplied = false};
-
-                            // Log the result to the console
-                            // console.log(`Job ID ${this.$route.params.job_id} is${isJobApplied ? '' : ' not'} found in user-applied jobs`);
-
-                            // the code below checks if the user already applied for the job and prepopulates the form fields to avoid futher submission
-                            for(let i = 0; i < this.job.applications.length; i++){
-                               if(this.job.applications[i].user.includes(this.userDetails.id)){
-                                    // console.log(this.applicationForm = this.job.applications[i]);
-                                    this.applicationForm = this.job.applications[i]
-                                    this.coverLetter = this.job.applications[i].coverLetter;
-                                    this.counterOffer = this.job.applications[i].counterOffer;
-                                    this.reasonForCounterOffer = this.job.applications[i].reasonForCounterOffer;
-                               }
-                            };
-                            //  the code below checks if the current user has completed the job
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    })
-                    .finally(() => {
-                        this.isLoading = false;
+                    const response = await axios.get(`${this.api_url}/user-applied-jobs`, {
+                    headers: {
+                        Authorization: `JWT ${localStorage.getItem('token')}`,
+                    },
                     });
+
+                    if (response && response.data && response.data.jobs) {
+                    this.userAppliedJobs = response.data.jobs;
+
+                    const isJobApplied = this.userAppliedJobs.some(
+                        (job) => job._id === this.$route.params.job_id
+                    );
+                    this.jobIsApplied = isJobApplied;
+
+                    for (let i = 0; i < this.job.applications.length; i++) {
+                        if (this.job.applications[i].user.includes(this.userDetails.id)) {
+                        this.applicationForm = this.job.applications[i];
+                        this.coverLetter = this.job.applications[i].coverLetter;
+                        this.counterOffer = this.job.applications[i].counterOffer;
+                        this.reasonForCounterOffer = this.job.applications[i].reasonForCounterOffer;
+                        }
+                    }
+
+                    }
+                } catch (error) {
+                    console.error(error);
+                    // Handle errors as needed
+                } finally {
+                    this.isLoading = false;
+                };
+                    }
+
                 },
+
 
                 handleButtonClick(){
                     const fileInput = document.querySelector('input[type="file"]');
@@ -497,7 +536,7 @@
                     const userId = this.$route.params.user_id;
                     const employerId = this.job.employer;
 
-                    console.log("job id:", jobId, "user id:", userId, "employer id:", employerId)
+                    // console.log("job id:", jobId, "user id:", userId, "employer id:", employerId)
                     try {
                     const response = await axios.post(`${this.api_url}/approve-review-request`,
                     {
@@ -527,7 +566,7 @@
                     const userId = this.userDetails.id;
                     const ratedValue = (this.rating.grade_a + this.rating.grade_b + this.rating.grade_c + this.rating.grade_d + this.rating.grade_e)/5;
 
-                    console.log(jobId, employerId, userId, ratedValue)
+                    // console.log(jobId, employerId, userId, ratedValue)
                     const response = await axios.post(`${this.api_url}/employer/${employerId}/rating`, {
                             jobId,
                             userId,
@@ -574,20 +613,85 @@
                 this.userNotLoggedIn = true;
                 }
 
-                console.log("logged in as", userRole);
+                // console.log("logged in as", userRole);
                 },
                 checkForCompletion(){
                     this.userCompletedContract = true;
-                    console.log("job completed by: ", this.job.completedBy);
+                    // console.log("job completed by: ", this.job.completedBy);
                     if(this.job.completedBy.includes(this.$route.params.user_id.toString())){
                         alert("user already closed contract...")
                     };
                 },
+                async accceptJob(){
+                    const jobId = this.$route.params.job_id;
+                    const userId = this.$route.params.user_id;
 
+                    try{
+                        const response = await axios.post(`${this.api_url}/offer/accept`,
+                        {
+                            jobId: jobId,
+                            userId: userId,
+                        },
+                        {
+                            headers: {Authorization: `JWT ${token}`},
+                        }
+                        );
+                        // console.log(response);
+                        // window.navigator.reload();
+                        this.showAlert("success", "You accepted the offer!",);
+                        // this.isLoading = true;
+                        // setTimeout(this.isLoading = true, 3000);
+                    }
+                    catch(error){
+                        console.error('Error accepting job:', error);
+                    }
+                },
+
+                async declineJob(){
+                    const jobId = this.$route.params.job_id;
+                    const userId = this.$route.params.user_id;
+
+                    try{
+                        const response = await axios.post(`${this.api_url}/offer/decline`,
+                        {
+                            jobId: jobId,
+                            userId: userId,
+                        },
+                        {
+                            headers: {Authorization: `JWT ${token}`},
+                        }
+                        );
+                        this.showAlert("error", "You declined the offer!",);
+                        window.location.reload();
+                        // this.isLoading = true;
+                        // setTimeout(this.isLoading = true, 3000);
+                    }
+                    catch(error){
+                        console.error('Error declining job:', error);
+                    }
+                },
 
                 selected(value, section) {
                     this.rating[section] = value;
                 },
+
+                checkJobState() {
+                    if(this.userIsLoaded){
+                        const jobIdToCheck = this.$route.params.job_id;
+                        console.log('checking for job: ', jobIdToCheck);
+                        const index = this.userDetails.pending_jobs.findIndex(job => String(job.job_id) === String(jobIdToCheck));
+                        if (index !== -1) {
+                            this.jobIsPending = true;
+                            console.log(`Job with id '${jobIdToCheck}' found successfully.`);
+                        } else {
+                            this.jobIsPending = false;
+                            console.log(`No job found with id '${jobIdToCheck}'.`);
+                        }
+                    }
+                },
+
+
+
 
         },
         created() {
@@ -595,23 +699,19 @@
             if(this.isUser){
                 this.getUserDetails();
                 this.fetchUserAppliedJobs();
+                this.checkJobState();
                 // this.checkForCompletion();
             }
-
 
             this.fetchJobListings();
 
 
 
 
-            // this.getUserById("651d62b22d5495c4ca702289");
-
-
-
-            // this.checkJobApplication();
-            // if(this.userAppliedJobs.length > 0){
-            //     console.log(this.userAppliedJobs);
-            // }
+//             this.getUserDetails().then(() => {
+//   this.fetchRooms(this.userDetails.id);
+//   this.isLoading = false;
+//   });
 
         },
         mounted(){

@@ -1,6 +1,41 @@
 <template>
 
 
+<!-- hiring modal starts below....... -->
+<div class="hireModal" v-if="hireModalDisplay" style="z-index: 9999999999;">
+    <div class="hireModalSub">
+        Are you sure you want to hire <br/> <b style="color: blue">{{ tempUserName }}  </b> for the contract: <br/> <b>{{tempJob_title}}</b> ?
+            <div class="hireModalBtn">
+                <button class="cust-btn" style="border-radius: 5px;" @click="hireUser">Yes Hire</button>
+                <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="hireModalDisplay = !hireModalDisplay">cancel</button>
+            </div>
+    </div>
+</div>
+
+<div class="hireModal" v-if="assignJobModal">
+    <div class="hireModalSub" style="max-height: 70vh; width: 70%; overflow-y: scroll; text-align: left; position: relative !important;">
+        <span class="close_btn" @click="assignJobModal = !assignJobModal">&times;</span>
+       <h1 style="font-size: 30px !important;">Selct the job you want to assign to <b style="color: blue">{{ tempUserName }}</b></h1>
+            <p style="padding: 10px; border-bottom: 2px solid grey" v-for="(job, index) in  jobs" :key="index">
+                <b>{{ job.job_title }}</b><br/>
+                <!-- {{ job.budget }} -->
+                <button class="cust-btn" @click="assignUserVerifyModal(job._id, tempUserId, job.job_title)">assign</button>
+            </p><br/>
+            Cant find job?
+            <RouterLink to="/client/post-job" v-if="calculateProfileCompletion() == 100">Post a Job</RouterLink>
+    </div>
+</div>
+
+<div class="hireModal" v-if="assignVerifyModal">
+    <div class="hireModalSub">
+        Are you sure you want to assign the job: <b>{{tempJob_title}}</b> to <b style="color: blue">{{ tempUserName }} ?</b>
+            <div class="hireModalBtn">
+                <button class="cust-btn" style="border-radius: 5px;" @click="assignJob">Assign & Hire</button>
+                <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="assignVerifyModal = !assignVerifyModal">cancel</button>
+            </div>
+    </div>
+</div>
+
 <div class="hireModal" v-if="deleteJobOptions">
     <div class="hireModalSub">
         Are you sure you want to delete the job: <br/> <b> {{tempJob_title}}</b> ? <br/><strong style="color: red">Job cannot be retrieved after deletion!</strong>
@@ -8,18 +43,6 @@
             <button class="cust-btn" style="border-radius: 5px; background: red;" @click="deleteJob">Delete</button>
             <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="deleteJobOptions = !deleteJobOptions">cancel</button>
         </div>
-    </div>
-</div>
-
-
-<!-- hiring modal starts below....... -->
-<div class="hireModal" v-if="hireModalDisplay">
-    <div class="hireModalSub">
-        Are you sure you want to hire <br/> <b>  </b> for the contract: <br/> <b>{{tempJob_title}}</b> ?
-            <div class="hireModalBtn">
-                <button class="cust-btn" style="border-radius: 5px" @click="hireUser">Yes Hire</button>
-                <button class="cust-btn" style="border-radius: 5px; background: #fff; border: 1px solid #000; color: #000;" @click="hireModalDisplay = !hireModalDisplay">cancel</button>
-            </div>
     </div>
 </div>
 
@@ -62,38 +85,24 @@
                             </button>
                     </div>
 
-                    <div class="search_modal" v-if="this.$route.params.show_modal && searchEnabled" style="
-                    background: #fff;
-                    border-radius: 10px;
-                    padding: 20px;
-                    margin-top: 10px;
-
-                    ">
-                        <span @click="searchEnabled = !searchEnabled">&times; close</span><br/>
+                    <div class="search_modal" v-if="this.$route.params.show_modal && searchEnabled" style="">
+                        <span @click="closeSearchAndRedirect" class="close_bt">&times;</span><br/><br/>
                         <span style="font-size: 20px !important;">Search for freelancers and assign jobs</span><br/>
-                        <small>Search by User's ID, location, state, skill keyword, name</small>
+                        <!-- <small>Search by User's ID, location, state, skill keyword, name</small> -->
                         <div class="search_box">
-                            <form @submit.prevent="searchUsers">
-                                <input type="text" v-model="keywords" placeholder="search fo freelancers, IDs">
-                                <button type="submit">Search</button>
+                            <form class="tz_search_form" @submit.prevent="searchUsers">
+                                <input type="text" class="tz_search" required="true" v-model="keywords" placeholder="search for freelancers using their IDs, location, skill, name ...">
+                                <button type="submit" class="tz_search_btn">Search</button>
                             </form>
-                            <div v-if="resultUsers" v-for="user in resultUsers" style="
-                            display: flex;
-                            flex-direction: row;
-                            margin-top: 10px;
-                            border: 1px solid #efefef;
-                            justify-content: flex-start;
-                            align-items: center;
-                            border-radius: 10px;
-                            gap: 20px;
-                            padding: 20px;">
-                                <!-- {{ user }} -->
+                            <div class="user_search_list" v-if="resultUsers" v-for="user in resultUsers" style="">
+                                {{ user._id }}
                                 <RouterLink :to="'/user/' + user._id"><img :src="user.profile.profileImage" style="height: 70px; border-radius: 50%;"></RouterLink>
                                 <div>
                                     <RouterLink :to="'/user/' + user._id"> <span style="font-size: 20px !important;">{{ user.firstname }} {{ user.lastname }} <i v-if="user.isVerified" class="bi bi-patch-check-fill" style="color: blue"></i></span> <br/></RouterLink>
                                     <span>{{ user.profile.skillTitle }}</span><br/>
                                     <span>{{ user.profile.location }}</span><br/>
-                                    <button>Assign Job</button>
+                                    <button class="cust-btn" @click="messageUser(user.email, user._id)">message</button>
+                                    <button class="cust-btn" @click="saveUser(user._id)" style="margin-left: 5px;"><i class="bi bi-heart"></i>save</button>
                                 </div>
                             </div>
                             <span v-if="resultUsers && resultUsers.length === 0" style="color: red"> no matching user found</span>
@@ -109,13 +118,16 @@
                             <i class="bi bi-people-fill"></i>
                            Contracts & hires
                         </button>
+                        <button :class="{ 'active_tab': activeTab === 'Tab3' }" class="nav-link activity" @click="activeTab = 'Tab3'">
+                            <i class="bi bi-heart-fill"></i>
+                           saved freelancers
+                        </button>
                     </div>
 
                     <div v-if="activeTab === 'Tab1'" class="tabcontent">
                         <div class="tab-pane fade show active" id="pills-jobsActivity" role="tabpanel" aria-labelledby="pills-home-tab">
                         <div class="cards-container">
                             <div class="tz_accordion">
-                            <!-- <div class="zero-job" v-if="jobsLoading">Loading...</div> -->
                             <DotLoader v-if="jobsLoading"/>
                             <div class="zero-job" v-if="hasFinishedLoad && jobs.length == 0">you havent posted any jobs yet... <RouterLink to="/client/post-job"><span> Post a job</span></RouterLink></div>
 
@@ -138,7 +150,6 @@
 
                                                 <div class="job_effect_btns">
                                                     <button class="job-btn edit-btn" @click="editJobPost(job._id)"><i class="bi bi-pencil-square"></i> </button>
-
                                                     <span class="job-btn delete-btn"  @click="showDeleteModal(job._id, job.job_title)">
                                                         <i class="bi bi-trash-fill"></i>
                                                     </span>
@@ -163,6 +174,7 @@
                                                         <img @click="navigateToUserprofile(applicant.user)" class="tz-user-thumbnail-big" :src="getUserById(applicant.user).profile.profileImage"><br/>
                                                     </div>
                                                     <div class="applicant_submissions">
+                                                        <span>Job: {{job._id}} user: {{ applicant._id }}</span>
                                                         <span style="color: var(--app-blue); text-decoration: underline; font-size: 15px !important" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
                                                         <span>{{ applicant.coverLetter }}</span><br/>
                                                         <b>Attached files: </b> {{  applicant.attachment }} <br/>
@@ -173,7 +185,8 @@
                                                             <button class="cust-btn" style="border-radius: 5px;" v-if="!checkUser(applicant.user, job.job_title)" @click="messageUser(job.job_title, applicant.user)"> Message </button>
 
                                                             <button class="cust-btn" style="background: var(--app-grey); border-radius: 5px; margin-left: 10px;" v-if="job.hiredUsers.includes(applicant.user)">Hired</button>
-                                                            <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else  @click="showHireModal(job._id, applicant.user, job.job_title)">Hire</button>
+                                                            <button class="cust-btn" style="border-radius: 5px; margin-left: 10px;" v-else  @click="showHireModal(job._id, applicant.user, job.job_title, applicant.firstname, applicant.lastname)">Hire</button>
+                                                            <button class="cust-btn" v-if="!userIsSaved(applicant.user)" @click="saveUser(applicant.user)" style="margin-left: 5px;"><i class="bi bi-heart"></i>save</button>
                                                         </div>
                                                     </div>
 
@@ -185,8 +198,6 @@
                                         </div>
                                     </div>
                                 </transition>
-
-
                             </div>
                             </div>
                         </div>
@@ -202,6 +213,20 @@
                             <span><b>Initiated: </b>{{ hire.date_of_hire }}</span><br/>
                             <RouterLink :to="'/client/contract/' + hire.job.job_id +'/'+ hire.user.user_id"><u>View contract</u></RouterLink>
                         </div>
+                    </div>
+
+                    <div v-if="activeTab === 'Tab3'" class="tabcontent">
+                        <!-- {{ userDetails.savedUsers }} -->
+                        <div class="sub_tab_content" style="display: flex; flex-direction: row;" v-if="userDetails.savedUsers.length > 0" v-for="(user, index) in userDetails.savedUsers" :key="index" >
+                            <RouterLink :to="'/user/' + user.id"> <img :src="user.profileImageUrl" class="tz-user-thumbnail-big"></RouterLink>
+                            <div>
+                                <span><b>{{ user.firstname }} {{ user.lastname }}</b></span><br/>
+                                <span>{{ user.skillTitle }}</span><br/>
+                                <span>{{ user.location }}</span><br/>
+                                <button style="border-radius: 5px; margin-top: 5px;" class="cust-btn" @click="showAssignModal(user.firstname, user.lastname, user.id)">Assign Job</button>
+                            </div>
+                        </div>
+                        <p v-else>You havent saved any freelancer yet..</p>
                     </div>
                </div>
         </div>
@@ -253,11 +278,17 @@
                     tempJobId: '',
                     tempJob_title: '',
                     tempUserId: '',
+                    tempUserName: '',
 
                     activeTab: 'Tab1',
                     searchEnabled: true,
                     keywords: '',
                     resultUsers: '',
+
+                    assignJobModal: false,
+                    assignVerifyModal: false,
+                    tempFirstName: '',
+                    tempLastName: '',
                     };
                 },
                 methods: {
@@ -346,7 +377,7 @@
 
                             this.jobsLoading = true;
 
-                            const employer_id = this.userDetails.id;
+                            const employer_id = this.userDetails._id;
                             // console.log(employer_id)
                             axios.get(`${this.api_url}/employer/${employer_id}/jobs`)
                             .then(response => {
@@ -404,7 +435,6 @@
                         }
                     },
 
-
                     getUserById(id) {
                         if (!this.applicantDetails[id]) {
                             axios.get(`${this.api_url}/get-info/${id}`)
@@ -418,9 +448,7 @@
                             });
                         }
                             return this.applicantDetails[id];
-                        },
-
-
+                    },
                     // Fetch and store applicant details if not already stored
                     async getApplicantDetails(userId) {
                     if (!this.applicantDetailsMap[userId]) {
@@ -489,7 +517,7 @@
                             this.getUserDetails();
                             // alert('User hired successfully');
                             this.$router.push(`/funding/${userId}/${jobId}`);
-
+                            // window.location.reload();
 
                         } else {
                             // Handle errors (e.g., display an error message)
@@ -539,11 +567,12 @@
                         this.tempJobId = tempJobId;
                         this.tempJob_title = tempJob_title;
                     },
-                    showHireModal(tempJobId, tempUserId, tempJob_title){
+                    showHireModal(tempJobId, tempUserId, tempJob_title, firstname, lastname){
                         this.hireModalDisplay = !this.hireModalDisplay;
                         this.tempJobId = tempJobId;
                         this.tempUserId = tempUserId;
                         this.tempJob_title = tempJob_title;
+                        this.tempUserName = firstname + " " + lastname;
                     },
                     formatBudgetAmount(value){
                         const formattedValue = new Intl.NumberFormat('en-US').format(value);
@@ -562,9 +591,85 @@
                         }catch(error){
 
                         }
+                    },
+                    closeSearchAndRedirect(){
+                        window.location.reload();
+                        this.$router.push('/');
+                        // this.searchEnabled = !this.searchEnabled;
+                    },
+
+                    async saveUser(userId) {
+                        const token = localStorage.getItem('token');
+                    try {
+                        const config = {
+                        headers: {
+                            Authorization: `JWT ${token}`,
+                        },
+                        };
+                        const response = await axios.post(`${this.api_url}/user/${userId}/save`, {}, config);
+                        console.log(response.data.message);
+                        // this.showAlert("success", "successful!", "bi-check-circle-fill")
+
+                    } catch (error) {
+                        console.error('Error saving job:', error);
+                        // this.showAlertBox = !this.showAlertBox;
                     }
+                    // then finally get the employers details again so it automatically reflects that user has been saved succefully...
+                    this.getUserDetails();
+                    },
 
+                    showAssignModal(firstname, lastname, tempUserId){
+                        this.assignJobModal = !this.assignJobModal;
+                        this.tempFirstName = firstname;
+                        this.tempLastName = lastname;
+                        this.tempUserName = firstname + " " + lastname;
+                        this.tempUserId = tempUserId;
+                    },
 
+                    assignUserVerifyModal(jobId, userId, jobTitle){
+                        this.assignVerifyModal = !this.assignVerifyModal;
+                        this.tempJobId = jobId;
+                        this.tempUserId = userId;
+                        this.tempJob_title = jobTitle;
+                    },
+
+                    async assignJob(){
+                        const jobId = this.tempJobId;
+                        const userId = this.tempUserId;
+
+                        try {
+                        // Retrieve the JWT token from local storage
+                        const token = localStorage.getItem('token');
+                        // Make a POST request to the API endpoint
+                        const response = await axios.post(
+                            `${this.api_url}/assignJob`,
+                            {
+                                jobId,
+                                userId
+                            },
+                            {headers: {Authorization: `JWT ${token}`},}
+                        );
+
+                        if (response.status === 200) {
+                            // Handle a successful hiring (e.g., show a success message)
+                            this.getUserDetails();
+                            // alert('User hired successfully');
+                            this.$router.push(`/funding/${userId}/${jobId}`);
+                            // window.location.reload();
+
+                        } else {
+                            // Handle errors (e.g., display an error message)
+                            console.error('Error hiring user');
+                        }
+                        } catch (error) {
+                        console.error('Error hiring user:', error);
+                        }
+                    },
+
+                    // the function below loops through the savedUsers array and checks if a user is already saved to avoid duplicate saves per user...
+                    userIsSaved(userId) {
+                        return this.userDetails.savedUsers.some(user => user.id === userId);
+                    }
                 },
                 created() {
                 this.getUserDetails().then(() => {
@@ -641,6 +746,7 @@ small{font-size: 12px;}
     align-items: flex-start;
     width: 100%;
     padding: 5px;
+    min-height: 80vh;
     /* overflow-y: scroll; */
 }
 .page-grid-container{
@@ -850,7 +956,7 @@ small{font-size: 12px;}
         }
       }
 .accordion_body_first{
-    /* border-top: 1px dotted var(--app-blue); */
+    margin-bottom: 10px;
 }
 
 .applicant_card{
@@ -955,6 +1061,7 @@ background: red;
     border-radius: 5px;
     background: #fff;
     gap: 10px;
+    position: relative;
 }
 
 .hireModalBtn{
@@ -963,7 +1070,7 @@ background: red;
     justify-content: space-between;
     margin-top: 20px;
 }
-
+q
 
     /* Style for the tabs */
     .tab {
@@ -988,7 +1095,49 @@ background: red;
     padding: 20px;
     border-radius: 10px;
     margin-top: 10px;
+    display: flex;
+    gap: 10px;
   }
+
+  .search_modal{
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: -2px;
+  }
+.user_search_list{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    border: 1px solid #efefef;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 10px;
+    gap: 20px;
+    padding: 20px;
+}
+
+  .tz_search_form{
+    display: flex;
+    flex-direction: row;
+  }
+.tz_search{
+    border: 1px solid #efefef;
+    padding: 10px;
+    border-radius: 10px 0px 0px 10px;
+    width: 100%;
+}
+.tz_search_btn{
+    border-radius: 0px 10px 10px 0px;
+    padding: 10px;
+    background: var(--app-blue);
+    color: #fff;
+    border: none;
+}
 
 @media screen and (max-width: 600px) {
     .container{

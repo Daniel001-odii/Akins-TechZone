@@ -216,8 +216,31 @@
                        <span style="color: var(--app-blue);"> {{ job.job_title }}</span><br/>
                        {{ job.budget }} <br/>
                        {{ formatTimestamp(job.completion_date) }} <br/><br/>
-                       <!-- {{ job }} -->
-                    </div>
+                       {{ job }}
+                </div>
+                <p v-if="userDetails.completedJobs.length == 0">No completed jobs yet</p>
+
+                <div class="about-header">
+                    Assigned Jobs
+                </div>
+                <div v-for="job in userDetails.acceptedJobs">
+                        <!-- {{ job.job_title }} -->
+                        <b style="color: blue">{{ job.job_title }}</b><br/>
+                        {{ job.employer.company }} <br/>
+                        {{ job.budget }}<br/>
+                        {{ job.date }}
+                </div>
+
+                <div class="about-header">
+                    Declined Jobs
+                </div>
+                <div v-for="job in userDetails.declinedJobs">
+                        <!-- {{ job.job_title }} -->
+                        <b style="color: red"> {{ job.job_title }}</b><br/>
+                        {{ job.employer.company }}<br/>
+                        {{ job.budget }}<br/>
+                        {{ job.date }}<br/>
+                </div>
             </div>
         </div>
 
@@ -293,6 +316,7 @@ import Alert from '../components/Alert.vue'
                 uploadResbtn: false,
 
                 completedJobs: {},
+                showAlertBox: false,
 
 
             userProfile: {

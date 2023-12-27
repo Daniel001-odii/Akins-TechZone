@@ -673,6 +673,8 @@ p{
       padding: 10px;
       align-items: flex-start;
       gap: 10px;
+      /* border: 1px solid red; */
+      max-width: 350px;
   }
   .jdh-right{
       display: flex;

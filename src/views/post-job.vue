@@ -208,15 +208,21 @@
 
                 <span>Address*</span>
                 <div class="section-content" style="display: flex; margin-top: 10px;">
-                    <input style="height: 40px; width: 100%; font-size: 15px;" type='address' class="job_descripton" placeholder="Address line including city" v-model="formData.location.address" required>
+                    <input style="height: 40px; width: 100%; font-size: 15px;" type='address' class="job_descripton" placeholder="Address line including city" v-model="formData.location.address" required :disabled="isRemote" id="addressLine">
                     <i style="color: #00bd00; position: absolute; right: 50px;" v-if="locationFound" class="bi bi-check-lg"></i>
                 </div>
 
                 <span>state*</span>
-                <select class="state_select" @change="whatState" v-model="formData.location.state">
-                  <option v-for="state in states" :value="state" :key="state">{{ state }}</option>
+                <select class="state_select" @change="whatState" v-model="formData.location.state" :disabled="isRemote">
+                  <option v-for="state in states" :value="state" :key="state" >{{ state }}</option>
                 </select>
-                <button class="cust-btn" @click.prevent="getJobCordinates" :disabled="loadingNext"><span v-if="loadingNext">searching...</span><span v-if="!loadingNext">confirm location</span></button>
+                <button class="cust-btn" @click.prevent="getJobCordinates" :disabled="loadingNext"><span v-if="loadingNext" :disabled="isRemote">searching...</span><span v-if="!loadingNext">confirm location</span></button>
+
+                <div>
+                  is this job remote?<br/>
+                  <input type="checkbox" v-model="isRemote" @change="checkValue" id="remote-location">
+                   <label for="remote-location"> Remote</label>
+                </div>
               </div>
 
             </div>
@@ -283,6 +289,7 @@ import axios from 'axios';
 import Navbar from '../components/NavBar.vue'
 import themeStore from '@/theme/theme';
 
+
 // import "leaflet/dist/leaflet.css";
 // import L from "leaflet";
 // import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
@@ -343,11 +350,12 @@ export default {
       // selectedState: "",
       latitude: null,
       longitude: null,
-
       loadingNext: false,
       locationFound: false,
+      isRemote: false,
   }
 },
+
 
 computed: {
     formattedValue() {
@@ -356,6 +364,20 @@ computed: {
   },
 
 methods: {
+
+  checkValue(){
+    if(this.isRemote == true){
+      this.formData.location.isRemote = true;
+      this.formData.location.state = '';
+      this.formData.location.address = '';
+      this.formData.location.latitude = '';
+      this.formData.location.longitude = '';
+      console.log("job has been marked as remote...")
+    }
+    else{
+
+    }
+  },
   generateSuggestions() {
       // Clear previous suggestions
       this.suggestions = [];
@@ -485,9 +507,9 @@ methods: {
           this.formData.location.longitude = lng();
           console.log("Lat: ", this.latitude, "Long: ", this.longitude, "general result: ");
           this.loadingNext = false;
-
         } else{
-          alert("geo code was not successful...")
+          alert("geo code was not successful...");
+          this.locationFound = false;
         }
       })
 
