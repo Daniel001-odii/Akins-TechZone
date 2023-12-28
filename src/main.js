@@ -14,7 +14,7 @@ const app = createApp(App);
 
 
 
-app.config.globalProperties.api_url = 'https://tecnhzone-backend-c28bd32b1555.herokuapp.com/api';
+app.config.globalProperties.api_url = 'https://techzone-backend-c28bd32b1555.herokuapp.com/api';
 app.config.globalProperties.message_api_url = 'https://techzone-messaging-3b87ba218f74.herokuapp.com';
 
 
