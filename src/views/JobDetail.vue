@@ -145,7 +145,8 @@
                                 <p>Requesting Fee</p>
                                 <div class="amount-input">
                                     <div class="currency">NGN</div>
-                                    <input type="number" class="counterOffer" placeholder="0.00" v-model="counterOffer" :disabled="jobIsApplied">
+                                    <!-- <input placeholder="0.00" name="project-budget" style="width:100%" v-model="budgetValue" @input="formatCurrency" required> -->
+                                    <input class="counterOffer" placeholder="0.00" v-model="budgetValue"  @input="formatCurrency" :disabled="jobIsApplied">
                                 </div>
 
                                 <small>input the amount you want to get paid for this job</small>
@@ -164,7 +165,7 @@
                         <div class="tz-form-content" v-if="checkForHires(userDetails.id)">
                             <span>
                                 <!-- <button class="tz-form-submit-btn cust-btn" :disabled="isSubmitting" @click.prevent()="getContractPage(job._id, userDetails.id)">view contract</button> -->
-                                <RouterLink :to="'/contract/' + job._id + '/' + userDetails.id">View contract</RouterLink>
+                                <button class="tz-form-submit-btn cust-btn"><RouterLink   :to="'/contract/' + job._id + '/' + userDetails.id + '/recruit'">View contract</RouterLink></button>
                             </span>
                         </div>
                     </form>
@@ -267,9 +268,16 @@
             showAlertBox: false,
 
             map: null,
-            showMap: false
+            showMap: false,
+            budgetValue: ''
             // map: ref('map'),
             };
+        },
+
+        computed: {
+            formattedValue() {
+            return this.formatCurrency(this.value);
+            },
         },
 
         methods: {
@@ -350,6 +358,16 @@
                 formatBudgetAmount(value){
                     const formattedValue = new Intl.NumberFormat('en-US').format(value);
                     return formattedValue;
+                },
+
+                formatCurrency() {
+                // Remove non-numeric characters and format the number
+                let formattedValue = this.budgetValue.replace(/[^0-9.]/g, ''); // Remove non-numeric characters
+                // Add thousands separator
+                formattedValue = formattedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                // Update the input field value
+                this.budgetValue = formattedValue;
+                this.counterOffer = parseInt(this.budgetValue.replaceAll(",",""));
                 },
 
                 async submitApplication() {

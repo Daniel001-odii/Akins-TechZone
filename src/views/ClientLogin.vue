@@ -1,6 +1,6 @@
 <template>
     <Loader v-if="loading"></Loader>
-  
+
       <div class="form-container">
           <div class="leftSide">
                   <RouterLink to="/">
@@ -10,34 +10,34 @@
                           </svg>
                       </div>
                   </RouterLink>
-  
+
               <div class="subDiv">
-  
-                  
+
+
                   <div class="left-content">
                   <h2 style="font-weight: bolder;">Welcome Back!</h2>
                   <p>Please enter your Client login details</p>
-  
+
                   <!--form starts here ------------------------------->
                   <!-------- show login errors here-------->
                 <div class="tz_alert_box" v-if="show_errors">
                     <span>{{ errors.message }}</span>
                     <span class="tz_alert_box_closeBtn" @click="show_errors = !show_errors">&times;</span>
                 </div>
-                 
-                  
+
+
                   <form @submit.prevent="login">
                   <div class="form-section">
                       <label for="email">Email Address</label>
                       <input class="form-input" name="email" placeholder="email address" v-model="email" type="email" required>
                   </div>
-              
+
                   <div class="form-section">
                       <label for="password">Password</label>
                       <input class="form-input" placeholder="password" v-model="password" :type="showPassword ? 'text' : 'password'" required>
                   </div>
-  
-  
+
+
                   <div class="form-issues">
                       <div class="check-container">
                           <div class="checkbox-wrapper-46">
@@ -52,7 +52,7 @@
                       </div>
                       <RouterLink to="/reset-password"><p>Forgot password?</p></RouterLink>
                   </div>
-  
+
                       <button class="form-btn" type="submit" :disabled="isLoading"  :class="{ 'disabled-button': isLoading }">
                           <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                           <span v-if="isLoading === true">Signing in...</span>
@@ -60,37 +60,37 @@
                       </button>
                   </form>
                   <!-------form ends here----------------->
-  
+
                   <div style="font-size: 0.8em; display: flex; flex-direction: row; padding: 20px; justify-content: center;">
                   <p class="form-en">Don't have account yet?</p>
                   <div style="padding-left: 10px;" class="signup-on-form">
                               <p style="color: blue; cursor: pointer;" @click="signup_options=!signup_options">Sign Up</p>
                               <div class="signup-options" v-if="signup_options">
-                                  <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
+                                  <RouterLink to="/client/signup"><div class="options">As Employer</div></RouterLink>
                                   <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                               </div>
                   </div>
                   </div>
-  
+
                   </div>
-              
+
               </div>
       </div>
           <div class="rightSide">
               <div class="ima"><img style="width: 250px;" src="../components/Logos_icons/techZoneVertical.png"></div>
-          </div>  
+          </div>
       </div>
   </template>
-  
+
   <script>
   import axios from 'axios';
   import Loader from '../components/loader.vue';
   import {ref} from 'vue';
-  
-  
+
+
   //make sure loader is set to invisible .....
   const loading = ref(false);
-  
+
       export default {
           components:{Loader},
           setup(){
@@ -113,19 +113,19 @@
   async login() {
     this.isLoading = true;
     try {
-      const response = await axios.post(`${this.api_url}/employer/login`, {
+      const response = await axios.post(`${this.api_url}/client/login`, {
         email: this.email,
         password: this.password
       });
       const token = response.data.accessToken;
       localStorage.setItem('token', token);
       console.log(token);
-      
+
       // Get the intended route from query parameter, if available
       const redirect = this.$route.query.redirect || '/client/dashboard';
-      
+
       this.$router.push(redirect); // Redirect to the intended route
-    } 
+    }
     catch (error) {
     this.errors = JSON.parse(error.request.response);
       console.error("main error: " + error.request.response);
@@ -134,14 +134,14 @@
     }
   },
 
-  
-  
-  
-  
+
+
+
+
     }
       }
   </script>
-  
+
   <style scoped>
    .signup-on-form{
       position: relative;

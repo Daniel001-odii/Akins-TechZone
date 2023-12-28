@@ -108,12 +108,16 @@
                <div class="tz_job_content_area">
 
                 <!-- add all alerts and badges immediately below this comment...... -->
-                <div class="alert alert-danger" v-if="jobIsDeclined">You declined the contract offer!</div>
-                <div class="alert alert-success" v-if="jobIsAccepted">You accepted the contract offer!</div>
+                <div class="alert alert-danger alert-success alert-dismissible fade show" v-if="jobIsDeclined">You declined the contract offer!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="alert alert-success alert-dismissible fade show" v-if="jobIsAccepted">You accepted the contract offer!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
                     <div class="job-detail-header" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <div class="jdh-left">
-                            <div class="alert alert-success" style="width: 100%;" v-if="job.completedBy.includes(this.$route.params.user_id.toString())">Project completed successfully!</div>
+                            <!-- <div class="alert alert-success" style="width: 100%;" v-if="job.completedBy.includes(this.$route.params.user_id.toString())">Project completed successfully!</div> -->
                             <!-- <div class="alert alert-info" v-if="requestedReview">You have requested for review</div> -->
                             <span><b>{{ job.job_title }}</b></span>
                             <span>{{ job.employer_company }}</span>
@@ -171,6 +175,7 @@
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Contract actions</p>
                             <div class=""  v-if="jobIsLoaded && userIsLoaded">
+                                <!-- the buttons below will only show if the job in view is a an assigned job....... -->
                                 <!-- options below should only show when job is still under pending..... -->
                                 <span v-if="jobIsPending">
                                     <p>contract pending</p>
@@ -180,27 +185,57 @@
 
                                 <!-- other options should be displyed if only contract has been accepted -->
                                 <span v-if="jobIsAccepted">
-                                    <p>contract accepted</p>
-                                    <button class="btn btn-primary" @click="requestApproval">submit contract for review</button>
-                                    <i v-if="isUser" class="bi bi-arrow-return-right"></i> <button class="btn btn-primary" disabled>contract review request sent</button>
-                                    <i v-if="isEmployer" class="bi bi-arrow-return-right"></i> <button class="btn btn-primary" v-if="isEmployer && this.job.requestedReview.includes(this.$route.params.user_id.toString()) && this.job.completedBy.includes(this.$route.params.user_id.toString())"  disabled>contract review request approved</button> <i class="bi bi-arrow-right"></i>
-                                    <button @click="markJobAsComplete(job._id)" class="btn btn-primary" v-if="isEmployer && this.job.completedBy.includes(this.$route.params.user_id.toString()) != true" >Approve job completion request</button>
-                                    <button class="btn btn-success" disabled v-if="this.job.completedBy.includes(this.$route.params.user_id.toString())">Job completed</button>
+                                    <p  v-if="isUser && job.requestedReview.includes(this.$route.params.user_id.toString())">Contract review request has been sent to the client</p>
+                                    <button class="btn btn-primary" @click="requestApproval" v-if="isUser && job.requestedReview.includes(this.$route.params.user_id.toString()) && !job.completedBy.includes(this.$route.params.user_id.toString())"><span v-if="!requestLoading">submit contract for review </span><span v-if="requestLoading">loading...</span></button>
+                                    <!-- <button class="btn btn-primary" disabled>contract review request sent</button> -->
+                                    <button class="btn btn-success" disabled v-if="job.completedBy.includes(this.$route.params.user_id.toString())">Job completed</button>
                                 </span>
                                 <span v-if="jobIsDeclined">You declined the contract offer</span>
 
+                                <!-- the buttons below will only show if the job in view is a contract....... -->
+                                <span v-if="contractType === 'recruit'">
+                                    <button class="btn btn-primary" @click="requestApproval" v-if="isUser && !job.requestedReview.includes(this.$route.params.user_id.toString())"><span v-if="!requestLoading">submit contract for review2 </span><span v-if="requestLoading">loading...</span></button>
+                                    <!-- <button class="btn btn-primary" v-if="isUser && job.requestedReview.includes(this.$route.params.user_id.toString())" disabled>contract review request sent2</button> -->
+                                </span>
+
+
+
                             </div>
-                            <span v-else>Loading...</span>
+                            <div> <!-- FOR EMPLOYERRRR VUEWING!!! -->
+                                <button @click="markJobAsComplete(job._id)" v-if="isEmployer && !job.completedBy.includes(this.$route.params.user_id.toString()) && job.requestedReview.includes(this.$route.params.user_id.toString())" class="btn btn-primary" >Approve job completion request</button>
+                                <button class="btn btn-primary" v-if="isEmployer && job.requestedReview.includes(this.$route.params.user_id.toString()) && this.job.completedBy.includes(this.$route.params.user_id.toString())"  disabled>contract review request approved</button>
+                            </div>
+
                     </div>
+                    <div class="tz-job-content-description">
+                        <p class="tz-form-title">Contract timeline</p>
+                        <div>
+                            <span class="contract_timeline timeline_active">contract started</span>
+                            <i class="bi bi-arrow-right"></i>
+                            <span class="contract_timeline" :class="job.requestedReview.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''">contract review request sent</span>
+                            <i class="bi bi-arrow-right"></i>
+                            <span class="contract_timeline" :class="job.completedBy.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''">contract review approved</span>
+                            <i class="bi bi-arrow-right"></i>
+                            <span class="contract_timeline" :class="job.completedBy.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''"> job completed</span>
+                            <!-- <i class="bi bi-arrow-right"></i>
+                            <span class="contract_timeline" :class="job.userFeedbacks.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''">feedback and review sent </span> -->
+                        </div>
+                    </div>
+
                     <div class="tz-job-content-description">
                         <p class="tz-form-title">Feedback</p>
                         <div class="btn_ro">
-                            <p >Job not yet valid for feedback <br/><small>feedbacks can only be given after the contract has been completed.</small></p>
+                            <button type="button" class="btn btn-secondary" v-if="isEmployer && job.requestedReview.includes(this.$route.params.user_id.toString()) && this.job.completedBy.includes(this.$route.params.user_id.toString())">submit Freelancer feedback</button>
+                            <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="isUser && job.requestedReview.includes(this.$route.params.user_id.toString()) && job.completedBy.includes(this.$route.params.user_id.toString())">submit job feedback</button>
 
-                            <!-- <i v-if="isEmployer" class="bi bi-arrow-return-right"></i> <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="this.job.requestedReview.includes(this.$route.params.user_id.toString()) && this.job.completedBy.includes(this.$route.params.user_id.toString())">submit Freelancer feedback</button> -->
-                            <button type="button" class="btn btn-secondary" @click="showFeedbackModal = !showFeedbackModal" v-if="this.job.requestedReview.includes(this.$route.params.user_id.toString()) && !this.job.completedBy.includes(this.$route.params.user_id.toString())">submit job feedback</button>
-                            <span v-if="this.job.requestedReview.includes(this.$route.params.user_id.toString()) && !this.job.completedBy.includes(this.$route.params.user_id.toString())">Awaiting client approval before job feedback is available</span>
-                            <span v-if="this.job.completedBy.includes(this.$route.params.user_id.toString()) && this.job.requestedReview.includes(this.$route.params.user_id.toString()) && isUser">the client sent you a feedback</span>
+                            <span v-if="isUser && job.requestedReview.includes(this.$route.params.user_id.toString()) && !job.completedBy.includes(this.$route.params.user_id.toString())">Awaiting client approval before job feedback is available</span> <br/><br/>
+                            <p v-if="isEmployer && job.requestedReview.includes(this.$route.params.user_id.toString()) && !job.completedBy.includes(this.$route.params.user_id.toString())" style="color:grey">Job not yet valid for feedback <br/><small>feedbacks can only be given after the contract has been completed.</small></p>
+
+                            <!-- <i v-if="isEmployer" class="bi bi-arrow-return-right"></i>  -->
+
+
+
+                            <!-- <span v-if="job.completedBy.includes(this.$route.params.user_id.toString()) && job.requestedReview.includes(this.$route.params.user_id.toString()) && isUser">the client sent you a feedback</span> -->
                             <!-- <span v-else><i v-if="isEmployer" class="bi bi-arrow-return-right"></i> you sent a feedback</span> -->
                             <!-- <span>Contract Feedback submitted</span> -->
                         </div>
@@ -315,6 +350,11 @@
             jobIsAccepted: null,
             jobIsDeclined: null,
 
+            requestLoading: false,
+            contractType: null,
+
+            // fluentError: '',
+
             };
         },
         methods: {
@@ -339,6 +379,7 @@
                 async fetchJobListings() {
                     const jobId = this.$route.params.job_id;
                     this.isLoading = true;
+
                     try{
                         const response = await axios.get(`${this.api_url}/jobs/${jobId}`);
                         this.job = response.data.job;
@@ -347,7 +388,8 @@
                     }
                     catch(error){
                             console.log(error);
-                            this.showAlert("error", error,);
+                            this.showAlert("error", "The requested job does not exist",);
+                            // this.isLoading = false;
                     }
 
                 },
@@ -535,7 +577,6 @@
                 async markJobAsComplete(jobId) {
                     const userId = this.$route.params.user_id;
                     const employerId = this.job.employer;
-
                     // console.log("job id:", jobId, "user id:", userId, "employer id:", employerId)
                     try {
                     const response = await axios.post(`${this.api_url}/approve-review-request`,
@@ -584,6 +625,7 @@
                 },
                 async requestApproval(){
                     try{
+                    this.requestLoading = true;
                     const jobId = this.job._id;
                     const employerId = this.job.employer;
                     const userId = this.userDetails.id;
@@ -593,7 +635,8 @@
                             employerId
                             });
                         console.log(response.data);
-                        // window.location.reload();
+                        this.requestLoading = false;
+                        window.location.reload();
                     }
                     catch(error){
                         console.error('Error requesting for approval:', error.message);
@@ -702,7 +745,7 @@
                 this.checkJobState();
                 // this.checkForCompletion();
             }
-
+            this.contractType = this.$route.params.type || 'default';
             this.fetchJobListings();
 
 
@@ -956,4 +999,17 @@ butto {
   color: #fff;
 }
 
+.contract_timeline {
+    color: var(--app-grey);
+}
+.timeline_active{
+    color: rgb(11, 164, 31);
+    font-weight: bold;
+}
+
+
+
+
+
+/* syling for contract timeline.......... */
 </style>

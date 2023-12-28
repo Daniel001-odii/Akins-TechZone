@@ -14,7 +14,7 @@
             </div>
 
             <div class="nav-contents">
-                
+
                 <div class="Tz-nav-links">
                     <slot>
                     <span><RouterLink to="/jobs">Find Job </RouterLink></span>
@@ -27,7 +27,7 @@
                     <button @click="signup_options = !signup_options" class="cust-btn signUp">Sign Up</button>
                 </div>
                 <div class="signup-options" v-if="signup_options">
-                    <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
+                    <RouterLink to="/client/signup"><div class="options">As Employer</div></RouterLink>
                     <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                 </div>
             </div>
@@ -54,10 +54,10 @@
         </div>
         </RouterLink>
 
-        
+
         <!-- <RouterLink to="/signUp" class="menu-item"> -->
         <div class="menu-item">
-            <div class="menu-item-label" @click="signup_options =!signup_options"><span>Sign Up</span> 
+            <div class="menu-item-label" @click="signup_options =!signup_options"><span>Sign Up</span>
                 <span>
                 <i v-if="!signup_options" class="bi bi-caret-down-fill"></i>
                 <i v-if="signup_options" class="bi bi-caret-up-fill"></i>
@@ -65,11 +65,11 @@
             </div>
                 <div class="sub-signUp menu-item" v-if="signup_options">
                     <RouterLink to="/talent-signUp" class="options"><div>As Employer</div></RouterLink>
-                    <RouterLink to="/employer/signup" class="options"><div>As Talent</div></RouterLink>
+                    <RouterLink to="/client/signup" class="options"><div>As Talent</div></RouterLink>
                 </div>
         <!-- </RouterLink> -->
-                
-        
+
+
         <RouterLink to="/login" class="menu-item">
         <div>
             <span class="menu-item-label">Sign In</span>

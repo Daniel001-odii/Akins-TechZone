@@ -147,7 +147,7 @@ mounted(){
                     <button class="cust-btn login" style="background: none; color: #fff; border: 1px solid var(--app-blue);">
                     <span>Sign in</span>
                     <div class="login-options">
-                        <RouterLink to="/employer/login"><div class="options">As Employer</div></RouterLink>
+                        <RouterLink to="/client/login"><div class="options">As Employer</div></RouterLink>
                         <RouterLink to="/login"><div class="options">As Talent</div></RouterLink>
                     </div>
                     </button>
@@ -155,7 +155,7 @@ mounted(){
                     <button class="cust-btn signUp">
                     <span>Sign Up</span>
                     <div class="signup-options">
-                        <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
+                        <RouterLink to="/client/signup"><div class="options">As Employer</div></RouterLink>
                         <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                     </div>
                     </button>
@@ -190,7 +190,7 @@ mounted(){
                     </div>
                 </div>
                     <div class="sub-signUp menu-item" v-if="signup_options">
-                        <RouterLink to="/employer/signup" class="options"><div>As Employer</div></RouterLink>
+                        <RouterLink to="/client/signup" class="options"><div>As Employer</div></RouterLink>
                         <RouterLink to="/talent-signUp" class="options"><div>As Talent</div></RouterLink>
                     </div>
                 <div class="menu-item">
@@ -202,7 +202,7 @@ mounted(){
                     </div>
                 </div>
                 <div class="sub-signUp menu-item" v-if="signin_options">
-                        <RouterLink to="/employer/login" class="options"><div>As Employer</div></RouterLink>
+                        <RouterLink to="/client/login" class="options"><div>As Employer</div></RouterLink>
                         <RouterLink to="/login" class="options"><div>As Talent</div></RouterLink>
                 </div>
                 <RouterLink to="/support" class="menu-item"><div><span class="menu-item-label">support</span></div></RouterLink>
@@ -277,7 +277,7 @@ mounted(){
             <button class="cust-btn signUp2">
                     <span>Sign Up</span>
                     <div class="signup-options2" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
-                        <RouterLink to="/employer/signup"><div class="options">As Employer</div></RouterLink>
+                        <RouterLink to="/client/signup"><div class="options">As Employer</div></RouterLink>
                         <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
                     </div>
             </button>

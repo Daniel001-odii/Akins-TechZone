@@ -16,11 +16,14 @@
     <div class="hireModalSub" style="max-height: 70vh; width: 70%; overflow-y: scroll; text-align: left; position: relative !important;">
         <span class="close_btn" @click="assignJobModal = !assignJobModal">&times;</span>
        <h1 style="font-size: 30px !important;">Selct the job you want to assign to <b style="color: blue">{{ tempUserName }}</b></h1>
-            <p style="padding: 10px; border-bottom: 2px solid grey" v-for="(job, index) in  jobs" :key="index">
-                <b>{{ job.job_title }}</b><br/>
-                <!-- {{ job.budget }} -->
-                <button class="cust-btn" @click="assignUserVerifyModal(job._id, tempUserId, job.job_title)">assign</button>
-            </p><br/>
+            <div class="tz_job_list" v-for="(job, index) in  jobs" :key="index">
+                <p>
+                    <b>{{ job.job_title }}</b>
+                    <br/>{{ job.created_at }}
+                    <br/><span style="color: blue; text-decoration: underline;" @click="assignUserVerifyModal(job._id, tempUserId, job.job_title)" v-if="!job.assignedUsers.includes(tempUserId.toString())">assign</span>
+                </p>
+
+            </div><br/>
             Cant find job?
             <RouterLink to="/client/post-job" v-if="calculateProfileCompletion() == 100">Post a Job</RouterLink>
     </div>
@@ -174,12 +177,14 @@
                                                         <img @click="navigateToUserprofile(applicant.user)" class="tz-user-thumbnail-big" :src="getUserById(applicant.user).profile.profileImage"><br/>
                                                     </div>
                                                     <div class="applicant_submissions">
-                                                        <span>Job: {{job._id}} user: {{ applicant._id }}</span>
-                                                        <span style="color: var(--app-blue); text-decoration: underline; font-size: 15px !important" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span><br/>
+                                                        <!-- <span>Job: {{job._id}} user: {{ applicant._id }}</span> -->
+                                                        <b><span style="color: var(--app-blue); text-decoration: underline; font-size: 15px !important" @click="navigateToUserprofile(applicant.user)"> {{ getUserById(applicant.user).firstname }} {{ getUserById(applicant.user).lastname }}</span></b><br/>
                                                         <span>{{ applicant.coverLetter }}</span><br/>
-                                                        <b>Attached files: </b> {{  applicant.attachment }} <br/>
+
                                                         <b>Counter offer: </b> {{  applicant.counterOffer }} <br/>
                                                         <b>Reason for counter offer: </b> {{ applicant.reasonForCounterOffer }} <br/>
+                                                        <b><i class="bi bi-paperclip"></i></b> <span v-if="!applicant.attachment">No files attached</span>{{  applicant.attachment }} <br/>
+
                                                         <div class="job-effect-btns" style="padding: 15px 0px;">
                                                             <button cl ass="cust-btn" style="border-radius: 5px;" v-if="checkUser(applicant.user, job.job_title)"> <RouterLink style="color: #fff !important;" to="/client/messages"> See messages </RouterLink></button>
                                                             <button class="cust-btn" style="border-radius: 5px;" v-if="!checkUser(applicant.user, job.job_title)" @click="messageUser(job.job_title, applicant.user)"> Message </button>
@@ -205,29 +210,33 @@
                     </div>
 
                     <div v-if="activeTab === 'Tab2'" class="tabcontent">
-                        <div class="sub_tab_content" style="display: block;" v-for="(hire, index) in userDetails.hires" :key="index" >
-                            <!-- {{ hire }} -->
-                            <span style="color: blue"><b>{{ hire.job.job_title }}</b></span><br/>
-                            <span><b>Freelancer:</b> {{ hire.user.username }}</span><br/>
-                            <span><b>Budget: </b>{{ formatBudgetAmount(hire.budget) }}</span><br/>
-                            <span><b>Initiated: </b>{{ hire.date_of_hire }}</span><br/>
-                            <RouterLink :to="'/client/contract/' + hire.job.job_id +'/'+ hire.user.user_id"><u>View contract</u></RouterLink>
+                        <div class="cards-container">
+                            <div class="sub_tab_content" style="display: block;" v-for="(hire, index) in userDetails.hires" :key="index" >
+                                <!-- {{ hire }} -->
+                                <span style="color: blue"><b>{{ hire.job.job_title }}</b></span><br/>
+                                <span><b>Freelancer:</b> {{ hire.user.username }}</span><br/>
+                                <span><b>Budget: </b>{{ formatBudgetAmount(hire.budget) }}</span><br/>
+                                <span><b>Initiated: </b>{{ hire.date_of_hire }}</span><br/>
+                                <RouterLink :to="'/client/contract/' + hire.job.job_id +'/'+ hire.user.user_id"><u>View contract</u></RouterLink>
+                            </div>
                         </div>
                     </div>
 
                     <div v-if="activeTab === 'Tab3'" class="tabcontent">
-                        <!-- {{ userDetails.savedUsers }} -->
-                        <div class="sub_tab_content" style="display: flex; flex-direction: row;" v-if="userDetails.savedUsers.length > 0" v-for="(user, index) in userDetails.savedUsers" :key="index" >
-                            <RouterLink :to="'/user/' + user.id"> <img :src="user.profileImageUrl" class="tz-user-thumbnail-big"></RouterLink>
-                            <div>
-                                <span><b>{{ user.firstname }} {{ user.lastname }}</b></span><br/>
-                                <span>{{ user.skillTitle }}</span><br/>
-                                <span>{{ user.location }}</span><br/>
-                                <button style="border-radius: 5px; margin-top: 5px;" class="cust-btn" @click="showAssignModal(user.firstname, user.lastname, user.id)">Assign Job</button>
+                        <div class="cards-container">
+                            <div class="sub_tab_content" style="display: flex; flex-direction: row; position: relative;" v-if="userDetails.savedUsers.length > 0" v-for="(user, index) in userDetails.savedUsers" :key="index" >
+                                <span class="close_btn" style="top: 0px; right: 12px; color: grey;" @click="saveUser(user.id)"> &times;</span>
+                                <RouterLink :to="'/user/' + user.id"> <img :src="user.profileImageUrl" class="tz-user-thumbnail-big"></RouterLink>
+                                <div>
+                                    <span><b>{{ user.firstname }} {{ user.lastname }}</b></span><br/>
+                                    <span>{{ user.skillTitle }}</span><br/>
+                                    <span>{{ user.location }}</span><br/>
+                                    <button style="border-radius: 5px; margin-top: 5px;" class="cust-btn" @click="showAssignModal(user.firstname, user.lastname, user.id)">Assign Job</button>
+                                </div>
                             </div>
+                            <p v-else>You havent saved any freelancer yet..</p>
                         </div>
-                        <p v-else>You havent saved any freelancer yet..</p>
-                    </div>
+                        </div>
                </div>
         </div>
         <!-- <div class="footer"><Footer/></div> -->
@@ -523,6 +532,7 @@
                             // Handle errors (e.g., display an error message)
                             console.error('Error hiring user');
                         }
+                        this.hireModalDisplay = !this.hireModalDisplay;
                         } catch (error) {
                         console.error('Error hiring user:', error);
                         }

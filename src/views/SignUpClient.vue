@@ -8,14 +8,14 @@
                           </svg>
                       </div>
                   </RouterLink>
-  
+
               <div class="subDiv">
-                  
+
                   <div class="left-content">
                   <h2 style="font-weight: bolder;">Create a client account</h2>
                   <p>Please enter your details to register</p>
-  
-  
+
+
                   <!-------- show login errors here-------->
                   <!-- <p v-for="error in errors" :key="error">{{ error }}</p> -->
                   <div class="tz_alert_box" v-if="show_errors">
@@ -23,7 +23,7 @@
                       <span class="tz_alert_box_closeBtn" @click="show_errors = !show_errors">&times;</span>
                   </div>
                   <form @submit.prevent="signup">
-  
+
                   <div class="form-section" style="flex-direction: row;">
                       <div class="name-section">
                           <label for="firstname">First Name</label>
@@ -36,30 +36,30 @@
                           <input class="form-input" placeholder="Last Name" type="name" v-model="user.lastname" required>
                       </div>
                   </div>
-              
+
                   <div class="form-section">
-                      
+
                   </div>
-  
+
                   <div class="form-section">
                       <label for="email">Email Address</label>
                       <!-- <li class="error-msg" v-if="msg" v-for="error in msg" :key="error">{{ error.email[0] }}</li> -->
                       <input class="form-input" placeholder="Email here" type="email" v-model="user.email" required>
                   </div>
-  
+
                   <div class="form-section">
                       <label for="password">Password</label>
                       <!-- <li class="error-msg" v-if="msg" v-for="error in msg" :key="error">{{ error.password[0] }}</li> -->
                       <input class="form-input" placeholder="Enter your password" type="password" v-model="user.password" name="password" @input="checkPasswordsMatch" required>
                   </div>
-  
+
                   <div class="form-section">
                       <label for="password_confirmation">Confirm Password</label>
                       <input class="form-input" placeholder="confirm your password" type="password" v-model="password_confirmation" name="password_confirmation" @input="checkPasswordsMatch" required>
                       <p style="color: green;"  v-if="passMatch">Passwords match!</p>
                       <p style="color: red;" v-else>Passwords do not match.</p>
                   </div>
-  
+
                   <div class="form-section">
                       <button class="form-btn" type="submit" :disabled="isLoading && passMatch"  :class="{ 'disabled-button': isLoading }">
                           <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -70,20 +70,20 @@
                   </form>
                   <p class="form-end"> Already have an account?  <RouterLink to="/login">Sign in</RouterLink></p>
                   </div>
-  
-                 
+
+
                   </div>
               </div>
-  
+
               <div class="rightSide">
               <div class="ima"><img style="width: 250px;" src="../components/Logos_icons/techZoneVertical.png"></div>
           </div>
       </div>
 </template>
-    
+
     <script>
     import axios from 'axios';
-    
+
     export default {
 data() {
   return {
@@ -97,7 +97,7 @@ data() {
     passMatch: false,
     isLoading: false,
     errors: '',
-    // 
+    //
     show_errors: false,
   };
 },
@@ -111,13 +111,13 @@ methods: {
 
       // Handle successful signup
       // Redirect the user to the login page or do something else
-      this.$router.push('/employer/login');
+      this.$router.push('/client/login');
     } catch (error) {
       this.errors = JSON.parse(error.request.response);
       this.show_errors = true;
       this.isLoading = false;
       console.log(error.request.response);
-      
+
     }
   },
   checkPasswordsMatch() {
@@ -153,4 +153,3 @@ methods: {
   cursor: pointer;
  }
 </style>
-    

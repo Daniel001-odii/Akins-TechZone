@@ -58,9 +58,9 @@ const routes = [
   {path: '/jobs', name:'Techzone - jobs', component: NewPage},
   {path: '/myjobs', name:'Techzone - My jobs', component: AppliedJobsPage},
   {path: '/login', name: 'Login', component: Login},
-  {path: '/employer/login', name: 'Employer - login', component: ClientLogin},
+  {path: '/client/login', name: 'Employer - login', component: ClientLogin},
   {path: '/talent-signUp', component: SignUp, name: "Signup"},
-  {path: '/employer/signup', component: SignUpClient, name: "Employer signup"},
+  {path: '/client/signup', component: SignUpClient, name: "Employer signup"},
   // {path: '/insights', component: Insight, name: "Techzone - insights"},
   {path: "/404", name: "PageNotFound", component: PageNotFound},
   {path: "/:catchAll(.*)", redirect: "/404"},
@@ -70,12 +70,14 @@ const routes = [
 
   {path: "/funding/:user_id/:job_id", component: Payment, name: "Funding"},
 
-  {path: "/employer/customize-profile", component: customize_client},
+  {path: "/client/customize-profile", component: customize_client},
   {path: "/jobs/:job_id/application", name: 'Techzone - Application', component: JobDetail, meta: { requiresAuth: true, role: 'user' }},
   {path: "/notifications", name:  "Techzone - Notifications", component: Notifications},
   {path: "/reset-password", name: "Password - reset", component: ResetPassword},
   {path: "/reset-password-main", name: "Password - reset2", component: ResetPassword2},
-  {path: "/contract/:job_id/:user_id", name: "Techzone - Contract", component: contract_page, meta: { requiresAuth: true, role: 'user' }},
+
+  {path: "/contract/:job_id/:user_id/:type?", name: "Techzone - Contract", component: contract_page, meta: { requiresAuth: true, role: 'user' }},
+
   {path: "/client/contract/:job_id/:user_id", name: "Techzone - Contract-client", component: contract_page},
 
   {path: "/client/dashboard/:show_modal", name: "Techzone - User search", component: client_dashboard, meta: { requiresAuth: true, role: 'employer' }},
