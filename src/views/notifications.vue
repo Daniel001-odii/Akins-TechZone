@@ -161,8 +161,14 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        font-size: 1.8em !important;
+        font-size: 1.8em;
+        height: 100vh;
+        overflow-y: scroll;
     }
+
+.page-filters{
+    border: none !important;
+}
 
 .notify{
     display: flex;

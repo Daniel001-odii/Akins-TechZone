@@ -193,8 +193,8 @@
                                 <span v-if="jobIsDeclined">You declined the contract offer</span>
 
                                 <!-- the buttons below will only show if the job in view is a contract....... -->
-                                <span v-if="contractType === 'recruit'">
-                                    <button class="btn btn-primary" @click="requestApproval" v-if="isUser && !job.requestedReview.includes(this.$route.params.user_id.toString())"><span v-if="!requestLoading">submit contract for review2 </span><span v-if="requestLoading">loading...</span></button>
+                                <span v-if="contractType === 'recruit' && !jobIsDeclined">
+                                    <button class="btn btn-primary" @click="requestApproval" v-if="isUser && !job.requestedReview.includes(this.$route.params.user_id.toString())"><span v-if="!requestLoading">submit contract for review </span><span v-if="requestLoading">loading...</span></button>
                                     <!-- <button class="btn btn-primary" v-if="isUser && job.requestedReview.includes(this.$route.params.user_id.toString())" disabled>contract review request sent2</button> -->
                                 </span>
 
@@ -210,13 +210,17 @@
                     <div class="tz-job-content-description">
                         <p class="tz-form-title">Contract timeline</p>
                         <div>
-                            <span class="contract_timeline timeline_active">contract started</span>
-                            <i class="bi bi-arrow-right"></i>
-                            <span class="contract_timeline" :class="job.requestedReview.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''">contract review request sent</span>
-                            <i class="bi bi-arrow-right"></i>
-                            <span class="contract_timeline" :class="job.completedBy.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''">contract review approved</span>
-                            <i class="bi bi-arrow-right"></i>
-                            <span class="contract_timeline" :class="job.completedBy.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''"> job completed</span>
+                            <span v-if="jobIsDeclined" style="color: red">contract offer declined</span>
+                            <div  v-if="!jobIsDeclined">
+                                <span class="contract_timeline timeline_active">contract started</span>
+                                <i class="bi bi-arrow-right"></i>
+                                <span class="contract_timeline" :class="job.requestedReview.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''">contract review request sent</span>
+                                <i class="bi bi-arrow-right"></i>
+                                <span class="contract_timeline" :class="job.completedBy.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''">contract review approved</span>
+                                <i class="bi bi-arrow-right"></i>
+                                <span class="contract_timeline" :class="job.completedBy.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''"> job completed</span>
+                            </div>
+
                             <!-- <i class="bi bi-arrow-right"></i>
                             <span class="contract_timeline" :class="job.userFeedbacks.includes(this.$route.params.user_id.toString()) ? 'timeline_active':''">feedback and review sent </span> -->
                         </div>

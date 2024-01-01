@@ -156,7 +156,7 @@ mounted(){
                     <span>Sign Up</span>
                     <div class="signup-options">
                         <RouterLink to="/client/signup"><div class="options">As Employer</div></RouterLink>
-                        <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
+                        <RouterLink to="/talent/signup"><div class="options">As Talent</div></RouterLink>
                     </div>
                     </button>
                 </div>
@@ -191,7 +191,7 @@ mounted(){
                 </div>
                     <div class="sub-signUp menu-item" v-if="signup_options">
                         <RouterLink to="/client/signup" class="options"><div>As Employer</div></RouterLink>
-                        <RouterLink to="/talent-signUp" class="options"><div>As Talent</div></RouterLink>
+                        <RouterLink to="/talent/signup" class="options"><div>As Talent</div></RouterLink>
                     </div>
                 <div class="menu-item">
                     <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span>
@@ -278,7 +278,7 @@ mounted(){
                     <span>Sign Up</span>
                     <div class="signup-options2" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
                         <RouterLink to="/client/signup"><div class="options">As Employer</div></RouterLink>
-                        <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
+                        <RouterLink to="/talent/signup"><div class="options">As Talent</div></RouterLink>
                     </div>
             </button>
         </div>

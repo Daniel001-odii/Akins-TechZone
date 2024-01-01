@@ -54,39 +54,61 @@
         <small>
             Here you can edit public information about yourself.
             Due to security reasons, some personal documents will be required before changes can be effected.
-        </small>
+        </small> <br/>
         <div class="bio profile-field">
             <span>Full Name</span>
             <div class="profile_field_inner">
-                <input class="profile-input" type="text" placeholder="firstname"  v-model="userProfile.firstname">
-                <input class="profile-input" type="text" placegolder="lastname" v-model="userProfile.lastname">
+                <div class="profile-input" type="text" placeholder="firstname" style="cursor: not-allowed;" disabled>{{ userProfile.firstname }}</div>
+                <div class="profile-input" type="text" placegolder="lastname" style="cursor: not-allowed;" disabled>{{ userProfile.lastname }}</div>
             </div>
         </div>
         <div class="bio profile-field">
             <span>A bit about yourself</span>
             <textarea class="profile-input" style="height: 250px; max-height: 250px;" type="text" placeholder="say something about yourself" v-model="userProfile.profile.bio"></textarea>
         </div>
-        <div class="location profile-field">
-            <span>Address & location</span>
-            <input class="profile-input" type="text" placeholder="your location goes here..." v-model="userProfile.profile.location">
+        <div class="bio profile-field">
+            <span>State & Location</span>
+            <div class="profile_field_inner">
+                <select class="state_select" v-model="userProfile.state">
+                    <option value="" >select state</option>
+                    <option v-for="state in states" :value="state" :key="state" >{{ state }}</option>
+                </select>
+                <input class="profile-input" type="text" placeholder="City and addrress line" v-model="userProfile.profile.location">
+            </div>
         </div>
         <div class="phone profile-field">
             <span>Phone number</span>
             <input class="profile-input" type="number" placeholder="your phone goes here..." v-model="userProfile.profile.phone">
         </div>
         <div class="skillTitle profile-field">
-            <span>Skill title (what best describes you)</span>
+            <span>Skill title (what best describes your expertise)</span>
             <input class="profile-input" type="text" placeholder="write what best describes you" v-model="userProfile.profile.skillTitle">
         </div>
         <div class="skill profile-field">
             <span>Skills (seperated with comma)</span>
-            <input class="profile-input" type="text" placeholder="list your skills here" v-model="userProfile.profile.skillsList">
+            <input class="profile-input" type="text" max-length="10" placeholder="list your skills here" v-model="userProfile.profile.skillsList">
         </div>
         <div class="social profile-field">
             <span>Portfolio link/URL</span>
-            <input class="profile-input" type="text" placeholder="link to you fav social account" v-model="userProfile.profile.socialAccount">
+            <input class="profile-input" type="url" placeholder="link to you fav social account" v-model="userProfile.profile.socialAccount">
         </div>
-        <button type="submit" class="cust-btn">save and exit</button>
+        <div class="profile-field">
+            <span>Preffered job types</span>
+            <div class="preferences">
+                <div v-for="prefs in uniquePreferences" :key="prefs" style="display: flex; flex-direction: row; flex-wrap: wrap;">
+                    <label class="customCheckbox">
+                        <input type="checkbox"
+                        :value="prefs"
+                        v-model="userProfile.preferences"
+                        @change="addtoPref"/>
+                        <span class="checkmark"></span>
+                        {{ prefs }}
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <button type="submit" class="cust-btn" style="width: 150px">save and exit</button>
     </form>
 
 </div>
@@ -213,10 +235,10 @@
                 </div>
                 <div v-for="job in userDetails.completedJobs">
                         <!-- {{ job.job_title }} -->
-                       <span style="color: var(--app-blue);"> {{ job.job_title }}</span><br/>
-                       {{ job.budget }} <br/>
+                        <RouterLink :to="'/jobs/' + job.job_id + '/application'">{{ job.job_title }}</RouterLink><br/>
+                        ₦{{ formatBudgetAmount(job.budget) }}<br/>
                        {{ formatTimestamp(job.completion_date) }} <br/><br/>
-                       {{ job }}
+                       <!-- {{ job }} -->
                 </div>
                 <p v-if="userDetails.completedJobs.length == 0">No completed jobs yet</p>
 
@@ -225,29 +247,31 @@
                 </div>
                 <div v-for="job in userDetails.acceptedJobs">
                         <!-- {{ job.job_title }} -->
-                        <b style="color: blue">{{ job.job_title }}</b><br/>
+                       <RouterLink :to="'/jobs/' + job.job_id + '/application'"> {{ job.job_title }}</RouterLink><br/>
                         {{ job.employer.company }} <br/>
-                        {{ job.budget }}<br/>
-                        {{ job.date }}
+                        ₦{{ formatBudgetAmount(job.budget) }}<br/>
+                        {{ formatTimestamp(job.date) }}<br/><br/>
                 </div>
+                <p v-if="userDetails.acceptedJobs.length == 0">No Assigned Jobs yet</p>
 
                 <div class="about-header">
                     Declined Jobs
                 </div>
                 <div v-for="job in userDetails.declinedJobs">
                         <!-- {{ job.job_title }} -->
-                        <b style="color: red"> {{ job.job_title }}</b><br/>
+                        <RouterLink :to="'/jobs/' + job.job_id + '/application'"> {{ job.job_title }}</RouterLink><br/>
                         {{ job.employer.company }}<br/>
-                        {{ job.budget }}<br/>
-                        {{ job.date }}<br/>
+                        ₦{{ formatBudgetAmount(job.budget) }}<br/>
+                        {{ formatTimestamp(job.date) }}<br/>
                 </div>
+                <p v-if="userDetails.declinedJobs.length == 0">No Declined Jobs yet</p>
             </div>
         </div>
 
         <div class="bio-area" style="margin-top: 40px; padding: 10px;" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-emphasis">
                 <b>Phone Number</b>
-                <span>+{{ userDetails.profile.phone }} </span>
+                <span>+234{{ userDetails.profile.phone }} </span>
             </div>
             <div class="tz-emphasis">
                 <b>Email Adrress</b>
@@ -287,7 +311,7 @@ import axios from 'axios';
 import themeStore from '@/theme/theme';
 import DotLoader from '../components/DotLoader.vue';
 import Alert from '../components/Alert.vue'
-
+import { ref } from 'vue';
 
     export default {
         components:{NavBar, Footer, DotLoader, Alert},
@@ -317,9 +341,42 @@ import Alert from '../components/Alert.vue'
 
                 completedJobs: {},
                 showAlertBox: false,
+                selectedState: '',
+                addrressLine: '',
+
+                uniquePreferences: [
+                'Network/Cabling',
+                'Desktop/Laptop',
+                'Printer',
+                'Audio/Visual',
+                'POS',
+                'ATM',
+                'Website development',
+                'CCTV',
+                'Dish/DSTV/Go TV',
+                'Printer/Copier repair',
+                'Server/software',
+                'Electrical',
+                'Smart home',
+                'Air Condition',
+                'Project development',
+                'Low voltage cabling',
+                'High voltage cabling',
+                'Other'
+                ],
+
+                states: [
+                    'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue',
+                    'Borno', 'Cross River', 'Delta', 'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'FCT',
+                    'Gombe', 'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina', 'Kebbi', 'Kogi',
+                    'Kwara', 'Lagos', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo',
+                    'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara'
+                ],
 
 
             userProfile: {
+                preferences: ref([]),
+                state:'',
                 profile:{
                     bio: '',
                     location: '',
@@ -339,6 +396,10 @@ import Alert from '../components/Alert.vue'
                     this.alertMessage = message;
                     this.alertIcon = icon;
                 },
+
+    addtoPref(){
+        this.userProfile.preferences = this.uniquePreferences.filter(preferences => this.userProfile.preferences.includes(preferences));
+    },
     /// this function gets the users details via api route
     getUserDetails() {
         this.isLoading = true;
@@ -353,7 +414,10 @@ import Alert from '../components/Alert.vue'
                 .then((response) => {
                 // Handle the response here
                 // For example, you can set user details in your component's data
+
                 this.userDetails = response.data.user;
+                // this.addrressLine = response.data.user.profile.location.s
+
                 console.log("the user ", this.userDetails.profile) // Assuming userDetails is a data property
                 this.isLoading = false;
 
@@ -389,6 +453,8 @@ import Alert from '../components/Alert.vue'
                         this.userProfile = this.userDetails;
                         // ----------------------
                         this.imageUrl = this.userDetails.profile.profileImage;
+                        // this.selectedState = this.userProfile.profile.location.split(" ")[1];
+                        // console.log("location: ", this.selectedState);
                     }
                     else if(response.data.employer){
                         this.userDetails = response.data.employer
@@ -396,8 +462,9 @@ import Alert from '../components/Alert.vue'
                                 // const firstname = response.data.user.firstname;
                                 // const lastname = response.data.user.lastname;
                                 // return response.data.user;
-                    console.log("user detail: ", response.data.user);
+                    // console.log("user detail: ", response.data.user);
                     this.userDetails = response.data.user;
+
 
                     this.employerDetails = response.data.employer;
                     this.isLoading = false;
@@ -444,6 +511,7 @@ import Alert from '../components/Alert.vue'
                 Authorization: `JWT ${token}`, // Assuming it's a JWT token
             };
                 try {
+            // this.userProfile.profile.location = this.selectedState + ' ' + this.userDetails.profile.location;
             const response = await axios.put(`${this.api_url}/user`, this.userProfile, {headers});
             console.log(response.data);
             this.editProfileMenu = !this.editProfileMenu;
@@ -649,7 +717,12 @@ import Alert from '../components/Alert.vue'
         this.error = 'Error fetching user-completed jobs';
         console.error(error);
       }
-    }
+    },
+
+    formatBudgetAmount(value){
+                    const formattedValue = new Intl.NumberFormat('en-US').format(value);
+                    return formattedValue;
+                },
 
           },
 
@@ -928,7 +1001,7 @@ th, td{
     .editProfileModal{
         /* display: flex; */
         gap: 50px;
-        position: absolute;
+        position: fixed;
         z-index: 99999;
         height: 100%;
         background: #0000008b;
@@ -1028,14 +1101,84 @@ th, td{
     color: #fff !important;
 }
 
+.preferences{
+    height: 200px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    overflow-y: scroll;
+    padding: 20px;
+}
 
 
+/* Hide the default checkbox */
+/* Customize the label (the container) */
+.customCheckbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
+/* Hide the browser's default checkbox */
+.customCheckbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
 
+/* Create a custom checkbox */
+.customCheckbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 3px;
+}
 
+/* On mouse-over, add a grey background color */
+.customCheckbox:hover input ~ .checkmark {
+  background-color: #ccc;
+}
 
+/* When the checkbox is checked, add a blue background */
+.customCheckbox input:checked ~ .checkmark {
+  background-color: var(--app-blue);
+}
 
+/* Create the checkmark/indicator (hidden when not checked) */
+.customCheckbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
 
+/* Show the checkmark when checked */
+.customCheckbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.customCheckbox .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
 
 
     @media only screen and (max-width: 720px) {

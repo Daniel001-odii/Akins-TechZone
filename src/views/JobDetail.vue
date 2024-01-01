@@ -18,7 +18,6 @@
 
     <div class="page-grid-container" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
         <div class="Navigation">
-            <!-- <div v-if="isLoading">Loading...</div> -->
             <NavBar/>
         </div>
         <div class="Left-Nav">
@@ -94,6 +93,7 @@
                             <div>
                                 <b>{{ getUserById(job.employer).profile.company_name }}</b> | {{ getUserById(job.employer).profile.city }}
                                 <br/>{{ getUserById(job.employer).profile.tagline }}
+                                <!-- <br/>Member since {{ getUserById(job.employer).created}} -->
                                 <br/>web: {{ getUserById(job.employer).profile.website }}
                                 <br/><span class="rating" v-html="convertToStars(getUserById(job.employer).ratedValue)"></span>
                             </div>
@@ -105,6 +105,12 @@
 
                         <div ref="map" style="height: 400px;">map loading...</div>
                         <!-- <button @click="drawJobMap">See map</button> -->
+                    </div>
+                    <div class="tz-job-content-description">
+                            <p class="tz-form-title">Activity on this job</p>
+                            Number of applicants: {{ job.applications.length }}<br/>
+                            Users assigned to: {{ job.assignedUsers.length }} <br/>
+                            Hired Applicants: {{ job.hiredUsers.length }} <br/>
                     </div>
                     <div class="tz-job-content-description">
                             <p class="tz-form-title">Share this job post</p>
@@ -164,18 +170,20 @@
                         </div>
                         <div class="tz-form-content" v-if="checkForHires(userDetails.id)">
                             <span>
-                                <!-- <button class="tz-form-submit-btn cust-btn" :disabled="isSubmitting" @click.prevent()="getContractPage(job._id, userDetails.id)">view contract</button> -->
-                                <button class="tz-form-submit-btn cust-btn"><RouterLink   :to="'/contract/' + job._id + '/' + userDetails.id + '/recruit'">View contract</RouterLink></button>
+                               <RouterLink :to="'/contract/' + job._id + '/' + userDetails.id + '/recruit'"> <button class="tz-form-submit-btn cust-btn">View contract</button></RouterLink>
                             </span>
                         </div>
                     </form>
                 </div>
         </div>
-
-        <div v-else style="height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center;" class="Page-contents">
-            <DotLoader/>
-            <!-- <SkeletonLoader/> -->
+        <div v-if="jobNotFound" class="Page-contents jobNotFound">
+            <p>Sorry, Job no longer exist </p>
+            <small style="color: red;">job might have been deleted by the employer or the job id might be incorrect.</small>
         </div>
+
+        <!-- <div v-if="isLoading" style="height: 100vh; width: 100%; display: flex; justify-content: center; align-items: center;" class="Page-contents">
+            <DotLoader/>
+        </div> -->
 
         <!-- <div class="footer"><Footer/></div> -->
 
@@ -269,8 +277,11 @@
 
             map: null,
             showMap: false,
-            budgetValue: ''
-            // map: ref('map'),
+            budgetValue: '',
+
+            error: '',
+            jobNotFound: false,
+
             };
         },
 
@@ -308,12 +319,25 @@
                 axios.get(`${this.api_url}/jobs/${jobId}`)
                     .then(response => {
                         // this.data.push(response.data.job);
-                        this.job = response.data.job;
+                        if(response.data.job){
+                            this.job = response.data.job;
+                            this.isLoading = false;
+                        }
+                        else if(response.data.message){
+                            this.jobNotFound = true;
+                            this.error = response.data.message.error;
+                            // this.isLoading = false;
+                        }
+
                         console.log("currrent job in view: ", this.job);
+                        if(response.data.message){
+                            console.log("error message: ", response.data.message)
+                        }
 
                     })
                     .catch(error => {
                     console.error(error);
+                    this.isLoading = false;
                     })
                     .finally(() => {
                     this.isLoading = false;
@@ -451,6 +475,7 @@
                         .then((response) => {
                         // Handle the response here
                         this.userDetails = response.data.user;
+                        // this.isLoading = false;
                         // console.log("the user ", this.userDetails)
                         })
                         .catch((error) => {
@@ -492,7 +517,8 @@
                             // console.log(`Job ID ${this.$route.params.job_id} is${isJobApplied ? '' : ' not'} found in user-applied jobs`);
 
                             // the code below checks if the user already applied for the job and prepopulates the form fields to avoid futher submission
-                            for(let i = 0; i < this.job.applications.length; i++){
+                            if(this.job){
+                                for(let i = 0; i < this.job.applications.length; i++){
                                if(this.job.applications[i].user.includes(this.userDetails.id)){
                                     // console.log(this.applicationForm = this.job.applications[i]);
                                     this.applicationForm = this.job.applications[i]
@@ -501,8 +527,11 @@
                                     this.reasonForCounterOffer = this.job.applications[i].reasonForCounterOffer;
                                }
                             };
+                            }
+
                             // Return a message based on whether the job is applied or not
                             // return isJobApplied ? "View Application" : "Apply here";
+                            this.isLoading = false;
                     })
                     .catch(error => {
                         console.error(error);
@@ -652,6 +681,16 @@ small{font-size: 12px;}
     /* border: 2px solid red; */
     padding: 5px;
 
+}
+.jobNotFound{
+    height: 80vh;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    /* border: 1px solid red;/ */
 }
 .tz-company-header-img{
     height: 200px;

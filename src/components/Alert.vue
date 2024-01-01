@@ -57,7 +57,7 @@ export default {
 }
 .alert {
   position: fixed;
-  top: 20px;
+  top: 80px;
   right: 20px;
   height: 80px;
   display: flex;

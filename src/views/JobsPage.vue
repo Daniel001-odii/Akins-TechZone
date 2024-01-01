@@ -14,7 +14,7 @@
          <LeftNav/>
     </div>
     <div class="Page-header">
-          <div class="page-title"><slot name="page-title">Work Explorer</slot></div>
+          <div class="page-title"><slot name="page-title">Hi {{ userDetails.firstname }} 👋</slot></div>
           <div class="page-filters">
                  <!-- Search input fields and form -->
     <form @submit.prevent="searchJobs" style=" display: flex; flex-direction: row; gap: 10px;">

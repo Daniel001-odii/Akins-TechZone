@@ -48,6 +48,7 @@ import AdminPage from '../views/admin.vue'
 import SignUp_admin from '../views/SignUp_admin.vue';
 import Login_admin from '../views/Admin_Login.vue';
 
+import SignupSuccess from '../views/signupSuccess.vue';
 
 const routes = [
   {path: '/', component: HomePage, name: "Techzone"},
@@ -59,7 +60,7 @@ const routes = [
   {path: '/myjobs', name:'Techzone - My jobs', component: AppliedJobsPage},
   {path: '/login', name: 'Login', component: Login},
   {path: '/client/login', name: 'Employer - login', component: ClientLogin},
-  {path: '/talent-signUp', component: SignUp, name: "Signup"},
+  {path: '/talent/signup', component: SignUp, name: "Signup"},
   {path: '/client/signup', component: SignUpClient, name: "Employer signup"},
   // {path: '/insights', component: Insight, name: "Techzone - insights"},
   {path: "/404", name: "PageNotFound", component: PageNotFound},
@@ -68,12 +69,12 @@ const routes = [
   {path: "/messages", name: 'Techzone - Messages', component: Messages, meta: { requiresAuth: true, role: 'user' }},
   {path: "/talent/customize-profile", component: customize},
 
-  {path: "/funding/:user_id/:job_id", component: Payment, name: "Funding"},
+  {path: "/funding/:user_id/:job_id", name: 'Techzone - Contract Funding', component: Payment, name: "Funding"},
 
   {path: "/client/customize-profile", component: customize_client},
   {path: "/jobs/:job_id/application", name: 'Techzone - Application', component: JobDetail, meta: { requiresAuth: true, role: 'user' }},
   {path: "/notifications", name:  "Techzone - Notifications", component: Notifications},
-  {path: "/reset-password", name: "Password - reset", component: ResetPassword},
+  {path: "/reset-password", name: "Techzone - Passreset", component: ResetPassword},
   {path: "/reset-password-main", name: "Password - reset2", component: ResetPassword2},
 
   {path: "/contract/:job_id/:user_id/:type?", name: "Techzone - Contract", component: contract_page, meta: { requiresAuth: true, role: 'user' }},
@@ -86,6 +87,8 @@ const routes = [
   {path: "/jobs/assigned-jobs", component: assignedJobs, meta: { requiresAuth: true, role: 'user' }},
   {path: "/jobs/completed-jobs", component: completedJobs, meta: { requiresAuth: true, role: 'user' }},
   {path: "/jobs/declined-jobs", component: declinedJobs, meta: { requiresAuth: true, role: 'user' }},
+
+  {path: "/signup/:user_type/success", name: "Techzone - Signup Success", component: SignupSuccess, },
 
   //client based views
   {path: "/client/dashboard", name: "Techzone - dashboard", component: client_dashboard, meta: { requiresAuth: true, role: 'employer' }},

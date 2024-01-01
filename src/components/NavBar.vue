@@ -76,7 +76,7 @@
                     <span>Sign Up</span>
                     <div class="signup-options">
                         <RouterLink to="/client/signup"><div class="options">As Employer</div></RouterLink>
-                        <RouterLink to="/talent-signUp"><div class="options">As Talent</div></RouterLink>
+                        <RouterLink to="/talent/signup"><div class="options">As Talent</div></RouterLink>
                     </div>
                     </button>
                 </div>
@@ -106,7 +106,7 @@
                 </div>
                     <div class="sub-signUp menu-item" v-if="signup_options">
                         <RouterLink to="/client/signup" class="options"><div>As Employer</div></RouterLink>
-                        <RouterLink to="/talent-signUp" class="options"><div>As Talent</div></RouterLink>
+                        <RouterLink to="/talent/signup" class="options"><div>As Talent</div></RouterLink>
                     </div>
                 <div class="menu-item">
                     <div class="menu-item-label" @click="signin_options =!signin_options; signup_options=false"><span>Sign In</span>
@@ -401,9 +401,11 @@
 
                             <div class="tz-user-menu tz-user-menu-sw">
                                 <!-- <RouterLink to="/client/profile" :class="['theme-transition', { 'dark': themeStore.darkMode }]"> -->
-                                    <div class="tz-menu-content" @click="navigateToClientprofile(employerDetails.id)">
+                                    <div class="tz-menu-content">
+                                    <RouterLink :to="'/client/' + employerDetails._id">
                                         <i class="bi bi-person-circle"></i>
-                                    View profile</div>
+                                    View profile</RouterLink>
+                                </div>
                                 <!-- </RouterLink> -->
                                 <div class="tz-menu-content">
                                     <i class="bi bi-gear-fill"></i>
