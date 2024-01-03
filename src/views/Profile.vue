@@ -129,11 +129,7 @@
 
     <DotLoader v-if="isLoading"/>
 
-
 <div class="body" :class="['theme-transition', { 'dark': themeStore.darkMode }]" v-if="!isLoading">
-
-
-
 
     <div class="tz-profile-card" :class="['theme-transition', { 'dark': themeStore.darkMode }]">
             <div class="tz-profile-left">
@@ -177,7 +173,6 @@
                 <div class="profile-item">location:
                     <span>{{ userDetails.profile.location }}</span>
                 </div>
-
                 <!-- <div class="tz-user-socials">
                     <div class="tz-social">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="34" viewBox="0 0 35 34" fill="none">
@@ -298,12 +293,6 @@
 </template>
 
 <script>
-
-
-
-
-
-
 import NavBar from '../components/NavBar.vue';
 import Footer from '../components/Footer.vue';
 import 'bootstrap/dist/js/bootstrap.js';

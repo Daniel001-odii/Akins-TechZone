@@ -9,16 +9,7 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button>
-            <div>
-                Records perpage
-                <select v-model="itemsPerPage" @change="getAllRecords">
-                    <option>5</option>
-                    <option>8</option>
-                    <option>10</option>
-                </select>
-            </div>
-
+            <!-- <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button> -->
         </div>
         <span  @click="userModal = !userModal" class="close_btn">&times;</span>
         <div class="composite_modal_inner">
@@ -48,23 +39,30 @@
                     <td>{{user.profile.phone}}</td>
                     <td> {{formatTimestamp(user.created)}}</td>
                     <td>
-                        <div class="dropdown">
+                        ...
+                        <!-- <div class="dropdown">
                             <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Action
                             </a>
-
                             <ul class="dropdown-menu">
                                 <li @click="seeUser(user._id)">view profile</li>
                                 <li>Hold account</li>
                                 <li style="color: red;">Delete user</li>
                             </ul>
-                        </div>
+                        </div> -->
                     </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="btn_control">
+            <div>
+                Records perpage
+                <select v-model="itemsPerPage" @change="getAllRecords">
+                    <option>5</option>
+                    <option>10</option>
+                </select>
+            </div>
             <button class="btn btn-primary" @click="prevPage" :disabled="currentPage === 1"><i class="bi bi-caret-left-fill"></i></button>
             <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === totalPages"><i class="bi bi-caret-right-fill"></i></button>
         </div>
@@ -79,12 +77,11 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button>
+            <!-- <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button> -->
             <div>
                 Records perpage
                 <select v-model="itemsPerPage" @change="getAllRecords">
                     <option>5</option>
-                    <option>8</option>
                     <option>10</option>
                 </select>
             </div>
@@ -118,7 +115,7 @@
     </div>
     <div class="btn_control">
         <button class="btn btn-primary" @click="prevPage" :disabled="currentPage === 1"><i class="bi bi-caret-left-fill"></i></button>
-            <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === totalPages"><i class="bi bi-caret-right-fill"></i></button>
+        <button class="btn btn-primary" @click="nextPage" :disabled="currentPage === totalEmployerPages"><i class="bi bi-caret-right-fill"></i></button>
     </div>
 </div>
 </div>
@@ -131,7 +128,7 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button>
+            <!-- <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button> -->
         </div>
     <span @click="jobModal = !jobModal" class="close_btn">&times;</span>
     <div class="composite_modal_inner">
@@ -225,7 +222,7 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button>
+            <!-- <button class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Edit</button> -->
             <button class="btn btn-primary" @click="adminSignUpModal = !adminSignUpModal">+ add new administrator</button>
         </div>
     <span @click="adminModal = !adminModal" class="close_btn">&times;</span>
@@ -298,6 +295,14 @@
         </div>
 </div>
 
+</div>
+
+<div class="user_profile_modal" v-if="userProfileModal">
+
+    <div class="uspm_inner">
+        <span class="user_profile_exit_btn" @click="userProfileModal = !userProfileModal">&times;</span>
+        <userProfileView :userId="user_id"/>
+    </div>
 </div>
 
 <div class="admin_nav_right">
@@ -398,10 +403,11 @@
   import { reactive } from 'vue';
   import axios from 'axios';
   import DotLoader from '../components/DotLoader.vue'
+  import userProfileView from '../components/MiniProfile.vue'
 
 
     export default {
-        components:{DotLoader},
+        components:{DotLoader, userProfileView},
         data(){
             return{
                 isLoading: false,
@@ -438,17 +444,18 @@
                     email: '',
                     role: '<option>Manager</option>',
                     password: '',
-                }
+                },
+
+                user_id: '',
+                userProfileModal: false
             }
         },
         computed: {
-            // paginatedDisplay(records){
-            //     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-            //     const endIndex = startIndex + this.itemsPerPage;
-            //     return records.slice(startIndex, endIndex);
-            // },
             totalPages(){
-                return Math.ceil(this.records.details.users.length/this.itemsPerPage);
+                return Math.ceil(this.users.length/this.itemsPerPage);
+            },
+            totalEmployerPages(){
+                return Math.ceil(this.employers.length/this.itemsPerPage);
             }
         },
         methods:{
@@ -471,10 +478,10 @@
             },
 
             getAllRecords(){
+                    this.currentPage = 1;
                     this.isLoading = true;
                     axios.get(`${this.api_url}/admin/open-sesame`).then(response => {
                         this.records = response.data;
-
                         this.users = this.records.details.users;
                         this.employers = this.records.details.employers;
                         this.jobs = this.records.details.jobs;
@@ -512,7 +519,9 @@
             },
 
             seeUser(user_id){
-                this.$router.push(`/user/${user_id}`);
+                // this.$router.push(`/user/${user_id}`);
+                this.user_id = user_id;
+                this.userProfileModal = !this.userProfileModal;
             },
 
             seeClient(user_id){
@@ -798,11 +807,14 @@
         background: #fff;
         padding: 10px;
         border: 1px solid #c7c7c7;
+        height: 400px;
+        /* margin-bottom: 50px; */
     }
     .user_image{
         height: 50px;
         width: 50px;
         border-radius: 10%;
+        cursor: pointer;
     }
 
 
@@ -829,10 +841,55 @@
 
 
     .btn_control{
+        background: #efefef;
+        padding-left: 20px;
         display: flex;
         flex-direction: row;
+        align-items: center;
         gap: 10px;
         padding: 10px 0px;
+        margin-bottom: 20px;
     }
 
+    .sticky_due{
+        cursor: pointer;
+    }
+
+
+.user_profile_modal{
+    height: 100%;
+    position: fixed;
+    background: #0000009a;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.uspm_inner{
+    height: 80%;
+    width: 80%;
+    position: relative;
+    background: #fff;
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+.user_profile_exit_btn{
+    position: sticky;
+    top: 10px;
+    right: 20px;
+    left: 20px;
+    float: right;
+    color: #000;
+    display: flex;
+    /* text-align: center; */
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    background:  #efefef;
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+}
 </style>
