@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- <div class="flex flex-col-reverse gap-10 md:flex-row justify-between bg-white max-w-screen-2xl" data-aos="fade-up" data-aos-delay="200"> -->
-        <div class="flex flex-col md:flex-row justify-between p-8 max-w-screen-2xl" style="margin: 0 auto;">
+        <div class="flex flex-col-reverse md:flex-row justify-between p-8 max-w-screen-2xl" style="margin: 0 auto;">
             <div class="">
                 <ul class="list">
                     <li class="list_header">About Tech-zone</li>

@@ -1,6 +1,6 @@
 <template>
     <Navbar/>
-    <div class="py-4 md:px-4 flex justify-center items-center flex-col">
+    <div class="py-4 mt-12 md:px-4 flex justify-center items-center flex-col">
         <section>
             <div class="section_container">
                 <div class="flex flex-col text-center md:text-left justify-center items-center md:items-start gap-6">
@@ -110,11 +110,17 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col flex-wrap justify-center items-center md:flex-row">
-                        <StepBox></StepBox>
-                        <StepBox></StepBox>
-                        <StepBox></StepBox>
-                        <StepBox></StepBox>
+                    <div class="flex flex-col flex-wrap justify-center items-center md:flex-row gap-3">
+                        <LpJobCard v-for="(job, index) in jobPostings" :key="index"
+                        :company = "job.company"
+                        :job_time = "job.job_time"
+                        :Job_title = "job.job_title"
+                        :job_location = "job.job_location"
+                        :job_duration = "job.job_duration"
+                        :job_description = "job.job_description"
+                        :job_url = "'/'"
+                        :budget = "job.budget"
+                        />
                     </div>
 
                     <div class="flex flex-row justify-center gap-3 p-5">
@@ -138,9 +144,7 @@
             </div>
         </section>
     </div>
-     <!-- <div class="flex border border-red-700 justify-center"> -->
     <Footer/>
-    <!-- </div> -->
 </template>
 <script>
 import GetStartedNow from '@/components/GetStartedNow.vue';
@@ -154,11 +158,56 @@ import Footer from '@/components/Footer.vue'
 // animate onscroll library
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import LpJobCard from '@/components/LpJobCard.vue';
 
 
 export default {
     name: "LandingPage",
-    components: { Navbar, StatsBox, StepBox, JobCat, StrikeLineSvg, GetStartedNow, Footer },
+    components: { Navbar, StatsBox, StepBox, JobCat, StrikeLineSvg, GetStartedNow, Footer, LpJobCard },
+    data(){
+        return{
+            jobPostings: [
+            {
+                company: 'Tech Solutions Ltd',
+                job_time: '2 days ago',
+                job_title: 'Web Developer',
+                job_location: 'Lagos, Lagos State',
+                job_duration: '3 months',
+                job_description: 'Exciting opportunity for a skilled web developer to join our team.',
+                budget: 5000, // Replace with a random amount as needed
+            },
+            {
+                company: 'Design Innovations',
+                job_time: '1 month ago',
+                job_title: 'Graphic Designer',
+                job_location: 'Abuja, FCT',
+                job_duration: '6 months',
+                job_description: 'Looking for a creative graphic designer to work on exciting projects.',
+                budget: 8000, // Replace with a random amount as needed
+            },
+            {
+                company: 'Mobile Apps Co.',
+                job_time: '15 days ago',
+                job_title: 'Mobile App Developer',
+                job_location: 'Port, Rivers State',
+                job_duration: '4 months',
+                job_description: 'Join our mobile app development team and contribute to cutting-edge projects.',
+                budget: 6000, // Replace with a random amount as needed
+            },
+            {
+                company: 'Data Analytics',
+                job_time: '3 months ago',
+                job_title: 'Data Analyst',
+                job_location: 'Ibadan, Oyo State',
+                job_duration: '2 months',
+                job_description: 'Exciting opportunity for a data analyst to work on interesting data projects.',
+                budget: 7000, // Replace with a random amount as needed
+            },
+                ],
+        }
+    },
+  
+
     mounted() {
     AOS.init()
   },

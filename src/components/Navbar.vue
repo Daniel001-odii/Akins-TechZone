@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="bg-white w-full shadow p-2" >
+        <nav class="bg-white w-full shadow p-2 fixed z-10 top-0" >
             <div style="margin: 0 auto;" class="flex flex-col justify-between items-start md:items-center text-left md:flex-row max-w-screen-2xl">
                 <div class="flex flex-row justify-between items-center w-full md:w-auto">
                     <SiteLogo/>
@@ -12,7 +12,7 @@
 
             
                 <!-- <div  :class="nav_visible ? 'sm:block':'sm:hidden'" class="flex gap-12 flex-col mt-12 md:flex-row md:gap-8 md:mt-0"> -->
-                <div :class="nav_visible ? 'flex':'hidden'" class="md:flex px-8 flex-col mt-8 md:flex-row md:gap-8 md:mt-0">
+                <div :class="nav_visible ? 'flex':'hidden'" class="md:flex px-8 flex-col mt-8 md:flex-row md:gap-8 md:mt-0 transition-transform transform duration-300 ease-in-out">
                     <RouterLink to="/" class="nav_link">
                         Home
                     </RouterLink>
@@ -62,6 +62,6 @@ export default {
     }
 
     .nav_link{
-        @apply p-3 rounded-md hover:bg-light_blue text-blue font-medium hover:font-bold;
+        @apply p-3 rounded-md hover:bg-light_blue text-black font-medium hover:font-bold;
     }
 </style>
