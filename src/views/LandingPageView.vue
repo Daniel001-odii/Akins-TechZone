@@ -50,7 +50,7 @@
 
         <section>
             <div class="section_container" data-aos="zoom-in">
-                <img src="../assets/images/Group 285.png" alt="lady-image" class="section_img">
+                <img src="../assets/images/Group 285.png" alt="lady-image" class="section_img w-96">
                 <div class="md:w-fit text-left gap-8 flex flex-col">
                     <h1 class="section_subtitle">Unlock your next career move! <br/> Upload your CV to stand out to recruiters and impact your job search.</h1>
                     <button class="btn">Upload CV Now</button>
@@ -130,11 +130,11 @@
 
         <section>
             <div class="section_container">
-                <div class="md:w-fit text-left gap-8 flex flex-col" data-aos="zoom-out">
+                <div class="md:w-fit text-left gap-8 flex flex-col" data-aos="fade-in">
                     <h2 class="section_subtitle">Take the next step in your professional career.<br/>Sign-in to unlock limitless opportunities.</h2>
                     <GetStartedNow/>
                 </div>
-                <img src="../assets/images/Group 281.png" alt="lady image" class="section_img">
+                <img src="../assets/images/Group 281.png" alt="lady image" class="section_img w-96">
             </div>
         </section>
     </div>
