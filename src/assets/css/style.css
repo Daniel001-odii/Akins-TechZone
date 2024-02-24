@@ -2,3 +2,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn{
+    @apply bg-blue px-6 py-3  rounded-md text-white font-bold hover:bg-dark_blue;
+}
+
+.btn_white{
+    @apply border border-blue px-6 py-3  rounded-md font-bold hover:bg-gray-100;
+}

@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div class="flex flex-col border h-full p-3 rounded-md text-left gap-3 hover:border-blue relative">
+        <div class=" hidden md:flex flex-col md:border h-full p-3 rounded-md text-left gap-3 hover:border-blue bg-white">
             <div class="flex flex-col gap-3">
-                <div class="flex flex-row justify-between items-center">
+                
+                <div class="flex flex-row justify-between items-center flex-wrap gap-3">
                     <span class="font-bold text-2xl">
                         <slot name="job-title">
                             senior software developer (java)

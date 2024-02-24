@@ -6,6 +6,10 @@ import MessagePageViewVue from '@/views/MessagePageView.vue'
 import SavedJobsViewVue from '@/views/SavedJobsView.vue'
 import ApplicationPageViewVue from '@/views/ApplicationPageView.vue'
 import ContractPageViewVue from '@/views/ContractPageView.vue'
+import ContractsListPageViewVue from '@/views/ContractsListPageView.vue'
+import MyApplicationsPageViewVue from '@/views/MyApplicationsPageView.vue'
+import ProfilePageViewVue from '@/views/ProfilePageView.vue'
+import LoginViewVue from '@/views/LoginView.vue'
 
 const routes = [
   {
@@ -15,9 +19,28 @@ const routes = [
   },
 
   {
+    path: '/login',
+    name: 'login',
+    component: LoginViewVue
+  },
+
+
+  {
     path: '/jobs',
     name: 'jobs',
     component: JobsPageViewVue
+  },
+
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfilePageViewVue
+  },
+
+  {
+    path: '/jobs/applications',
+    name: 'applications',
+    component: MyApplicationsPageViewVue
   },
 
   {
@@ -29,8 +52,15 @@ const routes = [
   {
     path: '/contracts',
     name: 'contracts',
+    component: ContractsListPageViewVue
+  },
+
+  {
+    path: '/contracts/:contract_id',
+    name: 'contract',
     component: ContractPageViewVue
   },
+
 
   {
     path: '/messages',

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TemplateView>
+        <TemplateView :leftNav="true">
             <template #page-title>Contract</template>
             <template #page-contents>
                 <div class="flex flex-col md:flex-row p-5">
@@ -16,7 +16,7 @@ import JobDetailCard from '@/components/JobDetailCard.vue';
 import TemplateView from './TemplateView.vue';
 
 export default {
-    name: "ContractPageView",
+    name: "ContractsListPageView",
     components: { TemplateView, },
 }
 </script>

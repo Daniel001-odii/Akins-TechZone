@@ -1,9 +1,9 @@
 <template>
     <div>
-        <TemplateView>
+        <TemplateView :leftNav="true">
             <template #page-title>Application</template>
             <template #page-contents>
-                <div class="flex flex-col md:flex-row p-5">
+                <div class="flex flex-col md:flex-row p-5" >
                     <div class=" md:w-2/4">
                         <!-- <div class=" h-52" 
                         style="background-image: url('../assets/images/Group\ 281.png');

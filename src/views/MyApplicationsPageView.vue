@@ -1,7 +1,7 @@
 <template>
     <div>
         <TemplateView :leftNav="true">
-            <template #page-title>Saved Jobs</template>
+            <template #page-title>My Applications</template>
             <template #page-contents>
                 <div class="flex flex-col overscroll-y-scroll" v-for="saved in 3">
                     <div class="flex flex-col text-left gap-3 border-b p-6 hover:bg-light_blue">
@@ -38,7 +38,7 @@
 import TemplateView from './TemplateView.vue';
 
 export default {
-    name: "SavedJobsView",
+    name: "MyApplicationsPage",
     components: { TemplateView }
 }
 </script>

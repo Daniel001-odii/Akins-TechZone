@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TemplateView>
+        <TemplateView :leftNav="true">
             <template #page-title>Messages</template>
             <template #page-contents>
                 <h1>Hello from message page</h1>
